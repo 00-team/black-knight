@@ -9,7 +9,7 @@
     "arrowParens": "avoid",
     "overrides": [
         {
-            "files": ["*.jsonc"],
+            "files": ["*.jsonc", "*.yml"],
             "options": {
                 "tabWidth": 2
             }
