@@ -3,7 +3,7 @@ from django.contrib.admin.apps import AdminConfig
 
 
 class BlackNightConfig(AppConfig):
-    name = 'BlackNight'
+    name = 'black_night'
 
 
 class BlackNightAdmin(AdminConfig):
