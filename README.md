@@ -1,2 +1,20 @@
 # black-night
-python django admin skin? 
+
+Django custom admin site
+
+## install
+
+`pip install black-night`
+
+## usage
+
+```py
+# settings.py
+
+INSTALLED_APPS = [
+    ...
+    'black_night.apps.BlackNightAdmin', # replaces 'django.contrib.admin'
+    ...
+]
+
+```
