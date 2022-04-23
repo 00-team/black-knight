@@ -8,3 +8,7 @@ class BlackNightAdmin(admin.AdminSite):
     empty_value_display = '-empty-'
     index_template = 'black-night.html'
     app_index_template = 'black-night.html'
+
+
+class BlackNightModel(admin.ModelAdmin):
+    change_form_template = 'black-night.html'
