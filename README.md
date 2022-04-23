@@ -11,9 +11,10 @@ Django custom admin site
 ```py
 # settings.py
 
-INSTALLED_APPS = [
-    ...
-    'black_night.apps.BlackNightAdmin', # replaces 'django.contrib.admin'
+from black_night import apps
+
+INSTALLED_APPS = apps + [
+    # delete 'django.contrib.admin'
     ...
 ]
 
