@@ -48,12 +48,8 @@ class HtmlStatics {
             HtmlWP.getHooks(compilation).alterAssetTagGroups.tapAsync(
                 'HtmlStatics',
                 (data, callback) => {
-                    console.log(data.headTags)
-
                     data.bodyTags = GetStatics(data.bodyTags)
                     data.headTags = GetStatics(data.headTags)
-
-                    console.log(data.headTags)
 
                     callback(null, data)
                 }
