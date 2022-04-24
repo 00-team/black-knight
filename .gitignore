@@ -128,6 +128,7 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
+black_night/templates/black-night.html
 
 # node js stuffs
 # dependencies
