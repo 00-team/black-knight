@@ -3,22 +3,19 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        {% include "includes/meta.html" %}
+        <!-- {% include "includes/meta.html" %} -->
 
-        <%= htmlWebpackPlugin.tags.bodyTags %>
+        <%= htmlWebpackPlugin.tags.bodyTags %> 
 
         {% block head %}{% endblock head %}
 
-        <title> Nightcurly | {% block title %}{% endblock title %}</title>
-        
+        <title>Black Night | {% block title %}{% endblock title %}</title>
     </head>
-    
+
     <body>
         <div 
-            class="root" 
-            id="root" 
-            role="application" 
-            aria-label="application">{% block content %}{% endblock content %}</div>
+            class="root" id="root" 
+            role="application" aria-label="application"
+            >{% block content %}{% endblock content %}</div>
     </body>
-
 </html>

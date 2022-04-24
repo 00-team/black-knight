@@ -1,26 +1,18 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <meta charset="UTF-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Black Night</title>
+        {% block head %}{% endblock head %}
 
-        <style>
-            * {
-                margin: 0;
-                padding: 0;
-                box-sizing: border-box;
-            }
+        <title>Black Night | {% block title %}{% endblock title %}</title>
+        <script defer src="{% static 'dist/main.308de4dda76ecbd9ea17.js' %}"></script>
+        <link href="{% static 'dist/main.css' %}" rel="stylesheet"></head>
 
-            body {
-                background-color: #040404;
-                color: #f2f2f2;
-                font-family: sans-serif;
-            }
-        </style>
-    </head>
     <body>
-        <h1>Black Night Single Page Admin ...</h1>
+        <div 
+            class="root" id="root" 
+            role="application" aria-label="application"
+            >{% block content %}{% endblock content %}</div>
     </body>
 </html>

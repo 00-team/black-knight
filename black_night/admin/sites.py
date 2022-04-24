@@ -11,9 +11,13 @@ from django.contrib.auth import logout as sys_logout
 # decorators
 from django.views.decorators.csrf import csrf_protect
 
+# shortcuts
+from django.shortcuts import render
+
 
 class AdminSite:
     name = 'black_night'
+    template = 'black-night.html'
 
     def get_urls(self):
         urlpatterns = [
@@ -50,10 +54,7 @@ class AdminSite:
         return inner
 
     def index(self, request):
-        return JsonResponse({
-            'index page': 12,
-            'your_username': request.user.username
-        })
+        return render(request, self.template)
 
     def login(self, request):
         sys_logout(request)
