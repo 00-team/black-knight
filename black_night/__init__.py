@@ -1,8 +1,5 @@
-from .admin import AdminSite, ModelAdmin
-
-__version__ = '0.0.13'
+__version__ = '0.1.0'
 
 apps = [
-    'black_night.apps.BlackNightAdmin',
     'black_night.apps.BlackNightApp',
 ]
