@@ -1,0 +1,6 @@
+@use './config' as *;
+
+@mixin Font($s: 18px) {
+    font-size: $s;
+    font-family: 'Roboto', sans-serif;
+}

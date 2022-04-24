@@ -1,0 +1,11 @@
+;= python
+
+a=.env\Scripts\activate
+
+;= npm
+
+s=npm start
+build=npm run build
+dev=npm run dev
+
+;= doskey /macrofile=doskey.macro

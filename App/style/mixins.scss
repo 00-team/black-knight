@@ -1,0 +1,43 @@
+@mixin box($w, $h: $w) {
+    width: $w;
+    height: $h;
+}
+
+// width, aspect-ratio
+@mixin war($w: 100%, $ar: #{1 / 1}) {
+    width: $w;
+    aspect-ratio: $ar;
+}
+
+@mixin har($h: 100%, $ar: #{1 / 1}) {
+    height: $h;
+    aspect-ratio: $ar;
+}
+
+@mixin no-user-select() {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+@mixin bg($url, $size: cover, $pos: center, $repeat: no-repeat) {
+    background-image: url($url);
+    background-size: $size;
+    background-position: $pos;
+    background-repeat: $repeat;
+}
+
+@mixin f-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+@mixin g-center {
+    display: grid;
+    place-items: center;
+}

@@ -1,0 +1,24 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        {% include "includes/meta.html" %}
+
+        
+
+        {% block head %}{% endblock head %}
+
+        <title> Nightcurly | {% block title %}{% endblock title %}</title>
+        
+    <script defer src="/dist/main.308de4dda76ecbd9ea17.js"></script><link href="/dist/main.css" rel="stylesheet"></head>
+    
+    <body>
+        <div 
+            class="root" 
+            id="root" 
+            role="application" 
+            aria-label="application">{% block content %}{% endblock content %}</div>
+    </body>
+
+</html>
