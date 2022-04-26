@@ -5,7 +5,7 @@ on:
     branches:
       - main
     paths:
-      - 'black_night/__init__.py'
+      - 'black_knight/__init__.py'
 
 jobs:
   build-n-publish:

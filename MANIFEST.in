@@ -1,5 +1,5 @@
 include LICENSE
 include README.md
-recursive-include black_night/static *
-recursive-include black_night/templates *
+recursive-include black_knight/static *
+recursive-include black_knight/templates *
 recursive-include docs *

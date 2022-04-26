@@ -11,7 +11,7 @@ Django custom admin site
 ```py
 # settings.py
 
-from black_night import apps
+from black_knight import apps
 
 INSTALLED_APPS = apps + [
     # delete 'django.contrib.admin'

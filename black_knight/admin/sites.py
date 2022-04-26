@@ -6,10 +6,10 @@ from django.shortcuts import render
 
 
 class AdminSite(admin.AdminSite):
-    # name = 'black_night'
+    # name = 'black_knight'
     template = 'black-knight.html'
 
-    def __init__(self, name='black_night'):
+    def __init__(self, name='black_knight'):
         return super().__init__(name)
 
     def register(self, model_or_iterable, admin_class=None, **options):
@@ -87,7 +87,7 @@ class AdminSite(admin.AdminSite):
 
     # @property
     # def urls(self):
-    #     return self.get_urls(), 'black_night', self.name
+    #     return self.get_urls(), 'black_knight', self.name
 
     # def admin_view(self, view, *args, **kwargs):
 
@@ -96,11 +96,11 @@ class AdminSite(admin.AdminSite):
     #         if not self.has_permission(request):
     #             return redirect_to_login(
     #                 request.get_full_path(),
-    #                 reverse('black_night:login', current_app=self.name),
+    #                 reverse('black_knight:login', current_app=self.name),
     #             )
 
-    #             # if request.path == reverse('black_night:logout', current_app=self.name):
-    #             #     index_path = reverse('black_night:index', current_app=self.name)
+    #             # if request.path == reverse('black_knight:logout', current_app=self.name):
+    #             #     index_path = reverse('black_knight:index', current_app=self.name)
     #             #     return HttpResponseRedirect(index_path)
 
     #         return view(request, *args, **kwargs)
