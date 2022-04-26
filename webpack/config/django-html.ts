@@ -7,7 +7,7 @@ import { BLACK_NIGHT, APP_DIR, resolve } from './path'
 import HtmlWP, { HtmlTagObject } from 'html-webpack-plugin'
 
 const HtmlPG = new HtmlWP({
-    filename: resolve(BLACK_NIGHT, 'templates/black-night.html'),
+    filename: resolve(BLACK_NIGHT, 'templates/black-knight.html'),
     template: resolve(APP_DIR, 'templates/django.html'),
     inject: true,
     publicPath: '/dist/',

@@ -1,5 +1,5 @@
 {
-    "name": "black-night",
+    "name": "black-knight",
     "version": "0.0.1",
     "description": "Django custom admin site",
     "main": "index.js",
@@ -14,15 +14,15 @@
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/00-team/black-night.git"
+        "url": "git+https://github.com/00-team/black-knight.git"
     },
     "keywords": [],
     "author": "00 Team",
     "license": "GPL-3.0",
     "bugs": {
-        "url": "https://github.com/00-team/black-night/issues"
+        "url": "https://github.com/00-team/black-knight/issues"
     },
-    "homepage": "https://github.com/00-team/black-night#readme",
+    "homepage": "https://github.com/00-team/black-knight#readme",
     "dependencies": {
         "@react-icons/all-files": "^4.1.0",
         "axios": "^0.26.1",

@@ -1,10 +1,10 @@
-# black-night
+# black knight
 
 Django custom admin site
 
 ## install
 
-`pip install black-night`
+`pip install black-knight`
 
 ## usage
 
