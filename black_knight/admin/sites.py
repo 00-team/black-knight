@@ -4,7 +4,7 @@ from django.contrib import admin
 from django.contrib.auth import authenticate
 from django.contrib.auth import login as auth_login
 from django.contrib.auth import logout as auth_logout
-from django.http import HttpRequest, JsonResponse
+from django.http import HttpRequest, HttpResponseRedirect, JsonResponse
 from django.middleware.csrf import get_token
 from django.shortcuts import render
 from django.urls import reverse
@@ -73,34 +73,18 @@ class AdminSite(admin.AdminSite):
                 path('index/', wrap(self.api_index), name='index'),
                 path('login/', self.api_login, name='login'),
             ]), name='api'),
-            path('logout/', wrap(self.logout), name='logout'),
+            path('logout/', self.logout, name='logout'),
         ]
 
         return urlpatterns
 
         # Admin-site-wide views.
         urlpatterns = [
-            path('', wrap(self.index), name='index'),
-            path('login/', self.login, name='login'),
-            path('logout/', wrap(self.logout), name='logout'),
             path(
                 'password_change/',
                 wrap(self.password_change, cacheable=True),
                 name='password_change',
             ),
-            path(
-                'password_change/done/',
-                wrap(self.password_change_done, cacheable=True),
-                name='password_change_done',
-            ),
-            path('autocomplete/', wrap(self.autocomplete_view), name='autocomplete'),
-            path('jsi18n/', wrap(self.i18n_javascript,
-                 cacheable=True), name='jsi18n'),
-            # path(
-            #     'r/<int:content_type_id>/<path:object_id>/',
-            #     wrap(contenttype_views.shortcut),
-            #     name='view_on_site',
-            # ),
         ]
 
         # Add in each model's views, and create a list of valid URLS for the
@@ -139,6 +123,10 @@ class AdminSite(admin.AdminSite):
 
     def api_index(self, request: HttpRequest):
         return JsonResponse({'index': 'api'})
+
+    def logout(self, request: HttpRequest):
+        auth_logout(request)
+        return HttpResponseRedirect('/')
 
     def api_login(self, request: HttpRequest):
         try:
