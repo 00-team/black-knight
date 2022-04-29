@@ -1,5 +1,7 @@
+import re
 from functools import update_wrapper
 
+from django.apps import apps
 from django.contrib import admin
 from django.contrib.auth import authenticate
 from django.contrib.auth import login as auth_login
@@ -8,6 +10,7 @@ from django.http import HttpRequest, HttpResponseRedirect, JsonResponse
 from django.middleware.csrf import get_token
 from django.shortcuts import render
 from django.urls import reverse
+from django.utils.text import capfirst
 from django.views.decorators.cache import never_cache
 from django.views.decorators.csrf import csrf_protect
 
@@ -118,11 +121,71 @@ class AdminSite(admin.AdminSite):
     def urls(self):
         return self.get_urls(), 'black_knight', self.name
 
+    def _build_app_dict(self, request, label=None):
+        app_dict = {}
+
+        if label:
+            models = {
+                m: m_a
+                for m, m_a in self._registry.items()
+                if m._meta.app_label == label
+            }
+        else:
+            models = self._registry
+
+        for model, model_admin in models.items():
+            app_label = model._meta.app_label
+
+            has_module_perms = model_admin.has_module_permission(request)
+            if not has_module_perms:
+                continue
+
+            perms = model_admin.get_model_perms(request)
+
+            if True not in perms.values():
+                continue
+
+            # info = (app_label, model._meta.model_name)
+            model_dict = {
+                'model': model,
+                'name': capfirst(model._meta.verbose_name_plural),
+                'object_name': model._meta.object_name,
+                'perms': perms,
+            }
+
+            if app_label in app_dict:
+                app_dict[app_label]['models'].append(model_dict)
+            else:
+                app_dict[app_label] = {
+                    'name': apps.get_app_config(app_label).verbose_name,
+                    'app_label': app_label,
+                    # 'app_url': reverse(
+                    #     'black_knight:app_list',
+                    #     kwargs={'app_label': app_label},
+                    #     current_app=self.name,
+                    # ),
+                    'has_module_perms': has_module_perms,
+                    'models': [model_dict],
+                }
+
+        return app_dict
+
+    # def _app_to_json(self, app):
+    #     def inner(d: dict):
+    #         # d.pop('model')
+    #         d['model'] = 1
+    #         return d
+
+    #     app['models'] = list(map(inner, app['models']))
+    #     return app
+
     def index(self, request: HttpRequest):
         return render(request, self.template)
 
     def api_index(self, request: HttpRequest):
-        return JsonResponse({'index': 'api'})
+        app_list = self.get_app_list(request)
+
+        return JsonResponse({'apps': []})
 
     def logout(self, request: HttpRequest):
         auth_logout(request)
