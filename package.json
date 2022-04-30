@@ -25,11 +25,15 @@
     "homepage": "https://github.com/00-team/black-knight#readme",
     "dependencies": {
         "@react-icons/all-files": "^4.1.0",
+        "@redux-devtools/extension": "^3.2.2",
         "axios": "^0.26.1",
         "js-cookie": "^3.0.1",
         "react": "^18.0.0",
         "react-dom": "^18.0.0",
-        "react-router-dom": "^6.3.0"
+        "react-redux": "^8.0.1",
+        "react-router-dom": "^6.3.0",
+        "redux": "^4.2.0",
+        "redux-thunk": "^2.4.1"
     },
     "devDependencies": {
         "@types/js-cookie": "^3.0.2",
