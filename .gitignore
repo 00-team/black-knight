@@ -136,6 +136,9 @@ node_modules
 /.pnp
 .pnp.js
 
+# design 
+designs/
+
 # testing
 /coverage
 
