@@ -2,7 +2,10 @@
     "extends": "../tsconfig.json",
     "compilerOptions": {
         "baseUrl": "./",
-        "rootDir": "./"
+        "rootDir": "./",
+        "paths": {
+            "comps/*": ["./components/*"]
+        }
     },
     "include": ["./"],
     "exclude": []

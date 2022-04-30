@@ -1,7 +1,7 @@
 import { Configuration } from 'webpack'
 
 // path
-import { DIST_DIR } from './config/path'
+import { DIST_DIR, resolve, APP_DIR } from './config/path'
 
 // entries
 import Entries from './config/entries'
@@ -35,10 +35,11 @@ const Main: Configuration = {
     plugins: [],
     resolve: {
         extensions: ['.mjs', '.tsx', '.ts', '.js'],
-        // alias: {
-        //     state: resolve(AO, 'state'),
-        //     components: resolve(SRC_DIR, 'components'),
-        // },
+        alias: {
+            state: resolve(APP_DIR, 'state'),
+            components: resolve(APP_DIR, 'components'),
+            comps: resolve(APP_DIR, 'components'),
+        },
     },
 }
 
