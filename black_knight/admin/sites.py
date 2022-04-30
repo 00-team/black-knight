@@ -1,8 +1,10 @@
 import re
 from functools import update_wrapper
+from operator import truth
 
 from django.apps import apps
 from django.contrib import admin
+from django.contrib.admin.models import LogEntry
 from django.contrib.auth import authenticate
 from django.contrib.auth import login as auth_login
 from django.contrib.auth import logout as auth_logout
@@ -75,6 +77,7 @@ class AdminSite(admin.AdminSite):
             path('api/', include([
                 path('index/', wrap(self.api_index), name='index'),
                 path('login/', self.api_login, name='login'),
+                path('log/', self.api_log, name='log'),
             ]), name='api'),
             path('logout/', self.logout, name='logout'),
         ]
@@ -170,22 +173,29 @@ class AdminSite(admin.AdminSite):
 
         return app_dict
 
-    # def _app_to_json(self, app):
-    #     def inner(d: dict):
-    #         # d.pop('model')
-    #         d['model'] = 1
-    #         return d
-
-    #     app['models'] = list(map(inner, app['models']))
-    #     return app
-
     def index(self, request: HttpRequest):
         return render(request, self.template)
 
     def api_index(self, request: HttpRequest):
+
         app_list = self.get_app_list(request)
 
         return JsonResponse({'apps': []})
+
+    def api_log(self, request: HttpRequest):
+        try:
+            '''
+            for log in LogEntry.objects.all():
+                print(f'{log.action_time=}')
+                print(f'{log.user=} - {log.content_type=}')
+                print(f'{log.object_repr=} - {log.object_id=}')
+                print(f'{log.action_flag=} - {log.change_message=}')
+            '''
+
+            # TODO: Making the log api
+            return JsonResponse({'log': 'get the admin log here!'})
+        except E as e:
+            return e.response
 
     def logout(self, request: HttpRequest):
         auth_logout(request)
