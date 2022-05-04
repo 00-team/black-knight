@@ -1,10 +1,10 @@
 import React from 'react'
 
 // style
-import './style/dashboarddata.scss'
+import './style/data.scss'
 
 const DashboardData = () => {
-    return <div>DashboardData</div>
+    return <div className='dashboard-data'>DashboardData</div>
 }
 
 export default DashboardData

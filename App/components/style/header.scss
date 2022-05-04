@@ -15,6 +15,8 @@
             box-shadow: 0px 15px 15px -10px var(--accent-color);
             border-radius: 50px;
 
+            cursor: pointer;
+
             @media screen and (max-width: 960px) {
                 gap: 1vw;
             }
