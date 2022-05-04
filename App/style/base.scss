@@ -1,5 +1,5 @@
 @use 'config' as g;
-@use 'theme/dark' as theme;
+@use 'theme';
 
 * {
     margin: 0;
@@ -30,8 +30,12 @@
 }
 
 body {
-    @include theme.dark;
+    @include theme.light;
 
     background-color: var(--primary-color);
     color: var(--accent-color);
+
+    &.dark {
+        @include theme.dark;
+    }
 }
