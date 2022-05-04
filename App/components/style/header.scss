@@ -1,0 +1,35 @@
+.dashboard-header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+
+    .user-section {
+        .user-section-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5vw;
+
+            padding: 3px 5px;
+            background-color: var(--primary-color);
+            box-shadow: 0px 15px 15px -10px var(--accent-color);
+            border-radius: 50px;
+
+            @media screen and (max-width: 960px) {
+                gap: 1vw;
+            }
+
+            .profile-img {
+                width: 50px;
+                height: 50px;
+
+                border-radius: 50%;
+
+                img {
+                    object-fit: cover;
+                    height: 100%;
+                }
+            }
+        }
+    }
+}
