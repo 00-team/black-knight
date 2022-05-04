@@ -3,8 +3,8 @@ import React from 'react'
 // style
 import './style/sidebar.scss'
 
-const DashbaordSidebar = () => {
+const DashboardSidebar = () => {
     return <div className='sidebar-container'>DashbaordSidebar</div>
 }
 
-export default DashbaordSidebar
+export default DashboardSidebar
