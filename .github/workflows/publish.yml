@@ -1,4 +1,4 @@
-name: Publish Black Night 🌃 distributions 📦 to PyPI
+name: Publish Black Knight ⚔ distributions 📦 to PyPI
 
 on:
   push:
@@ -9,7 +9,7 @@ on:
 
 jobs:
   build-n-publish:
-    name: Build and publish
+    name: Build and Publish ➰
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
