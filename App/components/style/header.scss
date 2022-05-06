@@ -3,12 +3,18 @@
     display: flex;
     justify-content: space-between;
 
+    .active-section {
+        width: 20%;
+        display: grid;
+        place-items: center;
+    }
+
     .user-section {
         .user-section-wrapper {
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 0.5vw;
+            gap: 1vw;
 
             padding: 3px 5px;
             background-color: var(--primary-color);
@@ -18,7 +24,7 @@
             cursor: pointer;
 
             @media screen and (max-width: 960px) {
-                gap: 1vw;
+                gap: 1.5vw;
             }
 
             .profile-img {
