@@ -29,13 +29,19 @@
     background-color: #555;
 }
 
-body {
-    @include theme.light;
-
-    background-color: var(--primary-color);
-    color: var(--accent-color);
-
-    &.dark {
+@media (prefers-color-scheme: dark) {
+    body {
         @include theme.dark;
+
+        background-color: var(--primary-color);
+        color: var(--accent-color);
+    }
+}
+@media (prefers-color-scheme: light) {
+    body {
+        @include theme.light;
+
+        background-color: var(--primary-color);
+        color: var(--accent-color);
     }
 }
