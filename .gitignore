@@ -139,9 +139,6 @@ node_modules
 # design 
 designs/
 
-# static 
-static/
-
 # testing
 /coverage
 
