@@ -45,3 +45,25 @@
         color: var(--accent-color);
     }
 }
+
+.title {
+    font-size: g.$TITLE_FONTSIZE;
+}
+.title_small {
+    font-size: g.$TITLE_FONTSIZE_SMALL;
+}
+.title_smaller {
+    font-size: g.$TITLE_FONTSIZE_SMALLER;
+}
+
+.description {
+    font-size: g.$DESCRIPTION_FONT_SIZE;
+}
+.description_small {
+    font-size: g.$DESCRIPTION_FONT_SIZE_SMALL;
+}
+
+.icon {
+    display: grid;
+    place-items: center;
+}
