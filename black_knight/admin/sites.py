@@ -1,6 +1,5 @@
-import re
 from functools import update_wrapper
-from operator import truth
+from typing import Any
 
 from django.apps import apps
 from django.contrib import admin
@@ -44,7 +43,8 @@ class AdminSite(admin.AdminSite):
 
                     return redirect_to_login(
                         request.get_full_path(),
-                        reverse('black_knight:login', current_app=self.name),
+                        reverse('black_knight:login',
+                                current_app=self.name),
                     )
 
                 return JsonResponse({
@@ -69,63 +69,65 @@ class AdminSite(admin.AdminSite):
             def wrapper(*args, **kwargs):
                 return self.admin_view(view, json, cacheable)(*args, **kwargs)
 
-            wrapper.admin_site = self
+            # wrapper.admin_site = self
             return update_wrapper(wrapper, view)
 
         urlpatterns = [
             path('', wrap(self.index, json=False), name='index'),
-            path('api/', include([
+            path('api/', include(([
                 path('index/', wrap(self.api_index), name='index'),
                 path('login/', self.api_login, name='login'),
                 path('log/', self.api_log, name='log'),
-            ]), name='api'),
+            ], self.name), namespace='api')),
             path('logout/', self.logout, name='logout'),
+            path('login/', self.index, name='login')
         ]
 
         return urlpatterns
 
         # Admin-site-wide views.
-        urlpatterns = [
-            path(
-                'password_change/',
-                wrap(self.password_change, cacheable=True),
-                name='password_change',
-            ),
-        ]
 
-        # Add in each model's views, and create a list of valid URLS for the
-        # app_index
-        valid_app_labels = []
-        for model, model_admin in self._registry.items():
-            urlpatterns += [
-                path(
-                    '%s/%s/' % (model._meta.app_label, model._meta.model_name),
-                    include(model_admin.urls),
-                ),
-            ]
-            if model._meta.app_label not in valid_app_labels:
-                valid_app_labels.append(model._meta.app_label)
+        # urlpatterns = [
+        #     path(
+        #         'password_change/',
+        #         wrap(self.password_change, cacheable=True),
+        #         name='password_change',
+        #     ),
+        # ]
 
-        # If there were ModelAdmins registered, we should have a list of app
-        # labels for which we need to allow access to the app_index view,
-        if valid_app_labels:
-            regex = r'^(?P<app_label>' + '|'.join(valid_app_labels) + ')/$'
-            urlpatterns += [
-                re_path(regex, wrap(self.app_index), name='app_list'),
-            ]
+        # # Add in each model's views, and create a list of valid URLS for the
+        # # app_index
+        # valid_app_labels = []
+        # for model, model_admin in self._registry.items():
+        #     urlpatterns += [
+        #         path(
+        #             '%s/%s/' % (model._meta.app_label, model._meta.model_name),
+        #             include(model_admin.urls),
+        #         ),
+        #     ]
+        #     if model._meta.app_label not in valid_app_labels:
+        #         valid_app_labels.append(model._meta.app_label)
 
-        if self.final_catch_all_view:
-            urlpatterns.append(
-                re_path(r'(?P<url>.*)$', wrap(self.catch_all_view)))
+        # # If there were ModelAdmins registered, we should have a list of app
+        # # labels for which we need to allow access to the app_index view,
+        # if valid_app_labels:
+        #     regex = r'^(?P<app_label>' + '|'.join(valid_app_labels) + ')/$'
+        #     urlpatterns += [
+        #         re_path(regex, wrap(self.app_index), name='app_list'),
+        #     ]
 
-        return urlpatterns
+        # if self.final_catch_all_view:
+        #     urlpatterns.append(
+        #         re_path(r'(?P<url>.*)$', wrap(self.catch_all_view)))
+
+        # return urlpatterns
 
     @property
     def urls(self):
         return self.get_urls(), 'black_knight', self.name
 
-    def _build_app_dict(self, request, label=None):
-        app_dict = {}
+    def _build_app_dict(self, request: HttpRequest, label=None) -> dict[str, Any]:
+        app_dict: dict[str, Any] = {}
 
         if label:
             models = {

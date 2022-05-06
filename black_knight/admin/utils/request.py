@@ -1,17 +1,24 @@
 from json import loads
+from typing import Any
 
 from django.http import HttpRequest
 
 
-def BodyLoader(body: bytes) -> dict:
+def BodyLoader(body: bytes) -> dict[str, Any]:
     try:
-        return loads(body)
+        data = loads(body)
+
+        if isinstance(data, dict):
+            return data
+
     except Exception:
-        return {}
+        pass
+
+    return {}
 
 
-def get_data(request: HttpRequest) -> dict:
-    data = {}
+def get_data(request: HttpRequest) -> dict[str, Any]:
+    data: dict[str, Any] = {}
 
     if request.method == 'GET':
         if request.GET:
@@ -24,8 +31,5 @@ def get_data(request: HttpRequest) -> dict:
             data = request.POST
         elif request.content_type != 'multipart/form-data':
             data = BodyLoader(request.body)
-
-    if not isinstance(data, dict):
-        data = {}
 
     return data
