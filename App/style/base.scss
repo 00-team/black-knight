@@ -29,13 +29,41 @@
     background-color: #555;
 }
 
-body {
-    @include theme.light;
-
-    background-color: var(--primary-color);
-    color: var(--accent-color);
-
-    &.dark {
+@media (prefers-color-scheme: dark) {
+    body {
         @include theme.dark;
+
+        background-color: var(--primary-color);
+        color: var(--accent-color);
     }
+}
+@media (prefers-color-scheme: light) {
+    body {
+        @include theme.light;
+
+        background-color: var(--primary-color);
+        color: var(--accent-color);
+    }
+}
+
+.title {
+    font-size: g.$TITLE_FONTSIZE;
+}
+.title_small {
+    font-size: g.$TITLE_FONTSIZE_SMALL;
+}
+.title_smaller {
+    font-size: g.$TITLE_FONTSIZE_SMALLER;
+}
+
+.description {
+    font-size: g.$DESCRIPTION_FONT_SIZE;
+}
+.description_small {
+    font-size: g.$DESCRIPTION_FONT_SIZE_SMALL;
+}
+
+.icon {
+    display: grid;
+    place-items: center;
 }
