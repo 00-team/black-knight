@@ -3,7 +3,7 @@ from typing import Any
 
 from django.apps import apps
 from django.contrib import admin
-from django.contrib.admin.models import LogEntry
+# from django.contrib.admin.models import LogEntry
 from django.contrib.auth import authenticate
 from django.contrib.auth import login as auth_login
 from django.contrib.auth import logout as auth_logout
