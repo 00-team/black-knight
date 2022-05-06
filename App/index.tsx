@@ -14,7 +14,7 @@ import { BrowserRouter as Router } from 'react-router-dom'
 const Root: FC = () => {
     return (
         <ReduxProvider store={store}>
-            <Router>
+            <Router basename='/admin'>
                 <App />
             </Router>
         </ReduxProvider>
