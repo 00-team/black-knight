@@ -27,7 +27,7 @@ class AdminSite(admin.AdminSite):
     def __init__(self, name='black_knight'):
         return super().__init__(name)
 
-    def register(self, model_or_iterable: int = 'ff', admin_class=None, **options):
+    def register(self, model_or_iterable: int = 'fg', admin_class=None, **options):
         return super().register(
             model_or_iterable=model_or_iterable,
             admin_class=admin_class, **options
