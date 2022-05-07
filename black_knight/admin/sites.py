@@ -1,6 +1,8 @@
 from functools import update_wrapper
 from typing import Any
 
+from black_knight.admin.models import ModelAdmin
+from black_knight.admin.utils import E, get_data
 from django.apps import apps
 from django.contrib import admin
 # from django.contrib.admin.models import LogEntry
@@ -15,8 +17,6 @@ from django.utils.text import capfirst
 from django.views.decorators.cache import never_cache
 from django.views.decorators.csrf import csrf_protect
 
-from .utils import E, get_data
-
 
 INVALID_LOGIN_DATA = E('Invalid Login Data!')
 
@@ -28,6 +28,9 @@ class AdminSite(admin.AdminSite):
         return super().__init__(name)
 
     def register(self, model_or_iterable, admin_class=None, **options):
+        if admin_class is None:
+            admin_class = ModelAdmin
+
         return super().register(
             model_or_iterable=model_or_iterable,
             admin_class=admin_class, **options
