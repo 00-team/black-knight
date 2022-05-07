@@ -11,8 +11,11 @@ import Dashboard from './pages/Dashboard'
 
 const App: FC = () => {
     return (
+        // /admin/*
         <Routes>
             <Route path='/' element={<Dashboard />} />
+            {/* <Route path='/login/' element={<Login />} /> */}
+            {/* <Route path='/AppX/ModelX/IdX/' element={<Login />} /> */}
         </Routes>
     )
 }

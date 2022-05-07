@@ -22,13 +22,12 @@ INVALID_LOGIN_DATA = E('Invalid Login Data!')
 
 
 class AdminSite(admin.AdminSite):
-    # name = 'black_knight'
     template = 'black-knight.html'
 
     def __init__(self, name='black_knight'):
         return super().__init__(name)
 
-    def register(self, model_or_iterable, admin_class=None, **options):
+    def register(self, model_or_iterable: int = 'ff', admin_class=None, **options):
         return super().register(
             model_or_iterable=model_or_iterable,
             admin_class=admin_class, **options
@@ -43,8 +42,7 @@ class AdminSite(admin.AdminSite):
 
                     return redirect_to_login(
                         request.get_full_path(),
-                        reverse('black_knight:login',
-                                current_app=self.name),
+                        reverse('black_knight:login', current_app=self.name),
                     )
 
                 return JsonResponse({
@@ -72,13 +70,15 @@ class AdminSite(admin.AdminSite):
             # wrapper.admin_site = self
             return update_wrapper(wrapper, view)
 
+        api_urls = [
+            path('index/', wrap(self.api_index), name='index'),
+            path('login/', self.api_login, name='login'),
+            path('log/', self.api_log, name='log'),
+        ]
+
         urlpatterns = [
             path('', wrap(self.index, json=False), name='index'),
-            path('api/', include(([
-                path('index/', wrap(self.api_index), name='index'),
-                path('login/', self.api_login, name='login'),
-                path('log/', self.api_log, name='log'),
-            ], self.name), namespace='api')),
+            path('api/', include((api_urls, self.name), namespace='api')),
             path('logout/', self.logout, name='logout'),
             path('login/', self.index, name='login')
         ]
