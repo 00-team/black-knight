@@ -9,7 +9,7 @@ on:
 
 jobs:
   build-n-publish:
-    name: Build and Publish ➰
+    name: Build and Publish 🔨
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
