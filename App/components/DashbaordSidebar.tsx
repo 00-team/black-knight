@@ -12,20 +12,20 @@ const DashboardSidebar = () => {
             <div className='sidebar-wrapper'>
                 <div className='sidebar-category-wrappper'>
                     <div className='category title_small'>
-                        <span>Category 1</span>
+                        <span>App 1</span>
                     </div>
                     <div className='column description'>
                         <div className='icon'></div>
-                        <div className='holder'>Users</div>
+                        <div className='holder'>Model 1</div>
                     </div>
                     <div className='column description'>
                         <div className='icon'></div>
-                        <div className='holder'>Users</div>
+                        <div className='holder'>Model 2</div>
                     </div>
                 </div>
                 <div className='sidebar-category-wrappper'>
                     <div className='category title_small'>
-                        <span>Category 2</span>
+                        <span>App 2</span>
                     </div>
                     <div className='column description'>
                         <div className='icon'></div>
