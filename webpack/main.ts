@@ -15,7 +15,6 @@ const Main: Configuration = {
     output: {
         path: DIST_DIR,
         filename: '[name].[contenthash].js',
-        chunkFilename: '[name].[id].chunk.js',
         clean: true,
         sourceMapFilename: 'source_maps/[file].map',
     },
@@ -36,7 +35,7 @@ const Main: Configuration = {
     resolve: {
         extensions: ['.mjs', '.tsx', '.ts', '.js'],
         alias: {
-            state: resolve(APP_DIR, 'state'),
+            // state: resolve(APP_DIR, 'state'),
             components: resolve(APP_DIR, 'components'),
             comps: resolve(APP_DIR, 'components'),
         },
