@@ -9,6 +9,7 @@ from django.contrib import admin
 from django.contrib.auth import authenticate
 from django.contrib.auth import login as auth_login
 from django.contrib.auth import logout as auth_logout
+from django.db.models.base import ModelBase
 from django.http import HttpRequest, HttpResponseRedirect, JsonResponse
 from django.middleware.csrf import get_token
 from django.shortcuts import render
@@ -23,18 +24,38 @@ INVALID_LOGIN_DATA = E('Invalid Login Data!')
 
 class AdminSite(admin.AdminSite):
     template = 'black-knight.html'
+    default_avatar = 'default_avatar 13'
 
     def __init__(self, name='black_knight'):
         return super().__init__(name)
 
-    def register(self, model_or_iterable, admin_class=None, **options):
+    def register(self, models, admin_class=None, **options):
+        # check if models is a single model not an iterable
+        if isinstance(models, ModelBase):
+            models = [models]
+
         if admin_class is None:
             admin_class = ModelAdmin
 
-        return super().register(
-            model_or_iterable=model_or_iterable,
-            admin_class=admin_class, **options
-        )
+        if not issubclass(admin_class, ModelAdmin):
+            from django.contrib.auth.models import Group, User
+
+            for model in models:
+                # register a custom model admin for
+                # default group and user model
+                if model == Group:
+                    admin_class = ModelAdmin
+
+                if model == User:
+                    admin_class = ModelAdmin
+
+        if not issubclass(admin_class, ModelAdmin):
+            raise ValueError((
+                'admin class that you register your model with, '
+                'most be a sub class of black_knight.admin.ModelAdmin'
+            ))
+
+        return super().register(models, admin_class=admin_class, **options)
 
     def admin_view(self, view, json, cacheable=False):
 
@@ -129,7 +150,11 @@ class AdminSite(admin.AdminSite):
     def urls(self):
         return self.get_urls(), 'black_knight', self.name
 
-    def _build_app_dict(self, request: HttpRequest, label=None) -> dict[str, Any]:
+    def _build_app_dict(self, request, label=None):
+        '''
+        Build the app dictionary. The optional `label` parameter filters models
+        of a specific app.
+        '''
         app_dict: dict[str, Any] = {}
 
         if label:
@@ -144,8 +169,7 @@ class AdminSite(admin.AdminSite):
         for model, model_admin in models.items():
             app_label = model._meta.app_label
 
-            has_module_perms = model_admin.has_module_permission(request)
-            if not has_module_perms:
+            if not model_admin.has_module_permission(request):
                 continue
 
             perms = model_admin.get_model_perms(request)
@@ -155,11 +179,13 @@ class AdminSite(admin.AdminSite):
 
             # info = (app_label, model._meta.model_name)
             model_dict = {
-                'model': model,
                 'name': capfirst(model._meta.verbose_name_plural),
                 'object_name': model._meta.object_name,
                 'perms': perms,
             }
+
+            if perms.get('change') or perms.get('view'):
+                model_dict['view_only'] = not perms.get('change')
 
             if app_label in app_dict:
                 app_dict[app_label]['models'].append(model_dict)
@@ -167,12 +193,6 @@ class AdminSite(admin.AdminSite):
                 app_dict[app_label] = {
                     'name': apps.get_app_config(app_label).verbose_name,
                     'app_label': app_label,
-                    # 'app_url': reverse(
-                    #     'black_knight:app_list',
-                    #     kwargs={'app_label': app_label},
-                    #     current_app=self.name,
-                    # ),
-                    'has_module_perms': has_module_perms,
                     'models': [model_dict],
                 }
 
@@ -183,9 +203,21 @@ class AdminSite(admin.AdminSite):
 
     def api_index(self, request: HttpRequest):
 
+        user = request.user
         app_list = self.get_app_list(request)
 
-        return JsonResponse({'apps': []})
+        response = {
+            'user': {
+                'username': user.username,
+                'first_name': user.first_name,
+                'last_name': user.last_name,
+                'email': user.email,
+                'avatar': self.default_avatar
+            },
+            'apps': app_list
+        }
+
+        return JsonResponse(response)
 
     def api_log(self, request: HttpRequest):
         try:
