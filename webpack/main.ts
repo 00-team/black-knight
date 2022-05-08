@@ -14,10 +14,10 @@ const Main: Configuration = {
     entry: Entries,
     output: {
         path: DIST_DIR,
-        filename: '[name].[contenthash].js',
-        chunkFilename: '[name].[id].chunk.js',
         clean: true,
+        filename: '[name].[contenthash].js',
         sourceMapFilename: 'source_maps/[file].map',
+        assetModuleFilename: 'assets/[hash][ext][query]',
     },
     module: {
         rules: [
@@ -32,11 +32,12 @@ const Main: Configuration = {
             },
         ],
     },
+    devtool: 'source-map',
     plugins: [],
     resolve: {
         extensions: ['.mjs', '.tsx', '.ts', '.js'],
         alias: {
-            state: resolve(APP_DIR, 'state'),
+            // state: resolve(APP_DIR, 'state'),
             components: resolve(APP_DIR, 'components'),
             comps: resolve(APP_DIR, 'components'),
         },

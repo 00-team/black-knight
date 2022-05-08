@@ -29,6 +29,12 @@ const BuildConfig: Configuration = {
         chunkIds: 'deterministic',
         minimize: true,
         minimizer: [new CssMinimizer()],
+        splitChunks: {
+            chunks: 'all',
+            maxSize: 200_000,
+            minSize: 20_000,
+            hidePathInfo: true,
+        },
     },
 }
 

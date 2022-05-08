@@ -11,8 +11,8 @@ DEM = 'Error while processing the Request'
 
 
 class E(Exception):
-    message = DEM
-    code = 400
+    message: str
+    code: int
 
     def __init__(self, message: str = DEM, code: int = 400):
         self.message = str(message)

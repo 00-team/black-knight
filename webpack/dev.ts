@@ -27,7 +27,6 @@ const DevConfig = {
             minify: false,
         }),
     ],
-    devtool: 'source-map',
     devServer: {
         port: 8000,
         hot: true, // true = full reload
