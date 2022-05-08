@@ -5,6 +5,7 @@ import './style/header.scss'
 
 // icons
 import { FaSortDown } from '@react-icons/all-files/fa/FaSortDown'
+import { GiBackwardTime } from '@react-icons/all-files/gi/GiBackwardTime'
 
 // imgs
 const default_img = require('../static/imgs/default_male.png')
@@ -15,6 +16,9 @@ const DashboardHeader = () => {
             <div className='active-section title_small'>--ACTIVE SECTION--</div>
             <div className='user-section'>
                 <div className='user-section-wrapper'>
+                    <div className='recent-actions'>
+                        <GiBackwardTime size={24} />
+                    </div>
                     <div className='profile-img'>
                         <img src={default_img} alt='' />
                     </div>
