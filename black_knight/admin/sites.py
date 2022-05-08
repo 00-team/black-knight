@@ -182,6 +182,7 @@ class AdminSite(admin.AdminSite):
                 'name': capfirst(model._meta.verbose_name_plural),
                 'object_name': model._meta.object_name,
                 'perms': perms,
+                'icon': model_admin.get_icon
             }
 
             if perms.get('change') or perms.get('view'):

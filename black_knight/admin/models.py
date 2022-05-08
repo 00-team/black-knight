@@ -9,7 +9,7 @@ class ModelAdmin(admin.ModelAdmin):
     icon: str | None = None
 
     @property
-    def _get_icon(self) -> str:
+    def get_icon(self) -> str:
         if self.icon is None:
             return default_icon
 
