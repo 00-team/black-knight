@@ -6,9 +6,6 @@ import './style/sidebar.scss'
 const DashboardSidebar = () => {
     return (
         <div className='sidebar-container'>
-            <div className='sidebar-header title'>
-                <span>Dashboard</span>
-            </div>
             <div className='sidebar-wrapper'>
                 <div className='sidebar-category-wrappper'>
                     <div className='category title_small'>
