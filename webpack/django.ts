@@ -17,7 +17,6 @@ const DjangoConfig: Configuration = {
         rules: [...Main.module!.rules!, DevStyle],
     },
     plugins: [...Main.plugins!, ...HtmlPlugins],
-    devtool: 'source-map',
 }
 
 export default DjangoConfig
