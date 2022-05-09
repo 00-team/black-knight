@@ -1,9 +1,11 @@
 from functools import update_wrapper
 from typing import Any
 
-from black_knight.admin.models import ModelAdmin
+from black_knight.admin.models import GroupAdmin, UserAdmin
+from black_knight.admin.options import ModelAdmin
 from black_knight.admin.utils import E, get_data
 from django.apps import apps
+from django.conf import settings
 from django.contrib import admin
 # from django.contrib.admin.models import LogEntry
 from django.contrib.auth import authenticate
@@ -24,7 +26,7 @@ INVALID_LOGIN_DATA = E('Invalid Login Data!')
 
 class AdminSite(admin.AdminSite):
     template = 'black-knight.html'
-    default_avatar = 'default_avatar 13'
+    default_avatar = settings.STATIC_URL + 'dist/assets/800968034643d1861007.png'
 
     def __init__(self, name='black_knight'):
         return super().__init__(name)
@@ -44,10 +46,10 @@ class AdminSite(admin.AdminSite):
                 # register a custom model admin for
                 # default group and user model
                 if model == Group:
-                    admin_class = ModelAdmin
+                    admin_class = GroupAdmin
 
                 if model == User:
-                    admin_class = ModelAdmin
+                    admin_class = UserAdmin
 
         if not issubclass(admin_class, ModelAdmin):
             raise ValueError((
@@ -178,15 +180,13 @@ class AdminSite(admin.AdminSite):
                 continue
 
             # info = (app_label, model._meta.model_name)
+
             model_dict = {
                 'name': capfirst(model._meta.verbose_name_plural),
                 'object_name': model._meta.object_name,
+                'icon': model_admin.icon,
                 'perms': perms,
-                'icon': model_admin.get_icon
             }
-
-            if perms.get('change') or perms.get('view'):
-                model_dict['view_only'] = not perms.get('change')
 
             if app_label in app_dict:
                 app_dict[app_label]['models'].append(model_dict)

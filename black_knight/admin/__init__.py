@@ -1,4 +1,4 @@
-from .models import ModelAdmin
+from .options import ModelAdmin
 from .sites import AdminSite
 
 
