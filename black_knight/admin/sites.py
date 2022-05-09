@@ -26,7 +26,7 @@ INVALID_LOGIN_DATA = E('Invalid Login Data!')
 
 class AdminSite(admin.AdminSite):
     template = 'black-knight.html'
-    default_avatar = settings.STATIC_URL + 'dist/assets/800968034643d1861007.png'
+    default_avatar = settings.STATIC_URL + 'avatar.jpg'
 
     def __init__(self, name='black_knight'):
         return super().__init__(name)
