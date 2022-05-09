@@ -18,16 +18,23 @@ interface GetResponseError {
 type GetResponse = GetResponseOk | GetResponseError
 
 const HandleError = (error: unknown): ResError => {
-    if (
-        axios.isAxiosError(error) &&
-        error.response &&
-        error.response.data.error
-    ) {
-        // ReactAlert.error(error.response.data.error)
-        return error.response.data.error
+    if (axios.isAxiosError(error)) {
+        if (error.response) {
+            if (error.response.data.message) return error.response.data
+
+            return {
+                message: error.response.statusText,
+                code: error.response.status,
+            }
+        }
+
+        return {
+            message: error.message,
+            code: 520,
+        }
     }
 
-    return { message: 'An Unknown Error Happend!', code: 400 }
+    return { message: 'An Unknown Error Happend!', code: 520 }
 }
 
 type TGET = (url: string, config?: AxiosRequestConfig) => Promise<GetResponse>
