@@ -2,7 +2,7 @@ from django.http import JsonResponse
 
 
 def ErrorResponse(message: str, code: int) -> JsonResponse:
-    context = {'error': str(message), 'code': code}
+    context = {'message': str(message), 'code': code}
     return JsonResponse(context, status=code)
 
 
@@ -26,5 +26,5 @@ class E(Exception):
 
     @property
     def response(self):
-        context = {'error': self.message, 'code': self.code}
+        context = {'message': self.message, 'code': self.code}
         return JsonResponse(context, status=self.code)
