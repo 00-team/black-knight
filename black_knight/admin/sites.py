@@ -152,6 +152,10 @@ class AdminSite(admin.AdminSite):
     def urls(self):
         return self.get_urls(), 'black_knight', self.name
 
+    @property
+    def base_url(self) -> str:
+        return reverse('black_knight:index', current_app=self.name)
+
     def _build_app_dict(self, request, label=None):
         '''
         Build the app dictionary. The optional `label` parameter filters models
@@ -200,7 +204,8 @@ class AdminSite(admin.AdminSite):
         return app_dict
 
     def index(self, request: HttpRequest):
-        return render(request, self.template)
+        context = {'base_url': self.base_url}
+        return render(request, self.template, context)
 
     def api_index(self, request: HttpRequest):
 
