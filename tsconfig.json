@@ -10,7 +10,7 @@
         "declaration": true,
         "declarationMap": true,
         "sourceMap": true,
-        "outDir": "./black_knight/static/black_knight_dist/",
+        "outDir": "./black_knight/static/black_knight/dist/",
         "rootDir": "./",
         "removeComments": true,
         "noEmitOnError": true,

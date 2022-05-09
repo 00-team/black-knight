@@ -10,7 +10,7 @@ const HtmlPG = new HtmlWP({
     filename: resolve(black_knight, 'templates/black-knight.html'),
     template: resolve(APP_DIR, 'templates/django.html'),
     inject: true,
-    publicPath: '/black_knight_dist/',
+    publicPath: '/black_knight/dist/',
     minify: false,
 })
 
