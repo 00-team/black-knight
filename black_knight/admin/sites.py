@@ -97,6 +97,7 @@ class AdminSite(admin.AdminSite):
             return update_wrapper(wrapper, view)
 
         api_urls = [
+            path('user/', wrap(self.api_user), name='user'),
             path('index/', wrap(self.api_index), name='index'),
             path('login/', self.api_login, name='login'),
             path('log/', self.api_log, name='log'),
@@ -206,6 +207,19 @@ class AdminSite(admin.AdminSite):
     def index(self, request: HttpRequest):
         context = {'base_url': self.base_url}
         return render(request, self.template, context)
+
+    def api_user(self, request: HttpRequest):
+        user = request.user
+
+        response = {
+            'username': user.username,
+            'first_name': user.first_name,
+            'last_name': user.last_name,
+            'email': user.email,
+            'avatar': self.default_avatar
+        }
+
+        return JsonResponse(response)
 
     def api_index(self, request: HttpRequest):
 
