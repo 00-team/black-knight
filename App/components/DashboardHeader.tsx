@@ -4,8 +4,7 @@ import React from 'react'
 import './style/header.scss'
 
 // icons
-import { FaSortDown } from '@react-icons/all-files/fa/FaSortDown'
-import { GiBackwardTime } from '@react-icons/all-files/gi/GiBackwardTime'
+import { MdTimeline } from '@react-icons/all-files/md/MdTimeline'
 
 // imgs
 const default_img = require('../static/imgs/default_male.png')
@@ -17,16 +16,13 @@ const DashboardHeader = () => {
             <div className='user-section'>
                 <div className='user-section-wrapper'>
                     <div className='recent-actions'>
-                        <GiBackwardTime size={24} />
+                        <MdTimeline size={24} />
                     </div>
                     <div className='profile-img'>
                         <img src={default_img} alt='' />
                     </div>
-                    <div className='dropdown-icon'>
-                        <FaSortDown size={24} />
-                    </div>
                 </div>
-                <div className='dropdown'></div>
+                <div className='dropdown-container'></div>
             </div>
         </div>
     )
