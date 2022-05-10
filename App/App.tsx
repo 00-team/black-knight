@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from 'react'
+import React, { FC } from 'react'
 
 // router
 import { Routes, Route } from 'react-router-dom'
@@ -9,16 +9,7 @@ import './style/base.scss'
 // components
 import Dashboard from './pages/Dashboard'
 
-// state
-import { MainAtom } from 'state'
-import { useAtom } from 'jotai'
-
 const App: FC = () => {
-    const [response] = useAtom(MainAtom)
-    useEffect(() => {
-        console.log(response)
-    }, [response])
-
     return (
         // /admin/*
         <Routes>

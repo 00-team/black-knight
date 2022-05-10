@@ -1,6 +1,4 @@
-import React from 'react'
-
-// before you code; lets discuss about the general layout and other stuff.
+import React, { FC, useEffect } from 'react'
 
 // style
 import './style/dashboard.scss'
@@ -10,7 +8,21 @@ import DashboardSidebar from 'comps/DashbaordSidebar'
 import DashboardData from 'comps/DashboardData'
 import DashboardHeader from 'comps/DashboardHeader'
 
-const Dashboard = () => {
+// state
+import { useAtom } from 'jotai'
+import { UserAtom } from 'state'
+
+const Dashboard: FC = () => {
+    const [user, update] = useAtom(UserAtom)
+
+    useEffect(() => {
+        console.log('user:', user.username)
+    }, [user])
+
+    useEffect(() => {
+        update()
+    }, [])
+
     return (
         <div className='dashboard-container'>
             <DashboardHeader />
