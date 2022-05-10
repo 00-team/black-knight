@@ -1,21 +1,6 @@
 import { atom } from 'jotai'
 import { GET } from '../utils'
-
-interface UserModel {
-    username: string
-    avatar: string
-    email: string
-    first_name: string
-    last_name: string
-}
-
-const DefaultUser: UserModel = {
-    username: 'Anonymous',
-    avatar: '',
-    email: '',
-    first_name: '',
-    last_name: '',
-}
+import { DefaultUser, UserModel } from '../models'
 
 const User = atom<UserModel>(DefaultUser)
 
@@ -29,4 +14,4 @@ const UserAtom = atom(
     }
 )
 
-export { UserAtom, User }
+export { UserAtom }
