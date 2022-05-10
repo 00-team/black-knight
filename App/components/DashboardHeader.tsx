@@ -22,7 +22,22 @@ const DashboardHeader = () => {
                         <img src={default_img} alt='' />
                     </div>
                 </div>
-                <div className='dropdown-container'></div>
+                <div className='dropdown-container'>
+                    <div className='dropdown-wrapper'>
+                        <div className='dropdown-column'>
+                            <div className='icon'></div>
+                            <div className='holder'></div>
+                        </div>
+                        <div className='dropdown-column'>
+                            <div className='icon'></div>
+                            <div className='holder'></div>
+                        </div>
+                        <div className='dropdown-column'>
+                            <div className='icon'></div>
+                            <div className='holder'></div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     )
