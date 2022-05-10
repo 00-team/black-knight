@@ -10,17 +10,23 @@ import DashboardHeader from 'comps/DashboardHeader'
 
 // state
 import { useAtom } from 'jotai'
-import { UserAtom } from 'state'
+import { UserAtom, AdminAtom } from 'state'
 
 const Dashboard: FC = () => {
-    const [user, update] = useAtom(UserAtom)
+    const [user, UpdateUser] = useAtom(UserAtom)
+    const [admin, UpdateAdmin] = useAtom(AdminAtom)
 
     useEffect(() => {
         console.log('user:', user.username)
     }, [user])
 
     useEffect(() => {
-        update()
+        console.log('admin apps:', admin.apps)
+    }, [admin])
+
+    useEffect(() => {
+        UpdateUser()
+        UpdateAdmin()
     }, [])
 
     return (
