@@ -251,18 +251,9 @@ class AdminSite(admin.AdminSite):
         return JsonResponse(response)
 
     def api_index(self, request: HttpRequest):
-
-        user = request.user
         app_list = self.get_app_list(request)
 
         response = {
-            'user': {
-                'username': user.username,
-                'first_name': user.first_name,
-                'last_name': user.last_name,
-                'email': user.email,
-                'avatar': self.default_avatar
-            },
             'apps': app_list
         }
 
