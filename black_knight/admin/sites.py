@@ -1,5 +1,8 @@
+import re
+from cmath import log
+from collections.abc import Iterable
 from functools import update_wrapper
-from typing import Any
+from typing import Any, Callable
 
 from black_knight.admin.models import GroupAdmin, UserAdmin
 from black_knight.admin.options import ModelAdmin
@@ -27,6 +30,7 @@ INVALID_LOGIN_DATA = E('Invalid Login Data!')
 class AdminSite(admin.AdminSite):
     template = 'black-knight.html'
     default_avatar = settings.STATIC_URL + 'black_knight/default_avatar.jpg'
+    user_avatar: str | Iterable[str] | Callable[['AdminSite', Any], str] = None
 
     def __init__(self, name='black_knight'):
         return super().__init__(name)
@@ -149,6 +153,31 @@ class AdminSite(admin.AdminSite):
 
         # return urlpatterns
 
+    def get_user_avatar(self, user: Any) -> str:
+        try:
+            if self.user_avatar is None:
+                return self.default_avatar
+
+            if isinstance(self.user_avatar, str):
+                return self.user_avatar
+
+            if isinstance(self.user_avatar, Iterable):
+                obj = user
+
+                for attr in self.user_avatar:
+                    obj = getattr(obj, attr)
+
+                return obj
+
+            if callable(self.user_avatar):
+                return self.user_avatar(user)
+
+        except Exception as e:
+            # TODO: warn the exception or logit properly!
+            print(e)
+
+        return self.default_avatar
+
     @property
     def urls(self):
         return self.get_urls(), 'black_knight', self.name
@@ -216,7 +245,7 @@ class AdminSite(admin.AdminSite):
             'first_name': user.first_name,
             'last_name': user.last_name,
             'email': user.email,
-            'avatar': self.default_avatar
+            'avatar': self.get_user_avatar(user)
         }
 
         return JsonResponse(response)
