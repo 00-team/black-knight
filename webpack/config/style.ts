@@ -7,7 +7,7 @@ const SassLoader: RuleSetUseItem = {
     loader: 'sass-loader',
     options: {
         sassOptions: {
-            includePaths: ['./App/src/style'],
+            includePaths: ['./App/style'],
         },
     },
 }
