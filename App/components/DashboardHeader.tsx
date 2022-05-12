@@ -31,7 +31,7 @@ const DashboardHeader = () => {
                         className='recent-actions'
                         onClick={() => handleDropdown('recent')}
                     >
-                        <GiSoundWaves size={24} />
+                        <GiSoundWaves size={20} />
                     </div>
                     <div
                         className='profile-img'
@@ -42,10 +42,21 @@ const DashboardHeader = () => {
                 </div>
                 <div
                     className={`dropdown-container ${
-                        ShowDropdown ? 'active' : ''
+                        ShowDropdown.show ? 'active' : ''
                     }`}
                 >
-                    <div className='dropdown-wrapper'>
+                    <div
+                        className={`dropdown-wrapper ${
+                            ShowDropdown.show &&
+                            ShowDropdown.section === 'recent'
+                                ? 'recent'
+                                : ''
+                        } ${
+                            ShowDropdown.show && ShowDropdown.section === 'menu'
+                                ? 'menu'
+                                : ''
+                        }`}
+                    >
                         <div className='dropdown-column'>
                             <div className='icon'></div>
                             <div className='holder'></div>
