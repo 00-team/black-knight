@@ -4,7 +4,7 @@ import React from 'react'
 import './style/header.scss'
 
 // icons
-import { MdTimeline } from '@react-icons/all-files/md/MdTimeline'
+import { GiSoundWaves } from '@react-icons/all-files/gi/GiSoundWaves'
 
 // imgs
 const default_img = require('../static/imgs/default_male.png')
@@ -16,7 +16,7 @@ const DashboardHeader = () => {
             <div className='user-section'>
                 <div className='user-section-wrapper'>
                     <div className='recent-actions'>
-                        <MdTimeline size={24} />
+                        <GiSoundWaves size={24} />
                     </div>
                     <div className='profile-img'>
                         <img src={default_img} alt='' />
