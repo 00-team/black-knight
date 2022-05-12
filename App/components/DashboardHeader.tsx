@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 // style
 import './style/header.scss'
@@ -10,19 +10,41 @@ import { GiSoundWaves } from '@react-icons/all-files/gi/GiSoundWaves'
 const default_img = require('../static/imgs/default_male.png')
 
 const DashboardHeader = () => {
+    const [ShowDropdown, setShowDropdown] = useState({
+        show: false,
+        section: '',
+    })
+
+    const handleDropdown = (section: string) => {
+        if (section === ShowDropdown.section)
+            return setShowDropdown({ show: false, section: '' })
+
+        return setShowDropdown({ show: true, section })
+    }
+
     return (
         <div className='dashboard-header'>
             <div className='active-section title_small'>--ACTIVE SECTION--</div>
             <div className='user-section'>
                 <div className='user-section-wrapper'>
-                    <div className='recent-actions'>
+                    <div
+                        className='recent-actions'
+                        onClick={() => handleDropdown('recent')}
+                    >
                         <GiSoundWaves size={24} />
                     </div>
-                    <div className='profile-img'>
+                    <div
+                        className='profile-img'
+                        onClick={() => handleDropdown('menu')}
+                    >
                         <img src={default_img} alt='' />
                     </div>
                 </div>
-                <div className='dropdown-container'>
+                <div
+                    className={`dropdown-container ${
+                        ShowDropdown ? 'active' : ''
+                    }`}
+                >
                     <div className='dropdown-wrapper'>
                         <div className='dropdown-column'>
                             <div className='icon'></div>
