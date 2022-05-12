@@ -57,17 +57,44 @@ const DashboardHeader = () => {
                                 : ''
                         }`}
                     >
-                        <div className='dropdown-column'>
-                            <div className='icon'></div>
-                            <div className='holder'></div>
-                        </div>
-                        <div className='dropdown-column'>
-                            <div className='icon'></div>
-                            <div className='holder'></div>
-                        </div>
-                        <div className='dropdown-column'>
-                            <div className='icon'></div>
-                            <div className='holder'></div>
+                        <div className='slide-container'>
+                            <div className='menu-wrapper slide'>
+                                <div className='dropdown-header title_smaller'>
+                                    Welcome
+                                    <span className='username'>
+                                        Sadra Taghavi
+                                    </span>
+                                </div>
+                                <div className='dropdown-column'>
+                                    <div className='icon'></div>
+                                    <div className='holder'></div>
+                                </div>
+                                <div className='dropdown-column'>
+                                    <div className='icon'></div>
+                                    <div className='holder'></div>
+                                </div>
+                                <div className='dropdown-column'>
+                                    <div className='icon'></div>
+                                    <div className='holder'></div>
+                                </div>
+                            </div>
+                            <div className='recent-wrapper slide'>
+                                <div className='dropdown-header title_smaller'>
+                                    dsadadaddsa
+                                </div>
+                                <div className='dropdown-column'>
+                                    <div className='icon'></div>
+                                    <div className='holder'></div>
+                                </div>
+                                <div className='dropdown-column'>
+                                    <div className='icon'></div>
+                                    <div className='holder'></div>
+                                </div>
+                                <div className='dropdown-column'>
+                                    <div className='icon'></div>
+                                    <div className='holder'></div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
