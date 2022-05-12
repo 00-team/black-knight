@@ -20,7 +20,7 @@
             justify-content: center;
             gap: 1vw;
 
-            padding: 5px 8px;
+            padding: 5px 10px;
             background-color: var(--primary-color);
             box-shadow: 0px 3px 15px -10px var(--accent-color);
             border-radius: 50px;
@@ -52,11 +52,41 @@
                 display: grid;
                 place-items: center;
 
+                position: relative;
+
                 cursor: pointer;
+
+                &::before {
+                    content: '';
+                    position: absolute;
+                    top: 0;
+                    right: 0;
+
+                    width: 10px;
+                    height: 10px;
+                    border-radius: 50%;
+
+                    background-color: red;
+
+                    animation: live-anim 2s linear infinite;
+
+                    z-index: 2;
+                }
 
                 svg {
                     height: 90%;
                     width: 90%;
+
+                    z-index: 1;
+                }
+
+                @keyframes live-anim {
+                    0% {
+                        opacity: 1;
+                    }
+                    50% {
+                        opacity: 0;
+                    }
                 }
             }
         }
