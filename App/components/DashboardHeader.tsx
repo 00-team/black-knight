@@ -6,6 +6,10 @@ import './style/header.scss'
 // icons
 import { GiSoundWaves } from '@react-icons/all-files/gi/GiSoundWaves'
 
+import { VscGlobe } from '@react-icons/all-files/vsc/VscGlobe'
+import { RiLockPasswordLine } from '@react-icons/all-files/ri/RiLockPasswordLine'
+import { BiLogOut } from '@react-icons/all-files/bi/BiLogOut'
+
 // imgs
 const default_img = require('../static/imgs/default_male.png')
 
@@ -65,17 +69,37 @@ const DashboardHeader = () => {
                                         Sadra Taghavi
                                     </span>
                                 </div>
-                                <div className='dropdown-column'>
-                                    <div className='icon'></div>
-                                    <div className='holder'></div>
+                                <div className='dropdown-columns'>
+                                    <div className='dropdown-column'>
+                                        <div className='icon'>
+                                            <div className='before'>
+                                                <VscGlobe size={24} />
+                                            </div>
+                                            <div className='after'>
+                                                <VscGlobe size={24} />
+                                            </div>
+                                        </div>
+                                        <div className='holder'>View Site</div>
+                                    </div>
+                                    <div className='dropdown-column'>
+                                        <div className='icon'>
+                                            <div className='before'>
+                                                <RiLockPasswordLine size={24} />
+                                            </div>
+                                            <div className='after'>
+                                                <RiLockPasswordLine size={24} />
+                                            </div>
+                                        </div>
+                                        <div className='holder'>
+                                            Change Password
+                                        </div>
+                                    </div>
                                 </div>
-                                <div className='dropdown-column'>
-                                    <div className='icon'></div>
-                                    <div className='holder'></div>
-                                </div>
-                                <div className='dropdown-column'>
-                                    <div className='icon'></div>
-                                    <div className='holder'></div>
+                                <div className='dropdown-logout'>
+                                    <div className='icon'>
+                                        <BiLogOut size={24} />
+                                    </div>
+                                    <div className='holder'>Logout</div>
                                 </div>
                             </div>
                             <div className='recent-wrapper slide'>
