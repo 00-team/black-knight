@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 // style
 import './style/logout.scss'
@@ -90,11 +90,49 @@ const logoutButtonStates = {
 
 const LogoutButton = () => {
     const [LogoutButtonStatus, setLogoutButtonStatus] = useState('default')
+    const [ButtonClicked, setButtonClicked] = useState('')
+
+    useEffect(() => {
+        console.log(ButtonClicked)
+    }, [ButtonClicked])
+
+    const handleClick = () => {
+        if (
+            LogoutButtonStatus === 'default' ||
+            LogoutButtonStatus === 'hover'
+        ) {
+            setButtonClicked(`clicked`)
+            setLogoutButtonStatus('walking1')
+
+            setTimeout(() => {
+                setButtonClicked(`clicked door-slammed`)
+                setLogoutButtonStatus('walking2')
+
+                setTimeout(() => {
+                    setButtonClicked(`clicked door-slammed falling`)
+                    setLogoutButtonStatus('falling1')
+
+                    setTimeout(() => {
+                        setLogoutButtonStatus('falling2')
+
+                        setTimeout(() => {
+                            setLogoutButtonStatus('falling3')
+
+                            setTimeout(() => {
+                                setButtonClicked('')
+                                setLogoutButtonStatus('default')
+                            }, 1000)
+                        }, logoutButtonStates['falling2']['--walking-duration'] as unknown as number)
+                    }, logoutButtonStates['falling1']['--walking-duration'] as unknown as number)
+                }, logoutButtonStates['walking2']['--figure-duration'] as unknown as number)
+            }, logoutButtonStates['walking1']['--figure-duration'] as unknown as number)
+        }
+    }
 
     return (
         <div className='logout-button-container'>
             <button
-                className='logoutButton'
+                className={`logoutButton ${ButtonClicked ? ButtonClicked : ''}`}
                 onMouseEnter={() => {
                     if (LogoutButtonStatus === 'default')
                         setLogoutButtonStatus('hover')
@@ -103,9 +141,20 @@ const LogoutButton = () => {
                     if (LogoutButtonStatus === 'hover')
                         setLogoutButtonStatus('default')
                 }}
+                onClick={() => handleClick()}
                 style={
                     LogoutButtonStatus === 'hover'
                         ? (logoutButtonStates.hover as React.CSSProperties)
+                        : LogoutButtonStatus === 'walking1'
+                        ? (logoutButtonStates.walking1 as React.CSSProperties)
+                        : LogoutButtonStatus === 'walking2'
+                        ? (logoutButtonStates.walking2 as React.CSSProperties)
+                        : LogoutButtonStatus === 'falling1'
+                        ? (logoutButtonStates.falling1 as React.CSSProperties)
+                        : LogoutButtonStatus === 'falling2'
+                        ? (logoutButtonStates.falling2 as React.CSSProperties)
+                        : LogoutButtonStatus === 'falling3'
+                        ? (logoutButtonStates.falling3 as React.CSSProperties)
                         : (logoutButtonStates.default as React.CSSProperties)
                 }
             >
