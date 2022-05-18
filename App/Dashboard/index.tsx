@@ -1,16 +1,13 @@
 import React, { FC, useEffect } from 'react'
 
-// style
-import './style/index.scss'
+import { useAtom } from 'jotai'
+import { AdminAtom, UserAtom } from 'state'
 
-// sections
-import Sidebar from './Sidebar'
 import Data from './Data'
 import Header from './Header'
+import Sidebar from './Sidebar'
 
-// state
-import { useAtom } from 'jotai'
-import { UserAtom, AdminAtom } from 'state'
+import './style/index.scss'
 
 const Dashboard: FC = () => {
     const [user, UpdateUser] = useAtom(UserAtom)

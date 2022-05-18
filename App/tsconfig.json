@@ -4,7 +4,8 @@
         "baseUrl": "./",
         "rootDir": "./",
         "paths": {
-            "comps/*": ["./components/*"]
+            "comps/*": ["./components/*"],
+            "static/*": ["./static/*"]
         }
     },
     "include": ["./"],

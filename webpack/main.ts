@@ -1,10 +1,9 @@
 import { Configuration } from 'webpack'
 
-// path
-import { DIST_DIR, resolve, APP_DIR } from './config/path'
-
 // entries
 import Entries from './config/entries'
+// path
+import { APP_DIR, DIST_DIR, resolve } from './config/path'
 
 // plugins
 // import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer'
@@ -40,6 +39,7 @@ const Main: Configuration = {
             state: resolve(APP_DIR, 'state'),
             components: resolve(APP_DIR, 'components'),
             comps: resolve(APP_DIR, 'components'),
+            static: resolve(APP_DIR, 'static'),
         },
     },
 }

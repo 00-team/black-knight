@@ -1,6 +1,5 @@
 import React, { FC } from 'react'
 
-// style
 import './style/sidebar.scss'
 
 const Sidebar: FC = () => {

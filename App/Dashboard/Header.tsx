@@ -1,21 +1,16 @@
-import React, { useState } from 'react'
+import React, { FC, useState } from 'react'
 
-// style
-import './style/header.scss'
-
-// icons
 import { GiSoundWaves } from '@react-icons/all-files/gi/GiSoundWaves'
-
-import { VscGlobe } from '@react-icons/all-files/vsc/VscGlobe'
 import { RiLockPasswordLine } from '@react-icons/all-files/ri/RiLockPasswordLine'
-// import { BiLogOut } from '@react-icons/all-files/bi/BiLogOut'
+import { VscGlobe } from '@react-icons/all-files/vsc/VscGlobe'
 
 import { LogoutButton } from 'comps/buttons'
 
-// imgs
-import default_img from '../static/imgs/default_male.png'
+import './style/header.scss'
 
-const DashboardHeader = () => {
+import default_img from 'static/imgs/default_male.png'
+
+const Header: FC = () => {
     const [ShowDropdown, setShowDropdown] = useState({
         show: false,
         section: '',
@@ -130,4 +125,4 @@ const DashboardHeader = () => {
     )
 }
 
-export default DashboardHeader
+export default Header

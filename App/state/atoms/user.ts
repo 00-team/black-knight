@@ -1,6 +1,7 @@
 import { atom } from 'jotai'
-import { GET } from '../utils'
+
 import { DefaultUser, UserModel } from '../models'
+import { GET } from '../utils'
 
 const User = atom<UserModel>(DefaultUser)
 

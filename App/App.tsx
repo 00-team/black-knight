@@ -1,13 +1,10 @@
 import React, { FC } from 'react'
 
-// router
 import { Routes, Route } from 'react-router-dom'
 
-// style
-import './style/base.scss'
-
-// components
 import Dashboard from './Dashboard'
+
+import './style/base.scss'
 
 const App: FC = () => {
     return (

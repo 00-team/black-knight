@@ -18,7 +18,7 @@
 
     "importOrderSeparation": true,
     "importOrder": [
-        "^react$",
+        "(^react$|^react-dom)",
         "^@react-icons",
         "<THIRD_PARTY_MODULES>",
         "^(state|jotai)",

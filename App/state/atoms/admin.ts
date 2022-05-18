@@ -1,6 +1,7 @@
 import { atom } from 'jotai'
-import { GET } from '../utils'
+
 import { AdminModel, DefaultAdmin } from '../models'
+import { GET } from '../utils'
 
 const Admin = atom<AdminModel>(DefaultAdmin)
 
