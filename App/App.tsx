@@ -7,7 +7,7 @@ import { Routes, Route } from 'react-router-dom'
 import './style/base.scss'
 
 // components
-import Dashboard from './pages/Dashboard'
+import Dashboard from './Dashboard'
 
 const App: FC = () => {
     return (

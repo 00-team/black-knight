@@ -1,9 +1,9 @@
-import React from 'react'
+import React, { FC } from 'react'
 
 // style
 import './style/sidebar.scss'
 
-const DashboardSidebar = () => {
+const Sidebar: FC = () => {
     return (
         <div className='sidebar-container'>
             <div className='sidebar-wrapper'>
@@ -34,4 +34,4 @@ const DashboardSidebar = () => {
     )
 }
 
-export default DashboardSidebar
+export default Sidebar

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { FC, useEffect, useState } from 'react'
 
 // style
 import './style/logout.scss'
@@ -88,7 +88,7 @@ const logoutButtonStates = {
     },
 }
 
-const LogoutButton = () => {
+const LogoutButton: FC = () => {
     const [LogoutButtonStatus, setLogoutButtonStatus] = useState('default')
     const [ButtonClicked, setButtonClicked] = useState('')
 
@@ -208,4 +208,4 @@ const LogoutButton = () => {
     )
 }
 
-export default LogoutButton
+export { LogoutButton }

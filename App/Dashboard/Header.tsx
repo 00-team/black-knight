@@ -10,10 +10,10 @@ import { VscGlobe } from '@react-icons/all-files/vsc/VscGlobe'
 import { RiLockPasswordLine } from '@react-icons/all-files/ri/RiLockPasswordLine'
 // import { BiLogOut } from '@react-icons/all-files/bi/BiLogOut'
 
-import Logout from './utils/LogoutButton'
+import { LogoutButton } from 'comps/buttons'
 
 // imgs
-const default_img = require('../static/imgs/default_male.png')
+import default_img from '../static/imgs/default_male.png'
 
 const DashboardHeader = () => {
     const [ShowDropdown, setShowDropdown] = useState({
@@ -103,7 +103,7 @@ const DashboardHeader = () => {
                                     </div>
                                     <div className='holder'>Logout</div>
                                 </div> */}
-                                <Logout />
+                                <LogoutButton />
                             </div>
                             <div className='recent-wrapper slide'>
                                 <div className='dropdown-header title_smaller'>

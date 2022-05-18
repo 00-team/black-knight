@@ -1,12 +1,12 @@
 import React, { FC, useEffect } from 'react'
 
 // style
-import './style/dashboard.scss'
+import './style/index.scss'
 
 // sections
-import DashboardSidebar from 'comps/DashbaordSidebar'
-import DashboardData from 'comps/DashboardData'
-import DashboardHeader from 'comps/DashboardHeader'
+import Sidebar from './Sidebar'
+import Data from './Data'
+import Header from './Header'
 
 // state
 import { useAtom } from 'jotai'
@@ -26,10 +26,10 @@ const Dashboard: FC = () => {
 
     return (
         <div className='dashboard-container'>
-            <DashboardHeader />
+            <Header />
             <div className='dashboard-wrapper'>
-                <DashboardSidebar />
-                <DashboardData />
+                <Sidebar />
+                <Data />
             </div>
         </div>
     )
