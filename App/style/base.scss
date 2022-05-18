@@ -29,6 +29,10 @@
     background-color: #555;
 }
 
+body {
+    overflow: hidden;
+}
+
 @media (prefers-color-scheme: dark) {
     body {
         @include theme.dark;
