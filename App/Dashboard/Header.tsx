@@ -1,5 +1,7 @@
 import React, { FC, useState } from 'react'
 
+import { C } from '@00-team/utils'
+
 import { GiSoundWaves } from '@react-icons/all-files/gi/GiSoundWaves'
 import { RiLockPasswordLine } from '@react-icons/all-files/ri/RiLockPasswordLine'
 import { VscGlobe } from '@react-icons/all-files/vsc/VscGlobe'
@@ -10,17 +12,30 @@ import './style/header.scss'
 
 import default_img from 'static/imgs/default_male.png'
 
+enum HeaderSection {
+    PROFILE = 'PROFILE',
+    RECENT = 'RECENT',
+    NONE = 'NONE',
+}
+
 const Header: FC = () => {
-    const [ShowDropdown, setShowDropdown] = useState({
-        show: false,
-        section: '',
-    })
+    const [Section, setSection] = useState<HeaderSection>(HeaderSection.NONE)
 
-    const handleDropdown = (section: string) => {
-        if (section === ShowDropdown.section)
-            return setShowDropdown({ show: false, section: '' })
+    const ChangeSection = (newSection: HeaderSection) => {
+        if (newSection === Section) return setSection(HeaderSection.NONE)
 
-        return setShowDropdown({ show: true, section })
+        return setSection(newSection)
+    }
+
+    const WrapperClass = () => {
+        switch (Section) {
+            case HeaderSection.PROFILE:
+                return ' profile '
+            case HeaderSection.RECENT:
+                return ' recent '
+            default:
+                return ''
+        }
     }
 
     return (
@@ -30,34 +45,23 @@ const Header: FC = () => {
                 <div className='user-section-wrapper'>
                     <div
                         className='recent-actions'
-                        onClick={() => handleDropdown('recent')}
+                        onClick={() => ChangeSection(HeaderSection.RECENT)}
                     >
                         <GiSoundWaves size={20} />
                     </div>
                     <div
-                        className='profile-img'
-                        onClick={() => handleDropdown('menu')}
+                        className='avatar'
+                        onClick={() => ChangeSection(HeaderSection.PROFILE)}
                     >
-                        <img src={default_img} alt='' />
+                        <img src={default_img} alt='admin avatar' />
                     </div>
                 </div>
                 <div
-                    className={`dropdown-container ${
-                        ShowDropdown.show ? 'active' : ''
-                    }`}
+                    className={
+                        'dropdown-container' + C(Section !== HeaderSection.NONE)
+                    }
                 >
-                    <div
-                        className={`dropdown-wrapper ${
-                            ShowDropdown.show &&
-                            ShowDropdown.section === 'recent'
-                                ? 'recent'
-                                : ''
-                        } ${
-                            ShowDropdown.show && ShowDropdown.section === 'menu'
-                                ? 'menu'
-                                : ''
-                        }`}
-                    >
+                    <div className={'dropdown-wrapper' + WrapperClass()}>
                         <div className='slide-container  title_smaller'>
                             <div className='menu-wrapper slide'>
                                 <div className='dropdown-header title_smaller'>
@@ -92,12 +96,6 @@ const Header: FC = () => {
                                         </div>
                                     </div>
                                 </div>
-                                {/* <div className='dropdown-logout'>
-                                    <div className='icon'>
-                                        <BiLogOut size={24} />
-                                    </div>
-                                    <div className='holder'>Logout</div>
-                                </div> */}
                                 <LogoutButton />
                             </div>
                             <div className='recent-wrapper slide'>

@@ -24,7 +24,7 @@
     },
     "homepage": "https://github.com/00-team/black-knight#readme",
     "dependencies": {
-        "@00-team/utils": "^0.1.7",
+        "@00-team/utils": "^0.1.8",
         "@react-icons/all-files": "^4.1.0",
         "axios": "^0.26.1",
         "jotai": "^1.6.5",
