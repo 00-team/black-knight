@@ -1,13 +1,13 @@
-import React, { FC, useEffect, useState } from 'react'
+import React, { CSSProperties, FC, useState } from 'react'
 
 // style
 import './style/logout.scss'
 
-const logoutButtonStates = {
+const ButtonStates = {
     default: {
-        '--figure-duration': '100',
+        '--figure-duration': 100,
         '--transform-figure': 'none',
-        '--walking-duration': '100',
+        '--walking-duration': 100,
         '--transform-arm1': 'none',
         '--transform-wrist1': 'none',
         '--transform-arm2': 'none',
@@ -18,9 +18,9 @@ const logoutButtonStates = {
         '--transform-calf2': 'none',
     },
     hover: {
-        '--figure-duration': '100',
+        '--figure-duration': 100,
         '--transform-figure': 'translateX(1.5px)',
-        '--walking-duration': '100',
+        '--walking-duration': 100,
         '--transform-arm1': 'rotate(-5deg)',
         '--transform-wrist1': 'rotate(-15deg)',
         '--transform-arm2': 'rotate(5deg)',
@@ -31,9 +31,9 @@ const logoutButtonStates = {
         '--transform-calf2': 'rotate(-20deg)',
     },
     walking1: {
-        '--figure-duration': '300',
+        '--figure-duration': 300,
         '--transform-figure': 'translateX(11px)',
-        '--walking-duration': '300',
+        '--walking-duration': 300,
         '--transform-arm1': 'translateX(-4px) translateY(-2px) rotate(120deg)',
         '--transform-wrist1': 'rotate(-5deg)',
         '--transform-arm2': 'translateX(4px) rotate(-110deg)',
@@ -44,9 +44,9 @@ const logoutButtonStates = {
         '--transform-calf2': 'rotate(20deg)',
     },
     walking2: {
-        '--figure-duration': '400',
+        '--figure-duration': 400,
         '--transform-figure': 'translateX(17px)',
-        '--walking-duration': '300',
+        '--walking-duration': 300,
         '--transform-arm1': 'rotate(60deg)',
         '--transform-wrist1': 'rotate(-15deg)',
         '--transform-arm2': 'rotate(-45deg)',
@@ -57,8 +57,8 @@ const logoutButtonStates = {
         '--transform-calf2': 'rotate(-20deg)',
     },
     falling1: {
-        '--figure-duration': '1600',
-        '--walking-duration': '4000',
+        '--figure-duration': 1600,
+        '--walking-duration': 1500, // falling dur
         '--transform-arm1': 'rotate(-60deg)',
         '--transform-wrist1': 'none',
         '--transform-arm2': 'rotate(30deg)',
@@ -68,7 +68,7 @@ const logoutButtonStates = {
         '--transform-leg2': 'rotate(20deg)',
     },
     falling2: {
-        '--walking-duration': '300',
+        '--walking-duration': 300,
         '--transform-arm1': 'rotate(-100deg)',
         '--transform-arm2': 'rotate(-60deg)',
         '--transform-wrist2': 'rotate(60deg)',
@@ -77,7 +77,7 @@ const logoutButtonStates = {
         '--transform-leg2': 'rotate(-60deg)',
     },
     falling3: {
-        '--walking-duration': '500',
+        '--walking-duration': 500,
         '--transform-arm1': 'rotate(-30deg)',
         '--transform-wrist1': 'rotate(40deg)',
         '--transform-arm2': 'rotate(50deg)',
@@ -88,75 +88,62 @@ const logoutButtonStates = {
     },
 }
 
-const LogoutButton: FC = () => {
-    const [LogoutButtonStatus, setLogoutButtonStatus] = useState('default')
-    const [ButtonClicked, setButtonClicked] = useState('')
+const timeout1 = ButtonStates['walking1']['--figure-duration']
+const timeout2 = timeout1 + ButtonStates['walking2']['--figure-duration']
+const timeout3 = timeout2 + ButtonStates['falling1']['--walking-duration']
+const timeout4 = timeout3 + ButtonStates['falling2']['--walking-duration']
+const timeout5 = timeout4 + 1000
 
-    useEffect(() => {
-        console.log('ButtonClicked:', ButtonClicked)
-    }, [ButtonClicked])
+type BSKeys = keyof typeof ButtonStates
+const StyleByState = (key: BSKeys): CSSProperties => ButtonStates[key]
+
+const LogoutButton: FC = () => {
+    const [ButtonKey, setButtonKey] = useState<BSKeys>('default')
+    const [AppliedClasses, setAppliedClasses] = useState('')
 
     const handleClick = () => {
-        if (
-            LogoutButtonStatus === 'default' ||
-            LogoutButtonStatus === 'hover'
-        ) {
-            setButtonClicked(`clicked`)
-            setLogoutButtonStatus('walking1')
+        // if (!['default', 'hover'].includes(ButtonKey)) return
+        if (ButtonKey !== 'default' && ButtonKey !== 'hover') return
 
-            setTimeout(() => {
-                setButtonClicked(`clicked door-slammed`)
-                setLogoutButtonStatus('walking2')
+        setAppliedClasses('clicked')
+        setButtonKey('walking1')
 
-                setTimeout(() => {
-                    setButtonClicked(`clicked door-slammed falling`)
-                    setLogoutButtonStatus('falling1')
+        setTimeout(() => {
+            setAppliedClasses('clicked door-slammed')
+            setButtonKey('walking2')
+        }, timeout1)
 
-                    setTimeout(() => {
-                        setLogoutButtonStatus('falling2')
+        setTimeout(() => {
+            setAppliedClasses('clicked door-slammed falling')
+            setButtonKey('falling1')
+        }, timeout2)
 
-                        setTimeout(() => {
-                            setLogoutButtonStatus('falling3')
+        setTimeout(() => {
+            setButtonKey('falling2')
+        }, timeout3)
 
-                            setTimeout(() => {
-                                setButtonClicked('')
-                                setLogoutButtonStatus('default')
-                            }, 1000)
-                        }, logoutButtonStates['falling2']['--walking-duration'] as unknown as number)
-                    }, logoutButtonStates['falling1']['--walking-duration'] as unknown as number)
-                }, logoutButtonStates['walking2']['--figure-duration'] as unknown as number)
-            }, logoutButtonStates['walking1']['--figure-duration'] as unknown as number)
-        }
+        setTimeout(() => {
+            setButtonKey('falling3')
+        }, timeout4)
+
+        setTimeout(() => {
+            setAppliedClasses('')
+            setButtonKey('default')
+        }, timeout5)
     }
 
     return (
         <div className='logout-button-container'>
             <button
-                className={`logoutButton ${ButtonClicked ? ButtonClicked : ''}`}
-                onMouseEnter={() => {
-                    if (LogoutButtonStatus === 'default')
-                        setLogoutButtonStatus('hover')
-                }}
-                onMouseLeave={() => {
-                    if (LogoutButtonStatus === 'hover')
-                        setLogoutButtonStatus('default')
-                }}
-                onClick={() => handleClick()}
-                style={
-                    LogoutButtonStatus === 'hover'
-                        ? (logoutButtonStates.hover as React.CSSProperties)
-                        : LogoutButtonStatus === 'walking1'
-                        ? (logoutButtonStates.walking1 as React.CSSProperties)
-                        : LogoutButtonStatus === 'walking2'
-                        ? (logoutButtonStates.walking2 as React.CSSProperties)
-                        : LogoutButtonStatus === 'falling1'
-                        ? (logoutButtonStates.falling1 as React.CSSProperties)
-                        : LogoutButtonStatus === 'falling2'
-                        ? (logoutButtonStates.falling2 as React.CSSProperties)
-                        : LogoutButtonStatus === 'falling3'
-                        ? (logoutButtonStates.falling3 as React.CSSProperties)
-                        : (logoutButtonStates.default as React.CSSProperties)
+                className={`logoutButton ${AppliedClasses}`}
+                onMouseEnter={() =>
+                    ButtonKey === 'default' && setButtonKey('hover')
                 }
+                onMouseLeave={() =>
+                    ButtonKey === 'hover' && setButtonKey('default')
+                }
+                onClick={() => handleClick()}
+                style={StyleByState(ButtonKey)}
             >
                 <span className='button-text'>Log Out</span>
 
