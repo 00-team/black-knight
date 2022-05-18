@@ -8,7 +8,9 @@ import { GiSoundWaves } from '@react-icons/all-files/gi/GiSoundWaves'
 
 import { VscGlobe } from '@react-icons/all-files/vsc/VscGlobe'
 import { RiLockPasswordLine } from '@react-icons/all-files/ri/RiLockPasswordLine'
-import { BiLogOut } from '@react-icons/all-files/bi/BiLogOut'
+// import { BiLogOut } from '@react-icons/all-files/bi/BiLogOut'
+
+import Logout from './utils/LogoutButton'
 
 // imgs
 const default_img = require('../static/imgs/default_male.png')
@@ -61,7 +63,7 @@ const DashboardHeader = () => {
                                 : ''
                         }`}
                     >
-                        <div className='slide-container'>
+                        <div className='slide-container  title_smaller'>
                             <div className='menu-wrapper slide'>
                                 <div className='dropdown-header title_smaller'>
                                     Welcome
@@ -95,12 +97,13 @@ const DashboardHeader = () => {
                                         </div>
                                     </div>
                                 </div>
-                                <div className='dropdown-logout'>
+                                {/* <div className='dropdown-logout'>
                                     <div className='icon'>
                                         <BiLogOut size={24} />
                                     </div>
                                     <div className='holder'>Logout</div>
-                                </div>
+                                </div> */}
+                                <Logout />
                             </div>
                             <div className='recent-wrapper slide'>
                                 <div className='dropdown-header title_smaller'>
