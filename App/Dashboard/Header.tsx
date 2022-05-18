@@ -58,61 +58,74 @@ const Header: FC = () => {
                 </div>
                 <div
                     className={
-                        'dropdown-container' + C(Section !== HeaderSection.NONE)
+                        'dropdown-overflow' + C(Section !== HeaderSection.NONE)
                     }
                 >
-                    <div className={'dropdown-wrapper' + WrapperClass()}>
-                        <div className='slide-container  title_smaller'>
-                            <div className='menu-wrapper slide'>
-                                <div className='dropdown-header title_smaller'>
-                                    Welcome
-                                    <span className='username'>
-                                        Sadra Taghavi
-                                    </span>
-                                </div>
-                                <div className='dropdown-columns'>
-                                    <div className='dropdown-column'>
-                                        <div className='icon'>
-                                            <div className='before'>
-                                                <VscGlobe size={24} />
+                    <div
+                        className={
+                            'dropdown-container'
+                            // C(Section !== HeaderSection.NONE)
+                        }
+                    >
+                        <div className={'dropdown-wrapper' + WrapperClass()}>
+                            <div className='slide-container  title_smaller'>
+                                <div className='menu-wrapper slide'>
+                                    <div className='dropdown-header title_smaller'>
+                                        Welcome
+                                        <span className='username'>
+                                            Sadra Taghavi
+                                        </span>
+                                    </div>
+                                    <div className='dropdown-columns'>
+                                        <div className='dropdown-column'>
+                                            <div className='icon'>
+                                                <div className='before'>
+                                                    <VscGlobe size={24} />
+                                                </div>
+                                                <div className='after'>
+                                                    <VscGlobe size={24} />
+                                                </div>
                                             </div>
-                                            <div className='after'>
-                                                <VscGlobe size={24} />
+                                            <div className='holder'>
+                                                View Site
                                             </div>
                                         </div>
-                                        <div className='holder'>View Site</div>
+                                        <div className='dropdown-column'>
+                                            <div className='icon'>
+                                                <div className='before'>
+                                                    <RiLockPasswordLine
+                                                        size={24}
+                                                    />
+                                                </div>
+                                                <div className='after'>
+                                                    <RiLockPasswordLine
+                                                        size={24}
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div className='holder'>
+                                                Change Password
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <LogoutButton />
+                                </div>
+                                <div className='recent-wrapper slide'>
+                                    <div className='dropdown-header title_smaller'>
+                                        dsadadaddsa
                                     </div>
                                     <div className='dropdown-column'>
-                                        <div className='icon'>
-                                            <div className='before'>
-                                                <RiLockPasswordLine size={24} />
-                                            </div>
-                                            <div className='after'>
-                                                <RiLockPasswordLine size={24} />
-                                            </div>
-                                        </div>
-                                        <div className='holder'>
-                                            Change Password
-                                        </div>
+                                        <div className='icon'></div>
+                                        <div className='holder'></div>
                                     </div>
-                                </div>
-                                <LogoutButton />
-                            </div>
-                            <div className='recent-wrapper slide'>
-                                <div className='dropdown-header title_smaller'>
-                                    dsadadaddsa
-                                </div>
-                                <div className='dropdown-column'>
-                                    <div className='icon'></div>
-                                    <div className='holder'></div>
-                                </div>
-                                <div className='dropdown-column'>
-                                    <div className='icon'></div>
-                                    <div className='holder'></div>
-                                </div>
-                                <div className='dropdown-column'>
-                                    <div className='icon'></div>
-                                    <div className='holder'></div>
+                                    <div className='dropdown-column'>
+                                        <div className='icon'></div>
+                                        <div className='holder'></div>
+                                    </div>
+                                    <div className='dropdown-column'>
+                                        <div className='icon'></div>
+                                        <div className='holder'></div>
+                                    </div>
                                 </div>
                             </div>
                         </div>

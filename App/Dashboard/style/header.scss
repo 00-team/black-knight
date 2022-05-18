@@ -95,12 +95,15 @@
                 }
             }
         }
-        .dropdown-container {
-            width: 250px;
-            height: 250px;
+
+        .dropdown-overflow {
+            @include box(250px, 100vh);
+
+            pointer-events: none;
+            overflow: hidden;
 
             position: absolute;
-            top: 80px;
+            top: 70px;
             right: 0;
 
             transform: translateY(-300%);
@@ -110,184 +113,207 @@
                 transform: translateY(0);
             }
 
-            .dropdown-wrapper {
-                width: 100%;
-                height: 100%;
-                background: #f2f2f2;
+            .dropdown-container {
+                pointer-events: all;
+                @include box(250px);
 
-                border-radius: 10px;
+                position: absolute;
+                top: 10px;
+                right: 0;
 
-                position: relative;
-
-                display: grid;
-                place-items: center;
-
-                padding: 15px 10px;
-
-                color: black;
-
-                position: relative;
-
-                &::before {
-                    content: '';
-                    position: absolute;
-                    width: 15px;
-                    height: 15px;
-                    background: #f2f2f2;
-
-                    top: -4px;
-                    right: 50%;
-                    z-index: -1;
-                    transform: rotate(45deg);
-
-                    transition: all 0.3s cubic-bezier(0.52, 1.64, 0.37, 0.66);
-                }
-                &.recent {
-                    &::before {
-                        right: 40%;
-                    }
-                    .slide-container .recent-wrapper {
-                        z-index: 1;
-                        inset: 0;
-                    }
-                }
-                &.profile {
-                    &::before {
-                        right: 12.5%;
-                    }
-                    .slide-container .menu-wrapper {
-                        z-index: 1;
-                        inset: 0;
-                    }
-                }
-                .slide-container {
-                    display: flex;
-                    align-items: center;
-                    justify-content: flex-start;
-                    flex-direction: column;
-                    gap: 2.5vh;
-
+                .dropdown-wrapper {
                     width: 100%;
                     height: 100%;
+                    background: #f2f2f2;
+
+                    border-radius: 10px;
 
                     position: relative;
 
-                    .slide {
+                    display: grid;
+                    place-items: center;
+
+                    padding: 15px 10px;
+
+                    color: black;
+
+                    position: relative;
+
+                    &::before {
+                        content: '';
                         position: absolute;
-                        left: 200%;
+                        width: 15px;
+                        height: 15px;
+                        background: #f2f2f2;
 
-                        display: flex;
-                        flex-direction: column;
-                        gap: 1vh;
+                        top: -4px;
+                        right: 50%;
+                        z-index: -1;
+                        transform: rotate(45deg);
 
-                        transition: all 0.5s
+                        transition: all 0.3s
                             cubic-bezier(0.52, 1.64, 0.37, 0.66);
+                    }
+                    &.recent {
+                        &::before {
+                            right: 40%;
+                        }
+                        .slide-container .recent-wrapper {
+                            z-index: 1;
+                            inset: 0;
+                        }
+                    }
+                    &.profile {
+                        &::before {
+                            right: 12.5%;
+                        }
+                        .slide-container .menu-wrapper {
+                            z-index: 1;
+                            inset: 0;
+                        }
+                    }
+                    .slide-container {
+                        display: flex;
+                        align-items: center;
+                        justify-content: flex-start;
+                        flex-direction: column;
+                        gap: 2.5vh;
 
                         width: 100%;
                         height: 100%;
 
-                        background-color: inherit;
+                        position: relative;
 
-                        z-index: -1;
+                        .slide {
+                            position: absolute;
+                            left: 200%;
 
-                        .dropdown-header {
                             display: flex;
-                            align-items: center;
-                            justify-content: center;
-                            flex-wrap: wrap;
-
-                            font-family: 'Anton', sans-serif;
-
-                            span {
-                                font-family: 'Oleo Script', cursive;
-                                font-weight: bold;
-
-                                margin: 0 10px;
-                            }
-                        }
-                        .dropdown-columns {
-                            display: flex;
-                            align-items: center;
-                            justify-content: flex-start;
                             flex-direction: column;
                             gap: 1vh;
 
-                            margin-top: 0.5vh;
-                            flex: 1;
+                            transition: all 0.5s
+                                cubic-bezier(0.52, 1.64, 0.37, 0.66);
 
-                            font-family: 'Merienda One', cursive;
+                            width: 100%;
+                            height: 100%;
 
-                            position: relative;
+                            background-color: inherit;
 
-                            &::after {
-                                content: '';
-                                position: absolute;
-                                bottom: 0;
+                            z-index: -1;
 
-                                height: 1px;
-                                width: 80%;
-                                background: black;
-                            }
-
-                            .dropdown-column {
+                            .dropdown-header {
                                 display: flex;
-                                align-items: flex-start;
+                                align-items: center;
+                                justify-content: center;
+                                flex-wrap: wrap;
+
+                                font-family: 'Anton', sans-serif;
+
+                                span {
+                                    font-family: 'Oleo Script', cursive;
+                                    font-weight: bold;
+
+                                    margin: 0 10px;
+                                }
+                            }
+                            .dropdown-columns {
+                                display: flex;
+                                align-items: center;
+                                justify-content: flex-start;
+                                flex-direction: column;
+                                gap: 1vh;
+
+                                margin-top: 0.5vh;
+                                flex: 1;
+
+                                font-family: 'Merienda One', cursive;
+
+                                position: relative;
+
+                                &::after {
+                                    content: '';
+                                    position: absolute;
+                                    bottom: 0;
+
+                                    height: 1px;
+                                    width: 80%;
+                                    background: black;
+                                }
+
+                                .dropdown-column {
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: flex-start;
+                                    gap: 0.5vw;
+
+                                    width: 100%;
+
+                                    padding: 0.5rem 0;
+
+                                    cursor: pointer;
+
+                                    @media screen and (max-width: 960px) {
+                                        gap: 1vw;
+                                    }
+
+                                    .icon {
+                                        transform-style: preserve-3d;
+                                        // transition: transform 5s;
+                                        // overflow: hidden;
+                                        position: relative;
+
+                                        // div {
+                                        transition: transform 0.5s
+                                            cubic-bezier(0.63, 0.01, 0.21, 0.99);
+                                        // }
+
+                                        div {
+                                            display: grid;
+                                        }
+
+                                        .before {
+                                            transform: translateZ(12px);
+                                        }
+
+                                        .after {
+                                            transform: rotateX(-90deg)
+                                                translateZ(12px);
+                                            position: absolute;
+                                            // transform: translateY(100%);
+                                        }
+                                    }
+
+                                    &:hover {
+                                        .icon {
+                                            transform: rotateX(90deg);
+                                            // .before {
+                                            //     transform: translateY(-100%);
+                                            // }
+                                            // .after {
+                                            //     position: absolute;
+                                            //     transform: translateY(0);
+                                            // }
+                                        }
+                                    }
+                                }
+                            }
+                            .dropdown-logout {
+                                display: flex;
+                                align-items: center;
                                 justify-content: flex-start;
                                 gap: 0.5vw;
 
-                                width: 100%;
-
                                 padding: 0.5rem 0;
+
+                                font-family: 'Merienda One', cursive;
+                                font-weight: 500;
 
                                 cursor: pointer;
 
                                 @media screen and (max-width: 960px) {
                                     gap: 1vw;
                                 }
-
-                                .icon {
-                                    overflow: hidden;
-                                    position: relative;
-
-                                    div {
-                                        transition: transform 0.5s
-                                            cubic-bezier(0.63, 0.01, 0.21, 0.99);
-                                    }
-
-                                    .after {
-                                        position: absolute;
-                                        transform: translateY(100%);
-                                    }
-                                }
-
-                                &:hover {
-                                    .icon {
-                                        .before {
-                                            transform: translateY(-100%);
-                                        }
-                                        .after {
-                                            position: absolute;
-                                            transform: translateY(0);
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                        .dropdown-logout {
-                            display: flex;
-                            align-items: center;
-                            justify-content: flex-start;
-                            gap: 0.5vw;
-
-                            padding: 0.5rem 0;
-
-                            font-family: 'Merienda One', cursive;
-                            font-weight: 500;
-
-                            cursor: pointer;
-
-                            @media screen and (max-width: 960px) {
-                                gap: 1vw;
                             }
                         }
                     }
