@@ -1,5 +1,3 @@
-import re
-from cmath import log
 from collections.abc import Iterable
 from functools import update_wrapper
 from typing import Any, Callable
@@ -105,12 +103,12 @@ class AdminSite(admin.AdminSite):
             path('index/', wrap(self.api_index), name='index'),
             path('login/', self.api_login, name='login'),
             path('log/', self.api_log, name='log'),
+            path('logout/', wrap(self.api_logout), name='logout'),
         ]
 
         urlpatterns = [
             path('', wrap(self.index, json=False), name='index'),
             path('api/', include((api_urls, self.name), namespace='api')),
-            path('logout/', self.logout, name='logout'),
             path('login/', self.index, name='login')
         ]
 
@@ -274,9 +272,9 @@ class AdminSite(admin.AdminSite):
         except E as e:
             return e.response
 
-    def logout(self, request: HttpRequest):
+    def api_logout(self, request: HttpRequest):
         auth_logout(request)
-        return HttpResponseRedirect('/')
+        return JsonResponse({'message': 'Your Logout was Successful'})
 
     def api_login(self, request: HttpRequest):
         try:
@@ -305,6 +303,6 @@ class AdminSite(admin.AdminSite):
             auth_login(request, user)
             get_token(request)
 
-            return JsonResponse({'ok': 'Your Login was Successful!'})
+            return JsonResponse({'message': 'Your Login was Successful!'})
         except E as e:
             return e.response
