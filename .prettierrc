@@ -14,5 +14,17 @@
                 "tabWidth": 2
             }
         }
+    ],
+
+    "importOrderSeparation": true,
+    "importOrder": [
+        "^react$",
+        "^@react-icons",
+        "<THIRD_PARTY_MODULES>",
+        "^(state|jotai)",
+        "(/?comps/|/?components/)",
+        "\\./(?!style)",
+        "/style/",
+        "(/static/|^static)"
     ]
 }
