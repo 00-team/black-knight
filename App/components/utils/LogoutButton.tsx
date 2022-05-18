@@ -58,7 +58,7 @@ const logoutButtonStates = {
     },
     falling1: {
         '--figure-duration': '1600',
-        '--walking-duration': '400',
+        '--walking-duration': '4000',
         '--transform-arm1': 'rotate(-60deg)',
         '--transform-wrist1': 'none',
         '--transform-arm2': 'rotate(30deg)',
@@ -93,7 +93,7 @@ const LogoutButton = () => {
     const [ButtonClicked, setButtonClicked] = useState('')
 
     useEffect(() => {
-        console.log(ButtonClicked)
+        console.log('ButtonClicked:', ButtonClicked)
     }, [ButtonClicked])
 
     const handleClick = () => {

@@ -16,13 +16,8 @@ const Dashboard: FC = () => {
     const [user, UpdateUser] = useAtom(UserAtom)
     const [admin, UpdateAdmin] = useAtom(AdminAtom)
 
-    useEffect(() => {
-        console.log('user:', user.username)
-    }, [user])
-
-    useEffect(() => {
-        console.log('admin apps:', admin.apps)
-    }, [admin])
+    useEffect(() => {}, [user])
+    useEffect(() => {}, [admin])
 
     useEffect(() => {
         UpdateUser()
