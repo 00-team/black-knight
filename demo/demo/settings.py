@@ -16,12 +16,15 @@ ALLOWED_HOSTS = []
 
 
 INSTALLED_APPS = [
-    'django.contrib.admin',
+    # 'django.contrib.admin',
+    'demo.admin.DemoAdminApp',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    'black_knight',
 
     'Account.apps.AccountConfig',
     'Blog.apps.BlogConfig',
