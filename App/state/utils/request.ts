@@ -1,5 +1,7 @@
 import axios, { AxiosRequestConfig } from 'axios'
 
+const U = (url: string) => (BASE_URL + url).replaceAll('//', '/')
+
 interface ResError {
     message: string
     code: number
@@ -40,7 +42,7 @@ const HandleError = (error: unknown): ResError => {
 type TGET = (url: string, config?: AxiosRequestConfig) => Promise<GetResponse>
 const GET: TGET = async (url, config) => {
     try {
-        const response = await axios.get(BASE_URL + url, config)
+        const response = await axios.get(U(url), config)
         return { ok: true, data: response.data }
     } catch (error) {
         return { ok: false, error: HandleError(error) }
