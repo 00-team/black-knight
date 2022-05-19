@@ -3,7 +3,7 @@ from django.conf import settings
 
 
 class GroupAdmin(ModelAdmin):
-    icon = settings.STATIC_URL + '12'
+    icon = settings.STATIC_URL + 'favicon.ico'
 
 
 class UserAdmin(ModelAdmin):

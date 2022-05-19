@@ -8,7 +8,7 @@ interface PermsModel {
 interface AppModelModel {
     name: string
     object_name: string
-    icon: string
+    icon: string | null
     perms: PermsModel
 }
 

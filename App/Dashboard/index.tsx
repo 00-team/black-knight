@@ -10,11 +10,8 @@ import Sidebar from './Sidebar'
 import './style/index.scss'
 
 const Dashboard: FC = () => {
-    const [user, UpdateUser] = useAtom(UserAtom)
-    const [admin, UpdateAdmin] = useAtom(AdminAtom)
-
-    useEffect(() => {}, [user])
-    useEffect(() => {}, [admin])
+    const [, UpdateUser] = useAtom(UserAtom)
+    const [, UpdateAdmin] = useAtom(AdminAtom)
 
     useEffect(() => {
         UpdateUser()
