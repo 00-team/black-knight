@@ -1,6 +1,12 @@
 ;= python
 
 a=.env\Scripts\activate
+m=python demo\manage.py migrate
+c=python demo\manage.py createsuperuser --username=$1 --email=$2
+mk=python demo\manage.py makemigrations
+run=python demo\manage.py runserver 7000
+pack=python -m build --no-isolation --sdist --wheel --outdir dist/ .
+publish=python -m twine upload dist/*
 
 ;= npm
 
