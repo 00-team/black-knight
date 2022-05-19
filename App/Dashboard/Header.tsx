@@ -6,6 +6,9 @@ import { GiSoundWaves } from '@react-icons/all-files/gi/GiSoundWaves'
 import { RiLockPasswordLine } from '@react-icons/all-files/ri/RiLockPasswordLine'
 import { VscGlobe } from '@react-icons/all-files/vsc/VscGlobe'
 
+import { useAtom } from 'jotai'
+import { UserAtom } from 'state'
+
 import { LogoutButton } from 'comps/buttons'
 
 import './style/header.scss'
@@ -19,6 +22,7 @@ enum HeaderSection {
 }
 
 const Header: FC = () => {
+    const [user] = useAtom(UserAtom)
     const [Section, setSection] = useState<HeaderSection>(HeaderSection.NONE)
 
     const ChangeSection = (newSection: HeaderSection) => {
@@ -73,7 +77,7 @@ const Header: FC = () => {
                                     <div className='dropdown-header title_smaller'>
                                         Welcome
                                         <span className='username'>
-                                            Sadra Taghavi
+                                            {user.username}
                                         </span>
                                     </div>
                                     <div className='dropdown-columns'>
