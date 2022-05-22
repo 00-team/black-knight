@@ -2,7 +2,10 @@ import React, { FC } from 'react'
 
 import { C } from '@00-team/utils'
 
+import { BsPlus } from '@react-icons/all-files/bs/BsPlus'
 import { GiSoundWaves } from '@react-icons/all-files/gi/GiSoundWaves'
+import { MdDelete } from '@react-icons/all-files/md/MdDelete'
+import { MdModeEdit } from '@react-icons/all-files/md/MdModeEdit'
 import { RiLockPasswordLine } from '@react-icons/all-files/ri/RiLockPasswordLine'
 import { VscGlobe } from '@react-icons/all-files/vsc/VscGlobe'
 
@@ -74,7 +77,10 @@ const DropDown: FC = () => {
 
     return (
         <div
-            className={'dropdown-overflow' + C(Section !== HeaderSection.NONE)}
+            className={
+                'dropdown-overflow' +
+                C(Section !== HeaderSection.NONE, 'active')
+            }
         >
             <div className='dropdown-container'>
                 <div className={'dropdown-wrapper' + WrapperClass()}>
@@ -119,19 +125,46 @@ const DropDown: FC = () => {
                         </div>
                         <div className='recent-wrapper slide'>
                             <div className='dropdown-header title_smaller'>
-                                dsadadaddsa
+                                Recent Actions
                             </div>
-                            <div className='dropdown-column'>
-                                <div className='icon'></div>
-                                <div className='holder'></div>
+                            <div className='dropdown-column-wrapper edit'>
+                                <div className='dropdown-column-header '>
+                                    <div className='icon'>
+                                        <MdModeEdit size={24} />
+                                    </div>
+                                    <div className='holder'>Edited</div>
+                                </div>
+                                <div className='dropdown-column-data'>
+                                    <span>action done</span>
+                                    <span>•</span>
+                                    <span>model</span>
+                                </div>
                             </div>
-                            <div className='dropdown-column'>
-                                <div className='icon'></div>
-                                <div className='holder'></div>
+                            <div className='dropdown-column-wrapper add'>
+                                <div className='dropdown-column-header '>
+                                    <div className='icon'>
+                                        <BsPlus size={24} />
+                                    </div>
+                                    <div className='holder'>Added</div>
+                                </div>{' '}
+                                <div className='dropdown-column-data'>
+                                    <span>action done</span>
+                                    <span className='dot'>•</span>
+                                    <span>model</span>
+                                </div>
                             </div>
-                            <div className='dropdown-column'>
-                                <div className='icon'></div>
-                                <div className='holder'></div>
+                            <div className='dropdown-column-wrapper delete'>
+                                <div className='dropdown-column-header '>
+                                    <div className='icon'>
+                                        <MdDelete size={24} />
+                                    </div>
+                                    <div className='holder'>Deleted</div>
+                                </div>{' '}
+                                <div className='dropdown-column-data'>
+                                    <span>action done</span>
+                                    <span>•</span>
+                                    <span>model</span>
+                                </div>
                             </div>
                         </div>
                     </div>
