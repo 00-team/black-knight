@@ -76,7 +76,7 @@ class AdminSite(admin.AdminSite):
                 return JsonResponse({
                     'error': 'Admin Login Required!',
                     'login_required': True
-                })
+                }, status=401)
 
             return view(request, *args, **kwargs)
 
