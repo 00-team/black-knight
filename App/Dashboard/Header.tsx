@@ -130,7 +130,7 @@ const DropDown: FC = () => {
                             <div className='dropdown-column-wrapper edit'>
                                 <div className='dropdown-column-header '>
                                     <div className='icon'>
-                                        <MdModeEdit size={24} />
+                                        <MdModeEdit fill='#efb80b' size={24} />
                                     </div>
                                     <div className='holder'>Edited</div>
                                 </div>
@@ -143,7 +143,7 @@ const DropDown: FC = () => {
                             <div className='dropdown-column-wrapper add'>
                                 <div className='dropdown-column-header '>
                                     <div className='icon'>
-                                        <BsPlus size={24} />
+                                        <BsPlus fill='#00dc7d' size={24} />
                                     </div>
                                     <div className='holder'>Added</div>
                                 </div>{' '}
@@ -156,7 +156,7 @@ const DropDown: FC = () => {
                             <div className='dropdown-column-wrapper delete'>
                                 <div className='dropdown-column-header '>
                                     <div className='icon'>
-                                        <MdDelete size={24} />
+                                        <MdDelete fill='#e20338' size={24} />
                                     </div>
                                     <div className='holder'>Deleted</div>
                                 </div>{' '}
