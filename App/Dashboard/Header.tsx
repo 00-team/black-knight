@@ -124,45 +124,45 @@ const DropDown: FC = () => {
                             <LogoutButton />
                         </div>
                         <div className='recent-wrapper slide'>
-                            <div className='dropdown-header title_smaller'>
+                            <div className='dropdown-header title_smaller recent'>
                                 Recent Actions
                             </div>
                             <div className='dropdown-column-wrapper edit'>
-                                <div className='dropdown-column-header '>
+                                <div className='dropdown-column-header title_smaller '>
                                     <div className='icon'>
-                                        <MdModeEdit fill='#efb80b' size={24} />
+                                        <MdModeEdit fill='#efb80b' size={20} />
                                     </div>
                                     <div className='holder'>Edited</div>
                                 </div>
-                                <div className='dropdown-column-data'>
+                                <div className='dropdown-column-data description'>
                                     <span>action done</span>
-                                    <span>•</span>
+                                    <span className='dot'>•</span>
                                     <span>model</span>
                                 </div>
                             </div>
                             <div className='dropdown-column-wrapper add'>
-                                <div className='dropdown-column-header '>
+                                <div className='dropdown-column-header title_smaller '>
                                     <div className='icon'>
                                         <BsPlus fill='#00dc7d' size={24} />
                                     </div>
                                     <div className='holder'>Added</div>
                                 </div>{' '}
-                                <div className='dropdown-column-data'>
+                                <div className='dropdown-column-data description'>
                                     <span>action done</span>
                                     <span className='dot'>•</span>
                                     <span>model</span>
                                 </div>
                             </div>
                             <div className='dropdown-column-wrapper delete'>
-                                <div className='dropdown-column-header '>
+                                <div className='dropdown-column-header title_smaller'>
                                     <div className='icon'>
                                         <MdDelete fill='#e20338' size={24} />
                                     </div>
                                     <div className='holder'>Deleted</div>
                                 </div>{' '}
-                                <div className='dropdown-column-data'>
+                                <div className='dropdown-column-data description'>
                                     <span>action done</span>
-                                    <span>•</span>
+                                    <span className='dot'>•</span>
                                     <span>model</span>
                                 </div>
                             </div>
