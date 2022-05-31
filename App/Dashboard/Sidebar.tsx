@@ -20,7 +20,7 @@ const Sidebar: FC = () => {
                         </div>
 
                         {app.models.map((model, index) => (
-                            <div className='column description' key={index}>
+                            <div className='column title_smaller' key={index}>
                                 <div className='icon'>
                                     <img src={model.icon || default_icon} />
                                 </div>
