@@ -5,4 +5,11 @@
     box-shadow: -5px 8px 15px 6px #000;
 
     border-radius: 10px;
+
+    @media screen and (max-width: 1440px) {
+        width: 70%;
+    }
+    @media screen and (max-width: 1024px) {
+        width: 100%;
+    }
 }
