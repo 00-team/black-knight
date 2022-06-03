@@ -6,6 +6,14 @@
 
     border-radius: 10px;
 
+    &.no-section {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        font-family: 'Oleo Script', cursive;
+    }
+
     @media screen and (max-width: 1440px) {
         width: 70%;
     }
