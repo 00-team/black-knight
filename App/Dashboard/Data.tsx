@@ -1,5 +1,7 @@
 import React, { FC } from 'react'
 
+import SearchInput from 'comps/SearchInput'
+
 import './style/data.scss'
 
 interface DashboardDataProps {
@@ -34,7 +36,17 @@ const DashboardData: FC<DashboardDataProps> = ({ SectionActive }) => {
                     <span style={{ animationDelay: '8.5s' }}>l</span>
                 </div>
             )}
-            {SectionActive !== '' && <div className='dashboard-data'>data</div>}
+            {SectionActive !== '' && (
+                <div className='dashboard-data'>
+                    <div className='data-header'>
+                        <div className='search-container'>
+                            <SearchInput />
+                        </div>
+                        <div className='options-wrapper'></div>
+                    </div>
+                    <div className='data-wrapper'></div>
+                </div>
+            )}
         </>
     )
 }
