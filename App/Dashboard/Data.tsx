@@ -44,7 +44,10 @@ const DashboardData: FC<DashboardDataProps> = ({ SectionActive }) => {
                         </div>
                         <div className='options-wrapper'></div>
                     </div>
-                    <div className='data-wrapper'></div>
+                    <div className='data-wrapper'>
+                        <div className='add-wrapper'></div>
+                        <div className='filter-wrapper'></div>
+                    </div>
                 </div>
             )}
         </>
