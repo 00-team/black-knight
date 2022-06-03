@@ -12,6 +12,14 @@
         justify-content: center;
 
         font-family: 'Oleo Script', cursive;
+
+        .space {
+            margin: 0 4px;
+        }
+
+        span:not(.space) {
+            animation: selectSection 1s ease-in-out;
+        }
     }
 
     @media screen and (max-width: 1440px) {
@@ -19,5 +27,20 @@
     }
     @media screen and (max-width: 1024px) {
         width: 100%;
+    }
+}
+
+@keyframes selectSection {
+    0% {
+        transform: translateY(0);
+    }
+    33% {
+        transform: translateY(-30%);
+    }
+    66% {
+        transform: translateY(30%);
+    }
+    100% {
+        transform: translateY(0);
     }
 }
