@@ -3,13 +3,13 @@ import React, { FC } from 'react'
 import './style/data.scss'
 
 interface DashboardDataProps {
-    SectionActive: boolean
+    SectionActive: string
 }
 
 const DashboardData: FC<DashboardDataProps> = ({ SectionActive }) => {
     return (
         <>
-            {!SectionActive && (
+            {SectionActive === '' && (
                 <div className='dashboard-data no-section title'>
                     <span style={{ animationDelay: '0' }}>P</span>
                     <span style={{ animationDelay: '0.5s' }}>l</span>
@@ -34,7 +34,7 @@ const DashboardData: FC<DashboardDataProps> = ({ SectionActive }) => {
                     <span style={{ animationDelay: '8.5s' }}>l</span>
                 </div>
             )}
-            {SectionActive && <div className='dashboard-data'>data</div>}
+            {SectionActive !== '' && <div className='dashboard-data'>data</div>}
         </>
     )
 }
