@@ -7,7 +7,11 @@ import './style/sidebar.scss'
 
 import default_icon from 'static/icons/hexagon.svg'
 
-const Sidebar: FC = () => {
+interface SidebarProps {
+    setSectionActive: (isActivie: boolean) => void
+}
+
+const Sidebar: FC<SidebarProps> = ({ setSectionActive }) => {
     const [{ apps }] = useAtom(AdminAtom)
 
     return (
@@ -20,7 +24,11 @@ const Sidebar: FC = () => {
                         </div>
 
                         {app.models.map((model, index) => (
-                            <div className='column title_smaller' key={index}>
+                            <div
+                                className='column title_smaller'
+                                onClick={() => setSectionActive(true)}
+                                key={index}
+                            >
                                 <div className='right-side'>
                                     <div className='icon'>
                                         <img src={model.icon || default_icon} />
