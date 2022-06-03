@@ -26,7 +26,11 @@ enum HeaderSection {
 
 const SectionAtom = atom<HeaderSection>(HeaderSection.NONE)
 
-const Header: FC = () => {
+interface HeaderProps {
+    sectionActive: string
+}
+
+const Header: FC<HeaderProps> = ({ sectionActive }) => {
     const [Section, setSection] = useAtom(SectionAtom)
 
     const ChangeSection = (newSection: HeaderSection) => {
@@ -37,7 +41,9 @@ const Header: FC = () => {
 
     return (
         <div className='dashboard-header'>
-            <div className='active-section title_small'>--ACTIVE SECTION--</div>
+            <div className='active-section title_small'>
+                {sectionActive ? sectionActive : '--ACTIVE SECTION--'}
+            </div>
             <div className='user-section'>
                 <div className='user-section-wrapper'>
                     <div
