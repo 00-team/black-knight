@@ -13,7 +13,7 @@ const Dashboard: FC = () => {
     const [, UpdateUser] = useAtom(UserAtom)
     const [, UpdateAdmin] = useAtom(AdminAtom)
 
-    const [SectionActive, setSectionActive] = useState(false)
+    const [SectionActive, setSectionActive] = useState('')
 
     useEffect(() => {
         UpdateUser()
@@ -22,7 +22,7 @@ const Dashboard: FC = () => {
 
     return (
         <div className='dashboard-container'>
-            <Header />
+            <Header sectionActive={SectionActive} />
             <div className='dashboard-wrapper'>
                 <Sidebar setSectionActive={setSectionActive} />
                 <Data SectionActive={SectionActive} />
