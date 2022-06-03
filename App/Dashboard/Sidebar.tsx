@@ -8,7 +8,7 @@ import './style/sidebar.scss'
 import default_icon from 'static/icons/hexagon.svg'
 
 interface SidebarProps {
-    setSectionActive: (isActivie: boolean) => void
+    setSectionActive: (isActivie: string) => void
 }
 
 const Sidebar: FC<SidebarProps> = ({ setSectionActive }) => {
@@ -20,13 +20,17 @@ const Sidebar: FC<SidebarProps> = ({ setSectionActive }) => {
                 {apps.map((app, index) => (
                     <div className='sidebar-category-wrappper' key={index}>
                         <div className='category title_small'>
-                            <span>{app.name}</span>
+                            <span>
+                                {app.name.indexOf(' ') >= 0
+                                    ? app.name.split(' ')[0]?.concat('...')
+                                    : app.name}
+                            </span>
                         </div>
 
                         {app.models.map((model, index) => (
                             <div
                                 className='column title_smaller'
-                                onClick={() => setSectionActive(true)}
+                                onClick={() => setSectionActive(model.name)}
                                 key={index}
                             >
                                 <div className='right-side'>
