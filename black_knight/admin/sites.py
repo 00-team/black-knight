@@ -88,26 +88,32 @@ class AdminSite(admin.AdminSite):
 
         return update_wrapper(inner, view)
 
-    def get_urls(self):
-        from django.urls import include, path, re_path
+    def url_wrap(self, view, json=True, cacheable=False):
+        def wrapper(*args, **kwargs):
+            return self.admin_view(view, json, cacheable)(*args, **kwargs)
 
-        def wrap(view, json=True, cacheable=False):
-            def wrapper(*args, **kwargs):
-                return self.admin_view(view, json, cacheable)(*args, **kwargs)
+        return update_wrapper(wrapper, view)
 
-            # wrapper.admin_site = self
-            return update_wrapper(wrapper, view)
+    def get_api_urls(self):
+        from django.urls import path
 
         api_urls = [
-            path('user/', wrap(self.api_user), name='user'),
-            path('index/', wrap(self.api_index), name='index'),
+            path('user/', self.url_wrap(self.api_user), name='user'),
+            path('index/', self.url_wrap(self.api_index), name='index'),
             path('login/', self.api_login, name='login'),
             path('log/', self.api_log, name='log'),
-            path('logout/', wrap(self.api_logout), name='logout'),
+            path('logout/', self.url_wrap(self.api_logout), name='logout'),
         ]
 
+        return api_urls
+
+    def get_urls(self):
+        from django.urls import include, path
+
+        api_urls = self.get_api_urls()
+
         urlpatterns = [
-            path('', wrap(self.index, json=False), name='index'),
+            path('', self.url_wrap(self.index, json=False), name='index'),
             path('api/', include((api_urls, self.name), namespace='api')),
             path('login/', self.index, name='login')
         ]
