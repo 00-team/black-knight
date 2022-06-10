@@ -8,7 +8,6 @@ from black_knight.admin.utils import E, get_data
 from django.apps import apps
 from django.conf import settings
 from django.contrib import admin
-# from django.contrib.admin.models import LogEntry
 from django.contrib.auth import authenticate
 from django.contrib.auth import login as auth_login
 from django.contrib.auth import logout as auth_logout
@@ -265,16 +264,25 @@ class AdminSite(admin.AdminSite):
 
     def api_log(self, request: HttpRequest):
         try:
-            '''
-            for log in LogEntry.objects.all():
-                print(f'{log.action_time=}')
-                print(f'{log.user=} - {log.content_type=}')
-                print(f'{log.object_repr=} - {log.object_id=}')
-                print(f'{log.action_flag=} - {log.change_message=}')
-            '''
+            from django.contrib.admin.models import LogEntry
 
-            # TODO: Making the log api
-            return JsonResponse({'log': 'get the admin log here!'})
+            def get_date(datetime):
+                return datetime.strftime('%Y-%m-%d %H:%M:%S')
+
+            def GL(log: LogEntry):
+                return {
+                    'user': str(log.user),
+                    'flag': log.action_flag,
+                    'time': get_date(log.action_time),
+                    'message': log.get_change_message(),
+                    'repr': log.object_repr,
+                    'url': None,
+                    'content_type': log.content_type.name
+                }
+
+            logs = list(map(GL, LogEntry.objects.all()[:3]))
+
+            return JsonResponse({'logs': logs})
         except E as e:
             return e.response
 
