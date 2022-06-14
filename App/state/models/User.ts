@@ -8,7 +8,8 @@ interface UserModel {
 
 const DefaultUser: UserModel = {
     username: 'Anonymous',
-    avatar: '',
+    // default avatar (temporary)
+    avatar: 'data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==',
     email: '',
     first_name: '',
     last_name: '',

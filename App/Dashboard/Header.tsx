@@ -16,8 +16,6 @@ import { LogoutButton } from 'comps/buttons'
 
 import './style/header.scss'
 
-import default_img from 'static/imgs/default_male.png'
-
 enum HeaderSection {
     PROFILE = 'PROFILE',
     RECENT = 'RECENT',
@@ -32,6 +30,7 @@ interface HeaderProps {
 
 const Header: FC<HeaderProps> = ({ sectionActive }) => {
     const [Section, setSection] = useAtom(SectionAtom)
+    const [user] = useAtom(UserAtom)
 
     const ChangeSection = (newSection: HeaderSection) => {
         if (newSection === Section) return setSection(HeaderSection.NONE)
@@ -56,7 +55,7 @@ const Header: FC<HeaderProps> = ({ sectionActive }) => {
                         className='avatar'
                         onClick={() => ChangeSection(HeaderSection.PROFILE)}
                     >
-                        <img src={default_img} alt='admin avatar' />
+                        <img src={user.avatar} alt='admin avatar' />
                     </div>
                 </div>
 
@@ -152,7 +151,8 @@ const DropDown: FC = () => {
                                         <BsPlus fill='#00dc7d' size={24} />
                                     </div>
                                     <div className='holder'>Added</div>
-                                </div>{' '}
+                                </div>
+
                                 <div className='dropdown-column-data description'>
                                     <span>action done</span>
                                     <span className='dot'>•</span>
@@ -165,7 +165,8 @@ const DropDown: FC = () => {
                                         <MdDelete fill='#e20338' size={24} />
                                     </div>
                                     <div className='holder'>Deleted</div>
-                                </div>{' '}
+                                </div>
+
                                 <div className='dropdown-column-data description'>
                                     <span>action done</span>
                                     <span className='dot'>•</span>
