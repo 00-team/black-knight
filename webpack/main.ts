@@ -1,8 +1,7 @@
+import TsPaths from 'tsconfig-paths-webpack-plugin'
 import { Configuration } from 'webpack'
 
-// entries
 import Entries from './config/entries'
-// path
 import { APP_DIR, DIST_DIR, resolve } from './config/path'
 
 // plugins
@@ -35,12 +34,9 @@ const Main: Configuration = {
     plugins: [],
     resolve: {
         extensions: ['.mjs', '.tsx', '.ts', '.js'],
-        alias: {
-            state: resolve(APP_DIR, 'state'),
-            components: resolve(APP_DIR, 'components'),
-            comps: resolve(APP_DIR, 'components'),
-            static: resolve(APP_DIR, 'static'),
-        },
+        plugins: [
+            new TsPaths({ configFile: resolve(APP_DIR, 'tsconfig.json') }),
+        ],
     },
 }
 
