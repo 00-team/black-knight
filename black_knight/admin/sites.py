@@ -243,7 +243,7 @@ class AdminSite(admin.AdminSite):
                     'content_type': log.content_type.name
                 }
 
-            logs = list(map(GL, LogEntry.objects.all()[:3]))
+            logs = list(map(GL, LogEntry.objects.all()))
 
             return JsonResponse({'logs': logs})
         except E as e:
