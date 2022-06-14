@@ -1,18 +1,17 @@
-import React, { FC, useRef, useState } from 'react'
+import React, { FC, useEffect, useRef, useState } from 'react'
 
 import { C } from '@00-team/utils'
 
-import { BsPlus } from '@react-icons/all-files/bs/BsPlus'
 import { GiSoundWaves } from '@react-icons/all-files/gi/GiSoundWaves'
-import { MdDelete } from '@react-icons/all-files/md/MdDelete'
-import { MdModeEdit } from '@react-icons/all-files/md/MdModeEdit'
 import { RiLockPasswordLine } from '@react-icons/all-files/ri/RiLockPasswordLine'
 import { VscGlobe } from '@react-icons/all-files/vsc/VscGlobe'
 
 import { useAtom } from 'jotai'
-import { UserAtom } from 'state'
+import { LogAtom, UserAtom } from 'state'
 
 import { LogoutButton } from 'comps/buttons'
+
+import Log from './Log'
 
 import './style/header.scss'
 
@@ -84,6 +83,7 @@ const Header: FC<HeaderProps> = ({ sectionActive }) => {
 
 const DropDown: FC<{ Section: HeaderSection }> = ({ Section }) => {
     const [user] = useAtom(UserAtom)
+    const [logs, UpdateLogs] = useAtom(LogAtom)
 
     const WrapperClass = () => {
         switch (Section) {
@@ -95,6 +95,13 @@ const DropDown: FC<{ Section: HeaderSection }> = ({ Section }) => {
                 return ''
         }
     }
+
+    useEffect(() => {
+        // update the logs every time user open the dropdown
+        if (Section === HeaderSection.RECENT) {
+            UpdateLogs()
+        }
+    }, [Section])
 
     return (
         <div
@@ -148,47 +155,10 @@ const DropDown: FC<{ Section: HeaderSection }> = ({ Section }) => {
                             <div className='dropdown-header title_smaller recent'>
                                 Recent Actions
                             </div>
-                            <div className='dropdown-column-wrapper edit'>
-                                <div className='dropdown-column-header title_smaller '>
-                                    <div className='icon'>
-                                        <MdModeEdit fill='#efb80b' size={20} />
-                                    </div>
-                                    <div className='holder'>Edited</div>
-                                </div>
-                                <div className='dropdown-column-data description'>
-                                    <span>action done</span>
-                                    <span className='dot'>•</span>
-                                    <span>model</span>
-                                </div>
-                            </div>
-                            <div className='dropdown-column-wrapper add'>
-                                <div className='dropdown-column-header title_smaller '>
-                                    <div className='icon'>
-                                        <BsPlus fill='#00dc7d' size={24} />
-                                    </div>
-                                    <div className='holder'>Added</div>
-                                </div>
 
-                                <div className='dropdown-column-data description'>
-                                    <span>action done</span>
-                                    <span className='dot'>•</span>
-                                    <span>model</span>
-                                </div>
-                            </div>
-                            <div className='dropdown-column-wrapper delete'>
-                                <div className='dropdown-column-header title_smaller'>
-                                    <div className='icon'>
-                                        <MdDelete fill='#e20338' size={24} />
-                                    </div>
-                                    <div className='holder'>Deleted</div>
-                                </div>
-
-                                <div className='dropdown-column-data description'>
-                                    <span>action done</span>
-                                    <span className='dot'>•</span>
-                                    <span>model</span>
-                                </div>
-                            </div>
+                            {logs.map((log, index) => (
+                                <Log key={index} {...log} />
+                            ))}
                         </div>
                     </div>
                 </div>
