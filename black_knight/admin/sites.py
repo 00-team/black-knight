@@ -99,8 +99,8 @@ class AdminSite(admin.AdminSite):
         api_urls = [
             path('user/', self.url_wrap(self.api_user), name='user'),
             path('index/', self.url_wrap(self.api_index), name='index'),
-            path('login/', self.api_login, name='login'),
             path('log/', self.api_log, name='log'),
+            path('login/', self.api_login, name='login'),
             path('logout/', self.url_wrap(self.api_logout), name='logout'),
         ]
 
@@ -156,31 +156,6 @@ class AdminSite(admin.AdminSite):
 
         # return urlpatterns
 
-    def get_user_avatar(self, user: Any) -> str:
-        try:
-            if self.user_avatar is None:
-                return self.default_avatar
-
-            if isinstance(self.user_avatar, str):
-                return self.user_avatar
-
-            if isinstance(self.user_avatar, Iterable):
-                obj = user
-
-                for attr in self.user_avatar:
-                    obj = getattr(obj, attr)
-
-                return obj
-
-            if callable(self.user_avatar):
-                return self.user_avatar(user)
-
-        except Exception as e:
-            # TODO: warn the exception or logit properly!
-            print(e)
-
-        return self.default_avatar
-
     @property
     def urls(self):
         return self.get_urls(), 'black_knight', self.name
@@ -235,6 +210,31 @@ class AdminSite(admin.AdminSite):
                 }
 
         return app_dict
+
+    def get_user_avatar(self, user: Any) -> str:
+        try:
+            if self.user_avatar is None:
+                return self.default_avatar
+
+            if isinstance(self.user_avatar, str):
+                return self.user_avatar
+
+            if isinstance(self.user_avatar, Iterable):
+                obj = user
+
+                for attr in self.user_avatar:
+                    obj = getattr(obj, attr)
+
+                return obj
+
+            if callable(self.user_avatar):
+                return self.user_avatar(user)
+
+        except Exception as e:
+            # TODO: warn the exception or logit properly!
+            print(e)
+
+        return self.default_avatar
 
     def index(self, request: HttpRequest):
         context = {'base_url': self.base_url}
