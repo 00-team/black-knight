@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import React, { FC, useRef, useState } from 'react'
 
 import { C } from '@00-team/utils'
 
@@ -9,7 +9,7 @@ import { MdModeEdit } from '@react-icons/all-files/md/MdModeEdit'
 import { RiLockPasswordLine } from '@react-icons/all-files/ri/RiLockPasswordLine'
 import { VscGlobe } from '@react-icons/all-files/vsc/VscGlobe'
 
-import { useAtom, atom } from 'jotai'
+import { useAtom } from 'jotai'
 import { UserAtom } from 'state'
 
 import { LogoutButton } from 'comps/buttons'
@@ -22,20 +22,37 @@ enum HeaderSection {
     NONE = 'NONE',
 }
 
-const SectionAtom = atom<HeaderSection>(HeaderSection.NONE)
-
 interface HeaderProps {
     sectionActive: string
 }
 
 const Header: FC<HeaderProps> = ({ sectionActive }) => {
-    const [Section, setSection] = useAtom(SectionAtom)
+    const [Section, setSection] = useState<HeaderSection>(HeaderSection.NONE)
+    const UserSection = useRef<HTMLDivElement>(null)
+
     const [user] = useAtom(UserAtom)
 
     const ChangeSection = (newSection: HeaderSection) => {
         if (newSection === Section) return setSection(HeaderSection.NONE)
 
+        if (Section === HeaderSection.NONE)
+            document.addEventListener('click', CloseDropDown)
+
         return setSection(newSection)
+    }
+
+    function CloseDropDown(e: MouseEvent) {
+        setSection(section => {
+            if (section === HeaderSection.NONE) return section
+            if (!UserSection.current) return section
+            if (!(e.target instanceof Node)) return section
+            if (!e.target.isConnected) return section
+
+            if (UserSection.current.contains(e.target)) return section
+
+            document.removeEventListener('click', CloseDropDown)
+            return HeaderSection.NONE
+        })
     }
 
     return (
@@ -43,7 +60,7 @@ const Header: FC<HeaderProps> = ({ sectionActive }) => {
             <div className='active-section title_small'>
                 {sectionActive ? sectionActive : '--ACTIVE SECTION--'}
             </div>
-            <div className='user-section'>
+            <div className='user-section' ref={UserSection}>
                 <div className='user-section-wrapper'>
                     <div
                         className='recent-actions'
@@ -59,14 +76,13 @@ const Header: FC<HeaderProps> = ({ sectionActive }) => {
                     </div>
                 </div>
 
-                <DropDown />
+                <DropDown Section={Section} />
             </div>
         </div>
     )
 }
 
-const DropDown: FC = () => {
-    const [Section] = useAtom(SectionAtom)
+const DropDown: FC<{ Section: HeaderSection }> = ({ Section }) => {
     const [user] = useAtom(UserAtom)
 
     const WrapperClass = () => {
