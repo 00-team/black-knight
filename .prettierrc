@@ -23,6 +23,7 @@
         "^@react-icons",
         "<THIRD_PARTY_MODULES>",
         "^(state|jotai)",
+        "(Login|Dashboard)",
         "(/?comps/|/?components/)",
         "\\./(?!style)",
         "/style/",
