@@ -20,11 +20,7 @@ const Sidebar: FC<SidebarProps> = ({ setSectionActive }) => {
                 {apps.map((app, index) => (
                     <div className='sidebar-category-wrappper' key={index}>
                         <div className='category title_small'>
-                            <span>
-                                {app.name.indexOf(' ') >= 0
-                                    ? app.name.split(' ')[0]?.concat('...')
-                                    : app.name}
-                            </span>
+                            <span>{AppName(app.name)}</span>
                         </div>
 
                         {app.models.map((model, index) => (
@@ -50,6 +46,12 @@ const Sidebar: FC<SidebarProps> = ({ setSectionActive }) => {
             </div>
         </div>
     )
+}
+
+const AppName = (s: string) => {
+    let ls = s.split(' ')
+    if (ls.length > 1) return ls[0] + ' ...'
+    return s
 }
 
 export default Sidebar
