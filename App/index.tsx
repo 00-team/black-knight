@@ -7,7 +7,7 @@ import App from './App'
 
 const Root: FC = () => {
     return (
-        <Router basename='/admin'>
+        <Router basename={BASE_URL}>
             <App />
         </Router>
     )
