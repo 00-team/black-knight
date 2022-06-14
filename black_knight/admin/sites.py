@@ -119,43 +119,6 @@ class AdminSite(admin.AdminSite):
 
         return urlpatterns
 
-        # Admin-site-wide views.
-
-        # urlpatterns = [
-        #     path(
-        #         'password_change/',
-        #         wrap(self.password_change, cacheable=True),
-        #         name='password_change',
-        #     ),
-        # ]
-
-        # # Add in each model's views, and create a list of valid URLS for the
-        # # app_index
-        # valid_app_labels = []
-        # for model, model_admin in self._registry.items():
-        #     urlpatterns += [
-        #         path(
-        #             '%s/%s/' % (model._meta.app_label, model._meta.model_name),
-        #             include(model_admin.urls),
-        #         ),
-        #     ]
-        #     if model._meta.app_label not in valid_app_labels:
-        #         valid_app_labels.append(model._meta.app_label)
-
-        # # If there were ModelAdmins registered, we should have a list of app
-        # # labels for which we need to allow access to the app_index view,
-        # if valid_app_labels:
-        #     regex = r'^(?P<app_label>' + '|'.join(valid_app_labels) + ')/$'
-        #     urlpatterns += [
-        #         re_path(regex, wrap(self.app_index), name='app_list'),
-        #     ]
-
-        # if self.final_catch_all_view:
-        #     urlpatterns.append(
-        #         re_path(r'(?P<url>.*)$', wrap(self.catch_all_view)))
-
-        # return urlpatterns
-
     @property
     def urls(self):
         return self.get_urls(), 'black_knight', self.name
