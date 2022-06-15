@@ -6,6 +6,8 @@ import { GiSoundWaves } from '@react-icons/all-files/gi/GiSoundWaves'
 import { RiLockPasswordLine } from '@react-icons/all-files/ri/RiLockPasswordLine'
 import { VscGlobe } from '@react-icons/all-files/vsc/VscGlobe'
 
+import { useParams } from 'react-router-dom'
+
 import { useAtom } from 'jotai'
 import { LogAtom, UserAtom } from 'state'
 
@@ -22,6 +24,7 @@ enum HeaderSection {
 }
 
 const Header: FC = () => {
+    const { app_label, model_name } = useParams()
     const [Section, setSection] = useState<HeaderSection>(HeaderSection.NONE)
     const UserSection = useRef<HTMLDivElement>(null)
 
@@ -52,7 +55,15 @@ const Header: FC = () => {
 
     return (
         <div className='dashboard-header'>
-            <div className='active-section title_small'>--ACTIVE SECTION--</div>
+            <div className='active-section title_small'>
+                {app_label ? (
+                    <>
+                        {app_label} / {model_name}
+                    </>
+                ) : (
+                    '--GG--'
+                )}
+            </div>
             <div className='user-section' ref={UserSection}>
                 <div className='user-section-wrapper'>
                     <div
