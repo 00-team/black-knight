@@ -99,7 +99,7 @@ class AdminSite(admin.AdminSite):
         api_urls = [
             path('user/', self.url_wrap(self.api_user), name='user'),
             path('index/', self.url_wrap(self.api_index), name='index'),
-            path('log/', self.api_log, name='log'),
+            path('log/', self.url_wrap(self.api_log), name='log'),
             path('login/', self.api_login, name='login'),
             path('logout/', self.url_wrap(self.api_logout), name='logout'),
         ]
@@ -114,7 +114,11 @@ class AdminSite(admin.AdminSite):
         urlpatterns = [
             path('', self.url_wrap(self.index, json=False), name='index'),
             path('api/', include((api_urls, self.name), namespace='api')),
-            path('login/', self.index, name='login')
+            path('login/', self.index, name='login'),
+            path(
+                '<str:app_label>/<str:model_name>/',
+                self.url_wrap(self.index)
+            )
         ]
 
         return urlpatterns
@@ -157,7 +161,8 @@ class AdminSite(admin.AdminSite):
             # info = (app_label, model._meta.model_name)
 
             model_dict = {
-                'name': capfirst(model._meta.verbose_name_plural),
+                'name': model._meta.model_name,
+                'plural_name': capfirst(model._meta.verbose_name_plural),
                 'object_name': model._meta.object_name,
                 'icon': model_admin.icon,
                 'perms': perms,
@@ -199,7 +204,7 @@ class AdminSite(admin.AdminSite):
 
         return self.default_avatar
 
-    def index(self, request: HttpRequest):
+    def index(self, request: HttpRequest, **kwargs):
         context = {'base_url': self.base_url}
         return render(request, self.template, context)
 
