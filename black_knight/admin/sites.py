@@ -1,3 +1,4 @@
+import re
 from collections.abc import Iterable
 from functools import update_wrapper
 from typing import Any, Callable
@@ -8,9 +9,11 @@ from black_knight.admin.utils import E, get_data
 from django.apps import apps
 from django.conf import settings
 from django.contrib import admin
+from django.contrib.admin.sites import AlreadyRegistered
 from django.contrib.auth import authenticate
 from django.contrib.auth import login as auth_login
 from django.contrib.auth import logout as auth_logout
+from django.core.exceptions import ImproperlyConfigured
 from django.db.models.base import ModelBase
 from django.http import HttpRequest, JsonResponse
 from django.middleware.csrf import get_token
@@ -28,6 +31,7 @@ class AdminSite(admin.AdminSite):
     template = 'black-knight.html'
     default_avatar = settings.STATIC_URL + 'black_knight/default_avatar.jpg'
     user_avatar: str | Iterable[str] | Callable[['AdminSite', Any], str] = None
+    registered_apps = {}
 
     def __init__(self, name='black_knight'):
         return super().__init__(name)
@@ -58,7 +62,40 @@ class AdminSite(admin.AdminSite):
                 'most be a sub class of black_knight.admin.ModelAdmin'
             ))
 
-        return super().register(models, admin_class=admin_class, **options)
+        for model in models:
+            if model._meta.abstract:
+                raise ImproperlyConfigured(
+                    "The model %s is abstract, so it cannot be registered with admin."
+                    % model.__name__
+                )
+
+            if model in self._registry:
+                registered_admin = str(self._registry[model])
+                msg = "The model %s is already registered " % model.__name__
+
+                if registered_admin.endswith(".ModelAdmin"):
+                    # Most likely registered without a ModelAdmin subclass.
+                    msg += "in app %r." % re.sub(
+                        r"\.ModelAdmin$", "", registered_admin
+                    )
+                else:
+                    msg += "with %r." % registered_admin
+
+                raise AlreadyRegistered(msg)
+
+            if not model._meta.swapped:
+                app_label = model._meta.app_label
+                model_name = model._meta.model_name
+
+                if not app_label in self.registered_apps:
+                    self.registered_apps[app_label] = {}
+
+                self.registered_apps[app_label][model_name] = (
+                    model,
+                    admin_class(model, self)
+                )
+
+                self._registry[model] = admin_class(model, self)
 
     def admin_view(self, view, json, cacheable=False):
 
@@ -102,6 +139,7 @@ class AdminSite(admin.AdminSite):
             path('log/', self.url_wrap(self.api_log), name='log'),
             path('login/', self.api_login, name='login'),
             path('logout/', self.url_wrap(self.api_logout), name='logout'),
+            path('model_list/', self.url_wrap(self.api_model_list), name='model_list')
         ]
 
         return api_urls
@@ -251,6 +289,30 @@ class AdminSite(admin.AdminSite):
             logs = list(map(GL, LogEntry.objects.all()[:3]))
 
             return JsonResponse({'logs': logs})
+        except E as e:
+            return e.response
+
+    def api_model_list(self, request: HttpRequest):
+        try:
+            data = get_data(request)
+            app_label = data.get('app_label')
+            model_name = data.get('model_name')
+
+            if not app_label or not model_name:
+                raise E
+
+            if not app_label in self.registered_apps:
+                raise E('app_label not found')
+
+            if not model_name in self.registered_apps[app_label]:
+                raise E('model_name not found')
+
+            model, _ = self.registered_apps[app_label][model_name]
+
+            def GI(instance) -> str:
+                return str(instance)
+
+            return JsonResponse({'instances': list(map(GI, model.objects.all()))})
         except E as e:
             return e.response
 
