@@ -1,8 +1,11 @@
-interface PermsModel {
-    add: boolean
-    change: boolean
-    delete: boolean
-    view: boolean
+interface AdminModel {
+    apps: AppModel[]
+}
+
+interface AppModel {
+    name: string
+    app_label: string
+    models: AppModelModel[]
 }
 
 interface AppModelModel {
@@ -12,14 +15,11 @@ interface AppModelModel {
     perms: PermsModel
 }
 
-interface AppModel {
-    name: string
-    app_label: string
-    models: AppModelModel[]
-}
-
-interface AdminModel {
-    apps: AppModel[]
+interface PermsModel {
+    add: boolean
+    change: boolean
+    delete: boolean
+    view: boolean
 }
 
 export { AdminModel, AppModel, AppModelModel, PermsModel }
