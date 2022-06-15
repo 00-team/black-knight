@@ -2,17 +2,17 @@ import React, { FC } from 'react'
 
 import SearchInput from 'comps/SearchInput'
 
-import './style/data.scss'
+import './style/maniac.scss'
 
-interface DashboardDataProps {
+interface ManiacProps {
     SectionActive: string
 }
 
-const DashboardData: FC<DashboardDataProps> = ({ SectionActive }) => {
+const Maniac: FC<ManiacProps> = ({ SectionActive }) => {
     return (
         <>
             {SectionActive === '' && (
-                <div className='dashboard-data no-section title'>
+                <div className='maniac no-section title'>
                     <span style={{ animationDelay: '0' }}>P</span>
                     <span style={{ animationDelay: '0.5s' }}>l</span>
                     <span style={{ animationDelay: '1s' }}>e</span>
@@ -37,7 +37,7 @@ const DashboardData: FC<DashboardDataProps> = ({ SectionActive }) => {
                 </div>
             )}
             {SectionActive !== '' && (
-                <div className='dashboard-data'>
+                <div className='maniac'>
                     <div className='data-header'>
                         <div className='search-container'>
                             <SearchInput />
@@ -54,4 +54,4 @@ const DashboardData: FC<DashboardDataProps> = ({ SectionActive }) => {
     )
 }
 
-export default DashboardData
+export default Maniac
