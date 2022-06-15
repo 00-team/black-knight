@@ -1,5 +1,7 @@
 import React, { FC } from 'react'
 
+import { Link } from 'react-router-dom'
+
 import { useAtom } from 'jotai'
 import { AdminAtom } from 'state'
 
@@ -7,11 +9,7 @@ import './style/sidebar.scss'
 
 import default_icon from 'static/icons/hexagon.svg'
 
-interface SidebarProps {
-    setSectionActive: (isActivie: string) => void
-}
-
-const Sidebar: FC<SidebarProps> = ({ setSectionActive }) => {
+const Sidebar: FC = () => {
     const [{ apps }] = useAtom(AdminAtom)
 
     return (
@@ -24,22 +22,24 @@ const Sidebar: FC<SidebarProps> = ({ setSectionActive }) => {
                         </div>
 
                         {app.models.map((model, index) => (
-                            <div
+                            <Link
+                                to={`${app.app_label}/${model.name}/`}
                                 className='column title_smaller'
-                                onClick={() => setSectionActive(model.name)}
                                 key={index}
                             >
                                 <div className='right-side'>
                                     <div className='icon'>
                                         <img src={model.icon || default_icon} />
                                     </div>
-                                    <div className='holder'>{model.name}</div>
+                                    <div className='holder'>
+                                        {model.plural_name}
+                                    </div>
                                 </div>
                                 <div className='left-side'>
                                     <AddSvg />
                                     <DeleteSvg />
                                 </div>
-                            </div>
+                            </Link>
                         ))}
                     </div>
                 ))}

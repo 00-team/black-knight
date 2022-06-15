@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from 'react'
+import React, { FC, useEffect } from 'react'
 
 import { useAtom } from 'jotai'
 import { AdminAtom, UserAtom } from 'state'
@@ -13,8 +13,6 @@ const Dashboard: FC = () => {
     const [, UpdateUser] = useAtom(UserAtom)
     const [, UpdateAdmin] = useAtom(AdminAtom)
 
-    const [SectionActive, setSectionActive] = useState('')
-
     useEffect(() => {
         UpdateUser()
         UpdateAdmin()
@@ -22,10 +20,10 @@ const Dashboard: FC = () => {
 
     return (
         <div className='dashboard-container'>
-            <Header sectionActive={SectionActive} />
+            <Header />
             <div className='dashboard-wrapper'>
-                <Sidebar setSectionActive={setSectionActive} />
-                <Maniac SectionActive={SectionActive} />
+                <Sidebar />
+                <Maniac />
             </div>
         </div>
     )

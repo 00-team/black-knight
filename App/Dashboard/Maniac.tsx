@@ -4,14 +4,10 @@ import SearchInput from 'comps/SearchInput'
 
 import './style/maniac.scss'
 
-interface ManiacProps {
-    SectionActive: string
-}
-
-const Maniac: FC<ManiacProps> = ({ SectionActive }) => {
+const Maniac: FC = () => {
     return (
         <>
-            {SectionActive === '' && (
+            {/* {SectionActive === '' && (
                 <div className='maniac no-section title'>
                     <span style={{ animationDelay: '0' }}>P</span>
                     <span style={{ animationDelay: '0.5s' }}>l</span>
@@ -35,21 +31,20 @@ const Maniac: FC<ManiacProps> = ({ SectionActive }) => {
                     <span style={{ animationDelay: '8s' }}>e</span>
                     <span style={{ animationDelay: '8.5s' }}>l</span>
                 </div>
-            )}
-            {SectionActive !== '' && (
-                <div className='maniac'>
-                    <div className='data-header'>
-                        <div className='search-container'>
-                            <SearchInput />
-                        </div>
-                        <div className='options-wrapper'></div>
+            )} */}
+
+            <div className='maniac'>
+                <div className='data-header'>
+                    <div className='search-container'>
+                        <SearchInput />
                     </div>
-                    <div className='data-wrapper'>
-                        <div className='add-wrapper'></div>
-                        <div className='filter-wrapper'></div>
-                    </div>
+                    <div className='options-wrapper'></div>
                 </div>
-            )}
+                <div className='data-wrapper'>
+                    <div className='add-wrapper'></div>
+                    <div className='filter-wrapper'></div>
+                </div>
+            </div>
         </>
     )
 }

@@ -21,11 +21,7 @@ enum HeaderSection {
     NONE = 'NONE',
 }
 
-interface HeaderProps {
-    sectionActive: string
-}
-
-const Header: FC<HeaderProps> = ({ sectionActive }) => {
+const Header: FC = () => {
     const [Section, setSection] = useState<HeaderSection>(HeaderSection.NONE)
     const UserSection = useRef<HTMLDivElement>(null)
 
@@ -56,9 +52,7 @@ const Header: FC<HeaderProps> = ({ sectionActive }) => {
 
     return (
         <div className='dashboard-header'>
-            <div className='active-section title_small'>
-                {sectionActive ? sectionActive : '--ACTIVE SECTION--'}
-            </div>
+            <div className='active-section title_small'>--ACTIVE SECTION--</div>
             <div className='user-section' ref={UserSection}>
                 <div className='user-section-wrapper'>
                     <div
