@@ -11,6 +11,7 @@ interface AppModel {
 interface AppModelModel {
     name: string
     object_name: string
+    plural_name: string
     icon: string | null
     perms: PermsModel
 }
