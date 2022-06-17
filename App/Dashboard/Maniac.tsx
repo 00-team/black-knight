@@ -3,7 +3,7 @@ import React, { FC, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 
 import { useAtom } from 'jotai'
-import { ManiacAtom } from 'state/atoms/temporary-maniac'
+import { ManiacListAtom } from 'state/atoms'
 
 import SearchInput from 'comps/SearchInput'
 
@@ -11,7 +11,7 @@ import './style/maniac.scss'
 
 const Maniac: FC = () => {
     const { app_label, model_name } = useParams()
-    const [data, UpdateData] = useAtom(ManiacAtom)
+    const [data, UpdateData] = useAtom(ManiacListAtom)
 
     useEffect(() => {
         if (app_label && model_name) UpdateData({ app_label, model_name })
@@ -60,11 +60,26 @@ const Maniac: FC = () => {
                     <div className='add-wrapper'></div>
                     <div className='filter-wrapper'></div>
 
-                    <ul>
-                        {data.map((label, index) => (
-                            <li key={index}>{label}</li>
-                        ))}
-                    </ul>
+                    <table>
+                        <thead>
+                            <tr>
+                                {data.instance_labels.map((label, index) => (
+                                    <th key={index}>{label}</th>
+                                ))}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {data.instances.map((instance, index) => (
+                                <tr key={index}>
+                                    {instance.map((label, idx) => (
+                                        <td key={idx}>{label}</td>
+                                    ))}
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+
+                    <ul></ul>
                 </div>
             </div>
         </>
