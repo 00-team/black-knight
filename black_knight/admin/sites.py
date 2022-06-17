@@ -139,7 +139,11 @@ class AdminSite(admin.AdminSite):
             path('log/', self.url_wrap(self.api_log), name='log'),
             path('login/', self.api_login, name='login'),
             path('logout/', self.url_wrap(self.api_logout), name='logout'),
-            path('model_list/', self.url_wrap(self.api_model_list), name='model_list')
+            path(
+                'model_list/',
+                self.url_wrap(self.api_maniac_list),
+                name='maniac_list'
+            )
         ]
 
         return api_urls
@@ -292,7 +296,7 @@ class AdminSite(admin.AdminSite):
         except E as e:
             return e.response
 
-    def api_model_list(self, request: HttpRequest):
+    def api_maniac_list(self, request: HttpRequest):
         try:
             data = get_data(request)
             app_label = data.get('app_label')
@@ -307,12 +311,10 @@ class AdminSite(admin.AdminSite):
             if not model_name in self.registered_apps[app_label]:
                 raise E('model_name not found')
 
-            model, _ = self.registered_apps[app_label][model_name]
+            _, model_admin = self.registered_apps[app_label][model_name]
 
-            def GI(instance) -> str:
-                return str(instance)
+            return model_admin.maniac_list(request)
 
-            return JsonResponse({'instances': list(map(GI, model.objects.all()))})
         except E as e:
             return e.response
 
