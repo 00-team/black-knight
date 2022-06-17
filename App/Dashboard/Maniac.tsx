@@ -5,21 +5,20 @@ import { useParams } from 'react-router-dom'
 import { useAtom } from 'jotai'
 import { ManiacListAtom } from 'state/atoms'
 
-import SearchInput from 'comps/SearchInput'
-
+// import SearchInput from 'comps/SearchInput'
 import './style/maniac.scss'
 
 const Maniac: FC = () => {
     const { app_label, model_name } = useParams()
-    const [data, UpdateData] = useAtom(ManiacListAtom)
+    const [ManiacList, UpdateManiacList] = useAtom(ManiacListAtom)
 
     useEffect(() => {
-        if (app_label && model_name) UpdateData({ app_label, model_name })
+        if (app_label && model_name) UpdateManiacList({ app_label, model_name })
     }, [app_label, model_name])
 
-    useEffect(() => {
-        console.log(data)
-    }, [data])
+    // useEffect(() => {
+    //     console.log(ManiacList)
+    // }, [ManiacList])
 
     return (
         <>
@@ -50,26 +49,33 @@ const Maniac: FC = () => {
             )} */}
 
             <div className='maniac'>
-                <div className='data-header'>
+                {/* no need for search bar for now */}
+                {/* <div className='data-header'>
                     <div className='search-container'>
                         <SearchInput />
                     </div>
                     <div className='options-wrapper'></div>
-                </div>
+                </div> */}
+
                 <div className='data-wrapper'>
                     <div className='add-wrapper'></div>
-                    <div className='filter-wrapper'></div>
 
+                    {/* no need for filter for now */}
+                    {/* <div className='filter-wrapper'></div> */}
+
+                    {/* make a new component for rendering the list */}
                     <table>
                         <thead>
                             <tr>
-                                {data.instance_labels.map((label, index) => (
-                                    <th key={index}>{label}</th>
-                                ))}
+                                {ManiacList.instance_labels.map(
+                                    (label, index) => (
+                                        <th key={index}>{label}</th>
+                                    )
+                                )}
                             </tr>
                         </thead>
                         <tbody>
-                            {data.instances.map((instance, index) => (
+                            {ManiacList.instances.map((instance, index) => (
                                 <tr key={index}>
                                     {instance.map((label, idx) => (
                                         <td key={idx}>{label}</td>
@@ -78,8 +84,6 @@ const Maniac: FC = () => {
                             ))}
                         </tbody>
                     </table>
-
-                    <ul></ul>
                 </div>
             </div>
         </>
