@@ -1,0 +1,26 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Backend",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}\\demo\\manage.py",
+            "args": ["runserver", "7000"],
+            "django": true,
+            "justMyCode": true
+        },
+        {
+            "command": "npm run dev",
+            "name": "Django React",
+            "request": "launch",
+            "type": "node-terminal"
+        },
+        {
+            "command": "npm start",
+            "name": "Frontend",
+            "request": "launch",
+            "type": "node-terminal"
+        }
+    ]
+}
