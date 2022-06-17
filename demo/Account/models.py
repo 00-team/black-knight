@@ -8,4 +8,4 @@ class Account(models.Model):
     photo = models.ImageField(upload_to='Account/photo/')
 
     def __str__(self) -> str:
-        return self.nickname
+        return f'str: {self.nickname}'
