@@ -31,7 +31,10 @@ const MainHall: FC = () => {
                     <div className='search-container'>
                         <SearchInput />
                     </div>
-                    <div className='options-wrapper'></div>
+                    <div className='options-wrapper'>
+                        <div className='add-container'></div>
+                        <div className='filter-container'></div>
+                    </div>
                 </div>
 
                 <div className='data-wrapper'>
