@@ -29,9 +29,9 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
+        gap: 0.75vw;
 
         .display-option-icon {
-            width: 20%;
             display: grid;
             place-items: center;
 
@@ -43,7 +43,7 @@
             }
         }
         .display-option-text {
-            width: 80%;
+            flex: 1;
         }
     }
 
