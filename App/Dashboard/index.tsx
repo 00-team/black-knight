@@ -4,7 +4,7 @@ import { useAtom } from 'jotai'
 import { AdminAtom, UserAtom } from 'state'
 
 import Header from './Header'
-import Maniac from './Maniac'
+import MainHall from './MainHall'
 import Sidebar from './Sidebar'
 
 import './style/index.scss'
@@ -23,7 +23,7 @@ const Dashboard: FC = () => {
             <Header />
             <div className='dashboard-wrapper'>
                 <Sidebar />
-                <Maniac />
+                <MainHall />
             </div>
         </div>
     )
