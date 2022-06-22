@@ -20,9 +20,7 @@
         z-index: 100;
 
         background-color: var(--primary-color);
-        color: var(--select-color);
 
-        border: 3px solid var(--select-border-color);
         border-radius: 100vmax;
 
         @include no-user-select;
@@ -52,8 +50,6 @@
     .option {
         position: absolute;
         background-color: var(--sixty-percent);
-        color: var(--select-color);
-        border: 3px solid var(--select-border-color);
         border-top: 0;
         padding-top: 12px;
         border-radius: 10px;

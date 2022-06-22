@@ -61,8 +61,8 @@ const AddSvg = () => {
         <div className='add-container'>
             <svg
                 xmlns='http://www.w3.org/2000/svg'
-                width='13'
-                height='13'
+                width='15'
+                height='15'
                 viewBox='0 0 1792 1792'
             >
                 <path
@@ -79,8 +79,8 @@ const DeleteSvg = () => {
         <div className='delete-container'>
             <svg
                 xmlns='http://www.w3.org/2000/svg'
-                width='13'
-                height='13'
+                width='15'
+                height='15'
                 viewBox='0 0 1792 1792'
             >
                 <path
