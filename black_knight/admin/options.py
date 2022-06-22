@@ -1,4 +1,5 @@
 from django.contrib import admin
+# from django.contrib.admin.utils import flatten_fieldsets
 from django.contrib.admin.utils import label_for_field, lookup_field
 from django.http import HttpRequest, JsonResponse
 
@@ -8,6 +9,11 @@ class ModelAdmin(admin.ModelAdmin):
 
     def maniac_list(self, request: HttpRequest):
         '''display list of instances in the Maniac'''
+
+        # fieldsets = self.get_fieldsets(request)
+
+        # print(flatten_fieldsets(fieldsets))
+        # print(fieldsets)
 
         list_display = self.get_list_display(request)
         queryset = self.get_queryset(request)
