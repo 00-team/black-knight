@@ -7,8 +7,8 @@ from django.http import HttpRequest, JsonResponse
 class ModelAdmin(admin.ModelAdmin):
     icon: str | None = None
 
-    def maniac_list(self, request: HttpRequest):
-        '''display list of instances in the Maniac'''
+    def mainhall_list(self, request: HttpRequest):
+        '''display list of instances in the Mainhall'''
 
         # fieldsets = self.get_fieldsets(request)
 
