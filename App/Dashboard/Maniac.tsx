@@ -16,9 +16,9 @@ const Maniac: FC = () => {
         if (app_label && model_name) UpdateManiacList({ app_label, model_name })
     }, [app_label, model_name])
 
-    // useEffect(() => {
-    //     console.log(ManiacList)
-    // }, [ManiacList])
+    useEffect(() => {
+        console.log(ManiacList)
+    }, [ManiacList])
 
     return (
         <>
@@ -49,6 +49,14 @@ const Maniac: FC = () => {
             )} */}
 
             <div className='maniac'>
+                {/* {ManiacList.fieldset.map((field, index) => (
+                    <div key={index}>
+                        {field.name}
+
+                        {/* {React.createElement(field.type)} /}
+                    </div>
+                ))} */}
+
                 {/* no need for search bar for now */}
                 {/* <div className='data-header'>
                     <div className='search-container'>
@@ -57,13 +65,13 @@ const Maniac: FC = () => {
                     <div className='options-wrapper'></div>
                 </div> */}
 
-                <div className='data-wrapper'>
+                {/* <div className='data-wrapper'>
                     <div className='add-wrapper'></div>
 
-                    {/* no need for filter for now */}
-                    {/* <div className='filter-wrapper'></div> */}
+                    {// no need for filter for now }
+                    {// <div className='filter-wrapper'></div> }
 
-                    {/* make a new component for rendering the list */}
+                    {// make a new component for rendering the list }
                     <table>
                         <thead>
                             <tr>
@@ -84,7 +92,7 @@ const Maniac: FC = () => {
                             ))}
                         </tbody>
                     </table>
-                </div>
+                </div> */}
             </div>
         </>
     )
