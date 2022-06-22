@@ -1,4 +1,4 @@
 export * from './admin'
 export * from './user'
 export * from './log'
-export * from './maniac'
+export * from './mainhall'

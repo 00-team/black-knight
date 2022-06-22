@@ -5,7 +5,7 @@ import { AiFillFolderAdd } from '@react-icons/all-files/ai/AiFillFolderAdd'
 import { useParams } from 'react-router-dom'
 
 import { useAtom } from 'jotai'
-import { ManiacListAtom } from 'state/atoms'
+import { MainhallListAtom } from 'state/atoms'
 
 import SearchInput from 'comps/SearchInput'
 import Select from 'comps/Select'
@@ -27,17 +27,18 @@ const Model_opts = [
     },
 ]
 
-const MainHall: FC = () => {
+const Mainhall: FC = () => {
     const { app_label, model_name } = useParams()
-    const [ManiacList, UpdateManiacList] = useAtom(ManiacListAtom)
+    const [MainhallList, UpdateMainhallList] = useAtom(MainhallListAtom)
 
     useEffect(() => {
-        if (app_label && model_name) UpdateManiacList({ app_label, model_name })
+        if (app_label && model_name)
+            UpdateMainhallList({ app_label, model_name })
     }, [app_label, model_name])
 
     useEffect(() => {
-        console.log(ManiacList)
-    }, [ManiacList])
+        console.log(MainhallList)
+    }, [MainhallList])
 
     if (!app_label) return <SectionInActive />
 
@@ -104,9 +105,7 @@ const MainHall: FC = () => {
     )
 }
 
-export default MainHall
-
-const SectionInActive = () => {
+const SectionInActive: FC = () => {
     let dn = -0.5
     return (
         <div className='mainhall no-section title'>
@@ -122,3 +121,5 @@ const SectionInActive = () => {
         </div>
     )
 }
+
+export default Mainhall
