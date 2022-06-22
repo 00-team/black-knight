@@ -1,0 +1,80 @@
+@use 'mixins' as *;
+
+.OO-select {
+    // background-color: red;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    font-size: 18px;
+
+    width: 100%;
+    min-width: 170px;
+    border-radius: 7px;
+
+    .display-option-container {
+        text-align: center;
+        padding: 1.5vh 1.6vw;
+        @include box(100%);
+        z-index: 100;
+
+        background-color: var(--primary-color);
+        color: var(--select-color);
+
+        border: 3px solid var(--select-border-color);
+        border-radius: 100vmax;
+
+        @include no-user-select;
+        cursor: pointer;
+
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        .display-option-icon {
+            width: 20%;
+            display: grid;
+            place-items: center;
+
+            .icon {
+                transition: transform 0.3s ease-in-out;
+                &.rotate {
+                    transform: scaleY(-1);
+                }
+            }
+        }
+        .display-option-text {
+            width: 80%;
+        }
+    }
+
+    .option {
+        position: absolute;
+        background-color: var(--sixty-percent);
+        color: var(--select-color);
+        border: 3px solid var(--select-border-color);
+        border-top: 0;
+        padding-top: 12px;
+        border-radius: 10px;
+
+        @include box(100%, calc(100% + 15px));
+
+        text-align: center;
+        left: 0;
+        @include f-center;
+        @include no-user-select;
+        cursor: pointer;
+        top: 0%;
+        opacity: 0;
+        pointer-events: none;
+        transition-property: top, opacity;
+        transition-duration: 200ms, 1ms;
+        transition-delay: 200ms, 200ms;
+
+        &:hover {
+            background-color: var(--accent-color);
+            color: var(--primary-color);
+        }
+    }
+}
