@@ -13,6 +13,8 @@ class BlogAdmin(ModelAdmin):
     )
     readonly_fields = '_thumbnail',
     list_filter = 'publish_date', 'study_time'
+    list_display = 'title', 'publish_date', 'study_time'
+    date_hierarchy = 'publish_date'
 
     @admin.display
     def _thumbnail(self, obj):
