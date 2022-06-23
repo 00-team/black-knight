@@ -12,13 +12,14 @@ require_GET_m = method_decorator(require_GET)
 class ModelAdmin(admin.ModelAdmin):
     icon: str | None = None
 
-    def get_bracelist(self, request, **kwargs):
-        """
-        Return the BraceList class for use on the changelist page.
-        """
-        from django.contrib.admin.views.main import ChangeList
+    def get_bracelist_instance(self, request, **kwargs):
+        '''
+        Return a `BraceList` instance based on `request`. 
+        May raise `IncorrectLookupParameters`.
+        '''
+        from black_knight.admin.views.main import BraceList
 
-        return ChangeList
+        return BraceList(request, self)
 
     @require_GET_m
     def bracelist(self, request: HttpRequest):
@@ -28,6 +29,10 @@ class ModelAdmin(admin.ModelAdmin):
 
         # print(flatten_fieldsets(fieldsets))
         # print(fieldsets)
+
+        brace_list = self.get_bracelist_instance(request)
+
+        '''
 
         list_display = self.get_list_display(request)
         queryset = self.get_queryset(request)
@@ -52,5 +57,6 @@ class ModelAdmin(admin.ModelAdmin):
             'instances': instances,
             'instance_labels': list(instance_labels)
         }
+        '''
 
-        return JsonResponse(response)
+        return brace_list.get_response()
