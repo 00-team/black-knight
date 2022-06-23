@@ -3,8 +3,8 @@ import React, { FC, useEffect } from 'react'
 import { useAtom } from 'jotai'
 import { AdminAtom, UserAtom } from 'state'
 
+import Brace from './Brace'
 import Header from './Header'
-import Mainhall from './Mainhall'
 import Sidebar from './Sidebar'
 
 import './style/index.scss'
@@ -23,7 +23,7 @@ const Dashboard: FC = () => {
             <Header />
             <div className='dashboard-wrapper'>
                 <Sidebar />
-                <Mainhall />
+                <Brace />
             </div>
         </div>
     )

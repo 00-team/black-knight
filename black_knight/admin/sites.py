@@ -140,9 +140,9 @@ class AdminSite(admin.AdminSite):
             path('login/', self.api_login, name='login'),
             path('logout/', self.url_wrap(self.api_logout), name='logout'),
             path(
-                'model_list/',
-                self.url_wrap(self.api_mainhall_list),
-                name='mainhall_list'
+                'bracelist/',
+                self.url_wrap(self.api_bracelist),
+                name='bracelist'
             )
         ]
 
@@ -296,7 +296,7 @@ class AdminSite(admin.AdminSite):
         except E as e:
             return e.response
 
-    def api_mainhall_list(self, request: HttpRequest):
+    def api_bracelist(self, request: HttpRequest):
         try:
             data = get_data(request)
             app_label = data.get('app_label')
@@ -313,7 +313,7 @@ class AdminSite(admin.AdminSite):
 
             _, model_admin = self.registered_apps[app_label][model_name]
 
-            return model_admin.mainhall_list(request)
+            return model_admin.bracelist(request)
 
         except E as e:
             return e.response

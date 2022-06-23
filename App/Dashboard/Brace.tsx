@@ -5,12 +5,12 @@ import { AiFillFolderAdd } from '@react-icons/all-files/ai/AiFillFolderAdd'
 import { useParams } from 'react-router-dom'
 
 import { useAtom } from 'jotai'
-import { MainhallListAtom } from 'state/atoms'
+import { BraceListAtom } from 'state/atoms'
 
 import SearchInput from 'comps/SearchInput'
 import Select from 'comps/Select'
 
-import './style/mainhall.scss'
+import './style/brace.scss'
 
 const Model_opts = [
     {
@@ -27,24 +27,23 @@ const Model_opts = [
     },
 ]
 
-const Mainhall: FC = () => {
+const Brace: FC = () => {
     const { app_label, model_name } = useParams()
-    const [MainhallList, UpdateMainhallList] = useAtom(MainhallListAtom)
+    const [BraceList, UpdateBraceList] = useAtom(BraceListAtom)
 
     useEffect(() => {
-        if (app_label && model_name)
-            UpdateMainhallList({ app_label, model_name })
+        if (app_label && model_name) UpdateBraceList({ app_label, model_name })
     }, [app_label, model_name])
 
     useEffect(() => {
-        console.log(MainhallList)
-    }, [MainhallList])
+        console.log(BraceList)
+    }, [BraceList])
 
     if (!app_label) return <SectionInActive />
 
     return (
         <>
-            <div className='mainhall'>
+            <div className='brace'>
                 {/* no need for search bar for now */}
                 <div className='data-header'>
                     <div className='search-container'>
@@ -108,7 +107,7 @@ const Mainhall: FC = () => {
 const SectionInActive: FC = () => {
     let dn = -0.5
     return (
-        <div className='mainhall no-section title'>
+        <div className='brace no-section title'>
             {'Please Select a Model'.split('').map((w, idx) => {
                 if (w === ' ') return <span key={idx} className='space' />
                 dn += 0.5
@@ -122,4 +121,4 @@ const SectionInActive: FC = () => {
     )
 }
 
-export default Mainhall
+export default Brace

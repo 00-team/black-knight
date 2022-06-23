@@ -2,13 +2,27 @@ from django.contrib import admin
 # from django.contrib.admin.utils import flatten_fieldsets
 from django.contrib.admin.utils import label_for_field, lookup_field
 from django.http import HttpRequest, JsonResponse
+from django.utils.decorators import method_decorator
+from django.views.decorators.http import require_GET
+
+
+require_GET_m = method_decorator(require_GET)
 
 
 class ModelAdmin(admin.ModelAdmin):
     icon: str | None = None
 
-    def mainhall_list(self, request: HttpRequest):
-        '''display list of instances in the Mainhall'''
+    def get_bracelist(self, request, **kwargs):
+        """
+        Return the BraceList class for use on the changelist page.
+        """
+        from django.contrib.admin.views.main import ChangeList
+
+        return ChangeList
+
+    @require_GET_m
+    def bracelist(self, request: HttpRequest):
+        '''display list of instances in the brace'''
 
         # fieldsets = self.get_fieldsets(request)
 
