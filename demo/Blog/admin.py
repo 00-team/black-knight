@@ -4,6 +4,11 @@ from django.contrib import admin
 from .models import Blog
 
 
+@admin.action(description='Set Blog Title To Maniac')
+def blog_title(modeladmin, request, queryset):
+    queryset.update(title='Maniac')
+
+
 @admin.register(Blog)
 class BlogAdmin(ModelAdmin):
     fieldsets = (
@@ -11,6 +16,7 @@ class BlogAdmin(ModelAdmin):
         ('Image', {'fields': ('thumbnail', '_thumbnail')}),
         ('Times', {'fields': ('publish_date', 'study_time')})
     )
+    actions = blog_title,
     readonly_fields = '_thumbnail',
     list_filter = 'publish_date', 'study_time'
     list_display = 'title', 'publish_date', 'study_time'
