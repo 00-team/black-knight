@@ -70,35 +70,74 @@ const Brace: FC = () => {
                         </div>
                     </div>
                 </div>
-
-                {/* <div className='data-wrapper'>
-                    <div className='add-wrapper'></div>
-
-                    {// no need for filter for now }
-                    {// <div className='filter-wrapper'></div> }
-
-                    {// make a new component for rendering the list }
-                    <table>
+                <div className='data-wrapper'>
+                    <table className='data-table'>
                         <thead>
-                            <tr>
-                                {ManiacList.instance_labels.map(
-                                    (label, index) => (
-                                        <th key={index}>{label}</th>
-                                    )
-                                )}
+                            <tr className='title_small'>
+                                <th>Company</th>
+                                <th>Contact</th>
+                                <th>Country</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            {ManiacList.instances.map((instance, index) => (
-                                <tr key={index}>
-                                    {instance.map((label, idx) => (
-                                        <td key={idx}>{label}</td>
-                                    ))}
-                                </tr>
-                            ))}
+                        <tbody className='description'>
+                            <tr>
+                                <td>Alfreds Futterkiste</td>
+                                <td>Maria Anders</td>
+                                <td>Germany</td>
+                            </tr>
+                            <tr>
+                                <td>Centro comercial Moctezuma</td>
+                                <td>Francisco Chang</td>
+                                <td>Mexico</td>
+                            </tr>
+                            <tr>
+                                <td>Ernst Handel</td>
+                                <td>Roland Mendel</td>
+                                <td>Austria</td>
+                            </tr>
+                            <tr>
+                                <td>Island Trading</td>
+                                <td>Helen Bennett</td>
+                                <td>UK</td>
+                            </tr>
+                            <tr>
+                                <td>Laughing Bacchus Winecellars</td>
+                                <td>Yoshi Tannamuri</td>
+                                <td>Canada</td>
+                            </tr>
+                            <tr>
+                                <td>Laughing Bacchus Winecellars</td>
+                                <td>Yoshi Tannamuri</td>
+                                <td>Canada</td>
+                            </tr>
+                            <tr>
+                                <td>Laughing Bacchus Winecellars</td>
+                                <td>Yoshi Tannamuri</td>
+                                <td>Canada</td>
+                            </tr>
+                            <tr>
+                                <td>Magazzini Alimentari Riuniti</td>
+                                <td>Giovanni Rovelli</td>
+                                <td>Italy</td>
+                            </tr>
+                            <tr>
+                                <td>Magazzini Alimentari Riuniti</td>
+                                <td>Giovanni Rovelli</td>
+                                <td>Italy</td>
+                            </tr>
+                            <tr>
+                                <td>Magazzini Alimentari Riuniti</td>
+                                <td>Giovanni Rovelli</td>
+                                <td>Italy</td>
+                            </tr>
+                            <tr>
+                                <td>Magazzini Alimentari Riuniti</td>
+                                <td>Giovanni Rovelli</td>
+                                <td>Italy</td>
+                            </tr>
                         </tbody>
                     </table>
-                </div> */}
+                </div>
             </div>
         </>
     )
