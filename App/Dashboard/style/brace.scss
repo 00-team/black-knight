@@ -99,6 +99,49 @@
             }
         }
     }
+    .data-wrapper {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        flex-direction: column;
+
+        width: 100%;
+        flex: 1;
+
+        gap: 2vh;
+
+        overflow: auto;
+
+        $even_bg: #121212;
+        $odd_bg: #212121;
+        .data-table {
+            border-collapse: collapse;
+            width: 100%;
+            height: auto;
+
+            td,
+            th {
+                text-align: left;
+                padding: 8px;
+            }
+
+            thead {
+                tr {
+                    background-color: $odd_bg;
+                    font-family: 'Poppins', sans-serif;
+                }
+            }
+            tbody {
+                tr {
+                    font-family: 'Merienda One', cursive;
+                }
+            }
+
+            tr:nth-child(even) {
+                background-color: $odd_bg;
+            }
+        }
+    }
 }
 
 @keyframes selectSection {
