@@ -76,7 +76,8 @@ class BraceList:
 
             for field_name in list_display:
                 field, attr, value = lookup_field(field_name, obj, model_admin)
-                row.append(value)
+                # print(f'{field=}\n{attr=}\n{value=}')
+                row.append(str(value))
 
             return row
 
