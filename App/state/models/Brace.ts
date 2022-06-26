@@ -1,13 +1,28 @@
 interface BraceListModel {
-    instances: string[][]
-    instance_labels: string[]
+    preserve_filters: boolean
+    search_help_text: null | string
+    full_result_count: null | number
+    actions: ActionModel[] | null
+    results: ResultModel[]
+    headers: string[]
 }
 
-export { BraceListModel }
+interface ActionModel {
+    name: string
+    description: string
+}
+
+type ResultModel = [number, ...string[]]
+
+export { BraceListModel, ActionModel, ResultModel }
 
 const DefaultBraceList: BraceListModel = {
-    instances: [],
-    instance_labels: [],
+    preserve_filters: true,
+    search_help_text: null,
+    full_result_count: 0,
+    actions: null,
+    results: [],
+    headers: [],
 }
 
 export { DefaultBraceList }
