@@ -1,4 +1,7 @@
-import React, { FC, useEffect } from 'react'
+import React, {
+    FC,
+    useEffect, //  useState
+} from 'react'
 
 import { AiFillFolderAdd } from '@react-icons/all-files/ai/AiFillFolderAdd'
 
@@ -28,6 +31,8 @@ const Model_opts = [
 ]
 
 const Brace: FC = () => {
+    // const [RowActive, setRowActive] = useState(0)
+
     const { app_label, model_name } = useParams()
     const [BraceList, UpdateBraceList] = useAtom(BraceListAtom)
 
@@ -74,67 +79,35 @@ const Brace: FC = () => {
                     <table className='data-table'>
                         <thead>
                             <tr className='title_small'>
+                                <th className='checkbox'>
+                                    <span>
+                                        <input type='checkbox' name='' id='' />
+                                    </span>
+                                </th>
                                 <th>Company</th>
                                 <th>Contact</th>
                                 <th>Country</th>
                             </tr>
                         </thead>
                         <tbody className='description'>
-                            <tr>
-                                <td>Alfreds Futterkiste</td>
-                                <td>Maria Anders</td>
-                                <td>Germany</td>
-                            </tr>
-                            <tr>
-                                <td>Centro comercial Moctezuma</td>
-                                <td>Francisco Chang</td>
-                                <td>Mexico</td>
-                            </tr>
-                            <tr>
-                                <td>Ernst Handel</td>
-                                <td>Roland Mendel</td>
-                                <td>Austria</td>
-                            </tr>
-                            <tr>
-                                <td>Island Trading</td>
-                                <td>Helen Bennett</td>
-                                <td>UK</td>
-                            </tr>
-                            <tr>
-                                <td>Laughing Bacchus Winecellars</td>
-                                <td>Yoshi Tannamuri</td>
-                                <td>Canada</td>
-                            </tr>
-                            <tr>
-                                <td>Laughing Bacchus Winecellars</td>
-                                <td>Yoshi Tannamuri</td>
-                                <td>Canada</td>
-                            </tr>
-                            <tr>
-                                <td>Laughing Bacchus Winecellars</td>
-                                <td>Yoshi Tannamuri</td>
-                                <td>Canada</td>
-                            </tr>
-                            <tr>
-                                <td>Magazzini Alimentari Riuniti</td>
-                                <td>Giovanni Rovelli</td>
-                                <td>Italy</td>
-                            </tr>
-                            <tr>
-                                <td>Magazzini Alimentari Riuniti</td>
-                                <td>Giovanni Rovelli</td>
-                                <td>Italy</td>
-                            </tr>
-                            <tr>
-                                <td>Magazzini Alimentari Riuniti</td>
-                                <td>Giovanni Rovelli</td>
-                                <td>Italy</td>
-                            </tr>
-                            <tr>
-                                <td>Magazzini Alimentari Riuniti</td>
-                                <td>Giovanni Rovelli</td>
-                                <td>Italy</td>
-                            </tr>
+                            {Array.from(Array(20).keys()).map((_, index) => {
+                                return (
+                                    <tr key={index}>
+                                        <td className='checkbox'>
+                                            <span>
+                                                <input
+                                                    type='checkbox'
+                                                    name=''
+                                                    id=''
+                                                />
+                                            </span>
+                                        </td>
+                                        <td>Alfreds Futterkiste</td>
+                                        <td>Maria Anders</td>
+                                        <td>Germany</td>
+                                    </tr>
+                                )
+                            })}
                         </tbody>
                     </table>
                 </div>
