@@ -131,7 +131,7 @@ class AdminSite(admin.AdminSite):
         return update_wrapper(wrapper, view)
 
     def get_api_urls(self):
-        from django.urls import path
+        from django.urls import include, path
 
         api_urls = [
             path('user/', self.url_wrap(self.api_user), name='user'),
@@ -139,12 +139,16 @@ class AdminSite(admin.AdminSite):
             path('log/', self.url_wrap(self.api_log), name='log'),
             path('login/', self.api_login, name='login'),
             path('logout/', self.url_wrap(self.api_logout), name='logout'),
-            path(
-                'bracelist/',
-                self.url_wrap(self.api_bracelist),
-                name='bracelist'
-            )
         ]
+
+        def get_model_url(item):
+            model, model_admin = item
+            app_label = model._meta.app_label
+            model_name = model._meta.model_name
+
+            return path(f'{app_label}/{model_name}/', include(model_admin.api_urls))
+
+        api_urls += list(map(get_model_url, self._registry.items()))
 
         return api_urls
 
@@ -152,16 +156,21 @@ class AdminSite(admin.AdminSite):
         from django.urls import include, path
 
         api_urls = self.get_api_urls()
+        app_view = self.url_wrap(self.index, json=False)
 
         urlpatterns = [
-            path('', self.url_wrap(self.index, json=False), name='index'),
+            path('', app_view, name='index'),
             path('api/', include((api_urls, self.name), namespace='api')),
             path('login/', self.index, name='login'),
-            path(
-                '<str:app_label>/<str:model_name>/',
-                self.url_wrap(self.index)
-            )
         ]
+
+        def get_model_url(model):
+            app_label = model._meta.app_label
+            model_name = model._meta.model_name
+
+            return path(f'{app_label}/{model_name}/', app_view)
+
+        urlpatterns += list(map(get_model_url, self._registry.keys()))
 
         return urlpatterns
 
@@ -293,28 +302,6 @@ class AdminSite(admin.AdminSite):
             logs = list(map(GL, LogEntry.objects.all()[:3]))
 
             return JsonResponse({'logs': logs})
-        except E as e:
-            return e.response
-
-    def api_bracelist(self, request: HttpRequest):
-        try:
-            data = get_data(request)
-            app_label = data.get('app_label')
-            model_name = data.get('model_name')
-
-            if not app_label or not model_name:
-                raise E
-
-            if not app_label in self.registered_apps:
-                raise E('app_label not found')
-
-            if not model_name in self.registered_apps[app_label]:
-                raise E('model_name not found')
-
-            _, model_admin = self.registered_apps[app_label][model_name]
-
-            return model_admin.bracelist(request)
-
         except E as e:
             return e.response
 

@@ -12,7 +12,20 @@ require_GET_m = method_decorator(require_GET)
 class ModelAdmin(admin.ModelAdmin):
     icon: str | None = None
 
-    def get_bracelist_instance(self, request, **kwargs):
+    def get_api_urls(self):
+        from django.urls import path
+
+        wrap = self.admin_site.url_wrap
+
+        return [
+            path('bracelist/', wrap(self.bracelist))
+        ]
+
+    @property
+    def api_urls(self):
+        return self.get_api_urls()
+
+    def get_bracelist_instance(self, request):
         '''
         Return a `BraceList` instance based on `request`. 
         May raise `IncorrectLookupParameters`.
@@ -25,38 +38,6 @@ class ModelAdmin(admin.ModelAdmin):
     def bracelist(self, request: HttpRequest):
         '''display list of instances in the brace'''
 
-        # fieldsets = self.get_fieldsets(request)
-
-        # print(flatten_fieldsets(fieldsets))
-        # print(fieldsets)
-
         brace_list = self.get_bracelist_instance(request)
 
-        '''
-
-        list_display = self.get_list_display(request)
-        queryset = self.get_queryset(request)
-
-        instance_labels = map(
-            lambda f: label_for_field(f, self.model, self),
-            list_display
-        )
-
-        def get_instance(instance):
-            field = []
-
-            for field_name in list_display:
-                *_, value = lookup_field(field_name, instance, self)
-                field.append(str(value))
-
-            return field
-
-        instances = list(map(get_instance, queryset))
-
-        response = {
-            'instances': instances,
-            'instance_labels': list(instance_labels)
-        }
-        '''
-
-        return brace_list.get_response()
+        return JsonResponse(brace_list.response)
