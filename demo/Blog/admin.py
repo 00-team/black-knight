@@ -17,9 +17,9 @@ class BlogAdmin(ModelAdmin):
         ('Times', {'fields': ('publish_date', 'study_time')})
     )
     actions = blog_title,
-    readonly_fields = '_thumbnail',
+    readonly_fields = '_thumbnail', '_study_time'
     list_filter = 'publish_date', 'study_time'
-    list_display = 'title', 'publish_date', 'study_time'
+    list_display = 'title', 'publish_date', '_study_time'
     date_hierarchy = 'publish_date'
 
     @admin.display
