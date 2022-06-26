@@ -5,6 +5,8 @@
     display: flex;
     justify-content: space-between;
 
+    z-index: 11;
+
     .active-section {
         display: grid;
         place-items: center;

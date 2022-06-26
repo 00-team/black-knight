@@ -12,6 +12,8 @@
         justify-content: flex-start;
         flex-direction: column;
         gap: 3vh;
+
+        overflow: hidden;
     }
     &.no-section {
         display: flex;
@@ -106,11 +108,12 @@
         flex-direction: column;
 
         width: 100%;
-        flex: 1;
+        flex: 1 0 0;
 
         gap: 2vh;
 
         overflow: auto;
+        scroll-behavior: smooth;
 
         $even_bg: #121212;
         $odd_bg: #212121;
@@ -118,6 +121,24 @@
             border-collapse: collapse;
             width: 100%;
             height: auto;
+
+            thead {
+                tr {
+                    position: sticky;
+                    top: 0;
+                }
+            }
+
+            .checkbox {
+                width: 50px;
+                span {
+                    input {
+                        width: 100%;
+                        margin: auto;
+                        cursor: pointer;
+                    }
+                }
+            }
 
             td,
             th {
