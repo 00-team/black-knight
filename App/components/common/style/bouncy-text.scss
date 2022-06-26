@@ -1,0 +1,24 @@
+.bouncy-text {
+    .char {
+        animation: selectSection 1s ease-in-out;
+    }
+
+    .space {
+        margin: 0 4px;
+    }
+
+    @keyframes selectSection {
+        0% {
+            transform: translateY(0);
+        }
+        33% {
+            transform: translateY(-30%);
+        }
+        66% {
+            transform: translateY(30%);
+        }
+        100% {
+            transform: translateY(0);
+        }
+    }
+}
