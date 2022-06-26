@@ -1,14 +1,16 @@
-import React, { FC, useEffect, useState } from 'react'
+import React, { FC, useEffect } from 'react'
 
 import { AiFillFolderAdd } from '@react-icons/all-files/ai/AiFillFolderAdd'
 
 import { useParams } from 'react-router-dom'
 
 import { useAtom } from 'jotai'
-import { BraceListAtom } from 'state/atoms'
+import { BraceListAtom, BraceSelectAtom } from 'state/atoms'
+import { ResultModel } from 'state/models'
 
 import SearchInput from 'comps/SearchInput'
 import Select from 'comps/Select'
+import BouncyText from 'comps/common/BouncyText'
 
 import './style/brace.scss'
 
@@ -27,53 +29,26 @@ const Model_opts = [
     },
 ]
 
-interface SAMPLE_TABLE_DATA {
-    result: [number, ...string[]][]
-    header: string[]
-}
-
-const SAMPLE_TABLE: SAMPLE_TABLE_DATA = {
-    result: [
-        ['apple', 'Maria Anders', 'afghanestan'],
-        ['apple', 'Maria Anders', 'afghanestan'],
-        ['apple', 'Maria Anders', 'afghanestan'],
-        ['apple', 'Maria Anders', 'afghanestan'],
-        ['apple', 'Maria Anders', 'afghanestan'],
-        ['apple', 'Maria Anders', 'afghanestan'],
-        ['apple', 'Maria Anders', 'afghanestan'],
-        ['apple', 'Maria Anders', 'afghanestan'],
-        ['apple', 'Maria Anders', 'afghanestan'],
-        ['apple', 'Maria Anders', 'afghanestan'],
-        ['apple', 'Maria Anders', 'afghanestan'],
-        ['apple', 'Maria Anders', 'afghanestan'],
-        ['apple', 'Maria Anders', 'afghanestan'],
-        ['apple', 'Maria Anders', 'afghanestan'],
-        ['apple', 'Maria Anders', 'afghanestan'],
-        ['apple', 'Maria Anders', 'afghanestan'],
-        ['apple', 'Maria Anders', 'afghanestan'],
-        ['apple', 'Maria Anders', 'afghanestan'],
-    ].map((item, index) => [index, ...item]),
-
-    header: ['Company', 'Contact', 'Country', 'test'],
-}
-
-var SelectedRows: number[] = []
-
 const Brace: FC = () => {
-    // const [RowActive, setRowActive] = useState([])
-
     const { app_label, model_name } = useParams()
     const [BraceList, UpdateBraceList] = useAtom(BraceListAtom)
 
     useEffect(() => {
-        if (app_label && model_name) UpdateBraceList({ app_label, model_name })
+        if (app_label && model_name)
+            UpdateBraceList(`${app_label}/${model_name}`)
     }, [app_label, model_name])
 
     useEffect(() => {
         console.log(BraceList)
     }, [BraceList])
 
-    if (!app_label) return <SectionInActive />
+    if (!app_label)
+        return (
+            <BouncyText
+                text='Please Select a Model'
+                className='brace no-section title'
+            />
+        )
 
     return (
         <>
@@ -87,10 +62,7 @@ const Brace: FC = () => {
                         <div className='add-container'>
                             <div className='holder'>
                                 Add
-                                <span className='model_name'>
-                                    {' '}
-                                    {model_name}
-                                </span>
+                                <span className='model_name'>{model_name}</span>
                             </div>
                             <div className='icon'>
                                 <AiFillFolderAdd size={24} />
@@ -107,22 +79,15 @@ const Brace: FC = () => {
                 <div className='data-wrapper'>
                     <table className='data-table'>
                         <thead>
-                            <tr className='title_small'>
-                                <th className='checkbox'>
-                                    <span>
-                                        <input type='checkbox' name='' id='' />
-                                    </span>
-                                </th>
-                                <th>Company</th>
-                                <th>Contact</th>
-                                <th>Country</th>
-                                <th>Country</th>
-                            </tr>
+                            <BraceHead
+                                headers={BraceList.headers}
+                                results_length={BraceList.results.length}
+                            />
                         </thead>
                         <tbody className='description'>
-                            {SAMPLE_TABLE.result.map((row, index) => {
-                                return <BraceRow key={index} row={row} />
-                            })}
+                            {BraceList.results.map((result, index) => (
+                                <BraceResult key={index} result={result} />
+                            ))}
                         </tbody>
                     </table>
                 </div>
@@ -131,12 +96,45 @@ const Brace: FC = () => {
     )
 }
 
-interface BraceRowProps {
-    row: [number, ...string[]]
+interface BraceHeadProps {
+    results_length: number
+    headers: string[]
 }
 
-const BraceRow: FC<BraceRowProps> = ({ row }) => {
-    const [IsActive, setIsActive] = useState(false)
+const BraceHead: FC<BraceHeadProps> = ({ results_length, headers }) => {
+    const [Selecteds, UpdateSelecteds] = useAtom(BraceSelectAtom)
+
+    return (
+        <tr className='title_small'>
+            <th className='checkbox'>
+                <span>
+                    <input
+                        type='checkbox'
+                        checked={
+                            Selecteds === 'all' ||
+                            Selecteds.length === results_length
+                        }
+                        onChange={e => {
+                            const checked = e.currentTarget.checked
+                            UpdateSelecteds({
+                                type: checked ? 'add' : 'remove',
+                                id: 'page',
+                            })
+                        }}
+                    />
+                </span>
+            </th>
+            {headers.map((head, index) => (
+                <th key={index}>{head}</th>
+            ))}
+        </tr>
+    )
+}
+
+const BraceResult: FC<{ result: ResultModel }> = ({ result }) => {
+    const [Selecteds, UpdateSelecteds] = useAtom(BraceSelectAtom)
+
+    const id = result[0]
 
     return (
         <tr>
@@ -144,45 +142,24 @@ const BraceRow: FC<BraceRowProps> = ({ row }) => {
                 <span>
                     <input
                         type='checkbox'
-                        name=''
-                        id=''
-                        checked={IsActive}
-                        onChange={() => {
-                            SelectedRows = SelectedRows.filter(
-                                item => item !== row[0]
-                            )
+                        checked={
+                            Selecteds === 'all' || Selecteds.indexOf(id) !== -1
+                        }
+                        onChange={e => {
+                            const checked = e.currentTarget.checked
 
-                            if (!IsActive) {
-                                // active
-                                SelectedRows.push(row[0])
-                            }
-                            setIsActive(!IsActive)
-                            console.log(SelectedRows)
+                            UpdateSelecteds({
+                                type: checked ? 'add' : 'remove',
+                                id,
+                            })
                         }}
                     />
                 </span>
             </td>
-            {row.map((cell, index) => {
-                return <td key={index}>{cell}</td>
+            {result.slice(1).map((field, index) => {
+                return <td key={index}>{field}</td>
             })}
         </tr>
-    )
-}
-
-const SectionInActive: FC = () => {
-    let dn = -0.5
-    return (
-        <div className='brace no-section title'>
-            {'Please Select a Model'.split('').map((w, idx) => {
-                if (w === ' ') return <span key={idx} className='space' />
-                dn += 0.5
-                return (
-                    <span key={idx} style={{ animationDelay: `${dn}s` }}>
-                        {w}
-                    </span>
-                )
-            })}
-        </div>
     )
 }
 
