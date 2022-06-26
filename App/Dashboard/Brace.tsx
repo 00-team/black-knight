@@ -1,7 +1,4 @@
-import React, {
-    FC,
-    useEffect, //  useState
-} from 'react'
+import React, { FC, useEffect, useState } from 'react'
 
 import { AiFillFolderAdd } from '@react-icons/all-files/ai/AiFillFolderAdd'
 
@@ -30,8 +27,40 @@ const Model_opts = [
     },
 ]
 
+interface SAMPLE_TABLE_DATA {
+    result: [number, ...string[]][]
+    header: string[]
+}
+
+const SAMPLE_TABLE: SAMPLE_TABLE_DATA = {
+    result: [
+        ['apple', 'Maria Anders', 'afghanestan'],
+        ['apple', 'Maria Anders', 'afghanestan'],
+        ['apple', 'Maria Anders', 'afghanestan'],
+        ['apple', 'Maria Anders', 'afghanestan'],
+        ['apple', 'Maria Anders', 'afghanestan'],
+        ['apple', 'Maria Anders', 'afghanestan'],
+        ['apple', 'Maria Anders', 'afghanestan'],
+        ['apple', 'Maria Anders', 'afghanestan'],
+        ['apple', 'Maria Anders', 'afghanestan'],
+        ['apple', 'Maria Anders', 'afghanestan'],
+        ['apple', 'Maria Anders', 'afghanestan'],
+        ['apple', 'Maria Anders', 'afghanestan'],
+        ['apple', 'Maria Anders', 'afghanestan'],
+        ['apple', 'Maria Anders', 'afghanestan'],
+        ['apple', 'Maria Anders', 'afghanestan'],
+        ['apple', 'Maria Anders', 'afghanestan'],
+        ['apple', 'Maria Anders', 'afghanestan'],
+        ['apple', 'Maria Anders', 'afghanestan'],
+    ].map((item, index) => [index, ...item]),
+
+    header: ['Company', 'Contact', 'Country', 'test'],
+}
+
+var SelectedRows: number[] = []
+
 const Brace: FC = () => {
-    // const [RowActive, setRowActive] = useState(0)
+    // const [RowActive, setRowActive] = useState([])
 
     const { app_label, model_name } = useParams()
     const [BraceList, UpdateBraceList] = useAtom(BraceListAtom)
@@ -87,32 +116,56 @@ const Brace: FC = () => {
                                 <th>Company</th>
                                 <th>Contact</th>
                                 <th>Country</th>
+                                <th>Country</th>
                             </tr>
                         </thead>
                         <tbody className='description'>
-                            {Array.from(Array(20).keys()).map((_, index) => {
-                                return (
-                                    <tr key={index}>
-                                        <td className='checkbox'>
-                                            <span>
-                                                <input
-                                                    type='checkbox'
-                                                    name=''
-                                                    id=''
-                                                />
-                                            </span>
-                                        </td>
-                                        <td>Alfreds Futterkiste</td>
-                                        <td>Maria Anders</td>
-                                        <td>Germany</td>
-                                    </tr>
-                                )
+                            {SAMPLE_TABLE.result.map((row, index) => {
+                                return <BraceRow key={index} row={row} />
                             })}
                         </tbody>
                     </table>
                 </div>
             </div>
         </>
+    )
+}
+
+interface BraceRowProps {
+    row: [number, ...string[]]
+}
+
+const BraceRow: FC<BraceRowProps> = ({ row }) => {
+    const [IsActive, setIsActive] = useState(false)
+
+    return (
+        <tr>
+            <td className='checkbox'>
+                <span>
+                    <input
+                        type='checkbox'
+                        name=''
+                        id=''
+                        checked={IsActive}
+                        onChange={() => {
+                            SelectedRows = SelectedRows.filter(
+                                item => item !== row[0]
+                            )
+
+                            if (!IsActive) {
+                                // active
+                                SelectedRows.push(row[0])
+                            }
+                            setIsActive(!IsActive)
+                            console.log(SelectedRows)
+                        }}
+                    />
+                </span>
+            </td>
+            {row.map((cell, index) => {
+                return <td key={index}>{cell}</td>
+            })}
+        </tr>
     )
 }
 
