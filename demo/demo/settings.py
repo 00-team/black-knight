@@ -18,17 +18,18 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     # 'django.contrib.admin',
 
+    'demo.admin.DemoAdminApp',
+    'black_knight',
+
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'demo.admin.DemoAdminApp',
-    'black_knight',
-
     'Account.apps.AccountConfig',
     'Blog.apps.BlogConfig',
+    'Library.apps.LibraryConfig',
 ]
 
 MIDDLEWARE = [
