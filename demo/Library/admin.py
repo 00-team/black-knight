@@ -6,9 +6,12 @@ from Library.models import Author, Book
 
 @admin.register(Book)
 class BookAdmin(ModelAdmin):
-    list_display = 'title', 'author'
+    list_display = (
+        'title', 'author', 'targeted_group',
+        'is_nsfw', 'publish_date', 'cover'
+    )
 
 
 @admin.register(Author)
 class AuthorAdmin(ModelAdmin):
-    list_display = 'name',
+    list_display = 'name', 'age'
