@@ -12,9 +12,10 @@ interface ActionModel {
     description: string
 }
 
-type ResultModel = [number, ...string[]]
+type PK = string | number
+type ResultModel = [PK, ...string[]]
 
-export { BraceListModel, ActionModel, ResultModel }
+export { BraceListModel, ActionModel, ResultModel, PK }
 
 const DefaultBraceList: BraceListModel = {
     preserve_filters: true,

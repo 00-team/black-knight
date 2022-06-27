@@ -1,10 +1,10 @@
 import { atom } from 'jotai'
 
-import { BraceListModel, DefaultBraceList } from '../models'
+import { BraceListModel, DefaultBraceList, PK } from '../models'
 import { GET } from '../utils'
 
 const BraceList = atom<BraceListModel>(DefaultBraceList)
-const BraceSelect = atom<'all' | number[]>([])
+const BraceSelect = atom<'all' | PK[]>([])
 
 const BraceListAtom = atom(
     async get => get(BraceList),
@@ -23,7 +23,7 @@ const BraceListAtom = atom(
 
 interface TArgs {
     type: 'add' | 'remove'
-    id: number | 'all' | 'page'
+    id: PK | 'all' | 'page'
 }
 
 const BraceSelectAtom = atom(
