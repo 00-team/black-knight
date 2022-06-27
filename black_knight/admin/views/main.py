@@ -1,5 +1,6 @@
 
 from black_knight.admin.options import ModelAdmin
+from black_knight.admin.utils.brace import value_dict
 from django.contrib.admin.utils import label_for_field, lookup_field
 from django.db.models import QuerySet
 from django.http import HttpRequest
@@ -70,14 +71,15 @@ class BraceList:
 
         model_admin = self.model_admin
         list_display = model_admin.get_list_display(self.request)
+        empty = model_admin.get_empty_value_display()
 
         def get_row(obj):
-            row = [obj.id]
+            row = [obj.pk]
 
             for field_name in list_display:
                 field, attr, value = lookup_field(field_name, obj, model_admin)
-                # print(f'{field=}\n{attr=}\n{value=}')
-                row.append(str(value))
+                local_empty = getattr(attr, 'empty_value_display', empty)
+                row.append(value_dict(field, value, local_empty))
 
             return row
 
