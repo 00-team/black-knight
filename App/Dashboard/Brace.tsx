@@ -6,7 +6,7 @@ import { useParams } from 'react-router-dom'
 
 import { useAtom } from 'jotai'
 import { BraceListAtom, BraceSelectAtom } from 'state/atoms'
-import { ResultModel } from 'state/models'
+import { ResultModel, ResultType } from 'state/models'
 
 import SearchInput from 'comps/SearchInput'
 import Select from 'comps/Select'
@@ -134,7 +134,7 @@ const BraceHead: FC<BraceHeadProps> = ({ results_length, headers }) => {
 const BraceResult: FC<{ result: ResultModel }> = ({ result }) => {
     const [Selecteds, UpdateSelecteds] = useAtom(BraceSelectAtom)
 
-    const id = result[0]
+    const pk = result[0]
 
     return (
         <tr>
@@ -143,21 +143,41 @@ const BraceResult: FC<{ result: ResultModel }> = ({ result }) => {
                     <input
                         type='checkbox'
                         checked={
-                            Selecteds === 'all' || Selecteds.indexOf(id) !== -1
+                            Selecteds === 'all' || Selecteds.indexOf(pk) !== -1
                         }
                         onChange={e => {
                             const checked = e.currentTarget.checked
 
                             UpdateSelecteds({
                                 type: checked ? 'add' : 'remove',
-                                id,
+                                id: pk,
                             })
                         }}
                     />
                 </span>
             </td>
             {result.slice(1).map((field, index) => {
-                return <td key={index}>{field}</td>
+                const type = Object.keys(field)[0]
+                const value = Object.values(field)[0]
+
+                switch (type) {
+                    case ResultType.bool:
+                        return <td key={index}>{value ? '✅' : '❌'}</td>
+
+                    case ResultType.empty:
+                    case ResultType.image:
+                    case ResultType.char:
+                        return <td key={index}>{value}</td>
+
+                    case ResultType.datetime:
+                        return <td key={index}>{value[1]}</td>
+
+                    case ResultType.number:
+                        return <td key={index}>{value}</td>
+
+                    default:
+                        return <td key={index}></td>
+                }
             })}
         </tr>
     )

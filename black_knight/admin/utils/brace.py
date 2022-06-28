@@ -7,7 +7,7 @@ from django.utils import formats, timezone
 
 def value_dict(field, value, empty) -> dict:
 
-    empty = {'null': empty}
+    empty = {'empty': empty}
 
     if value == None:
         return empty

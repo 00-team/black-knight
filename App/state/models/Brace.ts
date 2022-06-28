@@ -13,9 +13,27 @@ interface ActionModel {
 }
 
 type PK = string | number
-type ResultModel = [PK, ...string[]]
+type ResultModel = [PK, ...ResultRow[]]
 
-export { BraceListModel, ActionModel, ResultModel, PK }
+enum ResultType {
+    datetime = 'datetime',
+    number = 'number',
+    empty = 'empty',
+    bool = 'bool',
+    char = 'char',
+    image = 'image',
+}
+
+type RDateTime = { [ResultType.datetime]: [number, string] }
+type RNumber = { [ResultType.number]: number }
+type REmpty = { [ResultType.empty]: string }
+type RBool = { [ResultType.bool]: boolean }
+type RChar = { [ResultType.char]: string }
+type RImage = { [ResultType.image]: string }
+
+type ResultRow = RDateTime | REmpty | RNumber | RBool | RChar | RImage
+
+export { BraceListModel, ActionModel, ResultModel, PK, ResultType, ResultRow }
 
 const DefaultBraceList: BraceListModel = {
     preserve_filters: true,
