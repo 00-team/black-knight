@@ -27,6 +27,7 @@ class Book(models.Model):
     is_nsfw = models.BooleanField(default=False)
     publish_date = models.DateTimeField(default=now)
     cover = models.ImageField(upload_to='Book/cover/', blank=True, null=True)
+    pages = models.PositiveIntegerField(default=0)
 
     def __str__(self):
         return self.title

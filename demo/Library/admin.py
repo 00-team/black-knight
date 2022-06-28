@@ -8,7 +8,7 @@ from Library.models import Author, Book
 class BookAdmin(ModelAdmin):
     list_display = (
         'title', 'author', 'targeted_group',
-        'is_nsfw', 'publish_date', 'cover'
+        'is_nsfw', 'publish_date', 'cover', 'pages'
     )
 
 
