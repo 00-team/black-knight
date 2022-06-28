@@ -1,7 +1,6 @@
-import { RuleSetRule, RuleSetUseItem } from 'webpack'
-
 // plugins
 import CssExtract from 'mini-css-extract-plugin'
+import { RuleSetRule, RuleSetUseItem } from 'webpack'
 
 const SassLoader: RuleSetUseItem = {
     loader: 'sass-loader',
@@ -18,7 +17,19 @@ const DevStyle: RuleSetRule = {
 }
 const BuildStyle: RuleSetRule = {
     test: /\.(s|)[ac]ss$/i,
-    use: [CssExtract.loader, 'css-loader', 'postcss-loader', SassLoader],
+    use: [
+        CssExtract.loader,
+        'css-loader',
+        {
+            loader: 'postcss-loader',
+            options: {
+                postcssOptions: {
+                    plugins: ['autoprefixer'],
+                },
+            },
+        },
+        SassLoader,
+    ],
 }
 
 export { DevStyle, BuildStyle, CssExtract }
