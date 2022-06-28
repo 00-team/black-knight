@@ -34,7 +34,8 @@ class BraceList:
         self.response = {
             'preserve_filters': model_admin.preserve_filters,
             'search_help_text': model_admin.search_help_text,
-            'full_result_count': None
+            'full_result_count': None,
+            'empty_value_display': model_admin.get_empty_value_display(),
         }
 
         self.get_queryset()
@@ -49,7 +50,11 @@ class BraceList:
 
     def get_queryset(self):
         '''filter and order and search the queryset'''
-        self.queryset = self.root_queryset
+        qs = self.root_queryset
+
+        qs = qs.order_by('-pk')
+
+        self.queryset = qs
 
     def get_headers(self):
         '''get the result headers'''
@@ -71,15 +76,13 @@ class BraceList:
 
         model_admin = self.model_admin
         list_display = model_admin.get_list_display(self.request)
-        empty = model_admin.get_empty_value_display()
 
         def get_row(obj):
             row = [obj.pk]
 
             for field_name in list_display:
-                field, attr, value = lookup_field(field_name, obj, model_admin)
-                local_empty = getattr(attr, 'empty_value_display', empty)
-                row.append(value_dict(field, value, local_empty))
+                field, _, value = lookup_field(field_name, obj, model_admin)
+                row.append(value_dict(field, value))
 
             return row
 

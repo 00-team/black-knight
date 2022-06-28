@@ -6,7 +6,7 @@ import { useParams } from 'react-router-dom'
 
 import { useAtom } from 'jotai'
 import { BraceListAtom, BraceSelectAtom } from 'state/atoms'
-import { ResultModel, ResultType } from 'state/models'
+import { ResultModel } from 'state/models'
 
 import SearchInput from 'comps/SearchInput'
 import Select from 'comps/Select'
@@ -157,27 +157,62 @@ const BraceResult: FC<{ result: ResultModel }> = ({ result }) => {
                 </span>
             </td>
             {result.slice(1).map((field, index) => {
-                const type = Object.keys(field)[0]
-                const value = Object.values(field)[0]
+                if (Array.isArray(field)) {
+                    if (field[0] === 'image') {
+                        return (
+                            <td key={index}>
+                                <img
+                                    src={field[1] || ''}
+                                    alt=''
+                                    width={100}
+                                    height={100}
+                                    style={{
+                                        objectFit: 'contain',
+                                        border: '1px solid red',
+                                    }}
+                                />
+                            </td>
+                        )
+                    } else if (field[0] === 'datetime') {
+                        let datetime = new Date(field[1])
+                        return <td key={index}>{datetime.toISOString()}</td>
+                    }
+                }
 
-                switch (type) {
-                    case ResultType.bool:
-                        return <td key={index}>{value ? '✅' : '❌'}</td>
+                if (field === null) return <td key={index}> -empty- </td>
 
-                    case ResultType.empty:
-                    case ResultType.image:
-                    case ResultType.char:
-                        return <td key={index}>{value}</td>
+                switch (typeof field) {
+                    case 'boolean':
+                        return <td key={index}>{field ? '✅' : '❌'}</td>
 
-                    case ResultType.datetime:
-                        return <td key={index}>{value[1]}</td>
-
-                    case ResultType.number:
-                        return <td key={index}>{value}</td>
+                    case 'number':
+                        return <td key={index}>{field}</td>
 
                     default:
-                        return <td key={index}></td>
+                        return <td key={index}>{field}</td>
                 }
+
+                // const type = Object.keys(field)[0]
+                // const value = Object.values(field)[0]
+
+                // switch (type) {
+                //     case ResultType.bool:
+                //
+
+                //     case ResultType.empty:
+                //     case ResultType.image:
+                //     case ResultType.char:
+                //         return <td key={index}>{value}</td>
+
+                //     case ResultType.datetime:
+                //         return <td key={index}>{value[1]}</td>
+
+                //     case ResultType.number:
+                //         return <td key={index}>{value}</td>
+
+                //     default:
+                //         return <td key={index}></td>
+                // }
             })}
         </tr>
     )

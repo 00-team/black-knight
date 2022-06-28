@@ -15,25 +15,28 @@ interface ActionModel {
 type PK = string | number
 type ResultModel = [PK, ...ResultRow[]]
 
-enum ResultType {
-    datetime = 'datetime',
-    number = 'number',
-    empty = 'empty',
-    bool = 'bool',
-    char = 'char',
-    image = 'image',
-}
+// enum ResultType {
+//     datetime = 'datetime',
+//     number = 'number',
+//     empty = 'empty',
+//     bool = 'bool',
+//     char = 'char',
+//     image = 'image',
+// }
 
-type RDateTime = { [ResultType.datetime]: [number, string] }
-type RNumber = { [ResultType.number]: number }
-type REmpty = { [ResultType.empty]: string }
-type RBool = { [ResultType.bool]: boolean }
-type RChar = { [ResultType.char]: string }
-type RImage = { [ResultType.image]: string }
+// type RDateTime = { [ResultType.datetime]: [number, string] }
+// type RNumber = { [ResultType.number]: number }
+// type REmpty = { [ResultType.empty]: string }
+// type RBool = { [ResultType.bool]: boolean }
+// type RChar = { [ResultType.char]: string }
+// type RImage = { [ResultType.image]: string }
 
-type ResultRow = RDateTime | REmpty | RNumber | RBool | RChar | RImage
+type RImage = ['image', string | null]
+type RDateTime = ['datetime', number]
 
-export { BraceListModel, ActionModel, ResultModel, PK, ResultType, ResultRow }
+type ResultRow = string | number | boolean | null | RDateTime | RImage
+
+export { BraceListModel, ActionModel, ResultModel, PK, ResultRow }
 
 const DefaultBraceList: BraceListModel = {
     preserve_filters: true,

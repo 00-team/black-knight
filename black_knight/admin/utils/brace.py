@@ -5,46 +5,55 @@ from django.db import models
 from django.utils import formats, timezone
 
 
-def value_dict(field, value, empty) -> dict:
+def _get_value(item_type: str, item) -> dict:
+    return item_type, item
+    # return {
+    #     't': item_type,
+    #     'v': item
+    # }
 
-    empty = {'empty': empty}
 
-    if value == None:
-        return empty
+def value_dict(field, value) -> dict:
+
+    if field:
+        if getattr(field, 'flatchoices', None):
+            return dict(field.flatchoices).get(value)
+
+        if isinstance(field, models.ImageField):
+            if value:
+                return _get_value('image', value.url)
+            else:
+                return _get_value('image', None)
+
+    # empty = _get_value('empty', empty)
+
+    if value is None:
+        return None
 
     if value == '':
-        return empty
+        return None
 
     if isinstance(value, bool):
-        return {'bool': value}
+        return value
 
     if isinstance(value, datetime.datetime):
-        return {'datetime': [
-            value.timestamp(),
-            formats.localize(timezone.template_localtime(value))
-        ]}
+        return _get_value('datetime', int(value.timestamp()))
+        # return int(value.timestamp())
+        # return _get_value('datetime', [
+        #     int(value.timestamp()),
+        #     formats.localize(timezone.template_localtime(value))
+        # ])
 
     if isinstance(value, (datetime.date, datetime.time)):
-        return {'char': formats.localize(value)}
+        return formats.localize(value)
 
     if isinstance(value, (int, decimal.Decimal, float)):
-        return {'number': value}
+        return value
         # return formats.number_format(value)
 
     # if isinstance(value, (list, tuple)):
     #     return ', '.join(str(v) for v in value)
 
-    if field:
-        if getattr(field, 'flatchoices', None):
-            value = dict(field.flatchoices).get(value)
-            if value:
-                return {'char': value}
-            else:
-                return empty
-
-        if isinstance(field, models.ImageField):
-            return {'image': value.url}
-
     # print(type(field))
 
-    return {'char': str(value)}
+    return str(value)
