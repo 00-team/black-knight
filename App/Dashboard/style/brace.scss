@@ -123,6 +123,8 @@
 
             .checkbox {
                 width: 50px;
+
+                vertical-align: sub;
                 span {
                     input {
                         width: 100%;
@@ -147,6 +149,12 @@
             tbody {
                 tr {
                     font-family: 'Merienda One', cursive;
+                    font-weight: bolder;
+
+                    td:nth-child(2) {
+                        color: #b5e8ff;
+                        cursor: pointer;
+                    }
                 }
             }
 
