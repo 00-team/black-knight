@@ -38,10 +38,6 @@ const Brace: FC = () => {
             UpdateBraceList(`${app_label}/${model_name}`)
     }, [app_label, model_name])
 
-    useEffect(() => {
-        console.log(BraceList)
-    }, [BraceList])
-
     if (!app_label)
         return (
             <BouncyText
@@ -62,10 +58,7 @@ const Brace: FC = () => {
                         <div className='add-container'>
                             <div className='holder'>
                                 Add
-                                <span className='model_name'>
-                                    {' '}
-                                    {model_name}
-                                </span>
+                                <span className='model_name'>{model_name}</span>
                             </div>
                             <div className='icon'>
                                 <AiFillFolderAdd size={24} />
@@ -107,16 +100,17 @@ interface BraceHeadProps {
 const BraceHead: FC<BraceHeadProps> = ({ results_length, headers }) => {
     const [Selecteds, UpdateSelecteds] = useAtom(BraceSelectAtom)
 
+    const checked = () =>
+        Selecteds === 'all' ||
+        (Selecteds.length === results_length && Selecteds.length > 0)
+
     return (
         <tr className='title_small'>
             <th className='checkbox'>
                 <span>
                     <input
                         type='checkbox'
-                        checked={
-                            Selecteds === 'all' ||
-                            Selecteds.length === results_length
-                        }
+                        checked={checked()}
                         onChange={e => {
                             const checked = e.currentTarget.checked
                             UpdateSelecteds({
