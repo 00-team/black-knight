@@ -52,7 +52,7 @@ class BraceList:
         '''filter and order and search the queryset'''
         qs = self.root_queryset
 
-        qs = qs.order_by('-pk')
+        # qs = qs.order_by('-pk')
 
         self.queryset = qs
 

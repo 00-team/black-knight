@@ -2,6 +2,7 @@ interface BraceListModel {
     preserve_filters: boolean
     search_help_text: null | string
     full_result_count: null | number
+    empty_value_display: string
     actions: ActionModel[] | null
     results: ResultModel[]
     headers: string[]
@@ -15,26 +16,9 @@ interface ActionModel {
 type PK = string | number
 type ResultModel = [PK, ...ResultRow[]]
 
-// enum ResultType {
-//     datetime = 'datetime',
-//     number = 'number',
-//     empty = 'empty',
-//     bool = 'bool',
-//     char = 'char',
-//     image = 'image',
-// }
-
-// type RDateTime = { [ResultType.datetime]: [number, string] }
-// type RNumber = { [ResultType.number]: number }
-// type REmpty = { [ResultType.empty]: string }
-// type RBool = { [ResultType.bool]: boolean }
-// type RChar = { [ResultType.char]: string }
-// type RImage = { [ResultType.image]: string }
-
 type RImage = ['image', string | null]
-type RDateTime = ['datetime', number]
 
-type ResultRow = string | number | boolean | null | RDateTime | RImage
+type ResultRow = string | number | boolean | null | RImage
 
 export { BraceListModel, ActionModel, ResultModel, PK, ResultRow }
 
@@ -42,6 +26,7 @@ const DefaultBraceList: BraceListModel = {
     preserve_filters: true,
     search_help_text: null,
     full_result_count: 0,
+    empty_value_display: '-empty-',
     actions: null,
     results: [],
     headers: [],

@@ -173,9 +173,6 @@ const BraceResult: FC<{ result: ResultModel }> = ({ result }) => {
                                 />
                             </td>
                         )
-                    } else if (field[0] === 'datetime') {
-                        let datetime = new Date(field[1])
-                        return <td key={index}>{datetime.toISOString()}</td>
                     }
                 }
 
