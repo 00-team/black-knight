@@ -5,7 +5,7 @@ import { AiFillFolderAdd } from '@react-icons/all-files/ai/AiFillFolderAdd'
 import { useParams } from 'react-router-dom'
 
 import { useAtom } from 'jotai'
-import { BraceListAtom, BraceSelectAtom } from 'state/atoms'
+import { BraceInfoAtom, BraceListAtom, BraceSelectAtom } from 'state/atoms'
 import { ResultModel } from 'state/models'
 
 import SearchInput from 'comps/SearchInput'
@@ -32,10 +32,14 @@ const Model_opts = [
 const Brace: FC = () => {
     const { app_label, model_name } = useParams()
     const [BraceList, UpdateBraceList] = useAtom(BraceListAtom)
+    const [BraceInfo, UpdateBraceInfo] = useAtom(BraceInfoAtom)
 
     useEffect(() => {
-        if (app_label && model_name)
-            UpdateBraceList(`${app_label}/${model_name}`)
+        if (!app_label || !model_name) return
+        const app_model = `${app_label}/${model_name}`
+
+        UpdateBraceInfo(app_model)
+        UpdateBraceList(app_model)
     }, [app_label, model_name])
 
     if (!app_label)
@@ -75,15 +79,31 @@ const Brace: FC = () => {
                 <div className='data-wrapper'>
                     <table className='data-table'>
                         <thead>
-                            <BraceHead
-                                headers={BraceList.headers}
-                                results_length={BraceList.results.length}
-                            />
+                            {BraceInfo === 'loading' ? (
+                                <tr>
+                                    <td>Loading ...</td>
+                                </tr>
+                            ) : (
+                                <BraceHead
+                                    headers={BraceInfo.headers}
+                                    results_length={
+                                        BraceList === 'loading'
+                                            ? 0
+                                            : BraceList.results.length
+                                    }
+                                />
+                            )}
                         </thead>
                         <tbody className='description'>
-                            {BraceList.results.map((result, index) => (
-                                <BraceResult key={index} result={result} />
-                            ))}
+                            {BraceList === 'loading' ? (
+                                <tr>
+                                    <td>Loading ...</td>
+                                </tr>
+                            ) : (
+                                BraceList.results.map((result, index) => (
+                                    <BraceResult key={index} result={result} />
+                                ))
+                            )}
                         </tbody>
                     </table>
                 </div>

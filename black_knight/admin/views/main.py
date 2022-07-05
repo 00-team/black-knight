@@ -31,22 +31,10 @@ class BraceList:
         # self.date_hierarchy = model_admin.date_hierarchy
 
         self.root_queryset = model_admin.get_queryset(request)
-        self.response = {
-            'preserve_filters': model_admin.preserve_filters,
-            'search_help_text': model_admin.search_help_text,
-            'full_result_count': None,
-            'empty_value_display': model_admin.get_empty_value_display(),
-        }
+        self.response = {}
 
         self.get_queryset()
         self.get_response()
-
-    def get_actions(self):
-        '''add the actions into the response'''
-
-        actions = self.model_admin.get_action_choices(self.request, [])
-        actions = [{'name': a[0], 'description': a[1]} for a in actions]
-        self.response['actions'] = actions or None
 
     def get_queryset(self):
         '''filter and order and search the queryset'''
@@ -55,21 +43,6 @@ class BraceList:
         # qs = qs.order_by('-pk')
 
         self.queryset = qs
-
-    def get_headers(self):
-        '''get the result headers'''
-
-        list_display = self.model_admin.get_list_display(self.request)
-
-        def get_label(field):
-            label = label_for_field(
-                field,
-                self.model_admin.model,
-                self.model_admin
-            )
-            return label.strip()
-
-        self.response['headers'] = list(map(get_label, list_display))
 
     def get_results(self):
         '''loop over the queryset and get the objects'''
@@ -91,9 +64,4 @@ class BraceList:
 
     def get_response(self):
         '''setup the response'''
-        self.get_actions()
-        self.get_headers()
         self.get_results()
-
-        if self.model_admin.show_full_result_count:
-            self.response['full_result_count'] = self.root_queryset.count()

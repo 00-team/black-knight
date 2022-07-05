@@ -18,7 +18,8 @@ class ModelAdmin(admin.ModelAdmin):
         wrap = self.admin_site.url_wrap
 
         return [
-            path('bracelist/', wrap(self.bracelist))
+            path('bracelist/', wrap(self.bracelist)),
+            path('braceinfo/', wrap(self.braceinfo))
         ]
 
     @property
@@ -41,3 +42,38 @@ class ModelAdmin(admin.ModelAdmin):
         brace_list = self.get_bracelist_instance(request)
 
         return JsonResponse(brace_list.response)
+
+    @require_GET_m
+    def braceinfo(self, request: HttpRequest):
+        '''bracelist info'''
+
+        list_display = self.get_list_display(request)
+        root_queryset = self.get_queryset(request)
+        actions = self.get_action_choices(request, [])
+
+        response = {
+            'preserve_filters': self.preserve_filters,
+            'search_help_text': self.search_help_text,
+            'full_result_count': None,
+            'empty_value_display': self.get_empty_value_display(),
+        }
+
+        # actions
+        actions = [{'name': a[0], 'description': a[1]} for a in actions]
+        response['actions'] = actions or None
+
+        # headers
+        def get_label(field):
+            label = label_for_field(
+                field,
+                self.model,
+                self
+            )
+            return label.strip()
+
+        response['headers'] = list(map(get_label, list_display))
+
+        if self.show_full_result_count:
+            response['full_result_count'] = root_queryset.count()
+
+        return JsonResponse(response)
