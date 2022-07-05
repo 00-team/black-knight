@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from 'react'
+import React, { FC, useEffect, useState } from 'react'
 
 import { AiFillFolderAdd } from '@react-icons/all-files/ai/AiFillFolderAdd'
 
@@ -30,6 +30,8 @@ const Model_opts = [
 ]
 
 const Brace: FC = () => {
+    const [ShiftArray, setShiftArray] = useState([])
+
     const { app_label, model_name } = useParams()
     const [BraceList, UpdateBraceList] = useAtom(BraceListAtom)
 
@@ -37,6 +39,10 @@ const Brace: FC = () => {
         if (app_label && model_name)
             UpdateBraceList(`${app_label}/${model_name}`)
     }, [app_label, model_name])
+
+    useEffect(() => {
+        console.log(ShiftArray)
+    }, [ShiftArray])
 
     if (!app_label)
         return (
@@ -85,7 +91,12 @@ const Brace: FC = () => {
                         </thead>
                         <tbody className='description'>
                             {BraceList.results.map((result, index) => (
-                                <BraceResult key={index} result={result} />
+                                <BraceResult
+                                    key={index}
+                                    result={result}
+                                    setShiftArray={setShiftArray}
+                                    ShiftArray={ShiftArray}
+                                />
                             ))}
                         </tbody>
                     </table>
@@ -131,9 +142,12 @@ const BraceHead: FC<BraceHeadProps> = ({ results_length, headers }) => {
     )
 }
 
-const BraceResult: FC<{ result: ResultModel }> = ({ result }) => {
+const BraceResult: FC<{
+    result: ResultModel
+    setShiftArray: (e: any) => void
+    ShiftArray: number[]
+}> = ({ result, ShiftArray, setShiftArray }) => {
     const [Selecteds, UpdateSelecteds] = useAtom(BraceSelectAtom)
-
     const pk = result[0]
 
     return (
@@ -152,6 +166,23 @@ const BraceResult: FC<{ result: ResultModel }> = ({ result }) => {
                                 type: checked ? 'add' : 'remove',
                                 id: pk,
                             })
+                        }}
+                        onClick={e => {
+                            const checked = e.currentTarget.checked
+
+                            if (checked) {
+                                if (ShiftArray.length === 0) {
+                                    setShiftArray([pk])
+                                } else if (e.shiftKey) {
+                                    setShiftArray([...ShiftArray, pk])
+                                } else if (!e.shiftKey) {
+                                    setShiftArray([pk])
+                                }
+                            } else {
+                                setShiftArray(
+                                    ShiftArray.filter(id => id !== pk)
+                                )
+                            }
                         }}
                     />
                 </span>
