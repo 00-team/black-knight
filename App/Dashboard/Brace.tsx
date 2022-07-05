@@ -58,7 +58,10 @@ const Brace: FC = () => {
                         <div className='add-container'>
                             <div className='holder'>
                                 Add
-                                <span className='model_name'>{model_name}</span>
+                                <span className='model_name'>
+                                    {' '}
+                                    {model_name}
+                                </span>
                             </div>
                             <div className='icon'>
                                 <AiFillFolderAdd size={24} />
