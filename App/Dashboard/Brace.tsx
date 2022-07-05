@@ -212,6 +212,7 @@ const BraceResult: FC<{
                                 <img
                                     src={field[1] || ''}
                                     alt=''
+                                    loading='lazy'
                                     width={100}
                                     height={100}
                                     style={{
