@@ -32,7 +32,11 @@ const Model_opts = [
 const Brace: FC = () => {
     const [ShiftArray, setShiftArray] = useState([])
 
+    // this should be removed. (just for testing and demoing stuff)
+    const [SearchQuery, setSearchQuery] = useState('')
+
     const { app_label, model_name } = useParams()
+
     const [BraceList, UpdateBraceList] = useAtom(BraceListAtom)
     const [BraceInfo, UpdateBraceInfo] = useAtom(BraceInfoAtom)
 
@@ -41,14 +45,16 @@ const Brace: FC = () => {
         const app_model = `${app_label}/${model_name}`
 
         UpdateBraceInfo(app_model)
-        UpdateBraceList(app_model)
-    }, [app_label, model_name])
+
+        if (SearchQuery) UpdateBraceList({ app_model, search: SearchQuery })
+        else UpdateBraceList(app_model)
+    }, [app_label, model_name, SearchQuery])
 
     useEffect(() => {
         console.log(ShiftArray)
     }, [ShiftArray])
 
-    if (!app_label)
+    if (!app_label || !model_name)
         return (
             <BouncyText
                 text='Please Select a Model'
@@ -59,10 +65,13 @@ const Brace: FC = () => {
     return (
         <>
             <div className='brace'>
-                {/* no need for search bar for now */}
                 <div className='data-header'>
                     <div className='search-container'>
-                        <SearchInput />
+                        <SearchInput
+                            submit={query => {
+                                setSearchQuery(query)
+                            }}
+                        />
                     </div>
                     <div className='options-wrapper title_smaller'>
                         <div className='add-container'>
