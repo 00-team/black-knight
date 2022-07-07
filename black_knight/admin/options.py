@@ -53,6 +53,7 @@ class ModelAdmin(admin.ModelAdmin):
 
         response = {
             'preserve_filters': self.preserve_filters,
+            'show_search': bool(self.get_search_fields(request)),
             'search_help_text': self.search_help_text,
             'full_result_count': None,
             'empty_value_display': self.get_empty_value_display(),
