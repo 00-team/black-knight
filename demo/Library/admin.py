@@ -6,7 +6,7 @@ from Library.models import Author, Book
 
 @admin.register(Book)
 class BookAdmin(ModelAdmin):
-    search_fields = 'title', 'author'
+    search_fields = 'title', 'author__name'
     search_help_text = 'Search for Titles and Authors'
     list_display = (
         'title', 'author', 'targeted_group',
