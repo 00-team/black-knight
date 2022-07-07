@@ -58,7 +58,7 @@ const Brace: FC = () => {
                 {/* no need for search bar for now */}
                 <div className='data-header'>
                     <div className='search-container'>
-                        <SearchInput />
+                        <SearchInput submit={() => ''} />
                     </div>
                     <div className='options-wrapper title_smaller'>
                         <div className='add-container'>
@@ -218,7 +218,7 @@ const BraceResult: FC<BraceResultProps> = ({ result, index }) => {
                                                         type: checked
                                                             ? 'add'
                                                             : 'remove',
-                                                        id: item + 1,
+                                                        id: item,
                                                     })
                                                 }
                                             )
@@ -229,7 +229,7 @@ const BraceResult: FC<BraceResultProps> = ({ result, index }) => {
                                                         type: checked
                                                             ? 'add'
                                                             : 'remove',
-                                                        id: item + 1,
+                                                        id: item,
                                                     })
                                                 }
                                             )

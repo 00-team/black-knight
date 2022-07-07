@@ -1,32 +1,44 @@
-import React, { useState } from 'react'
+import React, { FC, useRef, useState } from 'react'
+
+import { C } from '@00-team/utils'
 
 // style
 import './style/searchinput.scss'
 
-const SearchInput = () => {
-    const [InputActive, setInputActive] = useState(false)
+interface SearchInputProps {
+    submit: (search_text: string) => void
+}
+
+const SearchInput: FC<SearchInputProps> = ({ submit }) => {
+    const [active, setActive] = useState(false)
+    const input = useRef<HTMLInputElement>(null)
+
     return (
-        <div
-            className={`search-wrapper title_small ${
-                InputActive ? 'active' : ''
-            }`}
-        >
+        <div className={'search-wrapper title_small' + C(active)}>
             <div className='input-holder'>
                 <input
+                    ref={input}
                     type='text'
                     className='search-input'
                     placeholder='Search...'
                 />
                 <button
                     className='search-icon'
-                    onClick={() => setInputActive(true)}
+                    onClick={() => {
+                        if (active && input.current && input.current.value)
+                            submit(input.current.value)
+                        else setActive(true)
+                    }}
                 >
                     <span></span>
                 </button>
             </div>
             <span
                 className='close'
-                onClick={() => setInputActive(false)}
+                onClick={() => {
+                    if (input.current) input.current.value = ''
+                    setActive(false)
+                }}
             ></span>
         </div>
     )

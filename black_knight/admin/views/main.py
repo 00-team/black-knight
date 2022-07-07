@@ -1,14 +1,14 @@
 
 from black_knight.admin.options import ModelAdmin
 from black_knight.admin.utils.brace import value_dict
-from django.contrib.admin.utils import label_for_field, lookup_field
-from django.db.models import QuerySet
+from django.contrib.admin.utils import lookup_field
+from django.db.models import Exists, OuterRef, QuerySet
 from django.http import HttpRequest
 
 
-# ORDER_VAR = 'o'
-# PAGE_VAR = 'p'
-# SEARCH_VAR = 'q'
+ORDER_VAR = 'o'
+PAGE_VAR = 'p'
+SEARCH_VAR = 'q'
 
 
 class BraceList:
@@ -36,11 +36,39 @@ class BraceList:
         self.get_queryset()
         self.get_response()
 
+    def apply_search(self, qs) -> tuple:
+        '''apply search result and return the queryset'''
+        request = self.request
+        model_admin = self.model_admin
+
+        query = request.GET.get(SEARCH_VAR)
+        enabled = model_admin.get_search_fields(request)
+
+        if enabled and query:
+            return model_admin.get_search_results(
+                request,
+                qs,
+                query,
+            )
+
+        return qs, False
+
     def get_queryset(self):
         '''filter and order and search the queryset'''
         qs = self.root_queryset
 
-        # qs = qs.order_by('-pk')
+        # filters
+        filters_have_duplicated = False
+
+        # search
+        qs, search_have_duplicated = self.apply_search(qs)
+
+        # order
+
+        # duplication check
+        if filters_have_duplicated | search_have_duplicated:
+            qs = qs.filter(pk=OuterRef('pk'))
+            qs = self.root_queryset.filter(Exists(qs))
 
         self.queryset = qs
 
