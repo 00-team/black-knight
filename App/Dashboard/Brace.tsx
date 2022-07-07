@@ -1,10 +1,10 @@
-import React, { FC, useEffect, useState } from 'react'
+import React, { FC, useEffect } from 'react'
 
 import { AiFillFolderAdd } from '@react-icons/all-files/ai/AiFillFolderAdd'
 
 import { useParams } from 'react-router-dom'
 
-import { useAtom } from 'jotai'
+import { atom, useAtom } from 'jotai'
 import { BraceInfoAtom, BraceListAtom, BraceSelectAtom } from 'state/atoms'
 import { ResultModel } from 'state/models'
 
@@ -29,9 +29,9 @@ const Model_opts = [
     },
 ]
 
-const Brace: FC = () => {
-    const [ShiftArray, setShiftArray] = useState([])
+const LastIndexAtom = atom<null | number>(null)
 
+const Brace: FC = () => {
     const { app_label, model_name } = useParams()
     const [BraceList, UpdateBraceList] = useAtom(BraceListAtom)
     const [BraceInfo, UpdateBraceInfo] = useAtom(BraceInfoAtom)
@@ -43,10 +43,6 @@ const Brace: FC = () => {
         UpdateBraceInfo(app_model)
         UpdateBraceList(app_model)
     }, [app_label, model_name])
-
-    useEffect(() => {
-        console.log(ShiftArray)
-    }, [ShiftArray])
 
     if (!app_label)
         return (
@@ -110,8 +106,7 @@ const Brace: FC = () => {
                                     <BraceResult
                                         key={index}
                                         result={result}
-                                        setShiftArray={setShiftArray}
-                                        ShiftArray={ShiftArray}
+                                        index={index}
                                     />
                                 ))
                             )}
@@ -159,14 +154,19 @@ const BraceHead: FC<BraceHeadProps> = ({ results_length, headers }) => {
     )
 }
 
-const BraceResult: FC<{
+interface BraceResultProps {
     result: ResultModel
-    setShiftArray: (e: any) => void
-    ShiftArray: number[]
-}> = ({ result, ShiftArray, setShiftArray }) => {
+    index: number
+}
+
+const BraceResult: FC<BraceResultProps> = ({ result, index }) => {
     const [Selecteds, UpdateSelecteds] = useAtom(BraceSelectAtom)
+    const [LastIndex, UpdateLastIndex] = useAtom(LastIndexAtom)
     const pk = result[0]
 
+    useEffect(() => {
+        console.log(LastIndex)
+    }, [LastIndex])
     return (
         <tr>
             <td className='checkbox'>
@@ -188,17 +188,58 @@ const BraceResult: FC<{
                             const checked = e.currentTarget.checked
 
                             if (checked) {
-                                if (ShiftArray.length === 0) {
-                                    setShiftArray([pk])
-                                } else if (e.shiftKey) {
-                                    setShiftArray([...ShiftArray, pk])
-                                } else if (!e.shiftKey) {
-                                    setShiftArray([pk])
+                                // if (ShiftArray.length === 0) {
+                                //     setShiftArray([pk])
+                                // } else if (e.shiftKey) {
+                                //     setShiftArray([...ShiftArray, pk])
+
+                                //     console.log(Getrange(ShiftArray[0]!, index))
+                                // } else if (!e.shiftKey) {
+                                //     setShiftArray([pk])
+                                // }
+
+                                if (LastIndex === null) UpdateLastIndex(index)
+                                else {
+                                    if (e.shiftKey) {
+                                        const Getrange = (
+                                            min: number,
+                                            max: number
+                                        ) =>
+                                            Array.from(
+                                                { length: max - min + 1 },
+                                                (_, i) => min + i
+                                            )
+
+                                        console.log(Getrange(LastIndex, index))
+                                        if (LastIndex > index) {
+                                            Getrange(index, LastIndex).map(
+                                                item => {
+                                                    UpdateSelecteds({
+                                                        type: checked
+                                                            ? 'add'
+                                                            : 'remove',
+                                                        id: item + 1,
+                                                    })
+                                                }
+                                            )
+                                        } else {
+                                            Getrange(LastIndex, index).map(
+                                                item => {
+                                                    UpdateSelecteds({
+                                                        type: checked
+                                                            ? 'add'
+                                                            : 'remove',
+                                                        id: item + 1,
+                                                    })
+                                                }
+                                            )
+                                        }
+                                    } else {
+                                        UpdateLastIndex(index)
+                                    }
                                 }
                             } else {
-                                setShiftArray(
-                                    ShiftArray.filter(id => id !== pk)
-                                )
+                                UpdateLastIndex(null)
                             }
                         }}
                     />
