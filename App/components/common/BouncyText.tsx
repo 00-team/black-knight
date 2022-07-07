@@ -2,15 +2,10 @@ import React, { FC } from 'react'
 
 import './style/bouncy-text.scss'
 
-interface BouncyTextProps {
-    text: string
-    className?: string
-}
-
-const BouncyText: FC<BouncyTextProps> = ({ text, className }) => {
+const BouncyText: FC<{ text: string }> = ({ text }) => {
     let delay = -0.5
     return (
-        <div className={'bouncy-text ' + (className || '')}>
+        <span className='bouncy-text'>
             {text.split('').map((w, idx) => {
                 if (w === ' ') return <span key={idx} className='space' />
                 delay += 0.5
@@ -24,7 +19,7 @@ const BouncyText: FC<BouncyTextProps> = ({ text, className }) => {
                     </span>
                 )
             })}
-        </div>
+        </span>
     )
 }
 

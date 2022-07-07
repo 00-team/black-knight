@@ -37,7 +37,7 @@ const BraceInfoAtom = atom(
     }
 )
 
-interface BraceListUpdate {
+export interface BraceListUpdateParams {
     app_model: string
     search?: string
 }
@@ -49,22 +49,16 @@ const BraceListAtom = atom(
         return brace_list
     },
 
-    async (get, set, args: string | BraceListUpdate) => {
+    async (get, set, args: BraceListUpdateParams) => {
         // app_model should be like this: app_label/model_name
         // e.g.: (auth/user)
 
-        let app_model = ''
+        const app_model = args.app_model
         const params = new URLSearchParams()
         // let filters = ''
         // let orders = ''
 
-        if (typeof args === 'string') app_model = args
-        else {
-            app_model = args.app_model
-
-            // ifparams.append('q', args.search)
-            if (args.search) params.set('q', args.search)
-        }
+        if (args.search) params.set('q', args.search)
 
         // cancelling the previous request if exists.
         if (BraceListController) BraceListController.abort()

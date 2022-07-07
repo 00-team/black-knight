@@ -1,5 +1,6 @@
 interface BraceInfoModel {
     preserve_filters: boolean
+    show_search: boolean
     search_help_text: null | string
     full_result_count: null | number
     empty_value_display: string
@@ -28,6 +29,7 @@ export { ResultModel, PK, ResultRow }
 
 const DefaultBraceInfo: BraceInfoModel = {
     preserve_filters: true,
+    show_search: true,
     search_help_text: null,
     full_result_count: 0,
     empty_value_display: '-empty-',

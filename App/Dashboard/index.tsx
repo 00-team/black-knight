@@ -7,7 +7,7 @@ import Brace from './Brace'
 import Header from './Header'
 import Sidebar from './Sidebar'
 
-import './style/index.scss'
+import './style/dashboard.scss'
 
 const Dashboard: FC = () => {
     const [, UpdateUser] = useAtom(UserAtom)

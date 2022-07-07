@@ -18,11 +18,10 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
+        gap: 3vw 3vh;
 
         @media screen and (max-width: 1024px) {
             flex-direction: column;
-
-            gap: 3vh;
         }
     }
 }

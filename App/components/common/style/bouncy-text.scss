@@ -1,13 +1,16 @@
 .bouncy-text {
+    display: flex;
+    align-items: center;
+
     .char {
-        animation: selectSection 1s ease-in-out;
+        animation: bouncy-text-anime 1s ease-in-out;
     }
 
     .space {
         margin: 0 4px;
     }
 
-    @keyframes selectSection {
+    @keyframes bouncy-text-anime {
         0% {
             transform: translateY(0);
         }
