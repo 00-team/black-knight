@@ -1,6 +1,8 @@
+from black_knight.admin.utils.exception import ErrorResponse
 from django.contrib import admin
 # from django.contrib.admin.utils import flatten_fieldsets
 from django.contrib.admin.utils import label_for_field, lookup_field
+from django.core.paginator import InvalidPage
 from django.http import HttpRequest, JsonResponse
 from django.utils.decorators import method_decorator
 from django.views.decorators.http import require_GET
@@ -38,10 +40,12 @@ class ModelAdmin(admin.ModelAdmin):
     @require_GET_m
     def braceresult(self, request: HttpRequest):
         '''display list of instances in the brace'''
+        try:
+            brace_result = self.get_braceresult_instance(request)
 
-        brace_result = self.get_braceresult_instance(request)
-
-        return JsonResponse(brace_result.response)
+            return JsonResponse(brace_result.response)
+        except InvalidPage:
+            return ErrorResponse('Invalid Page', 400)
 
     @require_GET_m
     def braceinfo(self, request: HttpRequest):

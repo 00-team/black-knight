@@ -11,6 +11,13 @@ PAGE_VAR = 'p'
 SEARCH_VAR = 'q'
 
 
+def _page_num(request: HttpRequest):
+    try:
+        return int(request.GET.get(PAGE_VAR, 1))
+    except ValueError:
+        return 1
+
+
 class BraceResult:
 
     request: HttpRequest
@@ -36,7 +43,7 @@ class BraceResult:
         self.get_queryset()
         self.get_response()
 
-    def apply_search(self, qs) -> tuple:
+    def apply_search(self, qs) -> tuple[QuerySet, bool]:
         '''apply search result and return the queryset'''
         request = self.request
         model_admin = self.model_admin
@@ -64,6 +71,7 @@ class BraceResult:
         qs, search_have_duplicated = self.apply_search(qs)
 
         # order
+        qs = qs.order_by('-pk')
 
         # duplication check
         if filters_have_duplicated | search_have_duplicated:
@@ -76,7 +84,20 @@ class BraceResult:
         '''loop over the queryset and get the objects'''
 
         model_admin = self.model_admin
-        list_display = model_admin.get_list_display(self.request)
+        request = self.request
+        list_display = model_admin.get_list_display(request)
+        list_per_page = model_admin.list_per_page
+
+        paginator = model_admin.get_paginator(
+            request, self.queryset, list_per_page
+        )
+
+        result_count = paginator.count
+
+        if result_count > list_per_page:
+            result_list = paginator.page(_page_num(request)).object_list
+        else:
+            result_list = self.queryset._clone()
 
         def get_row(obj):
             row = [obj.pk]
@@ -87,7 +108,7 @@ class BraceResult:
 
             return row
 
-        results = map(get_row, self.queryset)
+        results = map(get_row, result_list)
         self.response['results'] = list(results)
 
     def get_response(self):
