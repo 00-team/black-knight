@@ -5,7 +5,7 @@ import { AiFillFolderAdd } from '@react-icons/all-files/ai/AiFillFolderAdd'
 import { useParams } from 'react-router-dom'
 
 import { atom, useAtom, useAtomValue } from 'jotai'
-import { BraceInfoAtom, BraceListAtom, BraceListUpdateParams } from 'state'
+import { BraceInfoAtom, BraceResultAtom, BraceResultUpdateParams } from 'state'
 
 import SearchInput from 'comps/SearchInput'
 import Select from 'comps/Select'
@@ -31,13 +31,13 @@ const Model_opts = [
     },
 ]
 
-const ListParamsAtom = atom<BraceListUpdateParams>({ app_model: '' })
+const ListParamsAtom = atom<BraceResultUpdateParams>({ app_model: '' })
 
 const Brace: FC = () => {
     const { app_label, model_name } = useParams()
     const [ListParams, UpdateListParams] = useAtom(ListParamsAtom)
     const [BraceInfo, UpdateBraceInfo] = useAtom(BraceInfoAtom)
-    const [, UpdateBraceList] = useAtom(BraceListAtom)
+    const [, UpdateBraceResult] = useAtom(BraceResultAtom)
 
     useEffect(() => {
         if (!app_label || !model_name) return
@@ -48,7 +48,7 @@ const Brace: FC = () => {
     }, [app_label, model_name])
 
     useEffect(() => {
-        UpdateBraceList(ListParams)
+        UpdateBraceResult(ListParams)
     }, [ListParams])
 
     if (!app_label || !model_name)
@@ -100,7 +100,7 @@ const Loading: FC = () => <div>Loading ...</div>
 
 const Result: FC = () => {
     const BraceInfo = useAtomValue(BraceInfoAtom)
-    const BraceList = useAtomValue(BraceListAtom)
+    const BraceResult = useAtomValue(BraceResultAtom)
 
     if (BraceInfo === 'loading') return <Loading />
 
@@ -110,15 +110,17 @@ const Result: FC = () => {
                 <BraceHead
                     headers={BraceInfo.headers}
                     results_length={
-                        BraceList === 'loading' ? 0 : BraceList.results.length
+                        BraceResult === 'loading'
+                            ? 0
+                            : BraceResult.results.length
                     }
                 />
 
-                {BraceList !== 'loading' && <BraceBody />}
+                {BraceResult !== 'loading' && <BraceBody />}
             </table>
 
             {/* loading under the table for results */}
-            {BraceList === 'loading' && <Loading />}
+            {BraceResult === 'loading' && <Loading />}
         </div>
     )
 }

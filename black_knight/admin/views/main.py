@@ -11,7 +11,7 @@ PAGE_VAR = 'p'
 SEARCH_VAR = 'q'
 
 
-class BraceList:
+class BraceResult:
 
     request: HttpRequest
     response: dict

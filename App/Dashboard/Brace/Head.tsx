@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import React, { FC, useEffect } from 'react'
 
 import { useAtom } from 'jotai'
 import { BraceSelectAtom } from 'state'
@@ -10,6 +10,10 @@ interface BraceHeadProps {
 
 const BraceHead: FC<BraceHeadProps> = ({ results_length, headers }) => {
     const [Selecteds, UpdateSelecteds] = useAtom(BraceSelectAtom)
+
+    useEffect(() => {
+        console.log(Selecteds)
+    }, [Selecteds])
 
     const checked = () =>
         Selecteds === 'all' ||

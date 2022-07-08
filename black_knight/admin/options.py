@@ -18,7 +18,7 @@ class ModelAdmin(admin.ModelAdmin):
         wrap = self.admin_site.url_wrap
 
         return [
-            path('bracelist/', wrap(self.bracelist)),
+            path('braceresult/', wrap(self.braceresult)),
             path('braceinfo/', wrap(self.braceinfo))
         ]
 
@@ -26,26 +26,26 @@ class ModelAdmin(admin.ModelAdmin):
     def api_urls(self):
         return self.get_api_urls()
 
-    def get_bracelist_instance(self, request):
+    def get_braceresult_instance(self, request):
         '''
-        Return a `BraceList` instance based on `request`. 
+        Return a `BraceResult` instance based on `request`. 
         May raise `IncorrectLookupParameters`.
         '''
-        from black_knight.admin.views.main import BraceList
+        from black_knight.admin.views.main import BraceResult
 
-        return BraceList(request, self)
+        return BraceResult(request, self)
 
     @require_GET_m
-    def bracelist(self, request: HttpRequest):
+    def braceresult(self, request: HttpRequest):
         '''display list of instances in the brace'''
 
-        brace_list = self.get_bracelist_instance(request)
+        brace_result = self.get_braceresult_instance(request)
 
-        return JsonResponse(brace_list.response)
+        return JsonResponse(brace_result.response)
 
     @require_GET_m
     def braceinfo(self, request: HttpRequest):
-        '''bracelist info'''
+        '''braceresult info'''
 
         list_display = self.get_list_display(request)
         root_queryset = self.get_queryset(request)

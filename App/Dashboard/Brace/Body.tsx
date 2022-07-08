@@ -1,19 +1,19 @@
 import React, { FC } from 'react'
 
 import { atom, useAtom, useAtomValue } from 'jotai'
-import { BraceListAtom, BraceSelectAtom } from 'state'
+import { BraceResultAtom, BraceSelectAtom } from 'state'
 import { ResultModel } from 'state/models'
 
 const LastIndexAtom = atom<null | number>(null)
 
 const BraceBody: FC = () => {
-    const BraceList = useAtomValue(BraceListAtom)
+    const BraceResult = useAtomValue(BraceResultAtom)
 
-    if (BraceList === 'loading') return <></>
+    if (BraceResult === 'loading') return <></>
 
     return (
         <tbody>
-            {BraceList.results.map((item, index) => (
+            {BraceResult.results.map((item, index) => (
                 <Result key={index} index={index} result={item} />
             ))}
         </tbody>
