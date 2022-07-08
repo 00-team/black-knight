@@ -1,7 +1,8 @@
 import { atom } from 'jotai'
+import { ResultModel, TPKMap } from 'state/models'
 import { GET } from 'state/utils'
 
-import { Result, Select } from './store'
+import { Result, Select, PKMap } from './store'
 
 var BraceResultController: AbortController | null = null
 
@@ -29,6 +30,7 @@ const BraceResultAtom = atom(
         if (BraceResultController) BraceResultController.abort()
         BraceResultController = new AbortController()
 
+        set(PKMap, 'loading')
         set(Result, ['loading', app_model])
         set(Select, [])
 
@@ -39,6 +41,16 @@ const BraceResultAtom = atom(
         if (response.ok) {
             const results = get(Result)
             if (Array.isArray(results) && results[1] !== app_model) return
+
+            // updating the PK Map
+            const result_list: ResultModel[] = response.data.results
+            const pk_map: TPKMap = {}
+            result_list.forEach((item, index) => {
+                pk_map[index] = item[0]
+            })
+            set(PKMap, pk_map)
+
+            // updating the results
             set(Result, response.data)
         }
         // else set(User, response.error)
@@ -48,3 +60,4 @@ const BraceResultAtom = atom(
 )
 
 export { BraceResultAtom, BraceResultUpdateParams }
+export { PKMap as PKMapAtom }

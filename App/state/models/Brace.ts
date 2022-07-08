@@ -24,21 +24,9 @@ type RImage = ['image', string | null]
 
 type ResultRow = string | number | boolean | null | RImage
 
+type TLoading = ['loading', string]
+type TPKMap = { [k: number]: PK }
+
 export { BraceListModel, ActionModel, BraceInfoModel }
 export { ResultModel, PK, ResultRow }
-
-const DefaultBraceInfo: BraceInfoModel = {
-    preserve_filters: true,
-    show_search: true,
-    search_help_text: null,
-    full_result_count: 0,
-    empty_value_display: '-empty-',
-    actions: null,
-    headers: [],
-}
-
-const DefaultBraceList: BraceListModel = {
-    results: [],
-}
-
-export { DefaultBraceList, DefaultBraceInfo }
+export { TLoading, TPKMap }

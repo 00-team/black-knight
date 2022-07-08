@@ -1,13 +1,19 @@
-import React, { FC } from 'react'
+import React, { FC, useEffect } from 'react'
 
-import { atom, useAtom, useAtomValue } from 'jotai'
-import { BraceResultAtom, BraceSelectAtom } from 'state'
+import { atom, useAtom, useAtomValue, useSetAtom } from 'jotai'
+import { BraceResultAtom, BraceSelectAtom, PKMapAtom } from 'state'
 import { ResultModel } from 'state/models'
 
 const LastIndexAtom = atom<null | number>(null)
 
 const BraceBody: FC = () => {
     const BraceResult = useAtomValue(BraceResultAtom)
+    const UpdateLastIndex = useSetAtom(LastIndexAtom)
+    const Selecteds = useAtomValue(BraceSelectAtom)
+
+    useEffect(() => {
+        if (Selecteds.length === 0) UpdateLastIndex(null)
+    }, [Selecteds])
 
     if (BraceResult === 'loading') return <></>
 
@@ -29,6 +35,7 @@ const Result: FC<ResultProps> = ({ result, index }) => {
     const pk = result[0]
     const [Selecteds, UpdateSelecteds] = useAtom(BraceSelectAtom)
     const [LastIndex, UpdateLastIndex] = useAtom(LastIndexAtom)
+    const PKMap = useAtomValue(PKMapAtom)
 
     return (
         <tr>
@@ -48,21 +55,26 @@ const Result: FC<ResultProps> = ({ result, index }) => {
                             })
                         }}
                         onClick={e => {
+                            if (PKMap === 'loading') return
                             const checked = e.currentTarget.checked
+                            const update_type = checked ? 'add' : 'remove'
 
-                            if (!checked) return UpdateLastIndex(null)
-                            if (LastIndex === null || !e.shiftKey)
-                                return UpdateLastIndex(index)
+                            if (checked) UpdateLastIndex(index)
+
+                            if (LastIndex === null || !e.shiftKey) return
 
                             let list: number[]
                             if (LastIndex > index)
                                 list = range(index, LastIndex)
                             else list = range(LastIndex, index)
 
-                            list.map(item => {
+                            list.forEach(item => {
+                                const item_pk = PKMap[item]
+                                if (!item_pk) return
+
                                 UpdateSelecteds({
-                                    type: checked ? 'add' : 'remove',
-                                    id: item,
+                                    type: update_type,
+                                    id: item_pk,
                                 })
                             })
                         }}
