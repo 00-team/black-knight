@@ -1,6 +1,10 @@
 import React, { FC, useState } from 'react'
 
-import Forgot from './Forgot'
+import LoginForm from './LoginForm'
+
+import Forgot from './ForgotForm'
+
+import './style/login.scss'
 
 // import { useSearchParams, useNavigate } from 'react-router-dom'
 
@@ -42,7 +46,11 @@ const Login: FC = () => {
 
     return (
         <div className='login-container'>
-            <Login />
+            <div className='stars'></div>
+            <div className='twinkling'></div>
+            <div className='clouds'></div>
+
+            <LoginForm />
             {HasForgot && <Forgot />}
             {/* <div>
                 username:
