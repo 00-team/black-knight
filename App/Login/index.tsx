@@ -10,6 +10,11 @@ import './style/login.scss'
 
 // import { Login as AuthLogin } from 'state/api/auth'
 
+const starsImg = require('../static/imgs/stars.png')
+const twinklingImg = require('../static/imgs/twinkling.png')
+const moonImg = require('../static/imgs/moon.png')
+const cloudsImg = require('../static/imgs/clouds.png')
+
 // interface TAuthData {
 //     username: string
 //     password: string
@@ -46,9 +51,23 @@ const Login: FC = () => {
 
     return (
         <div className='login-container'>
-            <div className='stars'></div>
-            <div className='twinkling'></div>
-            <div className='clouds'></div>
+            <div
+                className='stars'
+                style={{ background: `black url(${starsImg}) repeat` }}
+            ></div>
+            <div
+                className='twinkling'
+                style={{
+                    background: `transparent url(${twinklingImg}) repeat`,
+                }}
+            ></div>
+            <div
+                className='clouds'
+                style={{
+                    background: `transparent url(${cloudsImg}) repeat`,
+                }}
+            ></div>
+            <img className='moon' src={moonImg} alt=''></img>
 
             <LoginForm />
             {HasForgot && <Forgot />}
