@@ -1,43 +1,50 @@
-import React, { FC, useEffect, useState } from 'react'
+import React, { FC, useState } from 'react'
 
-import { useSearchParams, useNavigate } from 'react-router-dom'
+import Forgot from './Forgot'
 
-import { Login as AuthLogin } from 'state/api/auth'
+// import { useSearchParams, useNavigate } from 'react-router-dom'
 
-interface TAuthData {
-    username: string
-    password: string
-}
+// import { Login as AuthLogin } from 'state/api/auth'
+
+// interface TAuthData {
+//     username: string
+//     password: string
+// }
 
 const Login: FC = () => {
-    const [AuthData, setAuthData] = useState<TAuthData>({
-        username: '',
-        password: '',
-    })
+    const [HasForgot, setHasForgot] = useState(false)
+    setHasForgot
 
-    // for stroing ?next=/admin/12/
-    const [NextURL, setNextURL] = useState<string | null>(null)
+    // const [AuthData, setAuthData] = useState<TAuthData>({
+    //     username: '',
+    //     password: '',
+    // })
 
-    const navigate = useNavigate()
-    const [SearchParams, setSearchParams] = useSearchParams()
+    // // for stroing ?next=/admin/12/
+    // const [NextURL, setNextURL] = useState<string | null>(null)
 
-    useEffect(() => {
-        let n = SearchParams.get('next')
-        // by defualt next is /admin/ and we dont want it like this.
-        if (n !== BASE_URL) setNextURL(n)
+    // const navigate = useNavigate()
+    // const [SearchParams, setSearchParams] = useSearchParams()
 
-        // delete only next=... from query params
-        SearchParams.delete('next')
-        setSearchParams(SearchParams)
-    }, [])
+    // useEffect(() => {
+    //     let n = SearchParams.get('next')
+    //     // by defualt next is /admin/ and we dont want it like this.
+    //     if (n !== BASE_URL) setNextURL(n)
 
-    const Submit = async () => {
-        if (await AuthLogin(AuthData)) navigate(GetNextURL(NextURL))
-    }
+    //     // delete only next=... from query params
+    //     SearchParams.delete('next')
+    //     setSearchParams(SearchParams)
+    // }, [])
+
+    // const Submit = async () => {
+    //     if (await AuthLogin(AuthData)) navigate(GetNextURL(NextURL))
+    // }
 
     return (
-        <div>
-            <div>
+        <div className='login-container'>
+            <Login />
+            {HasForgot && <Forgot />}
+            {/* <div>
                 username:
                 <input
                     type='text'
@@ -61,20 +68,20 @@ const Login: FC = () => {
             </div>
             <div>
                 <button onClick={() => Submit()}>Submit</button>
-            </div>
+            </div> */}
         </div>
     )
 }
 
-const GetNextURL = (next: string | null) => {
-    if (!next) return '/'
+// const GetNextURL = (next: string | null) => {
+//     if (!next) return '/'
 
-    if (next.at(-1) != '/') next = next + '/'
-    if (next.startsWith(BASE_URL)) next = next.slice(BASE_URL.length)
+//     if (next.at(-1) != '/') next = next + '/'
+//     if (next.startsWith(BASE_URL)) next = next.slice(BASE_URL.length)
 
-    if (next.at(0) != '/') return '/' + next
+//     if (next.at(0) != '/') return '/' + next
 
-    return next
-}
+//     return next
+// }
 
 export default Login
