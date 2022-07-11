@@ -1,8 +1,6 @@
-import React, { FC, useState } from 'react'
+import React, { FC } from 'react'
 
 import LoginForm from './LoginForm'
-
-import Forgot from './ForgotForm'
 
 import './style/login.scss'
 
@@ -21,9 +19,6 @@ const cloudsImg = require('../static/imgs/clouds.png')
 // }
 
 const Login: FC = () => {
-    const [HasForgot, setHasForgot] = useState(false)
-    setHasForgot
-
     // const [AuthData, setAuthData] = useState<TAuthData>({
     //     username: '',
     //     password: '',
@@ -70,7 +65,6 @@ const Login: FC = () => {
             <img className='moon' src={moonImg} alt=''></img>
 
             <LoginForm />
-            {HasForgot && <Forgot />}
             {/* <div>
                 username:
                 <input
