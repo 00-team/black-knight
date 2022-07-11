@@ -1,11 +1,11 @@
-import React, { FC, useEffect } from 'react'
+import React, { FC, Suspense, useEffect } from 'react'
 
 import { AiFillFolderAdd } from '@react-icons/all-files/ai/AiFillFolderAdd'
 
 import { useParams } from 'react-router-dom'
 
-import { atom, useAtom, useAtomValue } from 'jotai'
-import { BraceInfoAtom, BraceResultAtom, BraceResultUpdateParams } from 'state'
+import { useAtom, useAtomValue, useSetAtom } from 'jotai'
+import { BraceInfoAtom, BraceResultAtom } from 'state'
 
 import SearchInput from 'comps/SearchInput'
 import Select from 'comps/Select'
@@ -31,25 +31,19 @@ const Model_opts = [
     },
 ]
 
-const ListParamsAtom = atom<BraceResultUpdateParams>({ app_model: '' })
-
 const Brace: FC = () => {
     const { app_label, model_name } = useParams()
-    const [ListParams, UpdateListParams] = useAtom(ListParamsAtom)
+
     const [BraceInfo, UpdateBraceInfo] = useAtom(BraceInfoAtom)
-    const [, UpdateBraceResult] = useAtom(BraceResultAtom)
+    const UpdateBraceResult = useSetAtom(BraceResultAtom)
 
     useEffect(() => {
         if (!app_label || !model_name) return
         const app_model = `${app_label}/${model_name}`
 
-        UpdateListParams({ ...ListParams, app_model })
         UpdateBraceInfo(app_model)
+        UpdateBraceResult({ app_model: app_model })
     }, [app_label, model_name])
-
-    useEffect(() => {
-        UpdateBraceResult(ListParams)
-    }, [ListParams])
 
     if (!app_label || !model_name)
         return (
@@ -65,8 +59,8 @@ const Brace: FC = () => {
                     <div className='search-container'>
                         <SearchInput
                             submit={query =>
-                                UpdateListParams({
-                                    ...ListParams,
+                                UpdateBraceResult({
+                                    app_model: `${app_label}/${model_name}`,
                                     search: query,
                                 })
                             }
@@ -91,7 +85,9 @@ const Brace: FC = () => {
                     </div>
                 </div>
             </div>
-            <Result />
+            <Suspense>
+                <Result />
+            </Suspense>
         </div>
     )
 }
@@ -99,6 +95,8 @@ const Brace: FC = () => {
 const Loading: FC = () => <div>Loading ...</div>
 
 const Result: FC = () => {
+    // 007: im not a fan of this layout
+    // but its will do for now
     const BraceInfo = useAtomValue(BraceInfoAtom)
     const BraceResult = useAtomValue(BraceResultAtom)
 
