@@ -13,6 +13,8 @@ const BraceInfoAtom = atom(
     },
 
     async (get, set, app_model: string) => {
+        if (!app_model) return
+
         // cancelling the previous request if exists.
         if (BraceInfoController) BraceInfoController.abort()
         BraceInfoController = new AbortController()

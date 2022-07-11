@@ -20,6 +20,7 @@ const BraceResultAtom = atom(
 
     async (get, set, args: BraceResultUpdateParams) => {
         const app_model = args.app_model
+        if (!app_model) return
         const params = new URLSearchParams()
         // let filters = ''
         // let orders = ''
