@@ -17,3 +17,4 @@ class BookAdmin(ModelAdmin):
 @admin.register(Author)
 class AuthorAdmin(ModelAdmin):
     list_display = 'name', 'age'
+    ordering = 'age', 'name'
