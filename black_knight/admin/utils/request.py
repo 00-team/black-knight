@@ -1,35 +1,23 @@
-from json import loads
-from typing import Any
+from json import JSONDecodeError, loads
 
-from django.http import HttpRequest
+from django.http import HttpRequest, QueryDict
 
 
-def BodyLoader(body: bytes) -> dict[str, Any]:
+def json_loader(body: bytes) -> dict:
     try:
         data = loads(body)
-
         if isinstance(data, dict):
             return data
-
-    except Exception:
+    except JSONDecodeError:
         pass
 
     return {}
 
 
-def get_data(request: HttpRequest) -> dict[str, Any]:
-    data: dict[str, Any] = {}
+def get_data(request: HttpRequest) -> QueryDict:
+    data: QueryDict = getattr(request, request.method, QueryDict()).copy()
 
-    if request.method == 'GET':
-        if request.GET:
-            data = request.GET
-        elif request.content_type != 'multipart/form-data':
-            data = BodyLoader(request.body)
-
-    elif request.method == 'POST':
-        if request.POST:
-            data = request.POST
-        elif request.content_type != 'multipart/form-data':
-            data = BodyLoader(request.body)
+    if request.content_type == 'application/json':
+        data.update(json_loader(request.body))
 
     return data
