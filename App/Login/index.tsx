@@ -6,10 +6,7 @@ import './style/login.scss'
 
 // import { useSearchParams, useNavigate } from 'react-router-dom'
 // import { Login as AuthLogin } from 'state/api/auth'
-import clouds from 'static/imgs/clouds.png'
 import moon from 'static/imgs/moon.png'
-import stars from 'static/imgs/stars.png'
-import twinkling from 'static/imgs/twinkling.png'
 
 // interface TAuthData {
 //     username: string
@@ -44,22 +41,33 @@ const Login: FC = () => {
 
     return (
         <div className='login-container'>
-            <div
-                className='stars'
-                style={{ background: `black url(${stars}) repeat` }}
-            ></div>
-            <div
-                className='twinkling'
-                style={{
-                    background: `transparent url(${twinkling}) repeat`,
-                }}
-            ></div>
-            <div
-                className='clouds'
-                style={{
-                    background: `transparent url(${clouds}) repeat`,
-                }}
-            ></div>
+            <div className='stars'>
+                <div id='stars'></div>
+                <div id='stars2'></div>
+                <div id='stars3'></div>
+            </div>
+            <div className='twinkling'></div>
+            <div className='clouds'>
+                <div className='x1'>
+                    <div className='cloud'></div>
+                </div>
+
+                <div className='x2'>
+                    <div className='cloud'></div>
+                </div>
+
+                <div className='x3'>
+                    <div className='cloud'></div>
+                </div>
+
+                <div className='x4'>
+                    <div className='cloud'></div>
+                </div>
+
+                <div className='x5'>
+                    <div className='cloud'></div>
+                </div>
+            </div>
             <img className='moon' src={moon} alt=''></img>
 
             <LoginForm />
