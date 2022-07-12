@@ -1,19 +1,15 @@
 
 from black_knight.admin.options import ModelAdmin
+from black_knight.admin.utils import get_data
 from black_knight.admin.utils.brace import value_dict
 from django.contrib.admin.utils import lookup_field
 from django.db.models import Exists, OuterRef, QuerySet
-from django.http import HttpRequest
+from django.http import HttpRequest, QueryDict
 
 
-ORDER_VAR = 'o'
-PAGE_VAR = 'p'
-SEARCH_VAR = 'q'
-
-
-def _page_num(request: HttpRequest):
+def _page_num(data: QueryDict):
     try:
-        return int(request.GET.get(PAGE_VAR, 1))
+        return int(data.get('page', 1))
     except ValueError:
         return 1
 
@@ -25,10 +21,12 @@ class BraceResult:
     model_admin: ModelAdmin
     root_queryset: QuerySet
     queryset: QuerySet
+    data: QueryDict
 
     def __init__(self, request, model_admin) -> None:
         self.model_admin = model_admin
         self.request = request
+        self.data = get_data(request)
 
         # self.params = dict(request.GET.items())
         # self.list_filter = model_admin.get_list_filter(request)
@@ -45,20 +43,19 @@ class BraceResult:
 
     def apply_search(self, qs) -> tuple[QuerySet, bool]:
         '''apply search result and return the queryset'''
-        request = self.request
-        model_admin = self.model_admin
 
-        query = request.GET.get(SEARCH_VAR)
-        enabled = model_admin.get_search_fields(request)
+        search_term = self.data.get('search')
+        enabled = self.model_admin.get_search_fields(self.request)
 
-        if enabled and query:
-            return model_admin.get_search_results(
-                request,
-                qs,
-                query,
+        if enabled and isinstance(search_term, str):
+            return self.model_admin.get_search_results(
+                self.request, qs, search_term,
             )
 
         return qs, False
+
+    def apply_orders(self, qs) -> QuerySet:
+        return qs.order_by('-pk')
 
     def get_queryset(self):
         '''filter and order and search the queryset'''
@@ -71,7 +68,7 @@ class BraceResult:
         qs, search_have_duplicated = self.apply_search(qs)
 
         # order
-        qs = qs.order_by('-pk')
+        qs = self.apply_orders(qs)
 
         # duplication check
         if filters_have_duplicated | search_have_duplicated:
@@ -95,7 +92,7 @@ class BraceResult:
         result_count = paginator.count
 
         if result_count > list_per_page:
-            result_list = paginator.page(_page_num(request)).object_list
+            result_list = paginator.page(_page_num(self.data)).object_list
         else:
             result_list = self.queryset._clone()
 
