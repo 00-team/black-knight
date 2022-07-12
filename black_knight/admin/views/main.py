@@ -54,7 +54,11 @@ class BraceResult:
 
         return qs, False
 
-    def apply_orders(self, qs) -> QuerySet:
+    def apply_orders(self, qs: QuerySet) -> QuerySet:
+        ordering = qs.query.order_by
+
+        print(ordering)
+
         return qs.order_by('-pk')
 
     def get_queryset(self):
