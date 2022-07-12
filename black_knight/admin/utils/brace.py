@@ -30,8 +30,8 @@ def value_dict(field, value) -> dict:
         return formats.localize(value)
 
     if isinstance(value, (int, decimal.Decimal, float)):
-        # return value
-        return formats.number_format(value)
+        return value
+        # return formats.number_format(value)
 
     if isinstance(value, (list, tuple)):
         return ', '.join(str(v) for v in value)
