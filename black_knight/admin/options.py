@@ -54,6 +54,7 @@ class ModelAdmin(admin.ModelAdmin):
         list_display = self.get_list_display(request)
         root_queryset = self.get_queryset(request)
         actions = self.get_action_choices(request, [])
+        meta = self.model._meta
 
         response = {
             'preserve_filters': self.preserve_filters,
@@ -66,6 +67,12 @@ class ModelAdmin(admin.ModelAdmin):
         # actions
         actions = [{'name': a[0], 'description': a[1]} for a in actions]
         response['actions'] = actions or None
+
+        response['orders'] = [
+            field.name
+            for field in meta.fields
+            if not field.remote_field
+        ]
 
         # headers
         def get_label(field):
