@@ -15,5 +15,7 @@ class Blog(models.Model):
     def _study_time(self):
         return time.strftime('%H:%M:%S', time.gmtime(self.study_time))
 
+    _study_time.fget.admin_order_field = 'study_time'
+
     def __str__(self) -> str:
         return self.title
