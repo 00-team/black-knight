@@ -3,6 +3,7 @@ from black_knight.admin.options import ModelAdmin
 from black_knight.admin.utils import get_data
 from black_knight.admin.utils.brace import value_dict
 from django.contrib.admin.utils import lookup_field
+from django.core.exceptions import FieldDoesNotExist
 from django.db.models import Exists, OuterRef, QuerySet
 from django.http import HttpRequest, QueryDict
 
@@ -54,12 +55,39 @@ class BraceResult:
 
         return qs, False
 
+    def get_orders(self) -> list[str] | None:
+        orders = self.data.get('orders')
+        if not orders or not isinstance(orders, list):
+            return
+
+        meta = self.model_admin.model._meta
+        clean_orders = []
+
+        for field in orders:
+            try:
+                if not isinstance(field, str):
+                    continue
+                meta.get_field(field.lstrip('-'))
+                clean_orders.append(field)
+            except FieldDoesNotExist:
+                pass
+
+        return clean_orders
+
     def apply_orders(self, qs: QuerySet) -> QuerySet:
-        ordering = qs.query.order_by
 
-        print(ordering)
+        ordering = self.get_orders() or qs.query.order_by
 
-        return qs.order_by('-pk')
+        if not ordering:
+            ordering = ['-pk']
+
+        if ordering != qs.query.order_by:
+            qs = qs.order_by(*ordering)
+
+        ordered_by = list(map(lambda f: f.lstrip('-'), ordering))
+        self.response['ordered_by'] = ordered_by
+
+        return qs
 
     def get_queryset(self):
         '''filter and order and search the queryset'''
