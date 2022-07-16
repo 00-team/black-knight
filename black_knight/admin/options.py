@@ -1,3 +1,4 @@
+from black_knight.admin.utils import get_data
 from black_knight.admin.utils.exception import ErrorResponse
 from django.contrib import admin
 # from django.contrib.admin.utils import flatten_fieldsets
@@ -5,10 +6,11 @@ from django.contrib.admin.utils import label_for_field, lookup_field
 from django.core.paginator import InvalidPage
 from django.http import HttpRequest, JsonResponse
 from django.utils.decorators import method_decorator
-from django.views.decorators.http import require_GET
+from django.views.decorators.http import require_GET, require_POST
 
 
 require_GET_m = method_decorator(require_GET)
+require_POST_m = method_decorator(require_POST)
 
 
 class ModelAdmin(admin.ModelAdmin):
@@ -20,8 +22,9 @@ class ModelAdmin(admin.ModelAdmin):
         wrap = self.admin_site.url_wrap
 
         return [
-            path('braceresult/', wrap(self.braceresult)),
-            path('braceinfo/', wrap(self.braceinfo))
+            path('brace-result/', wrap(self.brace_result)),
+            path('brace-info/', wrap(self.brace_info)),
+            path('brace-actions/', wrap(self.brace_actions))
         ]
 
     @property
@@ -38,7 +41,7 @@ class ModelAdmin(admin.ModelAdmin):
         return BraceResult(request, self)
 
     @require_GET_m
-    def braceresult(self, request: HttpRequest):
+    def brace_result(self, request: HttpRequest):
         '''display list of instances in the brace'''
         try:
             brace_result = self.get_braceresult_instance(request)
@@ -62,12 +65,14 @@ class ModelAdmin(admin.ModelAdmin):
         return orders
 
     @require_GET_m
-    def braceinfo(self, request: HttpRequest):
-        '''braceresult info'''
+    def brace_info(self, request: HttpRequest):
+        '''Brace Info'''
 
         list_display = self.get_list_display(request)
         root_queryset = self.get_queryset(request)
         actions = self.get_action_choices(request, [])
+
+        # func = self.get_actions(request)['delete_selected'][0]
 
         response = {
             'preserve_filters': self.preserve_filters,
@@ -97,3 +102,8 @@ class ModelAdmin(admin.ModelAdmin):
             response['full_result_count'] = root_queryset.count()
 
         return JsonResponse(response)
+
+    @require_POST_m
+    def brace_actions(self, request: HttpRequest):
+        data = get_data(request)
+        return JsonResponse(data)

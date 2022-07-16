@@ -21,7 +21,7 @@ const BraceInfoAtom = atom(
 
         set(Info, ['loading', app_model])
 
-        const response = await GET(`api/${app_model}/braceinfo/`, {
+        const response = await GET(`api/${app_model}/brace-info/`, {
             signal: BraceInfoController.signal,
         })
 
