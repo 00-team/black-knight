@@ -1,5 +1,5 @@
 from black_knight.admin.utils import get_data
-from black_knight.admin.utils.exception import ErrorResponse
+from black_knight.admin.utils.exception import INVALID_INPUT, ErrorResponse
 from django.contrib import admin
 # from django.contrib.admin.utils import flatten_fieldsets
 from django.contrib.admin.utils import label_for_field, lookup_field
@@ -108,4 +108,21 @@ class ModelAdmin(admin.ModelAdmin):
     @require_POST_m
     def brace_actions(self, request: HttpRequest):
         data = get_data(request)
-        return JsonResponse(data)
+        items = data.get('items', [])
+        action = self.get_actions(request).get(data.get('action'))
+
+        if not action or not items:
+            return INVALID_INPUT
+        if items != 'all' and not isinstance(items, list):
+            return INVALID_INPUT
+
+        queryset = self.model._default_manager.get_queryset()
+        if isinstance(items, list):
+            queryset = queryset.filter(pk__in=items)
+
+        if not queryset:
+            return ErrorResponse('Items not found', 404)
+
+        action[0](self, request, queryset)
+
+        return JsonResponse({'ok': 'action executed successfully'})

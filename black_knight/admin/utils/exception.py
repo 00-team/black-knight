@@ -28,3 +28,6 @@ class E(Exception):
     def response(self):
         context = {'message': self.message, 'code': self.code}
         return JsonResponse(context, status=self.code)
+
+
+INVALID_INPUT = ErrorResponse('Invalid Input', 400)

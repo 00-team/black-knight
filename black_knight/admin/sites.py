@@ -3,8 +3,8 @@ from collections.abc import Iterable
 from functools import update_wrapper
 from typing import Any, Callable
 
+from black_knight.admin import ModelAdmin, actions
 from black_knight.admin.models import GroupAdmin, UserAdmin
-from black_knight.admin.options import ModelAdmin
 from black_knight.admin.utils import E, get_data
 from django.apps import apps
 from django.conf import settings
@@ -34,7 +34,9 @@ class AdminSite(admin.AdminSite):
     registered_apps = {}
 
     def __init__(self, name='black_knight'):
-        return super().__init__(name)
+        super().__init__(name)
+        self._actions = {'delete_selected': actions.delete_selected}
+        self._global_actions = self._actions.copy()
 
     def register(self, models, admin_class=None, **options):
         # check if models is a single model not an iterable
@@ -65,21 +67,21 @@ class AdminSite(admin.AdminSite):
         for model in models:
             if model._meta.abstract:
                 raise ImproperlyConfigured(
-                    "The model %s is abstract, so it cannot be registered with admin."
+                    'The model %s is abstract, so it cannot be registered with admin.'
                     % model.__name__
                 )
 
             if model in self._registry:
                 registered_admin = str(self._registry[model])
-                msg = "The model %s is already registered " % model.__name__
+                msg = 'The model %s is already registered ' % model.__name__
 
-                if registered_admin.endswith(".ModelAdmin"):
+                if registered_admin.endswith('.ModelAdmin'):
                     # Most likely registered without a ModelAdmin subclass.
-                    msg += "in app %r." % re.sub(
-                        r"\.ModelAdmin$", "", registered_admin
+                    msg += 'in app %r.' % re.sub(
+                        r'\.ModelAdmin$', '', registered_admin
                     )
                 else:
-                    msg += "with %r." % registered_admin
+                    msg += 'with %r.' % registered_admin
 
                 raise AlreadyRegistered(msg)
 
