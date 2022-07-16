@@ -5,6 +5,7 @@ from django.contrib import admin
 from django.contrib.admin.utils import label_for_field, lookup_field
 from django.core.paginator import InvalidPage
 from django.http import HttpRequest, JsonResponse
+from django.middleware.csrf import get_token
 from django.utils.decorators import method_decorator
 from django.views.decorators.http import require_GET, require_POST
 
@@ -43,6 +44,7 @@ class ModelAdmin(admin.ModelAdmin):
     @require_GET_m
     def brace_result(self, request: HttpRequest):
         '''display list of instances in the brace'''
+        get_token(request)
         try:
             brace_result = self.get_braceresult_instance(request)
 
@@ -67,7 +69,7 @@ class ModelAdmin(admin.ModelAdmin):
     @require_GET_m
     def brace_info(self, request: HttpRequest):
         '''Brace Info'''
-
+        get_token(request)
         list_display = self.get_list_display(request)
         root_queryset = self.get_queryset(request)
         actions = self.get_action_choices(request, [])
