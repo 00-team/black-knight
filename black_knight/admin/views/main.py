@@ -63,7 +63,8 @@ class BraceResult:
             return
 
         def get_field(field):
-            return str(field).lstrip('-') in self.orders
+            field = str(field).lstrip('-')
+            return field == 'pk' or field in self.orders
 
         return list(filter(get_field, orders))
 
