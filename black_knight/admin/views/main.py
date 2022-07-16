@@ -23,6 +23,7 @@ class BraceResult:
     root_queryset: QuerySet
     queryset: QuerySet
     data: QueryDict
+    orders: list[str]
 
     def __init__(self, request, model_admin) -> None:
         self.model_admin = model_admin
@@ -38,6 +39,7 @@ class BraceResult:
 
         self.root_queryset = model_admin.get_queryset(request)
         self.response = {}
+        self.orders = model_admin.get_orders()
 
         self.get_queryset()
         self.get_response()
@@ -60,19 +62,10 @@ class BraceResult:
         if not orders or not isinstance(orders, list):
             return
 
-        meta = self.model_admin.model._meta
-        clean_orders = []
+        def get_field(field):
+            return str(field).lstrip('-') in self.orders
 
-        for field in orders:
-            try:
-                if not isinstance(field, str):
-                    continue
-                meta.get_field(field.lstrip('-'))
-                clean_orders.append(field)
-            except FieldDoesNotExist:
-                pass
-
-        return clean_orders
+        return list(filter(get_field, orders))
 
     def apply_orders(self, qs: QuerySet) -> QuerySet:
 
@@ -84,7 +77,7 @@ class BraceResult:
         if ordering != qs.query.order_by:
             qs = qs.order_by(*ordering)
 
-        ordered_by = list(map(lambda f: f.lstrip('-'), ordering))
+        ordered_by = list(map(lambda f: f, ordering))
         self.response['ordered_by'] = ordered_by
 
         return qs

@@ -47,6 +47,20 @@ class ModelAdmin(admin.ModelAdmin):
         except InvalidPage:
             return ErrorResponse('Invalid Page', 400)
 
+    def get_orders(self):
+        meta = self.model._meta
+        orders = []
+
+        for field in meta.fields:
+            if field.remote_field:
+                for remote_field in field.related_model._meta.fields:
+                    if not remote_field.remote_field:
+                        orders.append(f'{field.name}__{remote_field.name}')
+            else:
+                orders.append(field.name)
+
+        return orders
+
     @require_GET_m
     def braceinfo(self, request: HttpRequest):
         '''braceresult info'''
@@ -54,7 +68,6 @@ class ModelAdmin(admin.ModelAdmin):
         list_display = self.get_list_display(request)
         root_queryset = self.get_queryset(request)
         actions = self.get_action_choices(request, [])
-        meta = self.model._meta
 
         response = {
             'preserve_filters': self.preserve_filters,
@@ -67,12 +80,7 @@ class ModelAdmin(admin.ModelAdmin):
         # actions
         actions = [{'name': a[0], 'description': a[1]} for a in actions]
         response['actions'] = actions or None
-
-        response['orders'] = [
-            field.name
-            for field in meta.fields
-            if not field.remote_field
-        ]
+        response['orders'] = self.get_orders()
 
         # headers
         def get_label(field):
