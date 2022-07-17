@@ -30,11 +30,8 @@ class BraceResult:
         self.request = request
         self.data = get_data(request)
 
-        # self.params = dict(request.GET.items())
         # self.list_filter = model_admin.get_list_filter(request)
-        # self.list_per_page = model_admin.list_per_page
         # self.list_editable = model_admin.list_editable
-        # self.search_fields = model_admin.get_search_fields(request)
         # self.date_hierarchy = model_admin.date_hierarchy
 
         self.root_queryset = model_admin.get_queryset(request)
