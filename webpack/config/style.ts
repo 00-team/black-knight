@@ -1,4 +1,3 @@
-// plugins
 import CssExtract from 'mini-css-extract-plugin'
 import { RuleSetRule, RuleSetUseItem } from 'webpack'
 

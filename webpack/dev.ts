@@ -1,26 +1,20 @@
-// styles
-import { DevStyle } from './config/style'
-
-// path
-import { APP_DIR } from './config/path'
+import HtmlWP from 'html-webpack-plugin'
 import { resolve } from 'path'
 
-// plugins
-import HtmlWP from 'html-webpack-plugin'
-
-// base configs
-import Main from './main'
+import BASE from './base'
+import { APP_DIR } from './config/path'
+import { DevStyle } from './config/style'
 
 const BACKEND = 'http://localhost:7000/'
 
 const DevConfig = {
-    ...Main,
+    ...BASE,
     mode: 'development',
     module: {
-        rules: [...Main.module!.rules!, DevStyle],
+        rules: [...BASE.module!.rules!, DevStyle],
     },
     plugins: [
-        ...Main.plugins!,
+        ...BASE.plugins!,
         new HtmlWP({
             filename: 'index.html',
             template: resolve(APP_DIR, 'templates/react.html'),

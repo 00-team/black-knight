@@ -1,22 +1,17 @@
-// types
 import { Configuration } from 'webpack'
 
-// styles
+import BASE from './base'
+import HtmlPlugins from './config/django-html'
 import { DevStyle } from './config/style'
 
-import HtmlPlugins from './config/django-html'
-
-// Main configs
-import Main from './main'
-
 const DjangoConfig: Configuration = {
-    ...Main,
+    ...BASE,
     watch: true,
     mode: 'development',
     module: {
-        rules: [...Main.module!.rules!, DevStyle],
+        rules: [...BASE.module!.rules!, DevStyle],
     },
-    plugins: [...Main.plugins!, ...HtmlPlugins],
+    plugins: [...BASE.plugins!, ...HtmlPlugins],
 }
 
 export default DjangoConfig

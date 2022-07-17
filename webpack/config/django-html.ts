@@ -1,10 +1,7 @@
+import HtmlWP, { HtmlTagObject } from 'html-webpack-plugin'
 import { Compiler } from 'webpack'
 
-// path
 import { black_knight, APP_DIR, resolve } from './path'
-
-// plugins
-import HtmlWP, { HtmlTagObject } from 'html-webpack-plugin'
 
 const HtmlPG = new HtmlWP({
     filename: resolve(black_knight, 'templates/black-knight.html'),

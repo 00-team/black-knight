@@ -1,25 +1,22 @@
 // types
+import Compression from 'compression-webpack-plugin'
+import CssMinimizer from 'css-minimizer-webpack-plugin'
 import { Configuration } from 'webpack'
 
+import BASE from './base'
+// plugins
+import HtmlPlugins from './config/django-html'
 // styles
 import { BuildStyle, CssExtract } from './config/style'
 
-// plugins
-import HtmlPlugins from './config/django-html'
-import Compression from 'compression-webpack-plugin'
-import CssMinimizer from 'css-minimizer-webpack-plugin'
-
-// Main configs
-import Main from './main'
-
 const BuildConfig: Configuration = {
-    ...Main,
+    ...BASE,
     mode: 'production',
     module: {
-        rules: [...Main.module!.rules!, BuildStyle],
+        rules: [...BASE.module!.rules!, BuildStyle],
     },
     plugins: [
-        ...Main.plugins!,
+        ...BASE.plugins!,
         new CssExtract(),
         new Compression({ exclude: /\.(html)$/ }),
         ...HtmlPlugins,
