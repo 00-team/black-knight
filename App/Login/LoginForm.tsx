@@ -2,6 +2,7 @@ import React from 'react'
 
 import { BsPersonFill } from '@react-icons/all-files/bs/BsPersonFill'
 import { FaLock } from '@react-icons/all-files/fa/FaLock'
+import { IoPaperPlane } from '@react-icons/all-files/io5/IoPaperPlane'
 
 import './style/loginform.scss'
 
@@ -40,8 +41,13 @@ const LoginFormWrapper = () => {
                     <input type={'password'} id='Password' />
                 </div>
             </div>
-            <div className='button-container'>
-                <button>send</button>
+            <div className='button-container title_small'>
+                <button>
+                    <div className='holder'>Send</div>
+                    <div className='icon'>
+                        <IoPaperPlane size={20} />
+                    </div>
+                </button>
             </div>
         </div>
     )
