@@ -93,9 +93,9 @@
         }
 
         .x2 {
-            -webkit-animation: animateCloud 20s linear infinite;
-            -moz-animation: animateCloud 20s linear infinite;
-            animation: animateCloud 20s linear infinite;
+            -webkit-animation: animateCloud 25s linear infinite;
+            -moz-animation: animateCloud 25s linear infinite;
+            animation: animateCloud 25s linear infinite;
 
             -webkit-transform: scale(0.3);
             -moz-transform: scale(0.3);
@@ -103,9 +103,9 @@
         }
 
         .x3 {
-            -webkit-animation: animateCloud 30s linear infinite;
-            -moz-animation: animateCloud 30s linear infinite;
-            animation: animateCloud 30s linear infinite;
+            -webkit-animation: animateCloud 35s linear infinite;
+            -moz-animation: animateCloud 35s linear infinite;
+            animation: animateCloud 35s linear infinite;
 
             -webkit-transform: scale(0.5);
             -moz-transform: scale(0.5);
@@ -113,9 +113,9 @@
         }
 
         .x4 {
-            -webkit-animation: animateCloud 18s linear infinite;
-            -moz-animation: animateCloud 18s linear infinite;
-            animation: animateCloud 18s linear infinite;
+            -webkit-animation: animateCloud 23s linear infinite;
+            -moz-animation: animateCloud 23s linear infinite;
+            animation: animateCloud 23s linear infinite;
 
             -webkit-transform: scale(0.4);
             -moz-transform: scale(0.4);
@@ -123,9 +123,9 @@
         }
 
         .x5 {
-            -webkit-animation: animateCloud 25s linear infinite;
-            -moz-animation: animateCloud 25s linear infinite;
-            animation: animateCloud 25s linear infinite;
+            -webkit-animation: animateCloud 30s linear infinite;
+            -moz-animation: animateCloud 30s linear infinite;
+            animation: animateCloud 30s linear infinite;
 
             -webkit-transform: scale(0.55);
             -moz-transform: scale(0.55);
@@ -227,5 +227,18 @@
         z-index: 3;
         top: 5vh;
         right: 5vh;
+    }
+
+    .form-container {
+        position: absolute;
+        inset: 0;
+
+        z-index: 4;
+
+        width: 100%;
+        height: 100%;
+
+        display: grid;
+        place-items: center;
     }
 }
