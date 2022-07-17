@@ -66,14 +66,14 @@
         </style>
     </head>
     <body>
+        <a href="/admin/">Go to Admin</a>
         <h1>-- Blogs --</h1>
         <div class="blogs">
             {% for blog in blogs %}
             <div class="blog">
-                <img
-                    src="{{ blog.thumbnail.url }}"
-                    alt="{{ blog.title }} thumbnail"
-                />
+                {% if blog.thumbnail %}
+                <img src="{{ blog.thumbnail.url }}" />
+                {% endif %}
                 <div class="info">
                     <h2>{{ blog.title }}</h2>
                     <p>{{ blog.description }}</p>
@@ -81,6 +81,5 @@
             </div>
             {% endfor %}
         </div>
-        <a href="/admin/">Go to Admin</a>
     </body>
 </html>
