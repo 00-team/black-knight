@@ -4,8 +4,6 @@
     width: 100%;
     max-width: 400px;
 
-    height: 55%;
-
     background-color: #4176907a;
     border-radius: 10px;
     backdrop-filter: blur(20px);
@@ -60,6 +58,8 @@
             justify-content: center;
             flex-direction: column;
             gap: 3vh;
+
+            font-family: 'Merienda One', cursive;
             .input-container {
                 width: 100%;
 
@@ -113,9 +113,77 @@
             width: 100%;
 
             button {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 1vw;
+
+                background-color: var(--primary-color);
+
                 width: 100%;
                 padding: 10px;
                 border: none;
+
+                font-family: 'Merienda One', cursive;
+                font-weight: bold;
+
+                cursor: pointer;
+
+                border-radius: 5px;
+
+                overflow: hidden;
+
+                &:hover .icon {
+                    animation: icon-hover 0.5s ease-in-out forwards;
+                }
+
+                &:focus .icon {
+                    animation: icon-click 2.5s ease-in-out forwards;
+                }
+
+                .icon {
+                    transform: rotate(45deg);
+                }
+
+                @keyframes icon-hover {
+                    0%,
+                    100% {
+                        transform: rotate(45deg);
+                    }
+                    20%,
+                    60% {
+                        transform: rotate(55deg);
+                    }
+                    40%,
+                    80% {
+                        transform: rotate(35deg);
+                    }
+                }
+                @keyframes icon-click {
+                    0% {
+                        transform: translateX(0%) rotate(45deg);
+                    }
+                    20% {
+                        transform: translateX(-10%) rotate(45deg);
+                    }
+                    40% {
+                        transform: translateX(1500%) rotate(45deg);
+                    }
+                    60% {
+                        transform: translateX(-1000%) translateY(-1000%)
+                            rotate(45deg);
+                    }
+                    80% {
+                        transform: translateX(-1500%) translateY(0)
+                            rotate(45deg);
+                    }
+                    90% {
+                        transform: translateX(30%) translateY(0) rotate(55deg);
+                    }
+                    100% {
+                        transform: translate(0%) rotate(45deg);
+                    }
+                }
             }
         }
     }
