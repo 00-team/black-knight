@@ -69,7 +69,9 @@ const Login: FC = () => {
             </div>
             <img className='moon' src={moon} alt=''></img>
 
-            <LoginForm />
+            <div className='form-container'>
+                <LoginForm />
+            </div>
             {/* <div>
                 username:
                 <input
