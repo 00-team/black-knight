@@ -35,4 +35,88 @@
             transform: translateY(0);
         }
     }
+
+    .login_wrapper {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        gap: 6vh;
+        padding: 1rem;
+
+        .login_title {
+            position: relative;
+            z-index: 1;
+
+            font-family: 'Oleo Script', cursive;
+            text-transform: uppercase;
+        }
+
+        .form {
+            width: 100%;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 3vh;
+            .input-container {
+                width: 100%;
+
+                position: relative;
+
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-direction: column;
+
+                &:before {
+                    content: '';
+                    position: absolute;
+                    bottom: 0;
+                    width: 100%;
+                    height: 1px;
+
+                    background-color: #fff;
+
+                    transform-origin: right;
+
+                    transition: width 0.2s ease-in-out;
+                }
+
+                label {
+                    width: 100%;
+                    position: relative;
+
+                    display: flex;
+                    align-items: center;
+                    justify-content: flex-start;
+                    gap: 0.5vw;
+
+                    padding: 10px 0;
+                }
+                input {
+                    width: 100%;
+
+                    position: relative;
+
+                    padding: 10px;
+
+                    outline: 0;
+                    border: none;
+                    border-top-right-radius: 5px;
+                    border-top-left-radius: 5px;
+                }
+            }
+        }
+        .button-container {
+            width: 100%;
+
+            button {
+                width: 100%;
+                padding: 10px;
+                border: none;
+            }
+        }
+    }
 }
