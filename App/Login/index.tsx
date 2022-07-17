@@ -46,7 +46,6 @@ const Login: FC = () => {
                 <div id='stars2'></div>
                 <div id='stars3'></div>
             </div>
-            <div className='twinkling'></div>
             <div className='clouds'>
                 <div className='x1'>
                     <div className='cloud'></div>
