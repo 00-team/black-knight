@@ -59,7 +59,9 @@ const Brace: FC = () => {
                             submit={query =>
                                 UpdateBraceResult({
                                     app_model: `${app_label}/${model_name}`,
-                                    search: query,
+                                    options: {
+                                        search: query,
+                                    },
                                 })
                             }
                         />

@@ -5,7 +5,7 @@ import { resolve, APP_DIR } from './path'
 const Entries: Entry = {
     react_vendors: { import: ['react', 'react-dom'], runtime: 'runtime' },
     shared: {
-        import: ['axios', 'react-router-dom', 'jotai', '@00-team/utils'],
+        import: ['react-router-dom', 'jotai', '@00-team/utils'],
         dependOn: 'react_vendors',
     },
 

@@ -1,14 +1,20 @@
 import { atom } from 'jotai'
 import { ResultModel, TPKMap } from 'state/models'
-import { GET } from 'state/utils'
+import { REQUEST } from 'state/utils'
 
 import { Result, Select, PKMap } from './store'
 
 var BraceResultController: AbortController | null = null
 
-interface BraceResultUpdateParams {
+interface Args {
     app_model: string // app_label/model_name
+    options?: Options
+}
+
+interface Options {
     search?: string
+    page?: string | number
+    orders?: string[]
 }
 
 const BraceResultAtom = atom(
@@ -18,14 +24,15 @@ const BraceResultAtom = atom(
         return results
     },
 
-    async (get, set, args: BraceResultUpdateParams) => {
+    async (get, set, args: Args) => {
         const app_model = args.app_model
         if (!app_model) return
-        const params = new URLSearchParams()
+        const url = `api/${app_model}/brace-result/`
+        // const params = new URLSearchParams()
         // let filters = ''
         // let orders = ''
 
-        if (args.search) params.set('q', args.search)
+        // if (args.search) params.set('q', args.search)
 
         // cancelling the previous request if exists.
         if (BraceResultController) BraceResultController.abort()
@@ -35,11 +42,15 @@ const BraceResultAtom = atom(
         set(Result, ['loading', app_model])
         set(Select, [])
 
-        const response = await GET(`api/${app_model}/brace-result/`, {
-            signal: BraceResultController.signal,
-            params,
-        })
+        const response = await REQUEST(
+            url,
+            'POST',
+            BraceResultController.signal,
+            args.options
+        )
+
         if (response.ok) {
+            // const data = await response.json()
             const results = get(Result)
             if (Array.isArray(results) && results[1] !== app_model) return
 
@@ -60,5 +71,5 @@ const BraceResultAtom = atom(
     }
 )
 
-export { BraceResultAtom, BraceResultUpdateParams }
+export { BraceResultAtom }
 export { PKMap as PKMapAtom }

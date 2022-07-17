@@ -41,10 +41,8 @@ class ModelAdmin(admin.ModelAdmin):
 
         return BraceResult(request, self)
 
-    @require_GET_m
     def brace_result(self, request: HttpRequest):
         '''display list of instances in the brace'''
-        get_token(request)
         try:
             brace_result = self.get_braceresult_instance(request)
 

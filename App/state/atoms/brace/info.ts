@@ -1,5 +1,5 @@
 import { atom } from 'jotai'
-import { GET } from 'state/utils'
+import { REQUEST } from 'state/utils'
 
 import { Info } from './store'
 
@@ -21,9 +21,11 @@ const BraceInfoAtom = atom(
 
         set(Info, ['loading', app_model])
 
-        const response = await GET(`api/${app_model}/brace-info/`, {
-            signal: BraceInfoController.signal,
-        })
+        const response = await REQUEST(
+            `api/${app_model}/brace-info/`,
+            'GET',
+            BraceInfoController.signal
+        )
 
         if (response.ok) {
             const info = get(Info)

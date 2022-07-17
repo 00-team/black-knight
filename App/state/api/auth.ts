@@ -1,7 +1,7 @@
-import { GET, POST } from '../utils'
+import { REQUEST } from '../utils'
 
 const Logout = async () => {
-    const response = await GET('/api/logout/')
+    const response = await REQUEST('/api/logout/')
     if (response.ok) location.assign('/')
     else alert(response.message)
 }
@@ -12,7 +12,7 @@ interface LoginData {
 }
 
 const Login = async (data: LoginData) => {
-    const response = await POST('/api/login/', data)
+    const response = await REQUEST('/api/login/', 'POST', undefined, data)
     return response.ok
 }
 
