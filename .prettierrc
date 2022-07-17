@@ -24,7 +24,7 @@
         "<THIRD_PARTY_MODULES>",
         "^(state|jotai)",
         "(Login|Dashboard)",
-        "(/?comps/|/?components/)",
+        "(/?comps/?|/?components/?)",
         "\\./(?!style)",
         "/style/",
         "(/static/|^static)"

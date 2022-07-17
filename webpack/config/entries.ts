@@ -3,11 +3,36 @@ import { Entry } from 'webpack'
 import { resolve, APP_DIR } from './path'
 
 const Entries: Entry = {
-    main: {
-        import: resolve(APP_DIR, 'index.tsx'),
+    react_vendors: { import: ['react', 'react-dom'], runtime: 'runtime' },
+    shared: {
+        import: ['axios', 'react-router-dom', 'jotai', '@00-team/utils'],
+        dependOn: 'react_vendors',
+    },
+
+    state: {
+        import: resolve(APP_DIR, 'state'),
         dependOn: ['shared'],
     },
-    shared: ['react', 'react-dom', 'react-router-dom', '@00-team/utils'],
+
+    components: {
+        import: resolve(APP_DIR, 'components'),
+        dependOn: ['state'],
+    },
+
+    main: {
+        import: APP_DIR,
+        dependOn: ['Login', 'Dashboard'],
+    },
+
+    Login: {
+        import: resolve(APP_DIR, 'Login'),
+        dependOn: ['shared'],
+    },
+
+    Dashboard: {
+        import: resolve(APP_DIR, 'Dashboard'),
+        dependOn: ['components'],
+    },
 }
 
 export default Entries

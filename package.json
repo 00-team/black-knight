@@ -25,6 +25,7 @@
     "homepage": "https://github.com/00-team/black-knight#readme",
     "dependencies": {
         "@00-team/utils": "^0.1.8",
+        "@loadable/component": "^5.15.2",
         "@react-icons/all-files": "^4.1.0",
         "axios": "^0.26.1",
         "jotai": "^1.6.5",
@@ -36,6 +37,7 @@
     "devDependencies": {
         "@trivago/prettier-plugin-sort-imports": "^3.2.0",
         "@types/js-cookie": "^3.0.2",
+        "@types/loadable__component": "^5.13.4",
         "@types/react": "^18.0.9",
         "@types/react-dom": "^18.0.4",
         "@types/webpack-bundle-analyzer": "^4.4.1",

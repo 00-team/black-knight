@@ -1,4 +1,4 @@
-import React, { FC, useState, CSSProperties } from 'react'
+import React, { CSSProperties, FC, useState } from 'react'
 
 // icons
 import { MdKeyboardArrowDown } from '@react-icons/all-files/md/MdKeyboardArrowDown'
@@ -92,4 +92,4 @@ const SelectStyle: SS = (isOpen, index, length, zIndex) => {
             zIndex: zIndex + length - index,
         }
 }
-export default Select
+export { Select }

@@ -1,12 +1,11 @@
 import TsPaths from 'tsconfig-paths-webpack-plugin'
 import { Configuration } from 'webpack'
-// plugins
-import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer'
 
+// import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer'
 import Entries from './config/entries'
 import { APP_DIR, DIST_DIR, resolve } from './config/path'
 
-const Main: Configuration = {
+const Base: Configuration = {
     entry: Entries,
     output: {
         path: DIST_DIR,
@@ -29,7 +28,9 @@ const Main: Configuration = {
         ],
     },
     devtool: 'source-map',
-    plugins: [new BundleAnalyzerPlugin({ openAnalyzer: true })],
+    plugins: [
+        // new BundleAnalyzerPlugin({ openAnalyzer: false })
+    ],
     resolve: {
         extensions: ['.mjs', '.tsx', '.ts', '.js'],
         plugins: [
@@ -38,4 +39,4 @@ const Main: Configuration = {
     },
 }
 
-export default Main
+export default Base

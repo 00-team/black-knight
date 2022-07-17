@@ -1,12 +1,9 @@
-// types
 import Compression from 'compression-webpack-plugin'
 import CssMinimizer from 'css-minimizer-webpack-plugin'
 import { Configuration } from 'webpack'
 
 import BASE from './base'
-// plugins
 import HtmlPlugins from './config/django-html'
-// styles
 import { BuildStyle, CssExtract } from './config/style'
 
 const BuildConfig: Configuration = {
@@ -26,12 +23,6 @@ const BuildConfig: Configuration = {
         chunkIds: 'deterministic',
         minimize: true,
         minimizer: [new CssMinimizer()],
-        splitChunks: {
-            chunks: 'all',
-            maxSize: 200_000,
-            minSize: 20_000,
-            hidePathInfo: true,
-        },
     },
 }
 

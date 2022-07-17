@@ -23,4 +23,4 @@ const BouncyText: FC<{ text: string }> = ({ text }) => {
     )
 }
 
-export default BouncyText
+export { BouncyText }

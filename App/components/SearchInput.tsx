@@ -44,4 +44,4 @@ const SearchInput: FC<SearchInputProps> = ({ submit }) => {
     )
 }
 
-export default SearchInput
+export { SearchInput }

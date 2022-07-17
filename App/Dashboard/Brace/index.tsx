@@ -7,9 +7,7 @@ import { useParams } from 'react-router-dom'
 import { useAtom, useAtomValue, useSetAtom } from 'jotai'
 import { BraceInfoAtom, BraceResultAtom } from 'state'
 
-import SearchInput from 'comps/SearchInput'
-import Select from 'comps/Select'
-import BouncyText from 'comps/common/BouncyText'
+import { BouncyText, SearchInput, Select } from 'comps'
 
 import { BraceBody } from './Body'
 import { BraceHead } from './Head'

@@ -11,7 +11,7 @@ import { useParams } from 'react-router-dom'
 import { useAtom } from 'jotai'
 import { LogAtom, UserAtom } from 'state'
 
-import { LogoutButton } from 'comps/buttons'
+import { LogoutButton } from 'comps'
 
 import Log from './Log'
 

@@ -1,11 +1,15 @@
 import React, { FC } from 'react'
 
-import { Routes, Route } from 'react-router-dom'
-
-import Dashboard from 'Dashboard'
-import Login from 'Login'
+import loadable from '@loadable/component'
+import { Route, Routes } from 'react-router-dom'
 
 import './style/base.scss'
+
+// import Dashboard from 'Dashboard'
+// import Login from 'Login'
+
+const Dashboard = loadable(() => import('Dashboard'))
+const Login = loadable(() => import('Login'))
 
 const App: FC = () => {
     return (
