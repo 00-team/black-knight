@@ -46,27 +46,6 @@ const Login: FC = () => {
                 <div id='stars2'></div>
                 <div id='stars3'></div>
             </div>
-            <div className='clouds'>
-                <div className='x1'>
-                    <div className='cloud'></div>
-                </div>
-
-                <div className='x2'>
-                    <div className='cloud'></div>
-                </div>
-
-                <div className='x3'>
-                    <div className='cloud'></div>
-                </div>
-
-                <div className='x4'>
-                    <div className='cloud'></div>
-                </div>
-
-                <div className='x5'>
-                    <div className='cloud'></div>
-                </div>
-            </div>
             <img className='moon' src={moon} alt=''></img>
 
             <div className='form-container'>
