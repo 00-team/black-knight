@@ -6,10 +6,12 @@ interface BraceInfoModel {
     empty_value_display: string
     actions: ActionModel[] | null
     headers: string[]
+    orders: string[]
 }
 
 interface BraceListModel {
     results: ResultModel[]
+    ordered_by: string[]
 }
 
 interface ActionModel {
