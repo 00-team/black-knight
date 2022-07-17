@@ -123,6 +123,7 @@ class ModelAdmin(admin.ModelAdmin):
         if not queryset:
             return ErrorResponse('Items not found', 404)
 
+        # action = (func, name, desc)
         action[0](self, request, queryset)
 
         return JsonResponse({'ok': 'action executed successfully'})
