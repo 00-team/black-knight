@@ -1,28 +1,12 @@
 {
     "name": "black-knight",
     "version": "0.0.1",
-    "description": "Django custom admin site",
-    "main": "index.js",
-    "directories": {
-        "doc": "docs"
-    },
     "scripts": {
         "start": "webpack serve --config webpack/dev.ts",
         "build": "webpack --config webpack/build.ts",
         "build:watch": "webpack --config webpack/build.ts --watch",
         "dev": "webpack --config webpack/django.ts"
     },
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/00-team/black-knight.git"
-    },
-    "keywords": [],
-    "author": "00 Team",
-    "license": "GPL-3.0",
-    "bugs": {
-        "url": "https://github.com/00-team/black-knight/issues"
-    },
-    "homepage": "https://github.com/00-team/black-knight#readme",
     "dependencies": {
         "@00-team/utils": "^0.1.8",
         "@loadable/component": "^5.15.2",
