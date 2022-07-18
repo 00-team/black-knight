@@ -2,7 +2,6 @@ import React, { CSSProperties, FC, useState } from 'react'
 
 import { Logout as AuthLogout } from 'state/api'
 
-// style
 import './style/logout.scss'
 
 const ButtonStates = {
@@ -126,10 +125,10 @@ const LogoutButton: FC = () => {
 
         setTimeout(() => {
             setButtonKey('falling3')
+            AuthLogout()
         }, timeout4)
 
         setTimeout(() => {
-            AuthLogout()
             setAppliedClasses('')
             setButtonKey('default')
         }, timeout5)
