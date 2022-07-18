@@ -1,6 +1,6 @@
 import { atom } from 'jotai'
-import { BraceInfoModel, BraceListModel } from 'state/models'
-import { TLoading, TPKMap, PK } from 'state/models'
+import { BraceInfoModel, BraceListModel } from 'state'
+import { TLoading, TPKMap, PK } from 'state'
 
 const Loading: TLoading = ['loading', 'None']
 

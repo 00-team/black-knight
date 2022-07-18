@@ -1,5 +1,5 @@
 import { atom } from 'jotai'
-import { REQUEST } from 'state/utils'
+import { REQUEST } from 'state'
 
 import { Info } from './store'
 

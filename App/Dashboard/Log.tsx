@@ -4,7 +4,7 @@ import { BsPlus } from '@react-icons/all-files/bs/BsPlus'
 import { MdDelete } from '@react-icons/all-files/md/MdDelete'
 import { MdModeEdit } from '@react-icons/all-files/md/MdModeEdit'
 
-import { LogFlag, LogModel } from 'state/models'
+import { LogFlag, LogModel } from 'state'
 
 interface TLogData {
     className: string

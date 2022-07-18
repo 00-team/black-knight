@@ -6,7 +6,7 @@ import { IoPaperPlane } from '@react-icons/all-files/io5/IoPaperPlane'
 
 import { useNavigate, useSearchParams } from 'react-router-dom'
 
-import { Login as AuthLogin } from 'state/api'
+import { Login as AuthLogin } from 'state'
 
 import './style/form.scss'
 

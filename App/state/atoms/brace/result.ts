@@ -1,21 +1,25 @@
 import { atom } from 'jotai'
-import { ResultModel, TPKMap } from 'state/models'
-import { REQUEST } from 'state/utils'
+import { ResultModel, TPKMap } from 'state'
+import { REQUEST } from 'state'
 
 import { Result, Select, PKMap } from './store'
 
 var BraceResultController: AbortController | null = null
 
-interface Args {
-    app_model: string // app_label/model_name
-    options?: Options
-}
-
 interface Options {
+    app_model?: string // app_label/model_name
     search?: string
     page?: string | number
     orders?: string[]
 }
+
+const ResultOptions = atom<Options>({})
+const ResultOptionsAtom = atom(
+    get => get(ResultOptions),
+    (get, set, options: Options) => {
+        set(ResultOptions, { ...get(ResultOptions), ...options })
+    }
+)
 
 const BraceResultAtom = atom(
     async get => {
@@ -24,15 +28,9 @@ const BraceResultAtom = atom(
         return results
     },
 
-    async (get, set, args: Args) => {
-        const app_model = args.app_model
+    async (get, set, _) => {
+        const { app_model, ...opt } = get(ResultOptionsAtom)
         if (!app_model) return
-        const url = `api/${app_model}/brace-result/`
-        // const params = new URLSearchParams()
-        // let filters = ''
-        // let orders = ''
-
-        // if (args.search) params.set('q', args.search)
 
         // cancelling the previous request if exists.
         if (BraceResultController) BraceResultController.abort()
@@ -43,14 +41,13 @@ const BraceResultAtom = atom(
         set(Select, [])
 
         const response = await REQUEST(
-            url,
+            `api/${app_model}/brace-result/`,
             'POST',
             BraceResultController.signal,
-            args.options
+            opt
         )
 
         if (response.ok) {
-            // const data = await response.json()
             const results = get(Result)
             if (Array.isArray(results) && results[1] !== app_model) return
 
@@ -71,5 +68,5 @@ const BraceResultAtom = atom(
     }
 )
 
-export { BraceResultAtom }
+export { BraceResultAtom, ResultOptionsAtom }
 export { PKMap as PKMapAtom }

@@ -5,7 +5,7 @@ import { AiFillFolderAdd } from '@react-icons/all-files/ai/AiFillFolderAdd'
 import { useParams } from 'react-router-dom'
 
 import { useAtom, useAtomValue, useSetAtom } from 'jotai'
-import { BraceInfoAtom, BraceResultAtom } from 'state'
+import { BraceInfoAtom, BraceResultAtom, ResultOptionsAtom } from 'state'
 
 import { BouncyText, SearchInput, Select } from 'comps'
 
@@ -33,14 +33,15 @@ const Brace: FC = () => {
     const { app_label, model_name } = useParams()
 
     const [BraceInfo, UpdateBraceInfo] = useAtom(BraceInfoAtom)
-    const UpdateBraceResult = useSetAtom(BraceResultAtom)
+
+    const UpdateResultOptions = useSetAtom(ResultOptionsAtom)
 
     useEffect(() => {
         if (!app_label || !model_name) return
         const app_model = `${app_label}/${model_name}`
 
         UpdateBraceInfo(app_model)
-        UpdateBraceResult({ app_model: app_model })
+        UpdateResultOptions({ app_model })
     }, [app_label, model_name])
 
     if (!app_label || !model_name)
@@ -56,14 +57,7 @@ const Brace: FC = () => {
                 {BraceInfo !== 'loading' && BraceInfo.show_search && (
                     <div className='search-container'>
                         <SearchInput
-                            submit={query =>
-                                UpdateBraceResult({
-                                    app_model: `${app_label}/${model_name}`,
-                                    options: {
-                                        search: query,
-                                    },
-                                })
-                            }
+                            submit={search => UpdateResultOptions({ search })}
                         />
                     </div>
                 )}
@@ -97,8 +91,14 @@ const Loading: FC = () => <div>Loading ...</div>
 const Result: FC = () => {
     // 007: im not a fan of this layout
     // but its will do for now
+
     const BraceInfo = useAtomValue(BraceInfoAtom)
-    const BraceResult = useAtomValue(BraceResultAtom)
+    const ResultOptions = useAtomValue(ResultOptionsAtom)
+    const [BraceResult, UpdateBraceResult] = useAtom(BraceResultAtom)
+
+    useEffect(() => {
+        UpdateBraceResult()
+    }, [ResultOptions])
 
     if (BraceInfo === 'loading') return <Loading />
 

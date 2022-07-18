@@ -1,7 +1,7 @@
 import { BraceResultAtom } from '.'
 
 import { atom } from 'jotai'
-import { PK } from 'state/models'
+import { PK } from 'state'
 
 import { Select } from './store'
 

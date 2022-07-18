@@ -1,8 +1,7 @@
 import React, { FC, useEffect } from 'react'
 
 import { atom, useAtom, useAtomValue, useSetAtom } from 'jotai'
-import { BraceResultAtom, BraceSelectAtom, PKMapAtom } from 'state'
-import { ResultModel } from 'state/models'
+import { BraceResultAtom, BraceSelectAtom, PKMapAtom, ResultModel } from 'state'
 
 const LastIndexAtom = atom<null | number>(null)
 

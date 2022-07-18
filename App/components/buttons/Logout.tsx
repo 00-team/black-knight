@@ -1,6 +1,6 @@
 import React, { CSSProperties, FC, useState } from 'react'
 
-import { Logout as AuthLogout } from 'state/api'
+import { Logout as AuthLogout } from 'state'
 
 import './style/logout.scss'
 
