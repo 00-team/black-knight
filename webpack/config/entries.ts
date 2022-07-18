@@ -26,7 +26,7 @@ const Entries: Entry = {
 
     Login: {
         import: resolve(APP_DIR, 'Login'),
-        dependOn: ['shared'],
+        dependOn: ['state'],
     },
 
     Dashboard: {
