@@ -11,6 +11,7 @@ import { BouncyText, SearchInput, Select } from 'comps'
 
 import { BraceBody } from './Body'
 import { BraceHead } from './Head'
+import Paginator from './Paginator'
 
 import './style/brace.scss'
 
@@ -88,6 +89,7 @@ const Brace: FC = () => {
             <Suspense>
                 <Result />
             </Suspense>
+            <Paginator />
         </div>
     )
 }
