@@ -53,7 +53,13 @@ const Brace: FC = () => {
 
     return (
         <div className='brace'>
-            <div className='header'>
+            <div
+                className={`header ${
+                    BraceInfo !== 'loading' && BraceInfo.show_search
+                        ? ''
+                        : 'left'
+                }`}
+            >
                 {BraceInfo !== 'loading' && BraceInfo.show_search && (
                     <div className='search-container'>
                         <SearchInput
