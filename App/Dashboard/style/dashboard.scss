@@ -1,3 +1,6 @@
+@use '@00-team/utils' as *;
+@use 'config' as g;
+
 .dashboard-container {
     width: 100%;
     height: 100vh;
@@ -22,6 +25,25 @@
 
         @media screen and (max-width: 1024px) {
             flex-direction: column;
+        }
+
+        .brace {
+            @include box(100%);
+
+            background: var(--thirty-percent);
+            box-shadow: -5px 8px 15px 6px #000;
+
+            border-radius: 10px;
+            overflow: hidden;
+
+            .brace-text {
+                @include box(100%);
+                @include f-center;
+                .bouncy-text {
+                    font-family: 'Oleo Script', cursive;
+                    font-size: g.$TITLE_FONTSIZE;
+                }
+            }
         }
     }
 }

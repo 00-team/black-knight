@@ -80,6 +80,7 @@ const Result: FC<ResultProps> = ({ result, index }) => {
                     />
                 </span>
             </td>
+            {/* <Link to={`change/${pk}`}> */}
             {result.slice(1).map((field, index) => {
                 if (Array.isArray(field)) {
                     if (field[0] === 'image') {
@@ -88,11 +89,13 @@ const Result: FC<ResultProps> = ({ result, index }) => {
                                 <img
                                     src={field[1] || ''}
                                     loading='lazy'
+                                    alt={pk.toString()}
                                     width={100}
                                     height={100}
                                     style={{
                                         objectFit: 'contain',
-                                        border: '1px solid red',
+                                        border: '1px solid #fff',
+                                        borderRadius: 7,
                                     }}
                                 />
                             </td>
@@ -113,6 +116,7 @@ const Result: FC<ResultProps> = ({ result, index }) => {
                         return <td key={index}>{field}</td>
                 }
             })}
+            {/* </Link> */}
         </tr>
     )
 }

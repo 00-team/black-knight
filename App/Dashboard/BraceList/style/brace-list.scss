@@ -1,35 +1,12 @@
 @use 'config' as g;
 @use '@00-team/utils' as *;
 
-.brace {
+.brace-list {
     @include box(100%);
-
-    background: var(--thirty-percent);
-    box-shadow: -5px 8px 15px 6px #000;
-
     display: flex;
     align-items: center;
     justify-content: flex-start;
     flex-direction: column;
-
-    border-radius: 10px;
-    overflow: hidden;
-
-    &.no-section {
-        justify-content: center;
-
-        .bouncy-text {
-            font-family: 'Oleo Script', cursive;
-            font-size: g.$TITLE_FONTSIZE;
-        }
-    }
-
-    // @media screen and (max-width: 1440px) {
-    //     width: 70%;
-    // }
-    // @media screen and (max-width: 1024px) {
-    //     width: 100%;
-    // }
 
     .header {
         display: flex;

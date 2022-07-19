@@ -2,18 +2,18 @@ import React, { FC, Suspense, useEffect } from 'react'
 
 import { AiFillFolderAdd } from '@react-icons/all-files/ai/AiFillFolderAdd'
 
-import { useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 
 import { useAtom, useAtomValue, useSetAtom } from 'jotai'
 import { BraceInfoAtom, BraceResultAtom, ResultOptionsAtom } from 'state'
 
-import { BouncyText, SearchInput, Select } from 'comps'
+import { SearchInput, Select } from 'comps'
 
 import { BraceBody } from './Body'
 import { BraceHead } from './Head'
 import Paginator from './Paginator'
 
-import './style/brace.scss'
+import './style/brace-list.scss'
 
 const Model_opts = [
     {
@@ -30,7 +30,7 @@ const Model_opts = [
     },
 ]
 
-const Brace: FC = () => {
+const BraceList: FC = () => {
     const { app_label, model_name } = useParams()
 
     const [BraceInfo, UpdateBraceInfo] = useAtom(BraceInfoAtom)
@@ -45,15 +45,8 @@ const Brace: FC = () => {
         UpdateResultOptions({ app_model })
     }, [app_label, model_name])
 
-    if (!app_label || !model_name)
-        return (
-            <div className='brace no-section'>
-                <BouncyText text='Please Select a Model' />
-            </div>
-        )
-
     return (
-        <div className='brace'>
+        <div className='brace-list'>
             <div
                 className={`header ${
                     BraceInfo !== 'loading' && BraceInfo.show_search
@@ -70,14 +63,14 @@ const Brace: FC = () => {
                 )}
 
                 <div className='options-wrapper title_smaller'>
-                    <div className='add-container'>
+                    <Link to='add' className='add-container'>
                         <div className='holder'>
                             Add <span className='model_name'>{model_name}</span>
                         </div>
                         <div className='icon'>
                             <AiFillFolderAdd size={24} />
                         </div>
-                    </div>
+                    </Link>
                     <div className='filter-container'>
                         <Select
                             options={Model_opts}
@@ -131,4 +124,4 @@ const Result: FC = () => {
     )
 }
 
-export default Brace
+export default BraceList

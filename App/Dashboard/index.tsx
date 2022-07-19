@@ -1,9 +1,10 @@
 import React, { FC, useEffect } from 'react'
 
+import { Outlet } from 'react-router-dom'
+
 import { useAtom } from 'jotai'
 import { AdminAtom, UserAtom } from 'state'
 
-import Brace from './Brace'
 import Header from './Header'
 import Sidebar from './Sidebar'
 
@@ -23,7 +24,9 @@ const Dashboard: FC = () => {
             <Header />
             <div className='dashboard-wrapper'>
                 <Sidebar />
-                <Brace />
+                <div className='brace'>
+                    <Outlet />
+                </div>
             </div>
         </div>
     )
