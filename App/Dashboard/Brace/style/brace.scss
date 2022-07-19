@@ -117,7 +117,7 @@
         scroll-behavior: smooth;
 
         $even_bg: #121212;
-        $odd_bg: #212121;
+        $odd_bg: var(--sixty-percent);
 
         table {
             border-collapse: collapse;
