@@ -155,7 +155,7 @@ class AdminSite(admin.AdminSite):
         return api_urls
 
     def get_urls(self):
-        from django.urls import include, path
+        from django.urls import include, path, re_path
 
         api_urls = self.get_api_urls()
         app_view = self.url_wrap(self.index, json=False)
@@ -170,7 +170,7 @@ class AdminSite(admin.AdminSite):
             app_label = model._meta.app_label
             model_name = model._meta.model_name
 
-            return path(f'{app_label}/{model_name}/', app_view)
+            return re_path(rf'^{app_label}/{model_name}/(.*)', app_view)
 
         urlpatterns += list(map(get_model_url, self._registry.keys()))
 
@@ -257,7 +257,7 @@ class AdminSite(admin.AdminSite):
 
         return self.default_avatar
 
-    def index(self, request: HttpRequest, **kwargs):
+    def index(self, request: HttpRequest, *args, **kwargs):
         context = {'base_url': self.base_url}
         return render(request, self.template, context)
 
