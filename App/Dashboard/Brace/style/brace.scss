@@ -11,7 +11,6 @@
     align-items: center;
     justify-content: flex-start;
     flex-direction: column;
-    gap: 3vh;
 
     border-radius: 10px;
     overflow: hidden;
@@ -110,6 +109,8 @@
         width: 100%;
         flex: 1 0 0;
 
+        margin-top: 3vh;
+
         gap: 2vh;
 
         overflow: auto;
@@ -137,11 +138,13 @@
 
             thead {
                 tr {
-                    background-color: $odd_bg;
-                    font-family: 'Poppins', sans-serif;
-
                     position: sticky;
                     top: 0;
+
+                    text-transform: capitalize;
+
+                    background-color: $odd_bg;
+                    font-family: 'Poppins', sans-serif;
                 }
             }
 
