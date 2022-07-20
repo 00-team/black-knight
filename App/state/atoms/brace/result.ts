@@ -17,6 +17,9 @@ const ResultOptions = atom<Options>({})
 const ResultOptionsAtom = atom(
     get => get(ResultOptions),
     (get, set, options: Options) => {
+        const current_opts = get(ResultOptions)
+        if (options.app_model && current_opts.app_model !== options.app_model)
+            set(ResultOptions, options)
         set(ResultOptions, { ...get(ResultOptions), ...options })
     }
 )

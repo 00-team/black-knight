@@ -5,13 +5,13 @@ import { C } from '@00-team/utils'
 import { BsQuestion } from '@react-icons/all-files/bs/BsQuestion'
 import { IoMdSend } from '@react-icons/all-files/io/IoMdSend'
 
-import { useAtom } from 'jotai'
+import { useSetAtom } from 'jotai'
 import { PageModel, ResultOptionsAtom } from 'state'
 
 import './style/paginator.scss'
 
 const Paginator: FC<PageModel> = props => {
-    const [ResultOptions, setResultOptions] = useAtom(ResultOptionsAtom)
+    const UpdateResultOptions = useSetAtom(ResultOptionsAtom)
 
     const [SendPage, setSendPage] = useState({
         page: 0,
@@ -70,8 +70,7 @@ const Paginator: FC<PageModel> = props => {
                                 }
                                 onClick={() =>
                                     props.current !== item &&
-                                    setResultOptions({
-                                        ...ResultOptions,
+                                    UpdateResultOptions({
                                         page: item,
                                     })
                                 }
@@ -95,8 +94,7 @@ const Paginator: FC<PageModel> = props => {
                         className={C(SendPage.status)}
                         onClick={() => {
                             if (SendPage.status) {
-                                setResultOptions({
-                                    ...ResultOptions,
+                                UpdateResultOptions({
                                     page: SendPage.page,
                                 })
                             } else {
