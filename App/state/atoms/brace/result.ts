@@ -61,6 +61,8 @@ const BraceResultAtom = atom(
 
             // updating the results
             set(Result, response.data)
+        } else {
+            console.log('Error ...')
         }
         // else set(User, response.error)
 
