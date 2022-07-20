@@ -112,6 +112,10 @@
             transform: translateY(-50%);
 
             transition: all 0.5s cubic-bezier(0.87, -0.41, 0.19, 1.44);
+
+            &::placeholder {
+                color: rgba(255, 255, 255, 0.712);
+            }
         }
 
         &.active input {
@@ -128,9 +132,39 @@
             width: 50px;
             height: 50px;
 
+            overflow: hidden;
+
             transform: translateY(-50%);
 
             transition: all 0.5s cubic-bezier(0.87, -0.41, 0.19, 1.44);
+
+            .before {
+                position: absolute;
+                inset: 0;
+            }
+            .after {
+                position: absolute;
+                inset: 0;
+
+                transform: translateY(100px);
+            }
+
+            .before,
+            .after {
+                display: grid;
+                place-items: center;
+
+                transition: transform 0.5s cubic-bezier(0.87, -0.41, 0.19, 1.44);
+            }
+
+            &.active {
+                .before {
+                    transform: translateY(100px);
+                }
+                .after {
+                    transform: translateY(0);
+                }
+            }
         }
 
         &.active button {
