@@ -36,20 +36,6 @@ const Paginator = () => {
                 status: false,
             })
         }
-
-        // if (parseInt(value) > 0 && parseInt(value) !== SendPage.page) {
-        //     return setSendPage({
-        //         page: parseInt(value),
-        //         status: true,
-        //     })
-        // } else if (!value || parseInt(value) === 0) {
-        //     return setSendPage({
-        //         ...SendPage,
-        //         status: false,
-        //     })
-        // }
-        // console.log('idk')
-        // return
     }
     return (
         <div className='paginator-container'>
