@@ -12,6 +12,12 @@ interface BraceInfoModel {
 interface BraceListModel {
     results: ResultModel[]
     ordered_by: string[]
+    page: PageModel | null
+}
+
+interface PageModel {
+    current: number
+    max: number
 }
 
 interface ActionModel {
@@ -31,4 +37,4 @@ type TPKMap = { [k: number]: PK }
 
 export { BraceListModel, ActionModel, BraceInfoModel }
 export { ResultModel, PK, ResultRow }
-export { TLoading, TPKMap }
+export { TLoading, TPKMap, PageModel }
