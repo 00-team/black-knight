@@ -113,11 +113,18 @@ class BraceResult:
         )
 
         result_count = paginator.count
+        self.response['result_count'] = result_count
 
         if result_count > list_per_page:
-            result_list = paginator.page(_page_num(self.data)).object_list
+            page = _page_num(self.data)
+            result_list = paginator.page(page).object_list
+            self.response['page'] = {
+                'current': page,
+                'max': paginator.num_pages
+            }
         else:
             result_list = self.queryset._clone()
+            self.response['page'] = None
 
         def get_row(obj):
             row = [obj.pk]
