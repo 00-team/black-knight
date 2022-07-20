@@ -44,6 +44,10 @@
             font-weight: bold;
 
             .add-container {
+                // reset
+                color: inherit;
+                text-decoration: none;
+
                 padding: 1.5vh 1.6vw;
 
                 display: flex;
