@@ -82,7 +82,6 @@ const BraceList: FC = () => {
             <Suspense>
                 <Result />
             </Suspense>
-            <Paginator />
         </div>
     )
 }
@@ -104,23 +103,29 @@ const Result: FC = () => {
     if (BraceInfo === 'loading') return <Loading />
 
     return (
-        <div className='result'>
-            <table>
-                <BraceHead
-                    headers={BraceInfo.headers}
-                    results_length={
-                        BraceResult === 'loading'
-                            ? 0
-                            : BraceResult.results.length
-                    }
-                />
+        <>
+            <div className='result'>
+                <table>
+                    <BraceHead
+                        headers={BraceInfo.headers}
+                        results_length={
+                            BraceResult === 'loading'
+                                ? 0
+                                : BraceResult.results.length
+                        }
+                    />
 
-                {BraceResult !== 'loading' && <BraceBody />}
-            </table>
+                    {BraceResult !== 'loading' && <BraceBody />}
+                </table>
 
-            {/* loading under the table for results */}
-            {BraceResult === 'loading' && <Loading />}
-        </div>
+                {/* loading under the table for results */}
+
+                {BraceResult === 'loading' && <Loading />}
+            </div>
+            {BraceResult !== 'loading' && BraceResult.page && (
+                <Paginator {...BraceResult.page} />
+            )}
+        </>
     )
 }
 
