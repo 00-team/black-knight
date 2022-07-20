@@ -30,7 +30,7 @@ type TRequest = (
     signal?: AbortSignal,
     data?: Object
 ) => Promise<Response>
-const REQUEST: TRequest = async (url, method, signal, data) => {
+const REQUEST: TRequest = async (url, method, signal, json) => {
     try {
         method = method || 'GET'
         let body: null | BodyInit = null
@@ -38,8 +38,8 @@ const REQUEST: TRequest = async (url, method, signal, data) => {
 
         if (method === 'POST') {
             headers = GetCSRFToken()
-            if (data) {
-                body = JSON.stringify(data)
+            if (json) {
+                body = JSON.stringify(json)
                 headers = { ...headers, 'Content-Type': 'application/json' }
             }
         }
@@ -51,7 +51,11 @@ const REQUEST: TRequest = async (url, method, signal, data) => {
             headers,
         })
 
-        return { ok: true, data: await response.json() }
+        const data = await response.json()
+
+        if (response.ok) return { ok: true, data }
+
+        return { ok: false, ...data }
     } catch (error) {
         return { ok: false, code: 400, message: 'Test Error' }
     }
