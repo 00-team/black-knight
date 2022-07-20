@@ -3,11 +3,16 @@ import React, { useState } from 'react'
 import { BsQuestion } from '@react-icons/all-files/bs/BsQuestion'
 import { IoMdSend } from '@react-icons/all-files/io/IoMdSend'
 
+import { useAtom } from 'jotai'
+import { ResultOptionsAtom } from 'state'
+
 import './style/paginator.scss'
 
 const Paginator = () => {
     // debug
     const TotalPages = 50
+
+    const [resultOptions, setResultOptions] = useAtom(ResultOptionsAtom)
 
     const [SendPage, setSendPage] = useState({
         page: 1,
@@ -16,19 +21,35 @@ const Paginator = () => {
     const [IsActive, setIsActive] = useState(false)
 
     const PageNumber = (value: string) => {
-        if (parseInt(value) > 0 && parseInt(value) !== SendPage.page) {
+        console.log(value)
+
+        const page = parseInt(value)
+
+        if (page && page !== resultOptions.page) {
             return setSendPage({
-                page: parseInt(value),
+                page,
                 status: true,
             })
-        } else if (value.length === 0 || parseInt(value) === 0) {
+        } else {
             return setSendPage({
                 ...SendPage,
                 status: false,
             })
         }
-        console.log('idk')
-        return
+
+        // if (parseInt(value) > 0 && parseInt(value) !== SendPage.page) {
+        //     return setSendPage({
+        //         page: parseInt(value),
+        //         status: true,
+        //     })
+        // } else if (!value || parseInt(value) === 0) {
+        //     return setSendPage({
+        //         ...SendPage,
+        //         status: false,
+        //     })
+        // }
+        // console.log('idk')
+        // return
     }
     return (
         <div className='paginator-container'>
@@ -41,7 +62,10 @@ const Paginator = () => {
                         >
                             <button
                                 onClick={() =>
-                                    setSendPage({ ...SendPage, page: index })
+                                    setResultOptions({
+                                        ...resultOptions,
+                                        page: index + 1,
+                                    })
                                 }
                                 className='paginator-link paginator-link-number'
                             >
@@ -77,7 +101,16 @@ const Paginator = () => {
                 />
                 <button
                     className={`${SendPage.status ? 'active' : ''}`}
-                    onClick={() => setIsActive(!IsActive)}
+                    onClick={() => {
+                        if (SendPage.status) {
+                            setResultOptions({
+                                ...resultOptions,
+                                page: SendPage.page,
+                            })
+                        } else {
+                            setIsActive(!IsActive)
+                        }
+                    }}
                 >
                     <div className='before'>
                         <BsQuestion size={30} fill={'black'} />
