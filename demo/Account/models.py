@@ -9,3 +9,10 @@ class Account(models.Model):
 
     def __str__(self) -> str:
         return f'str: {self.nickname}'
+
+
+class AccountTemp(models.Model):
+    name = models.CharField(max_length=57)
+
+    def __str__(self):
+        return self.name
