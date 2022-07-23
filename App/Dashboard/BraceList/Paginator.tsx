@@ -3,6 +3,7 @@ import React, { FC, useState } from 'react'
 import { C } from '@00-team/utils'
 
 import { BsQuestion } from '@react-icons/all-files/bs/BsQuestion'
+import { ImCross } from '@react-icons/all-files/im/ImCross'
 import { IoMdSend } from '@react-icons/all-files/io/IoMdSend'
 
 import { useSetAtom } from 'jotai'
@@ -100,7 +101,11 @@ const Paginator: FC<PageModel> = props => {
                         }}
                     >
                         <div className='before'>
-                            <BsQuestion size={30} fill={'black'} />
+                            {C(IsActive) ? (
+                                <ImCross size={18} fill={'black'} />
+                            ) : (
+                                <BsQuestion size={30} fill={'black'} />
+                            )}
                         </div>
                         <div className='after'>
                             <IoMdSend size={28} fill={'black'} />
