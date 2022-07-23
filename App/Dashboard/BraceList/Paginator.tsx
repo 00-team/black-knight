@@ -43,7 +43,7 @@ const Paginator: FC<PageModel> = props => {
                         return (
                             <li
                                 key={index}
-                                className='paginator-item title_smaller'
+                                className='paginator-item description'
                             >
                                 <span className='paginator-link'>
                                     <button className='paginator-link'>
@@ -54,10 +54,7 @@ const Paginator: FC<PageModel> = props => {
                         )
 
                     return (
-                        <li
-                            key={index}
-                            className='paginator-item title_smaller'
-                        >
+                        <li key={index} className='paginator-item description'>
                             <button
                                 style={
                                     props.current === item
