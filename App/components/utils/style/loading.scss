@@ -4,62 +4,78 @@
     justify-content: center;
     flex-direction: column;
 
+    gap: 5vh;
+
     width: 100%;
     height: 100%;
 
-    .ball {
-        width: 10px;
-        height: 10px;
-        margin: 10px auto;
-        border-radius: 100vmax;
+    background-color: var(--primary-color);
 
-        &:nth-child(1) {
-            background: #ffffff;
-            -webkit-animation: right 1s infinite ease-in-out;
-            -moz-animation: right 1s infinite ease-in-out;
-            animation: right 1s infinite ease-in-out;
-        }
+    .loading-text {
+        font-family: 'Oleo Script', cursive;
+        font-weight: bold;
+    }
 
-        &:nth-child(2) {
-            background: #ffffff;
-            -webkit-animation: left 1.1s infinite ease-in-out;
-            -moz-animation: left 1.1s infinite ease-in-out;
-            animation: left 1.1s infinite ease-in-out;
-        }
+    .balls {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
 
-        &:nth-child(3) {
-            background: #ffffff;
-            -webkit-animation: right 1.05s infinite ease-in-out;
-            -moz-animation: right 1.05s infinite ease-in-out;
-            animation: right 1.05s infinite ease-in-out;
-        }
+        .ball {
+            width: 10px;
+            height: 10px;
+            margin: 10px auto;
+            border-radius: 100vmax;
 
-        &:nth-child(4) {
-            background: #ffffff;
-            -webkit-animation: left 1.15s infinite ease-in-out;
-            -moz-animation: left 1.15s infinite ease-in-out;
-            animation: left 1.15s infinite ease-in-out;
-        }
+            &:nth-child(1) {
+                background: #ffffff;
+                -webkit-animation: right 1s infinite ease-in-out;
+                -moz-animation: right 1s infinite ease-in-out;
+                animation: right 1s infinite ease-in-out;
+            }
 
-        &:nth-child(5) {
-            background: #ffffff;
-            -webkit-animation: right 1.1s infinite ease-in-out;
-            -moz-animation: right 1.1s infinite ease-in-out;
-            animation: right 1.1s infinite ease-in-out;
-        }
+            &:nth-child(2) {
+                background: #ffffff;
+                -webkit-animation: left 1.1s infinite ease-in-out;
+                -moz-animation: left 1.1s infinite ease-in-out;
+                animation: left 1.1s infinite ease-in-out;
+            }
 
-        &:nth-child(6) {
-            background: #ffffff;
-            -webkit-animation: left 1.05s infinite ease-in-out;
-            -moz-animation: left 1.05s infinite ease-in-out;
-            animation: left 1.05s infinite ease-in-out;
-        }
+            &:nth-child(3) {
+                background: #ffffff;
+                -webkit-animation: right 1.05s infinite ease-in-out;
+                -moz-animation: right 1.05s infinite ease-in-out;
+                animation: right 1.05s infinite ease-in-out;
+            }
 
-        &:nth-child(7) {
-            background: #ffffff;
-            -webkit-animation: right 1s infinite ease-in-out;
-            -moz-animation: right 1s infinite ease-in-out;
-            animation: right 1s infinite ease-in-out;
+            &:nth-child(4) {
+                background: #ffffff;
+                -webkit-animation: left 1.15s infinite ease-in-out;
+                -moz-animation: left 1.15s infinite ease-in-out;
+                animation: left 1.15s infinite ease-in-out;
+            }
+
+            &:nth-child(5) {
+                background: #ffffff;
+                -webkit-animation: right 1.1s infinite ease-in-out;
+                -moz-animation: right 1.1s infinite ease-in-out;
+                animation: right 1.1s infinite ease-in-out;
+            }
+
+            &:nth-child(6) {
+                background: #ffffff;
+                -webkit-animation: left 1.05s infinite ease-in-out;
+                -moz-animation: left 1.05s infinite ease-in-out;
+                animation: left 1.05s infinite ease-in-out;
+            }
+
+            &:nth-child(7) {
+                background: #ffffff;
+                -webkit-animation: right 1s infinite ease-in-out;
+                -moz-animation: right 1s infinite ease-in-out;
+                animation: right 1s infinite ease-in-out;
+            }
         }
     }
 }
