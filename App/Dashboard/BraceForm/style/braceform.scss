@@ -7,10 +7,10 @@
     justify-content: flex-start;
     flex-direction: column;
 
+    padding: 1.5vh 1.5vw;
+
     .form-title {
         width: 100%;
-
-        padding: 1.5vh 1.5vw;
 
         overflow: hidden;
 
@@ -63,6 +63,27 @@
                 opacity: 1;
                 -webkit-transform: translateY(0);
                 transform: translateY(0);
+            }
+        }
+    }
+
+    .form-data {
+        flex-grow: 1;
+    }
+    .form-footer {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+
+        padding: 1.5vh 1.5vw;
+
+        border-radius: 10px;
+        background-color: var(--sixty-percent);
+
+        .main {
+            &:active {
+                transform: scale(1.1);
             }
         }
     }
