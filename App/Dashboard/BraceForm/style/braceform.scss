@@ -4,10 +4,66 @@
 
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     flex-direction: column;
 
     .form-title {
         width: 100%;
+
+        padding: 1.5vh 1.5vw;
+
+        overflow: hidden;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        font-family: 'Oleo Script', cursive;
+        font-weight: bold;
+        text-transform: capitalize;
+
+        span {
+            width: 100%;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1vw;
+
+            white-space: nowrap;
+
+            position: relative;
+
+            animation: ShowTitle 0.7s ease-in-out forwards;
+
+            &:before,
+            &:after {
+                content: '';
+                height: 2px;
+                background-color: #fff;
+
+                animation: ShowLine 1s 0.8s ease-in-out forwards;
+            }
+            @keyframes ShowLine {
+                from {
+                    width: 0%;
+                }
+                to {
+                    width: 100%;
+                }
+            }
+        }
+        @keyframes ShowTitle {
+            from {
+                opacity: 0;
+                -webkit-transform: translateY(115%);
+                transform: translateY(115%);
+            }
+            to {
+                opacity: 1;
+                -webkit-transform: translateY(0);
+                transform: translateY(0);
+            }
+        }
     }
 }
