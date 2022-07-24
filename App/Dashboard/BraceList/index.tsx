@@ -8,6 +8,7 @@ import { useAtom, useAtomValue, useSetAtom } from 'jotai'
 import { BraceInfoAtom, BraceResultAtom, ResultOptionsAtom } from 'state'
 
 import { SearchInput, Select } from 'comps'
+import Loading from 'comps/utils/Loading'
 
 import { BraceBody } from './Body'
 import { BraceHead } from './Head'
@@ -85,8 +86,6 @@ const BraceList: FC = () => {
         </div>
     )
 }
-
-const Loading: FC = () => <div>Loading ...</div>
 
 const Result: FC = () => {
     // 007: im not a fan of this layout
