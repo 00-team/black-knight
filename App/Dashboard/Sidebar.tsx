@@ -22,24 +22,24 @@ const Sidebar: FC = () => {
                         </div>
 
                         {app.models.map((model, index) => (
-                            <Link
-                                to={`${app.app_label}/${model.name}/`}
-                                className='column title_smaller'
-                                key={index}
-                            >
-                                <div className='right-side'>
+                            <div className='column title_smaller' key={index}>
+                                <Link
+                                    to={`${app.app_label}/${model.name}/`}
+                                    className='right-side'
+                                >
                                     <div className='icon'>
                                         <img src={model.icon || default_icon} />
                                     </div>
                                     <div className='holder'>
                                         {model.plural_name}
                                     </div>
-                                </div>
+                                </Link>
                                 <div className='left-side'>
-                                    <AddSvg />
-                                    <DeleteSvg />
+                                    <AddSvg
+                                        link={`${app.app_label}/${model.name}/add`}
+                                    />
                                 </div>
-                            </Link>
+                            </div>
                         ))}
                     </div>
                 ))}
@@ -56,9 +56,13 @@ const AppName = (s: string) => {
 
 export default Sidebar
 
-const AddSvg = () => {
+interface AddSvg {
+    link: string
+}
+
+const AddSvg: FC<AddSvg> = ({ link }) => {
     return (
-        <div className='add-container'>
+        <Link to={link} className='add-container'>
             <svg
                 xmlns='http://www.w3.org/2000/svg'
                 width='15'
@@ -70,24 +74,6 @@ const AddSvg = () => {
                     d='M1600 796v192q0 40-28 68t-68 28h-416v416q0 40-28 68t-68 28h-192q-40 0-68-28t-28-68v-416h-416q-40 0-68-28t-28-68v-192q0-40 28-68t68-28h416v-416q0-40 28-68t68-28h192q40 0 68 28t28 68v416h416q40 0 68 28t28 68z'
                 />
             </svg>
-        </div>
-    )
-}
-
-const DeleteSvg = () => {
-    return (
-        <div className='delete-container'>
-            <svg
-                xmlns='http://www.w3.org/2000/svg'
-                width='15'
-                height='15'
-                viewBox='0 0 1792 1792'
-            >
-                <path
-                    fill='#efb80b'
-                    d='M491 1536l91-91-235-235-91 91v107h128v128h107zm523-928q0-22-22-22-10 0-17 7l-542 542q-7 7-7 17 0 22 22 22 10 0 17-7l542-542q7-7 7-17zm-54-192l416 416-832 832h-416v-416zm683 96q0 53-37 90l-166 166-416-416 166-165q36-38 90-38 53 0 91 38l235 234q37 39 37 91z'
-                />
-            </svg>
-        </div>
+        </Link>
     )
 }
