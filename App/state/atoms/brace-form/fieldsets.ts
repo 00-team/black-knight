@@ -64,7 +64,7 @@ const BraceFieldsetsAtom = atom(
             // set(PKMap, pk_map)
 
             // updating the results
-            set(Fieldsets, response.data.fieldsets)
+            set(Fieldsets, response.data)
         } else {
             console.log('Error ...')
         }

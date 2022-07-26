@@ -4,6 +4,6 @@ import { TLoading } from 'state'
 
 const Loading: TLoading = ['loading', 'None']
 
-const Fieldsets = atom<BF_FieldsetModel | TLoading>(Loading)
+const Fieldsets = atom<{ fieldsets: BF_FieldsetModel[] } | TLoading>(Loading)
 
 export { Fieldsets }
