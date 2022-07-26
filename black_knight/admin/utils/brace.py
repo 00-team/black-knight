@@ -2,10 +2,24 @@ import datetime
 import decimal
 
 from django.db import models
+from django.urls import NoReverseMatch, reverse
 from django.utils import formats, timezone
 
 
-def value_dict(field, value) -> dict:
+def get_remote_url(field, value):
+    meta = field.remote_field.model._meta
+    app_label = meta.app_label
+    model_name = meta.model_name
+
+    try:
+        url = reverse('black_knight:index', current_app='black_knight')
+        url += f'{app_label}/{model_name}/change/{value.pk}/'
+        return 'link', url
+    except NoReverseMatch:
+        str(value)
+
+
+def display_value(field, value):
 
     if field:
         if getattr(field, 'flatchoices', None):
@@ -24,9 +38,14 @@ def value_dict(field, value) -> dict:
         return value
 
     if isinstance(value, datetime.datetime):
-        return formats.localize(timezone.template_localtime(value))
+        return 'datetime', value.isoformat()
 
-    if isinstance(value, (datetime.date, datetime.time)):
+    if isinstance(value, datetime.date):
+        return 'date', value.isoformat()
+        # return formats.localize(timezone.template_localtime(value))
+
+    if isinstance(value, datetime.time):
+        # TODO: return an iso format version of it
         return formats.localize(value)
 
     if isinstance(value, (int, decimal.Decimal, float)):

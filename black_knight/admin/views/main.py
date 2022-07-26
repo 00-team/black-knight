@@ -1,7 +1,7 @@
 
 from black_knight.admin.options import ModelAdmin
 from black_knight.admin.utils import get_data
-from black_knight.admin.utils.brace import value_dict
+from black_knight.admin.utils.brace import display_value
 from django.contrib.admin.utils import lookup_field
 from django.core.exceptions import FieldDoesNotExist
 from django.db.models import Exists, OuterRef, QuerySet
@@ -131,7 +131,7 @@ class BraceResult:
 
             for field_name in list_display:
                 field, _, value = lookup_field(field_name, obj, model_admin)
-                row.append(value_dict(field, value))
+                row.append(display_value(field, value))
 
             return row
 
