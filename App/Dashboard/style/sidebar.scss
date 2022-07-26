@@ -97,8 +97,6 @@
             .column {
                 padding: 0.5rem 1rem;
 
-                cursor: pointer;
-
                 width: 100%;
 
                 display: flex;
@@ -122,6 +120,8 @@
                     align-items: center;
                     justify-content: center;
                     gap: 1vw;
+
+                    cursor: pointer;
                 }
                 .left-side {
                     display: flex;
