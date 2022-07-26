@@ -1,4 +1,8 @@
-interface BraceInfoModel {
+import { PK, TValue } from 'state'
+
+// using BL_ prefix for Brace List Stuff
+
+interface BL_InfoModel {
     preserve_filters: boolean
     show_search: boolean
     search_help_text: null | string
@@ -9,7 +13,7 @@ interface BraceInfoModel {
     orders: string[]
 }
 
-interface BraceListModel {
+interface BL_ResultModel {
     results: ResultModel[]
     ordered_by: string[]
     page: PageModel | null
@@ -25,16 +29,10 @@ interface ActionModel {
     description: string
 }
 
-type PK = string | number
-type ResultModel = [PK, ...ResultRow[]]
+type ResultModel = [PK, ...TValue[]]
 
-type RImage = ['image', string | null]
+type PK_MAP = { [k: number]: PK }
 
-type ResultRow = string | number | boolean | null | RImage
-
-type TLoading = ['loading', string]
-type TPKMap = { [k: number]: PK }
-
-export { BraceListModel, ActionModel, BraceInfoModel }
-export { ResultModel, PK, ResultRow }
-export { TLoading, TPKMap, PageModel }
+export { BL_InfoModel, BL_ResultModel }
+export { PageModel, ActionModel }
+export { ResultModel, PK_MAP }

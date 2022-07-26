@@ -1,12 +1,12 @@
 import { atom } from 'jotai'
-import { BraceInfoModel, BraceListModel } from 'state'
-import { TLoading, TPKMap, PK } from 'state'
+import { BL_InfoModel, BL_ResultModel } from 'state'
+import { TLoading, PK_MAP, PK } from 'state'
 
 const Loading: TLoading = ['loading', 'None']
 
-const Result = atom<BraceListModel | TLoading>(Loading)
-const Info = atom<BraceInfoModel | TLoading>(Loading)
+const Result = atom<BL_ResultModel | TLoading>(Loading)
+const Info = atom<BL_InfoModel | TLoading>(Loading)
 const Select = atom<'all' | PK[]>([])
-const PKMap = atom<TPKMap | 'loading'>('loading')
+const PKMap = atom<PK_MAP | 'loading'>('loading')
 
 export { Result, Info, Select, PKMap }
