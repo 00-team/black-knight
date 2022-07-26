@@ -1,9 +1,12 @@
 from black_knight.admin.utils import get_data
+from black_knight.admin.utils.brace import display_value, get_remote_url
 from black_knight.admin.utils.exception import INVALID_INPUT, ErrorResponse
 from django.contrib import admin
 from django.contrib.admin.utils import flatten_fieldsets, label_for_field
 from django.contrib.admin.utils import lookup_field
 from django.core.paginator import InvalidPage
+from django.db.models.fields.related import ForeignObjectRel, ManyToManyRel
+from django.db.models.fields.related import OneToOneField
 from django.http import HttpRequest, JsonResponse
 from django.middleware.csrf import get_token
 from django.utils.decorators import method_decorator
@@ -18,7 +21,7 @@ class ModelAdmin(admin.ModelAdmin):
     icon: str | None = None
 
     def get_api_urls(self):
-        from django.urls import path
+        from django.urls import path, re_path
 
         wrap = self.admin_site.url_wrap
 
@@ -26,8 +29,7 @@ class ModelAdmin(admin.ModelAdmin):
             path('brace-result/', wrap(self.brace_result)),
             path('brace-info/', wrap(self.brace_info)),
             path('brace-actions/', wrap(self.brace_actions)),
-
-            path('brace-form/', wrap(self.brace_form))
+            re_path('brace-form/(add|change)/', wrap(self.brace_form))
         ]
 
     @property
@@ -128,29 +130,66 @@ class ModelAdmin(admin.ModelAdmin):
 
         return JsonResponse({'ok': 'action executed successfully'})
 
-    def brace_form(self, request: HttpRequest):
-        fieldsets = self.get_fieldsets(request)
+    def brace_form(self, request: HttpRequest, form_type: str):
+        fieldsets = []
+        base_fieldsets = self.get_fieldsets(request)
         readonly_fields = self.get_readonly_fields(request)
         meta = self.model._meta
+        instance = None
+
+        # default type is add
+        if form_type == 'change':
+            pk = get_data(request).get('pk')
+            instance = self.get_object(request, pk)
+            if instance is None:
+                # TODO: handle this errro
+                return JsonResponse({'message-erro': 'not found or something else'})
 
         def get_field(field_name):
+
+            if field_name in readonly_fields:
+                return {
+                    'type': 'readonly',
+                    'name': field_name,
+                }
+
             field = meta.get_field(field_name)
             info = getattr(field, 'info', {'type': 'unknown'})
 
             return {
                 **info,
                 'name': field.name,
+                'default': field.get_default() or None
             }
 
-        editable_fields = filter(
-            lambda f: f not in readonly_fields,
-            flatten_fieldsets(fieldsets)
-        )
+        def get_field_value(field_dict: dict):
+            field, _, value = lookup_field(field_dict['name'], instance, self)
 
-        data = {
+            # if field.remote_field and value:
+            #     if isinstance(field.remote_field, ManyToManyRel):
+            #         field_dict['value'] = ', '.join(map(str, value.all()))
+            #         return field_dict
+            #     elif isinstance(field.remote_field, (ForeignObjectRel, OneToOneField)):
+            #         field_dict['value'] = get_remote_url(field, value)
+            #         return field_dict
+
+            field_dict['value'] = display_value(field, value)
+            return field_dict
+
+        for fieldset in base_fieldsets:
+            fields = map(get_field, fieldset[1]['fields'])
+
+            if instance:
+                fields = map(get_field_value, fields)
+
+            fieldsets.append({
+                'name': fieldset[0],
+                'description': fieldset[1].get('description'),
+                'fields': list(fields),
+            })
+
+        response = {
             'fieldsets': fieldsets,
-            'readonly_fields': readonly_fields,
-            'fields': list(map(get_field, editable_fields)),
         }
 
-        return JsonResponse(data)
+        return JsonResponse(response)
