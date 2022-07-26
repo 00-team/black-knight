@@ -39,7 +39,7 @@ const BraceForm: FC = () => {
     const HandleClick = () => {}
     return (
         <div className='brace_form-container'>
-            <div className={'form-title title' + C(iibc, 'active')}>
+            <div className='form-title title'>
                 <span>
                     <div className='icon'>
                         <FaNewspaper size={30} />
@@ -51,16 +51,24 @@ const BraceForm: FC = () => {
                 </span>
             </div>
             <div className='form-data'></div>
-            <div className='form-footer' ref={BtnsContainer}>
+            <div
+                className={'form-footer title_small' + C(iibc, 'active')}
+                ref={BtnsContainer}
+            >
+                <button style={{ animationDelay: '0.5s' }}>
+                    Save and add another
+                </button>
+                <button style={{ animationDelay: '1.5s' }}>
+                    Save and continue editing
+                </button>
                 <button
+                    style={{ animationDelay: '1s' }}
                     className='main'
                     id='save-btn'
                     onClick={() => HandleClick()}
                 >
                     Save
                 </button>
-                <button>Save and continue editing</button>
-                <button>Save and add another</button>
             </div>
         </div>
     )
