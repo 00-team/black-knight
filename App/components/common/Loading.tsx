@@ -1,8 +1,8 @@
-import React from 'react'
+import React, { FC } from 'react'
 
 import './style/loading.scss'
 
-const Loading = () => {
+const Loading: FC = () => {
     return (
         <div className='loading-container'>
             <div className='loading-text title_small'>JUST A SEC...</div>
@@ -19,4 +19,4 @@ const Loading = () => {
     )
 }
 
-export default Loading
+export { Loading }
