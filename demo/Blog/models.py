@@ -1,15 +1,16 @@
 import time
 
+from black_knight import fields
 from django.db import models
 from django.utils.timezone import now
 
 
 class Blog(models.Model):
-    title = models.CharField(max_length=50)
-    description = models.TextField()
-    thumbnail = models.ImageField(upload_to='Blog/thumbnail/')
-    publish_date = models.DateField(default=now)
-    study_time = models.PositiveBigIntegerField(default=0)
+    title = fields.CharField(max_length=50)
+    description = fields.TextField()
+    thumbnail = fields.ImageField(upload_to='Blog/thumbnail/')
+    publish_date = fields.DateField(default=now)
+    study_time = fields.PositiveBigIntegerField(default=0)
 
     @property
     def _study_time(self):

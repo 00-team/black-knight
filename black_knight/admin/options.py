@@ -1,8 +1,8 @@
 from black_knight.admin.utils import get_data
 from black_knight.admin.utils.exception import INVALID_INPUT, ErrorResponse
 from django.contrib import admin
-# from django.contrib.admin.utils import flatten_fieldsets
-from django.contrib.admin.utils import label_for_field, lookup_field
+from django.contrib.admin.utils import flatten_fieldsets, label_for_field
+from django.contrib.admin.utils import lookup_field
 from django.core.paginator import InvalidPage
 from django.http import HttpRequest, JsonResponse
 from django.middleware.csrf import get_token
@@ -25,7 +25,9 @@ class ModelAdmin(admin.ModelAdmin):
         return [
             path('brace-result/', wrap(self.brace_result)),
             path('brace-info/', wrap(self.brace_info)),
-            path('brace-actions/', wrap(self.brace_actions))
+            path('brace-actions/', wrap(self.brace_actions)),
+
+            path('brace-form/', wrap(self.brace_form))
         ]
 
     @property
@@ -125,3 +127,30 @@ class ModelAdmin(admin.ModelAdmin):
         action[0](self, request, queryset)
 
         return JsonResponse({'ok': 'action executed successfully'})
+
+    def brace_form(self, request: HttpRequest):
+        fieldsets = self.get_fieldsets(request)
+        readonly_fields = self.get_readonly_fields(request)
+        meta = self.model._meta
+
+        def get_field(field_name):
+            field = meta.get_field(field_name)
+            info = getattr(field, 'info', {'type': 'unknown'})
+
+            return {
+                **info,
+                'name': field.name,
+            }
+
+        editable_fields = filter(
+            lambda f: f not in readonly_fields,
+            flatten_fieldsets(fieldsets)
+        )
+
+        data = {
+            'fieldsets': fieldsets,
+            'readonly_fields': readonly_fields,
+            'fields': list(map(get_field, editable_fields)),
+        }
+
+        return JsonResponse(data)
