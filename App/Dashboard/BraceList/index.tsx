@@ -7,8 +7,7 @@ import { Link, useParams } from 'react-router-dom'
 import { useAtom, useAtomValue, useSetAtom } from 'jotai'
 import { BraceInfoAtom, BraceResultAtom, ResultOptionsAtom } from 'state'
 
-import { SearchInput, Select } from 'comps'
-import Loading from 'comps/utils/Loading'
+import { Loading, SearchInput, Select } from 'comps'
 
 import { BraceBody } from './Body'
 import { BraceHead } from './Head'

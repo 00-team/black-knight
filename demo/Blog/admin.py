@@ -26,4 +26,5 @@ class BlogAdmin(ModelAdmin):
 
     @admin.display
     def _thumbnail(self, obj):
-        return obj.thumbnail.url
+        return 'value from _thumbnail'
+        # return obj.thumbnail.url

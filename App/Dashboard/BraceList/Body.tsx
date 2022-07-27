@@ -1,7 +1,11 @@
 import React, { FC, useEffect } from 'react'
 
+import { Link } from 'react-router-dom'
+
 import { atom, useAtom, useAtomValue, useSetAtom } from 'jotai'
 import { BraceResultAtom, BraceSelectAtom, PKMapAtom, ResultModel } from 'state'
+
+import { RenderValue } from 'comps'
 
 const LastIndexAtom = atom<null | number>(null)
 
@@ -80,43 +84,17 @@ const Result: FC<ResultProps> = ({ result, index }) => {
                     />
                 </span>
             </td>
-            {/* <Link to={`change/${pk}`}> */}
-            {result.slice(1).map((field, index) => {
-                if (Array.isArray(field)) {
-                    if (field[0] === 'image') {
-                        return (
-                            <td key={index}>
-                                <img
-                                    src={field[1] || ''}
-                                    loading='lazy'
-                                    alt={pk.toString()}
-                                    width={100}
-                                    height={100}
-                                    style={{
-                                        objectFit: 'contain',
-                                        border: '1px solid #fff',
-                                        borderRadius: 7,
-                                    }}
-                                />
-                            </td>
-                        )
-                    }
-                }
-
-                if (field === null) return <td key={index}> -empty- </td>
-
-                switch (typeof field) {
-                    case 'boolean':
-                        return <td key={index}>{field ? '✅' : '❌'}</td>
-
-                    case 'number':
-                        return <td key={index}>{field}</td>
-
-                    default:
-                        return <td key={index}>{field}</td>
-                }
-            })}
-            {/* </Link> */}
+            {result.slice(1).map((field, index) => (
+                <td key={index}>
+                    {index === 0 ? (
+                        <Link to={`change/${pk}/`}>
+                            <RenderValue v={field} />
+                        </Link>
+                    ) : (
+                        <RenderValue v={field} />
+                    )}
+                </td>
+            ))}
         </tr>
     )
 }

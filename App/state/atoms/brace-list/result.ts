@@ -1,5 +1,5 @@
 import { atom } from 'jotai'
-import { ResultModel, TPKMap } from 'state'
+import { ResultModel, PK_MAP } from 'state'
 import { REQUEST } from 'state'
 
 import { Result, Select, PKMap } from './store'
@@ -56,7 +56,7 @@ const BraceResultAtom = atom(
 
             // updating the PK Map
             const result_list: ResultModel[] = response.data.results
-            const pk_map: TPKMap = {}
+            const pk_map: PK_MAP = {}
             result_list.forEach((item, index) => {
                 pk_map[index] = item[0]
             })

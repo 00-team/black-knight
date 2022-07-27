@@ -1,3 +1,5 @@
+import { VImage, TValue, VDate } from 'state'
+
 interface BaseField {
     name: string
 }
@@ -5,15 +7,51 @@ interface BaseField {
 interface CharField extends BaseField {
     type: 'char'
     max: number
+    default: string
+    value?: string
 }
 
 interface IntField extends BaseField {
     type: 'int'
     min: number
+    default: '' | number
+    value?: number
 }
 
-interface OtherField extends BaseField {
-    type: 'text' | 'image' | 'date'
+interface ImageField extends BaseField {
+    type: 'image'
+    default: ''
+    value?: VImage
 }
 
-type Field = CharField | IntField | OtherField
+interface TextField extends BaseField {
+    type: 'text'
+    default: string
+    value?: string
+}
+
+interface DateField extends BaseField {
+    type: 'date'
+    default: string
+    value?: VDate
+}
+
+interface UnknownField extends BaseField {
+    type: 'unknown'
+}
+
+interface ReadonlyField extends BaseField {
+    type: 'readonly'
+    value?: TValue
+}
+
+type Field =
+    | CharField
+    | TextField
+    | IntField
+    | ImageField
+    | DateField
+    | UnknownField
+    | ReadonlyField
+
+export { Field }
