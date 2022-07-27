@@ -18,3 +18,4 @@ type TypedValues = VImage | VDate | VDatetime | VLink
 type TValue = TBaseValue | TypedValues
 
 export { PK, TLoading, TValue, TBaseValue, TypedValues }
+export { VImage, VDate, VDatetime, VLink }
