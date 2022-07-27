@@ -165,9 +165,22 @@ const RenderFieldInput: FC<{ f: Field }> = ({ f }) => {
             // TODO: defaultValue is wrong!
             return <input type={'text'} defaultValue={f.value || f.default} />
 
+        case 'boolean':
+            return <input type={'checkbox'} defaultChecked={f.default} />
+
         case 'date':
             const date = f.value ? f.value[1] : f.default
             return <input type={'date'} defaultValue={date} />
+
+        case 'datetime':
+            const datetime = f.value ? f.value[1] : f.default
+            return (
+                <input
+                    type={'datetime-local'}
+                    defaultValue={datetime}
+                    onChange={e => console.log(e.target.value)}
+                />
+            )
 
         case 'image':
             return <input type='file' accept='image/*' />

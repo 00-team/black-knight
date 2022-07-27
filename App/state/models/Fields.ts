@@ -11,6 +11,12 @@ interface CharField extends BaseField {
     value?: string
 }
 
+interface BooleanField extends BaseField {
+    type: 'boolean'
+    default: boolean
+    value?: boolean
+}
+
 interface IntField extends BaseField {
     type: 'int'
     min: number
@@ -36,6 +42,12 @@ interface DateField extends BaseField {
     value?: VDate
 }
 
+interface DateTimeField extends BaseField {
+    type: 'datetime'
+    default: string
+    value?: VDate
+}
+
 interface UnknownField extends BaseField {
     type: 'unknown'
 }
@@ -47,10 +59,12 @@ interface ReadonlyField extends BaseField {
 
 type Field =
     | CharField
+    | BooleanField
     | TextField
     | IntField
     | ImageField
     | DateField
+    | DateTimeField
     | UnknownField
     | ReadonlyField
 
