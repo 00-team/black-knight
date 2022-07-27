@@ -91,22 +91,9 @@ const BraceForm: FC = () => {
 
     if (Form === 'loading') return <Loading />
 
-    const title = () =>
-        pk === undefined ? `Add ${model_name}` : `Change ${Form.instance_str}`
-
     return (
         <div className='brace_form-container'>
-            <div className='form-title title'>
-                <span>
-                    <div className='icon'>
-                        <FaNewspaper size={30} />
-                    </div>
-                    <div className='holder'>{title()}</div>
-                    <div className='icon'>
-                        <FaNewspaper size={30} />
-                    </div>
-                </span>
-            </div>
+            <FormTitle />
             <div className='form-data'>
                 {Form.fieldsets.map((fset, idx0) => (
                     <div key={idx0} className='fieldset'>
@@ -140,6 +127,31 @@ const BraceForm: FC = () => {
                     Save
                 </button>
             </div>
+        </div>
+    )
+}
+
+const FormTitle: FC = () => {
+    const { model_name, pk } = useParams()
+    const [Form] = useAtom(BraceFormAtom)
+
+    const title = () => {
+        if (pk === undefined) return `Add ${model_name}`
+        if (Form === 'loading') return `Change ${pk}`
+        return `Change ${Form.instance_str}`
+    }
+
+    return (
+        <div className='form-title title'>
+            <span>
+                <div className='icon'>
+                    <FaNewspaper size={30} />
+                </div>
+                <div className='holder'>{title()}</div>
+                <div className='icon'>
+                    <FaNewspaper size={30} />
+                </div>
+            </span>
         </div>
     )
 }
