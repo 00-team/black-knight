@@ -20,6 +20,7 @@
     },
     "devDependencies": {
         "@trivago/prettier-plugin-sort-imports": "^3.2.0",
+        "@types/canvas-confetti": "^1.4.3",
         "@types/js-cookie": "^3.0.2",
         "@types/loadable__component": "^5.13.4",
         "@types/react": "^18.0.9",
