@@ -159,7 +159,7 @@ class ModelAdmin(admin.ModelAdmin):
             return {
                 **info,
                 'name': field.name,
-                'default': field.get_default() or None
+                'default': field.get_default()
             }
 
         def get_field_value(field_dict: dict):
