@@ -57,6 +57,10 @@ const REQUEST: TRequest = async (url, method, signal, json) => {
 
         return { ok: false, ...data }
     } catch (error) {
+        if (error instanceof DOMException) {
+            return { ok: false, code: error.code, message: error.message }
+        }
+
         return { ok: false, code: 400, message: 'Test Error' }
     }
 }

@@ -65,7 +65,11 @@ const BraceResultAtom = atom(
             // updating the results
             set(Result, response.data)
         } else {
-            console.log('Error ...')
+            if (response.code === 20) {
+                // ignore signal abort exceptions
+                return
+            }
+            console.log(response)
         }
         // else set(User, response.error)
 
