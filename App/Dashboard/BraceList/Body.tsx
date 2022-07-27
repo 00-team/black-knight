@@ -1,5 +1,7 @@
 import React, { FC, useEffect } from 'react'
 
+import { Link } from 'react-router-dom'
+
 import { atom, useAtom, useAtomValue, useSetAtom } from 'jotai'
 import { BraceResultAtom, BraceSelectAtom, PKMapAtom, ResultModel } from 'state'
 
@@ -84,7 +86,13 @@ const Result: FC<ResultProps> = ({ result, index }) => {
             </td>
             {result.slice(1).map((field, index) => (
                 <td key={index}>
-                    <RenderValue v={field} />
+                    {index === 0 ? (
+                        <Link to={`change/${pk}/`}>
+                            <RenderValue v={field} />
+                        </Link>
+                    ) : (
+                        <RenderValue v={field} />
+                    )}
                 </td>
             ))}
         </tr>
