@@ -69,6 +69,18 @@
 
     .form-data {
         flex-grow: 1;
+        width: 100%;
+        font-size: 20px;
+
+        .fieldset {
+            margin-bottom: 2vh;
+            padding: 1rem;
+            border-bottom: 1px solid red;
+
+            h2 {
+                background-color: crimson;
+            }
+        }
     }
     .form-footer {
         width: 100%;
