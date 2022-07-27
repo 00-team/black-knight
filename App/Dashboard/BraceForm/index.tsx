@@ -53,6 +53,9 @@ const BraceForm: FC = () => {
 
     if (Form === 'loading') return <Loading />
 
+    const title = () =>
+        pk === undefined ? `Add ${model_name}` : `Change ${Form.instance_str}`
+
     return (
         <div className='brace_form-container'>
             <div className='form-title title'>
@@ -60,7 +63,7 @@ const BraceForm: FC = () => {
                     <div className='icon'>
                         <FaNewspaper size={30} />
                     </div>
-                    <div className='holder'>Add {model_name}</div>
+                    <div className='holder'>{title()}</div>
                     <div className='icon'>
                         <FaNewspaper size={30} />
                     </div>

@@ -8,6 +8,7 @@ interface Fieldset {
 
 interface BraceFormModel {
     fieldsets: Fieldset[]
+    instance_str: string | null
 }
 
 export { BraceFormModel }

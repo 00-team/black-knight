@@ -136,6 +136,7 @@ class ModelAdmin(admin.ModelAdmin):
         readonly_fields = self.get_readonly_fields(request)
         meta = self.model._meta
         instance = None
+        response = {}
 
         # default type is add
         if form_type == 'change':
@@ -188,8 +189,7 @@ class ModelAdmin(admin.ModelAdmin):
                 'fields': list(fields),
             })
 
-        response = {
-            'fieldsets': fieldsets,
-        }
+        response['fieldsets'] = fieldsets
+        response['instance_str'] = str(instance) if instance else None
 
         return JsonResponse(response)
