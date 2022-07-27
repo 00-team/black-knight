@@ -21,6 +21,15 @@ class TextField(fields.TextField):
         }
 
 
+class BooleanField(fields.BooleanField):
+
+    @property
+    def info(self):
+        return {
+            'type': 'boolean',
+        }
+
+
 class DateField(fields.DateField):
 
     def get_default(self):
@@ -31,6 +40,25 @@ class DateField(fields.DateField):
     def info(self):
         return {
             'type': 'date',
+        }
+
+
+class DateTimeField(fields.DateTimeField):
+
+    @property
+    def info(self):
+        return {
+            'type': 'datetime',
+        }
+
+
+class PositiveIntegerField(fields.PositiveIntegerField):
+
+    @property
+    def info(self):
+        return {
+            'type': 'int',
+            'min': 0
         }
 
 
