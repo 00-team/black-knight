@@ -23,6 +23,10 @@ class TextField(fields.TextField):
 
 class DateField(fields.DateField):
 
+    def get_default(self):
+        value = super().get_default()
+        return value.date().isoformat()
+
     @property
     def info(self):
         return {
