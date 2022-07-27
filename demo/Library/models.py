@@ -19,7 +19,7 @@ class Author(models.Model):
 
 class Book(models.Model):
     title = fields.CharField(max_length=20)
-    author = models.ForeignKey(Author, on_delete=models.CASCADE)
+    author = fields.ForeignKey(Author, on_delete=models.CASCADE)
     targeted_group = fields.CharField(
         max_length=2,
         choices=TARGETED_GROUPS,

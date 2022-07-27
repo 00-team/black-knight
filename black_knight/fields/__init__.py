@@ -1,5 +1,5 @@
 from django.db.models import fields
-from django.db.models.fields import files
+from django.db.models.fields import files, related
 
 
 class CharField(fields.CharField):
@@ -78,4 +78,14 @@ class ImageField(files.ImageField):
     def info(self):
         return {
             'type': 'image'
+        }
+
+
+class ForeignKey(related.ForeignKey):
+
+    @property
+    def info(self):
+        return {
+            'type': 'choice',
+            'choices': self.get_choices(blank_choice=[])
         }
