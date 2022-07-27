@@ -45,6 +45,7 @@ const RenderValue: FC<{ v: TValue }> = ({ v }) => {
                         })}
                     </>
                 )
+
             case 'date':
                 const date = new Date(v[1])
                 return (
@@ -56,6 +57,9 @@ const RenderValue: FC<{ v: TValue }> = ({ v }) => {
                         })}
                     </>
                 )
+
+            case 'foreign_key':
+                return <>{v[2]}</>
         }
 
     switch (typeof v) {

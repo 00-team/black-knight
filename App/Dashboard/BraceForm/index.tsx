@@ -109,7 +109,7 @@ const BraceForm: FC = () => {
                 ))}
             </div>
             <div
-                className={'form-footer title_small' + C(iibc, 'active')}
+                className={'form-footer title_small' + C(iibc)}
                 ref={BtnsContainer}
             >
                 <button style={{ animationDelay: '0.5s' }}>
@@ -167,6 +167,18 @@ const RenderFieldInput: FC<{ f: Field }> = ({ f }) => {
 
         case 'boolean':
             return <input type={'checkbox'} defaultChecked={f.default} />
+
+        case 'foreign_key':
+            return (
+                <>
+                    this should be a select \
+                    {f.choices.map((c, i) => (
+                        <span key={i}>
+                            ( {c[0]} | {c[1]} )
+                        </span>
+                    ))}
+                </>
+            )
 
         case 'date':
             const date = f.value ? f.value[1] : f.default

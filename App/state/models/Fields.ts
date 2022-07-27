@@ -1,4 +1,4 @@
-import { VImage, TValue, VDate } from 'state'
+import { VImage, TValue, VDate, PK, VForeignKey } from 'state'
 
 interface BaseField {
     name: string
@@ -48,6 +48,12 @@ interface DateTimeField extends BaseField {
     value?: VDate
 }
 
+interface ForeignKeyField extends BaseField {
+    type: 'foreign_key'
+    choices: [PK, string][]
+    value?: VForeignKey
+}
+
 interface UnknownField extends BaseField {
     type: 'unknown'
 }
@@ -65,6 +71,7 @@ type Field =
     | ImageField
     | DateField
     | DateTimeField
+    | ForeignKeyField
     | UnknownField
     | ReadonlyField
 

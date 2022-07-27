@@ -29,7 +29,7 @@ def display_value(field, value):
             return 'image', value.url if value else None
 
         if isinstance(field, models.ForeignKey):
-            return 'fk', value.pk, str(value)
+            return 'foreign_key', value.pk, str(value)
 
     if value is None:
         return None

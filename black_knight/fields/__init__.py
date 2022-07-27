@@ -86,6 +86,6 @@ class ForeignKey(related.ForeignKey):
     @property
     def info(self):
         return {
-            'type': 'choice',
+            'type': 'foreign_key',
             'choices': self.get_choices(blank_choice=[])
         }
