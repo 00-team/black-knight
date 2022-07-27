@@ -7,7 +7,7 @@ import { FaNewspaper } from '@react-icons/all-files/fa/FaNewspaper'
 import { useParams } from 'react-router-dom'
 
 import { useAtom } from 'jotai'
-import { BraceFieldsetsAtom, Field } from 'state'
+import { BraceFormAtom, Field } from 'state'
 
 import { Loading, RenderValue } from 'comps'
 
@@ -16,8 +16,8 @@ import './style/braceform.scss'
 // const confetti = require('canvas-confetti')
 
 const BraceForm: FC = () => {
-    const { app_label, model_name } = useParams()
-    const [Fieldsets, UpdateFieldsets] = useAtom(BraceFieldsetsAtom)
+    const { app_label, model_name, pk } = useParams()
+    const [Form, UpdateForm] = useAtom(BraceFormAtom)
     const BtnsContainer = useRef<HTMLDivElement>(null)
 
     // is intersecting btns container
@@ -44,10 +44,14 @@ const BraceForm: FC = () => {
     }, [BtnsContainer])
 
     useEffect(() => {
-        UpdateFieldsets(`${app_label}/${model_name}`)
-    }, [app_label, model_name])
+        UpdateForm({
+            app_label,
+            model_name,
+            end_url: pk === undefined ? 'add/' : `change/?pk=${pk}`,
+        })
+    }, [app_label, model_name, pk])
 
-    if (Fieldsets === 'loading') return <Loading />
+    if (Form === 'loading') return <Loading />
 
     return (
         <div className='brace_form-container'>
@@ -63,7 +67,7 @@ const BraceForm: FC = () => {
                 </span>
             </div>
             <div className='form-data'>
-                {Fieldsets.fieldsets.map((fset, idx0) => (
+                {Form.fieldsets.map((fset, idx0) => (
                     <div key={idx0} className='fieldset'>
                         {fset.name && <h2>{fset.name}</h2>}
                         {fset.description && <p>{fset.description}</p>}
@@ -109,7 +113,8 @@ const RenderFieldInput: FC<{ f: Field }> = ({ f }) => {
             return <input type={'text'} defaultValue={f.value || f.default} />
 
         case 'date':
-            return <input type={'date'} defaultValue={f.value || f.default} />
+            const date = f.value ? f.value[1] : f.default
+            return <input type={'date'} defaultValue={date} />
 
         case 'image':
             return <input type='file' accept='image/*' />
