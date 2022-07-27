@@ -1,9 +1,13 @@
 import { Field } from 'state'
 
-interface BF_FieldsetModel {
+interface Fieldset {
     name: string | null
     description: string | null
     fields: Field[]
 }
 
-export { BF_FieldsetModel }
+interface BraceFormModel {
+    fieldsets: Fieldset[]
+}
+
+export { BraceFormModel }
