@@ -7,9 +7,9 @@ import { FaNewspaper } from '@react-icons/all-files/fa/FaNewspaper'
 import { useParams } from 'react-router-dom'
 
 import { useAtom } from 'jotai'
-import { BraceFieldsetsAtom } from 'state'
+import { BraceFieldsetsAtom, Field } from 'state'
 
-import { Loading } from 'comps'
+import { Loading, RenderValue } from 'comps'
 
 import './style/braceform.scss'
 
@@ -64,25 +64,13 @@ const BraceForm: FC = () => {
             </div>
             <div className='form-data'>
                 {Fieldsets.fieldsets.map((fset, idx0) => (
-                    <div key={idx0}>
+                    <div key={idx0} className='fieldset'>
                         {fset.name && <h2>{fset.name}</h2>}
                         {fset.description && <p>{fset.description}</p>}
                         {fset.fields.map((f, idx1) => (
                             <div key={idx1}>
-                                <label>{f.name}</label>
-                                {f.type === 'unknown' ? (
-                                    <span>Unknown Field</span>
-                                ) : f.type === 'char' ? (
-                                    <input
-                                        type='text'
-                                        maxLength={f.max}
-                                        defaultValue={f.default?.toString()}
-                                    />
-                                ) : f.type === 'image' ? (
-                                    <input type='file' />
-                                ) : (
-                                    <>gg ez</>
-                                )}
+                                <label>{f.name}:</label>
+                                <RenderFieldInput f={f} />
                             </div>
                         ))}
                     </div>
@@ -109,6 +97,41 @@ const BraceForm: FC = () => {
             </div>
         </div>
     )
+}
+
+const RenderFieldInput: FC<{ f: Field }> = ({ f }) => {
+    switch (f.type) {
+        case 'unknown':
+            return <>Unknown Field</>
+
+        case 'char':
+            // TODO: defaultValue is wrong!
+            return <input type={'text'} defaultValue={f.value || f.default} />
+
+        case 'date':
+            return <input type={'date'} defaultValue={f.value || f.default} />
+
+        case 'image':
+            return <input type='file' accept='image/*' />
+
+        case 'readonly':
+            return <RenderValue v={f.value || null} />
+
+        case 'text':
+            return <textarea defaultValue={f.value || f.default} />
+
+        case 'int':
+            return (
+                <input
+                    type='number'
+                    min={f.min}
+                    defaultValue={f.value || f.default}
+                />
+            )
+
+        default:
+            return <></>
+    }
 }
 
 export default BraceForm
