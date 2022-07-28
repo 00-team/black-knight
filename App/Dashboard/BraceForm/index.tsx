@@ -138,7 +138,7 @@ const FormTitle: FC = () => {
     const title = () => {
         if (pk === undefined) return `Add ${model_name}`
         if (Form === 'loading') return `Change ${pk}`
-        return `Change ${Form.instance_str}`
+        return `Change ${Form.label}`
     }
 
     return (
@@ -163,10 +163,16 @@ const RenderFieldInput: FC<{ f: Field }> = ({ f }) => {
 
         case 'char':
             // TODO: defaultValue is wrong!
-            return <input type={'text'} defaultValue={f.value || f.default} />
+            return (
+                <input
+                    type={'text'}
+                    defaultValue={f.value || f.initial}
+                    maxLength={f.max_length}
+                />
+            )
 
         case 'boolean':
-            return <input type={'checkbox'} defaultChecked={f.default} />
+            return <input type={'checkbox'} defaultChecked={f.initial} />
 
         case 'foreign_key':
             return (
@@ -181,11 +187,13 @@ const RenderFieldInput: FC<{ f: Field }> = ({ f }) => {
             )
 
         case 'date':
-            const date = f.value ? f.value[1] : f.default
+            const date = f.value ? f.value[1] : f.initial
             return <input type={'date'} defaultValue={date} />
 
         case 'datetime':
-            const datetime = f.value ? f.value[1] : f.default
+            let datetime = f.value ? f.value[1] : f.initial
+            datetime = new Date(datetime).toISOString().slice(0, -5)
+            
             return (
                 <input
                     type={'datetime-local'}
@@ -201,14 +209,14 @@ const RenderFieldInput: FC<{ f: Field }> = ({ f }) => {
             return <RenderValue v={f.value || null} />
 
         case 'text':
-            return <textarea defaultValue={f.value || f.default} />
+            return <textarea defaultValue={f.value || f.initial} />
 
         case 'int':
             return (
                 <input
                     type='number'
                     min={f.min}
-                    defaultValue={f.value || f.default}
+                    defaultValue={f.value || f.initial}
                 />
             )
 

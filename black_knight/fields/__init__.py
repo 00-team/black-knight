@@ -2,35 +2,55 @@ from django.db.models import fields
 from django.db.models.fields import files, related
 
 
-class CharField(fields.CharField):
+class BaseField:
+
+    def base_info(self, **kwargs):
+        infos = {
+            'required': not self.blank,
+            'help_text': self.help_text,
+            'initial': self.get_default(),
+            'label': self.verbose_name,
+            'name': self.name,
+        }
+        
+        if self.choices is not None:
+            infos['choices'] = self.get_choices(include_blank=False)
+            
+        
+        infos.update(kwargs)
+
+        return infos
+
+
+class CharField(BaseField, fields.CharField):
 
     @property
     def info(self):
-        return {
+        return super().base_info(**{
             'type': 'char',
-            'max': self.max_length
-        }
+            'max_length': self.max_length
+        })
 
 
-class TextField(fields.TextField):
+class TextField(BaseField, fields.TextField):
 
     @property
     def info(self):
-        return {
+        return super().base_info(**{
             'type': 'text',
-        }
+        })
 
 
-class BooleanField(fields.BooleanField):
+class BooleanField(BaseField, fields.BooleanField):
 
     @property
     def info(self):
-        return {
+        return super().base_info(**{
             'type': 'boolean',
-        }
+        })
 
 
-class DateField(fields.DateField):
+class DateField(BaseField, fields.DateField):
 
     def get_default(self):
         value = super().get_default()
@@ -38,54 +58,54 @@ class DateField(fields.DateField):
 
     @property
     def info(self):
-        return {
+        return super().base_info(**{
             'type': 'date',
-        }
+        })
 
 
-class DateTimeField(fields.DateTimeField):
+class DateTimeField(BaseField, fields.DateTimeField):
 
     @property
     def info(self):
-        return {
+        return super().base_info(**{
             'type': 'datetime',
-        }
+        })
 
 
-class PositiveIntegerField(fields.PositiveIntegerField):
+class PositiveIntegerField(BaseField, fields.PositiveIntegerField):
 
     @property
     def info(self):
-        return {
+        return super().base_info(**{
             'type': 'int',
             'min': 0
-        }
+        })
 
 
-class PositiveBigIntegerField(fields.PositiveBigIntegerField):
+class PositiveBigIntegerField(BaseField, fields.PositiveBigIntegerField):
 
     @property
     def info(self):
-        return {
+        return super().base_info(**{
             'type': 'int',
             'min': 0
-        }
+        })
 
 
-class ImageField(files.ImageField):
+class ImageField(BaseField, files.ImageField):
 
     @property
     def info(self):
-        return {
+        return super().base_info(**{
             'type': 'image'
-        }
+        })
 
 
-class ForeignKey(related.ForeignKey):
+class ForeignKey(BaseField, related.ForeignKey):
 
     @property
     def info(self):
-        return {
+        return super().base_info(**{
             'type': 'foreign_key',
-            'choices': self.get_choices(blank_choice=[])
-        }
+            'choices': self.get_choices(include_blank=False)
+        })

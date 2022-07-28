@@ -1,64 +1,57 @@
-import { VImage, TValue, VDate, PK, VForeignKey } from 'state'
+import { VImage, TValue, VDate, PK, VForeignKey, VDatetime } from 'state'
 
-interface BaseField {
+interface BaseField<T, I = '' | T, C = T> {
     name: string
+    label: string
+    required: boolean
+    help_text: string
+    initial: I
+    value?: T
+    choices?: [C, string][]
 }
 
-interface CharField extends BaseField {
+interface CharField extends BaseField<string> {
     type: 'char'
-    max: number
-    default: string
-    value?: string
+    max_length: number
 }
 
-interface BooleanField extends BaseField {
+interface BooleanField extends BaseField<boolean, boolean> {
     type: 'boolean'
-    default: boolean
-    value?: boolean
 }
 
-interface IntField extends BaseField {
+interface IntField extends BaseField<number> {
     type: 'int'
     min: number
-    default: '' | number
-    value?: number
 }
 
-interface ImageField extends BaseField {
+interface ImageField extends BaseField<VImage> {
     type: 'image'
-    default: ''
-    value?: VImage
 }
 
-interface TextField extends BaseField {
+interface TextField extends BaseField<string> {
     type: 'text'
-    default: string
-    value?: string
 }
 
-interface DateField extends BaseField {
+interface DateField extends BaseField<VDate, string> {
     type: 'date'
-    default: string
-    value?: VDate
 }
 
-interface DateTimeField extends BaseField {
+interface DateTimeField extends BaseField<VDatetime, string> {
     type: 'datetime'
-    default: string
-    value?: VDate
 }
 
-interface ForeignKeyField extends BaseField {
+interface ForeignKeyField extends Omit<BaseField<VForeignKey>, 'choices'> {
     type: 'foreign_key'
     choices: [PK, string][]
-    value?: VForeignKey
 }
 
-interface UnknownField extends BaseField {
+interface UnknownField {
+    name: string
     type: 'unknown'
 }
 
-interface ReadonlyField extends BaseField {
+interface ReadonlyField {
+    name: string
     type: 'readonly'
     value?: TValue
 }

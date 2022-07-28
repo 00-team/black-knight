@@ -155,13 +155,9 @@ class ModelAdmin(admin.ModelAdmin):
                 }
 
             field = meta.get_field(field_name)
-            info = getattr(field, 'info', {'type': 'unknown'})
+            info = getattr(field, 'info', {'type': 'unknown', 'name': field.name})
 
-            return {
-                **info,
-                'name': field.name,
-                'default': field.get_default()
-            }
+            return info
 
         def get_field_value(field_dict: dict):
             field, _, value = lookup_field(field_dict['name'], instance, self)
@@ -190,6 +186,6 @@ class ModelAdmin(admin.ModelAdmin):
             })
 
         response['fieldsets'] = fieldsets
-        response['instance_str'] = str(instance) if instance else None
+        response['label'] = str(instance) if instance else None
 
         return JsonResponse(response)
