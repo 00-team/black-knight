@@ -8,7 +8,7 @@
             "program": "${workspaceFolder}\\demo\\manage.py",
             "args": ["runserver", "7000"],
             "django": true,
-            "justMyCode": true
+            "justMyCode": false
         },
         {
             "command": "npm run dev",
