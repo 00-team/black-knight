@@ -14,10 +14,16 @@ import { Loading, RenderValue } from 'comps'
 
 import './style/braceform.scss'
 
+interface SubmitState {
+    [key: string]: unknown
+}
+
 const BraceForm: FC = () => {
     const { app_label, model_name, pk } = useParams()
     const [Form, UpdateForm] = useAtom(BraceFormAtom)
     const BtnsContainer = useRef<HTMLDivElement>(null)
+
+    const [SubmitData, setSubmitData] = useState<SubmitState>({})
 
     var duration = 7 * 1000
     var animationEnd = Date.now() + duration
@@ -56,6 +62,10 @@ const BraceForm: FC = () => {
                 })
             )
         }, 250)
+    }
+
+    const Submit = () => {
+        console.log(SubmitData)
     }
 
     // is intersecting btns container
@@ -102,7 +112,15 @@ const BraceForm: FC = () => {
                         {fset.fields.map((f, idx1) => (
                             <div key={idx1}>
                                 <label>{f.name}:</label>
-                                <RenderFieldInput f={f} />
+                                <RenderFieldInput
+                                    f={f}
+                                    onChange={v =>
+                                        setSubmitData(s => {
+                                            s[f.name] = v
+                                            return s
+                                        })
+                                    }
+                                />
                             </div>
                         ))}
                     </div>
@@ -115,7 +133,10 @@ const BraceForm: FC = () => {
                 <button style={{ animationDelay: '0.5s' }}>
                     Save and add another
                 </button>
-                <button style={{ animationDelay: '1.5s' }}>
+                <button
+                    style={{ animationDelay: '1.5s' }}
+                    onClick={() => Submit()}
+                >
                     Save and continue editing
                 </button>
                 <button
@@ -156,7 +177,12 @@ const FormTitle: FC = () => {
     )
 }
 
-const RenderFieldInput: FC<{ f: Field }> = ({ f }) => {
+interface FieldInputProps {
+    f: Field
+    onChange: (v: unknown) => void
+}
+
+const RenderFieldInput: FC<FieldInputProps> = ({ f, onChange }) => {
     switch (f.type) {
         case 'unknown':
             return <>Unknown Field</>
@@ -168,11 +194,18 @@ const RenderFieldInput: FC<{ f: Field }> = ({ f }) => {
                     type={'text'}
                     defaultValue={f.value || f.initial}
                     maxLength={f.max_length}
+                    onChange={e => onChange(e.target.value)}
                 />
             )
 
         case 'boolean':
-            return <input type={'checkbox'} defaultChecked={f.initial} />
+            return (
+                <input
+                    type={'checkbox'}
+                    defaultChecked={f.initial}
+                    onChange={e => onChange(e.target.checked)}
+                />
+            )
 
         case 'foreign_key':
             return (
@@ -188,28 +221,45 @@ const RenderFieldInput: FC<{ f: Field }> = ({ f }) => {
 
         case 'date':
             const date = f.value ? f.value[1] : f.initial
-            return <input type={'date'} defaultValue={date} />
+            return (
+                <input
+                    type={'date'}
+                    defaultValue={date}
+                    onChange={e => onChange(e.target.value)}
+                />
+            )
 
         case 'datetime':
             let datetime = f.value ? f.value[1] : f.initial
             datetime = new Date(datetime).toISOString().slice(0, -5)
-            
+
             return (
                 <input
                     type={'datetime-local'}
                     defaultValue={datetime}
-                    onChange={e => console.log(e.target.value)}
+                    onChange={e => onChange(e.target.value)}
                 />
             )
 
         case 'image':
-            return <input type='file' accept='image/*' />
+            return (
+                <input
+                    type='file'
+                    accept='image/*'
+                    onChange={e => onChange(e.target.value)}
+                />
+            )
 
         case 'readonly':
             return <RenderValue v={f.value || null} />
 
         case 'text':
-            return <textarea defaultValue={f.value || f.initial} />
+            return (
+                <textarea
+                    defaultValue={f.value || f.initial}
+                    onChange={e => onChange(e.target.value)}
+                />
+            )
 
         case 'int':
             return (
@@ -217,6 +267,7 @@ const RenderFieldInput: FC<{ f: Field }> = ({ f }) => {
                     type='number'
                     min={f.min}
                     defaultValue={f.value || f.initial}
+                    onChange={e => onChange(e.target.value)}
                 />
             )
 
