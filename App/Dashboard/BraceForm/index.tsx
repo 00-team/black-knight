@@ -7,23 +7,21 @@ import { FaNewspaper } from '@react-icons/all-files/fa/FaNewspaper'
 import confetti from 'canvas-confetti'
 import { useParams } from 'react-router-dom'
 
-import { useAtom } from 'jotai'
-import { BraceFormAtom, Field } from 'state'
+import { useAtom, useSetAtom } from 'jotai'
+import { BFSData, BraceFormAtom, Field, SubmitBraceForm } from 'state'
 
 import { Loading, RenderValue } from 'comps'
 
 import './style/braceform.scss'
 
-interface SubmitState {
-    [key: string]: unknown
-}
-
 const BraceForm: FC = () => {
     const { app_label, model_name, pk } = useParams()
     const [Form, UpdateForm] = useAtom(BraceFormAtom)
+    const [SubmitData] = useAtom(BFSData)
+
     const BtnsContainer = useRef<HTMLDivElement>(null)
 
-    const [SubmitData, setSubmitData] = useState<SubmitState>({})
+    // const [SubmitData, setSubmitData] = useState<SubmitState>({})
 
     var duration = 7 * 1000
     var animationEnd = Date.now() + duration
@@ -65,7 +63,24 @@ const BraceForm: FC = () => {
     }
 
     const Submit = () => {
-        console.log(SubmitData)
+        if (!app_label || !model_name) return
+
+        if (pk === undefined) {
+            SubmitBraceForm({
+                app_label,
+                model_name,
+                type: 'add',
+                data: SubmitData,
+            })
+        } else {
+            SubmitBraceForm({
+                app_label,
+                model_name,
+                type: 'change',
+                data: SubmitData,
+                pk,
+            })
+        }
     }
 
     // is intersecting btns container
@@ -112,15 +127,7 @@ const BraceForm: FC = () => {
                         {fset.fields.map((f, idx1) => (
                             <div key={idx1}>
                                 <label>{f.name}:</label>
-                                <RenderFieldInput
-                                    f={f}
-                                    onChange={v =>
-                                        setSubmitData(s => {
-                                            s[f.name] = v
-                                            return s
-                                        })
-                                    }
-                                />
+                                <RenderFieldInput f={f} />
                             </div>
                         ))}
                     </div>
@@ -179,10 +186,11 @@ const FormTitle: FC = () => {
 
 interface FieldInputProps {
     f: Field
-    onChange: (v: unknown) => void
 }
 
-const RenderFieldInput: FC<FieldInputProps> = ({ f, onChange }) => {
+const RenderFieldInput: FC<FieldInputProps> = ({ f }) => {
+    const UpdateData = useSetAtom(BFSData)
+
     switch (f.type) {
         case 'unknown':
             return <>Unknown Field</>
@@ -194,7 +202,7 @@ const RenderFieldInput: FC<FieldInputProps> = ({ f, onChange }) => {
                     type={'text'}
                     defaultValue={f.value || f.initial}
                     maxLength={f.max_length}
-                    onChange={e => onChange(e.target.value)}
+                    onChange={e => UpdateData([f.name, e.target.value])}
                 />
             )
 
@@ -203,7 +211,9 @@ const RenderFieldInput: FC<FieldInputProps> = ({ f, onChange }) => {
                 <input
                     type={'checkbox'}
                     defaultChecked={f.initial}
-                    onChange={e => onChange(e.target.checked)}
+                    onChange={e =>
+                        UpdateData([f.name, e.target.checked ? '1' : '0'])
+                    }
                 />
             )
 
@@ -225,7 +235,7 @@ const RenderFieldInput: FC<FieldInputProps> = ({ f, onChange }) => {
                 <input
                     type={'date'}
                     defaultValue={date}
-                    onChange={e => onChange(e.target.value)}
+                    onChange={e => UpdateData([f.name, e.target.value])}
                 />
             )
 
@@ -237,7 +247,7 @@ const RenderFieldInput: FC<FieldInputProps> = ({ f, onChange }) => {
                 <input
                     type={'datetime-local'}
                     defaultValue={datetime}
-                    onChange={e => onChange(e.target.value)}
+                    onChange={e => UpdateData([f.name, e.target.value])}
                 />
             )
 
@@ -246,7 +256,13 @@ const RenderFieldInput: FC<FieldInputProps> = ({ f, onChange }) => {
                 <input
                     type='file'
                     accept='image/*'
-                    onChange={e => onChange(e.target.value)}
+                    onChange={e => {
+                        if (!e.target.files) return
+                        const file = e.target.files[0]
+                        if (!file) return
+
+                        UpdateData([f.name, file])
+                    }}
                 />
             )
 
@@ -257,7 +273,7 @@ const RenderFieldInput: FC<FieldInputProps> = ({ f, onChange }) => {
             return (
                 <textarea
                     defaultValue={f.value || f.initial}
-                    onChange={e => onChange(e.target.value)}
+                    onChange={e => UpdateData([f.name, e.target.value])}
                 />
             )
 
@@ -267,7 +283,7 @@ const RenderFieldInput: FC<FieldInputProps> = ({ f, onChange }) => {
                     type='number'
                     min={f.min}
                     defaultValue={f.value || f.initial}
-                    onChange={e => onChange(e.target.value)}
+                    onChange={e => UpdateData([f.name, e.target.value])}
                 />
             )
 

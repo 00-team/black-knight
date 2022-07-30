@@ -43,12 +43,12 @@ const BraceResultAtom = atom(
         set(Result, ['loading', app_model])
         set(Select, [])
 
-        const response = await REQUEST(
-            `api/${app_model}/brace-result/`,
-            'POST',
-            BraceResultController.signal,
-            opt
-        )
+        const response = await REQUEST({
+            url: `api/${app_model}/brace-result/`,
+            method: 'POST',
+            signal: BraceResultController.signal,
+            body: opt,
+        })
 
         if (response.ok) {
             const results = get(Result)

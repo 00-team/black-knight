@@ -9,7 +9,7 @@ const LogAtom = atom(
     async get => get(Log),
 
     async (_get, set, _args) => {
-        const response = await REQUEST('api/log/')
+        const response = await REQUEST({ url: 'api/log/' })
         if (response.ok) set(Log, response.data.logs)
         // else set(User, response.error)
     }

@@ -9,7 +9,7 @@ const AdminAtom = atom(
     async get => get(Admin),
 
     async (_get, set, _args) => {
-        const response = await REQUEST('api/index/')
+        const response = await REQUEST({ url: 'api/index/' })
         if (response.ok) set(Admin, response.data)
         // else set(User, response.error)
     }

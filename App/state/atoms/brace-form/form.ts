@@ -1,7 +1,7 @@
 import { atom } from 'jotai'
 import { REQUEST } from 'state'
 
-import { BraceForm } from './store'
+import { Form } from './store'
 
 var BraceFormController: AbortController | null = null
 
@@ -13,7 +13,7 @@ interface BraceFormArgs {
 
 const BraceFormAtom = atom(
     async get => {
-        const form = get(BraceForm)
+        const form = get(Form)
         if (Array.isArray(form)) return form[0]
         return form
     },
@@ -25,19 +25,18 @@ const BraceFormAtom = atom(
         if (BraceFormController) BraceFormController.abort()
         BraceFormController = new AbortController()
 
-        set(BraceForm, ['loading', app_model])
+        set(Form, ['loading', app_model])
 
-        const response = await REQUEST(
-            `api/${app_model}/brace-form/${args.end_url}`,
-            'GET',
-            BraceFormController.signal
-        )
+        const response = await REQUEST({
+            url: `api/${app_model}/brace-form/${args.end_url}`,
+            signal: BraceFormController.signal,
+        })
 
         if (response.ok) {
-            const fieldsets = get(BraceForm)
+            const fieldsets = get(Form)
             if (Array.isArray(fieldsets) && fieldsets[1] !== app_model) return
 
-            set(BraceForm, response.data)
+            set(Form, response.data)
         } else {
             if (response.code === 20) {
                 // ignore signal abort exceptions

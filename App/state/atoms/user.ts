@@ -9,7 +9,7 @@ const UserAtom = atom(
     async get => get(User),
 
     async (_get, set, _args) => {
-        const response = await REQUEST('api/user/')
+        const response = await REQUEST({ url: 'api/user/' })
         if (response.ok) set(User, response.data)
         // else set(User, response.error)
     }

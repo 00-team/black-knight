@@ -24,34 +24,51 @@ const GetCSRFToken = (): HeadersInit => {
     return { 'X-CSRFToken': csrftoken }
 }
 
-type TRequest = (
-    url: string,
-    method?: 'POST' | 'GET',
-    signal?: AbortSignal,
-    data?: Object
-) => Promise<Response>
-const REQUEST: TRequest = async (url, method, signal, json) => {
-    try {
-        method = method || 'GET'
-        let body: null | BodyInit = null
-        let headers: undefined | HeadersInit
+interface RequestBase {
+    url: string
+    method?: 'POST' | 'GET'
+    signal?: AbortSignal
+}
 
-        if (method === 'POST') {
-            headers = GetCSRFToken()
-            if (json) {
-                body = JSON.stringify(json)
-                headers = { ...headers, 'Content-Type': 'application/json' }
+interface RequestJson extends RequestBase {
+    method: 'POST'
+    body: Object
+}
+
+interface RequestFormData extends RequestBase {
+    method: 'POST'
+    body: FormData
+}
+
+type RequestProps = RequestJson | RequestFormData | RequestBase
+
+type TRequest = (props: RequestProps) => Promise<Response>
+const REQUEST: TRequest = async props => {
+    try {
+        const { url, method, signal } = props
+        let init: RequestInit = { method, signal }
+
+        if (props.method === 'POST') {
+            init.headers = GetCSRFToken()
+
+            if ('body' in props) {
+                if (props.body instanceof FormData) {
+                    init.body = props.body
+                } else {
+                    init.body = JSON.stringify(props.body)
+                    init.headers = {
+                        ...init.headers,
+                        'Content-Type': 'application/json',
+                    }
+                }
             }
         }
 
-        const response = await fetch(U(url), {
-            method,
-            signal,
-            body,
-            headers,
-        })
+        const response = await fetch(U(url), init)
+        console.log(response)
 
         const data = await response.json()
+        console.log(data)
 
         if (response.ok) return { ok: true, data }
 
@@ -60,6 +77,8 @@ const REQUEST: TRequest = async (url, method, signal, json) => {
         if (error instanceof DOMException) {
             return { ok: false, code: error.code, message: error.message }
         }
+
+        console.log(error)
 
         return { ok: false, code: 400, message: 'Test Error' }
     }
