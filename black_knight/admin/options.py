@@ -4,6 +4,7 @@ from black_knight.admin.utils.exception import INVALID_INPUT, ErrorResponse
 from django.contrib import admin
 from django.contrib.admin.utils import flatten_fieldsets, label_for_field
 from django.contrib.admin.utils import lookup_field
+from django.core.exceptions import FieldDoesNotExist, ValidationError
 from django.core.paginator import InvalidPage
 from django.db.models.fields.related import ForeignObjectRel, ManyToManyRel
 from django.db.models.fields.related import OneToOneField
@@ -29,7 +30,10 @@ class ModelAdmin(admin.ModelAdmin):
             path('brace-result/', wrap(self.brace_result)),
             path('brace-info/', wrap(self.brace_info)),
             path('brace-actions/', wrap(self.brace_actions)),
-            re_path('brace-form/(add|change)/', wrap(self.brace_form))
+
+            re_path('brace-form/(add|change)/', wrap(self.brace_form)),
+            re_path('brace-form-submit/(add|change)/',
+                    wrap(self.brace_form_submit))
         ]
 
     @property
@@ -143,8 +147,7 @@ class ModelAdmin(admin.ModelAdmin):
             pk = get_data(request).get('pk')
             instance = self.get_object(request, pk)
             if instance is None:
-                # TODO: handle this errro
-                return JsonResponse({'message-erro': 'not found or something else'})
+                return INVALID_INPUT
 
         def get_field(field_name):
 
@@ -155,7 +158,12 @@ class ModelAdmin(admin.ModelAdmin):
                 }
 
             field = meta.get_field(field_name)
-            info = getattr(field, 'info', {'type': 'unknown', 'name': field.name})
+            # field.clean(...)
+            # field.save_form_data(obj, data)
+            info = getattr(field, 'info', {
+                'type': 'unknown',
+                'name': field.name
+            })
 
             return info
 
@@ -189,3 +197,50 @@ class ModelAdmin(admin.ModelAdmin):
         response['label'] = str(instance) if instance else None
 
         return JsonResponse(response)
+
+    @require_POST_m
+    def brace_form_submit(self, request: HttpRequest, form_type: str):
+        data = get_data(request)
+        data_fields = data.get('fields')
+        meta = self.model._meta
+        errors = {}
+
+        if form_type == 'change':
+            instance = self.get_object(request, data.get('pk'))
+            if instance is None:
+                return INVALID_INPUT
+        else:
+            instance = self.model()
+
+        if not data_fields or not isinstance(data_fields, dict):
+            return INVALID_INPUT
+
+        fields = flatten_fieldsets(self.get_fieldsets(request, instance))
+
+        for name in fields:
+            try:
+                field = meta.get_field(name)
+                initial = field.get_default()
+                value = data_fields.get(field.name, initial)
+                # value = initial if field.disabled else value
+                value = field.clean(value, instance)
+                field.save_form_data(instance, value)
+
+            except ValidationError as e:
+                # TODO: make a better error system
+                errors[field.name] = getattr(
+                    e, 'message',
+                    getattr(e, 'messages', ['Error'])[0]
+                )
+
+        if errors:
+            return JsonResponse({
+                'message': 'Value Errors',
+                'fields': errors,
+                'code': 400
+            }, status=400)
+        else:
+            instance.save()
+
+        # TODO: better messages
+        return JsonResponse({'message': 'success', 'pk': instance.pk})
