@@ -1,4 +1,4 @@
-import { Field } from 'state'
+import { Field, PK } from 'state'
 
 interface Fieldset {
     name: string | null
@@ -11,4 +11,21 @@ interface BraceFormModel {
     label: string | null
 }
 
-export { BraceFormModel }
+interface BaseOptions {
+    data: FormData
+    app_label: string
+    model_name: string
+}
+
+interface AddOptions extends BaseOptions {
+    type: 'add'
+}
+
+interface ChangeOptions extends BaseOptions {
+    type: 'change'
+    pk: PK
+}
+
+type TBFSOptions = AddOptions | ChangeOptions
+
+export { BraceFormModel, TBFSOptions }
