@@ -11,6 +11,7 @@ import { useAtom, useSetAtom } from 'jotai'
 import { BFSData, BraceFormAtom, Field, SubmitBraceForm } from 'state'
 
 import { Loading, RenderValue } from 'comps'
+import IsIntersectingForm from 'comps/utils/IsIntersectingForm'
 
 import './style/braceform.scss'
 
@@ -102,18 +103,21 @@ const BraceForm: FC = () => {
             <FormTitle />
             <div className='form-data'>
                 {Form.fieldsets.map((fset, idx0) => (
-                    <div key={idx0} className='fieldset'>
-                        {fset.name && <h2>{fset.name}</h2>}
-                        {fset.description && <p>{fset.description}</p>}
-                        {fset.fields.map((f, idx1) => (
-                            <div key={idx1}>
-                                <label>{f.name}:</label>
-                                <RenderFieldInput f={f} />
-                            </div>
-                        ))}
-                    </div>
+                    <IsIntersectingForm>
+                        <div key={idx0} className='fieldset'>
+                            {fset.name && <h2>{fset.name}</h2>}
+                            {fset.description && <p>{fset.description}</p>}
+                            {fset.fields.map((f, idx1) => (
+                                <div key={idx1}>
+                                    <label>{f.name}:</label>
+                                    <RenderFieldInput f={f} />
+                                </div>
+                            ))}
+                        </div>
+                    </IsIntersectingForm>
                 ))}
             </div>
+
             <div
                 className={'form-footer title_small' + C(iibc)}
                 ref={BtnsContainer}
