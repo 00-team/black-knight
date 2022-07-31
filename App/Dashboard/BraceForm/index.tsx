@@ -105,10 +105,14 @@ const BraceForm: FC = () => {
                 {Form.fieldsets.map((fset, idx0) => (
                     <IsIntersectingForm>
                         <div key={idx0} className='fieldset'>
-                            {fset.name && <h2>{fset.name}</h2>}
+                            {fset.name && (
+                                <h2 className='fieldset-title title'>
+                                    <div>{fset.name}</div>
+                                </h2>
+                            )}
                             {fset.description && <p>{fset.description}</p>}
                             {fset.fields.map((f, idx1) => (
-                                <div key={idx1}>
+                                <div key={idx1} className='inp-wrappper'>
                                     <label>{f.name}:</label>
                                     <RenderFieldInput f={f} />
                                 </div>
@@ -259,6 +263,8 @@ const RenderFieldInput: FC<FieldInputProps> = ({ f }) => {
                 <textarea
                     defaultValue={f.value || f.initial}
                     onChange={e => U(e.target.value)}
+                    rows={10}
+                    cols={50}
                 />
             )
 
