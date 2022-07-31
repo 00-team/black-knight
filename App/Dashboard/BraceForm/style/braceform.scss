@@ -68,7 +68,7 @@
     }
 
     .form-data {
-        flex-grow: 1;
+        flex: 1 0 0;
         width: 100%;
         font-size: 20px;
 
@@ -80,11 +80,35 @@
         flex-direction: column;
         gap: 3vh;
 
+        overflow: auto;
+
         .fieldset {
             border-bottom: 1px solid var(--primary-color);
 
+            display: flex;
+            align-items: flex-start;
+            justify-content: flex-start;
+            flex-direction: column;
+            gap: 1vh;
+
+            width: 100%;
+
             h2 {
-                background-color: crimson;
+                width: 100%;
+
+                padding: 10px 0;
+
+                overflow: hidden;
+            }
+            .inp-wrappper {
+                display: flex;
+
+                padding: 10px 0;
+
+                label {
+                    display: inline-block;
+                    width: 200px;
+                }
             }
         }
     }
