@@ -93,7 +93,12 @@ const BraceForm: FC = () => {
             model_name,
             end_url: pk === undefined ? 'add/' : `change/?pk=${pk}`,
         })
-        UpdateSubmitData({ app_label, model_name, pk })
+        UpdateSubmitData({
+            app_label,
+            model_name,
+            pk,
+            type: pk === undefined ? 'add' : 'change',
+        })
     }, [app_label, model_name, pk])
 
     if (Form === 'loading') return <Loading />
@@ -103,8 +108,8 @@ const BraceForm: FC = () => {
             <FormTitle />
             <div className='form-data'>
                 {Form.fieldsets.map((fset, idx0) => (
-                    <IsIntersectingForm>
-                        <div key={idx0} className='fieldset'>
+                    <IsIntersectingForm key={idx0}>
+                        <div className='fieldset'>
                             {fset.name && (
                                 <h2 className='fieldset-title title'>
                                     <div>{fset.name}</div>
@@ -207,16 +212,33 @@ const RenderFieldInput: FC<FieldInputProps> = ({ f }) => {
             )
 
         case 'foreign_key':
+            const foreign_default = f.value
+                ? f.value[1]
+                : f.initial
+                ? f.initial[0]
+                : undefined
             return (
-                <>
-                    this should be a select \
+                <select
+                    onChange={e => U(e.target.value)}
+                    defaultValue={foreign_default}
+                >
                     {f.choices.map((c, i) => (
-                        <span key={i}>
-                            ( {c[0]} | {c[1]} )
-                        </span>
+                        <option key={i} value={c[0]}>
+                            {c[1]}
+                        </option>
                     ))}
-                </>
+                </select>
             )
+        // return (
+        //     <>
+        //         this should be a select \
+        //         {f.choices.map((c, i) => (
+        //             <span key={i}>
+        //                 ( {c[0]} | {c[1]} )
+        //             </span>
+        //         ))}
+        //     </>
+        // )
 
         case 'date':
             const date = f.value ? f.value[1] : f.initial

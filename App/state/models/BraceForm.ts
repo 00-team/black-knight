@@ -16,6 +16,7 @@ interface SubmitOptions {
     app_label?: string
     model_name?: string
     pk?: PK
+    type?: 'add' | 'change'
 }
 
 export { BraceFormModel, SubmitOptions }
