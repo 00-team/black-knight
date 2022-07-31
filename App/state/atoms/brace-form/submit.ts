@@ -29,7 +29,7 @@ const BFSData = atom(
         }
 
         if (pk) data.set('pk', pk.toString())
-        else data.delete('pk')
+        if (type === 'add') data.delete('pk')
 
         Object.entries(fields).forEach(
             ([key, value]) => data && data.set(key, value)
