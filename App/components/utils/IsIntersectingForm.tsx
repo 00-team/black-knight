@@ -22,7 +22,7 @@ const IsIntersectingForm: FC<IsIntersectingFormProps> = ({ children }) => {
                     }
                 },
                 {
-                    rootMargin: '-75px',
+                    rootMargin: '-200px',
                 }
             )
 
@@ -35,7 +35,7 @@ const IsIntersectingForm: FC<IsIntersectingFormProps> = ({ children }) => {
     return (
         <span
             ref={ContentContainer}
-            className={'isintersecting-container' + C(setCC)}
+            className={'isintersecting-container' + C(CC)}
         >
             {children}
         </span>
