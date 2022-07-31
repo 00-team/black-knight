@@ -11,21 +11,11 @@ interface BraceFormModel {
     label: string | null
 }
 
-interface BaseOptions {
-    data: FormData
-    app_label: string
-    model_name: string
+interface SubmitOptions {
+    data?: FormData
+    app_label?: string
+    model_name?: string
+    pk?: PK
 }
 
-interface AddOptions extends BaseOptions {
-    type: 'add'
-}
-
-interface ChangeOptions extends BaseOptions {
-    type: 'change'
-    pk: PK
-}
-
-type TBFSOptions = AddOptions | ChangeOptions
-
-export { BraceFormModel, TBFSOptions }
+export { BraceFormModel, SubmitOptions }

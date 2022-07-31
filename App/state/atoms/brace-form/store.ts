@@ -1,9 +1,9 @@
 import { atom } from 'jotai'
-import { TLoading, BraceFormModel } from 'state'
+import { TLoading, BraceFormModel, SubmitOptions } from 'state'
 
 const Loading: TLoading = ['loading', 'None']
 
 const Form = atom<BraceFormModel | TLoading>(Loading)
-const SubmitData = atom<FormData>(new FormData())
+const SubmitData = atom<SubmitOptions>({})
 
 export { Form, SubmitData }

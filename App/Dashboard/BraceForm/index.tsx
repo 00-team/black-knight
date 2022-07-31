@@ -17,7 +17,7 @@ import './style/braceform.scss'
 const BraceForm: FC = () => {
     const { app_label, model_name, pk } = useParams()
     const [Form, UpdateForm] = useAtom(BraceFormAtom)
-    const [SubmitData] = useAtom(BFSData)
+    const [SubmitData, UpdateSubmitData] = useAtom(BFSData)
 
     const BtnsContainer = useRef<HTMLDivElement>(null)
 
@@ -62,27 +62,6 @@ const BraceForm: FC = () => {
         }, 250)
     }
 
-    const Submit = () => {
-        if (!app_label || !model_name) return
-
-        if (pk === undefined) {
-            SubmitBraceForm({
-                app_label,
-                model_name,
-                type: 'add',
-                data: SubmitData,
-            })
-        } else {
-            SubmitBraceForm({
-                app_label,
-                model_name,
-                type: 'change',
-                data: SubmitData,
-                pk,
-            })
-        }
-    }
-
     // is intersecting btns container
     const [iibc, setiibc] = useState(false)
     useEffect(() => {
@@ -107,11 +86,13 @@ const BraceForm: FC = () => {
     }, [BtnsContainer])
 
     useEffect(() => {
+        if (!app_label || !model_name) return
         UpdateForm({
             app_label,
             model_name,
             end_url: pk === undefined ? 'add/' : `change/?pk=${pk}`,
         })
+        UpdateSubmitData({ app_label, model_name, pk })
     }, [app_label, model_name, pk])
 
     if (Form === 'loading') return <Loading />
@@ -142,7 +123,7 @@ const BraceForm: FC = () => {
                 </button>
                 <button
                     style={{ animationDelay: '1.5s' }}
-                    onClick={() => Submit()}
+                    onClick={() => SubmitBraceForm(SubmitData)}
                 >
                     Save and continue editing
                 </button>
@@ -191,6 +172,8 @@ interface FieldInputProps {
 const RenderFieldInput: FC<FieldInputProps> = ({ f }) => {
     const UpdateData = useSetAtom(BFSData)
 
+    const U = (v: string | Blob) => UpdateData({ [`F_${f.name}`]: v })
+
     switch (f.type) {
         case 'unknown':
             return <>Unknown Field</>
@@ -202,7 +185,7 @@ const RenderFieldInput: FC<FieldInputProps> = ({ f }) => {
                     type={'text'}
                     defaultValue={f.value || f.initial}
                     maxLength={f.max_length}
-                    onChange={e => UpdateData([f.name, e.target.value])}
+                    onChange={e => U(e.target.value)}
                 />
             )
 
@@ -211,9 +194,7 @@ const RenderFieldInput: FC<FieldInputProps> = ({ f }) => {
                 <input
                     type={'checkbox'}
                     defaultChecked={f.initial}
-                    onChange={e =>
-                        UpdateData([f.name, e.target.checked ? '1' : '0'])
-                    }
+                    onChange={e => U(e.target.checked ? '1' : '0')}
                 />
             )
 
@@ -235,7 +216,7 @@ const RenderFieldInput: FC<FieldInputProps> = ({ f }) => {
                 <input
                     type={'date'}
                     defaultValue={date}
-                    onChange={e => UpdateData([f.name, e.target.value])}
+                    onChange={e => U(e.target.value)}
                 />
             )
 
@@ -247,7 +228,7 @@ const RenderFieldInput: FC<FieldInputProps> = ({ f }) => {
                 <input
                     type={'datetime-local'}
                     defaultValue={datetime}
-                    onChange={e => UpdateData([f.name, e.target.value])}
+                    onChange={e => U(e.target.value)}
                 />
             )
 
@@ -261,7 +242,7 @@ const RenderFieldInput: FC<FieldInputProps> = ({ f }) => {
                         const file = e.target.files[0]
                         if (!file) return
 
-                        UpdateData([f.name, file])
+                        U(file)
                     }}
                 />
             )
@@ -273,7 +254,7 @@ const RenderFieldInput: FC<FieldInputProps> = ({ f }) => {
             return (
                 <textarea
                     defaultValue={f.value || f.initial}
-                    onChange={e => UpdateData([f.name, e.target.value])}
+                    onChange={e => U(e.target.value)}
                 />
             )
 
@@ -283,7 +264,7 @@ const RenderFieldInput: FC<FieldInputProps> = ({ f }) => {
                     type='number'
                     min={f.min}
                     defaultValue={f.value || f.initial}
-                    onChange={e => UpdateData([f.name, e.target.value])}
+                    onChange={e => U(e.target.value)}
                 />
             )
 

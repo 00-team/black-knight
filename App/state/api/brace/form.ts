@@ -1,9 +1,9 @@
-import { TBFSOptions, REQUEST } from 'state'
+import { SubmitOptions, REQUEST } from 'state'
 
-const Submit = async (props: TBFSOptions) => {
+const Submit = async (props: SubmitOptions) => {
     let url = `/api/${props.app_label}/${props.model_name}/brace-form-submit/`
-    if (props.type === 'add') url += 'add/'
-    else url += `change/?pk=${props.pk}`
+    if (props.pk === undefined) url += 'add/'
+    else url += `change/`
 
     const response = await REQUEST({
         url,
