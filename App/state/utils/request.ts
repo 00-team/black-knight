@@ -65,10 +65,7 @@ const REQUEST: TRequest = async props => {
         }
 
         const response = await fetch(U(url), init)
-        console.log(response)
-
         const data = await response.json()
-        console.log(data)
 
         if (response.ok) return { ok: true, data }
 
