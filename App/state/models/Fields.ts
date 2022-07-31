@@ -68,4 +68,16 @@ type Field =
     | UnknownField
     | ReadonlyField
 
-export { Field }
+export { Field as FieldModel }
+export {
+    CharField as CharFieldModel,
+    BooleanField as BooleanFieldModel,
+    TextField as TextFieldModel,
+    IntField as IntFieldModel,
+    ImageField as ImageFieldModel,
+    DateField as DateFieldModel,
+    DateTimeField as DateTimeFieldModel,
+    ForeignKeyField as ForeignKeyFieldModel,
+    UnknownField as UnknownFieldModel,
+    ReadonlyField as ReadonlyFieldModel,
+}

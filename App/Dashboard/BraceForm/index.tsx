@@ -8,10 +8,9 @@ import confetti from 'canvas-confetti'
 import { useParams } from 'react-router-dom'
 
 import { useAtom, useSetAtom } from 'jotai'
-import { BFSData, BraceFormAtom, Field, SubmitBraceForm } from 'state'
+import { BFSData, BraceFormAtom, FieldModel, SubmitBraceForm } from 'state'
 
-import { Loading, RenderValue } from 'comps'
-import IsIntersectingForm from 'comps/utils/IsIntersectingForm'
+import { IsIntersectingForm, Loading, RenderField, RenderValue } from 'comps'
 
 import './style/braceform.scss'
 
@@ -130,10 +129,17 @@ const BraceForm: FC = () => {
                                     >
                                         {f.name}:
                                     </label>
-                                    <RenderFieldInput
+                                    <RenderField
+                                        field={f}
+                                        className='result-input'
+                                        style={{
+                                            transitionDelay: `${idx1 * 0.2}s`,
+                                        }}
+                                    />
+                                    {/* <RenderFieldInput
                                         transitionDelay={`${idx1 * 0.2}s`}
                                         f={f}
-                                    />
+                                    /> */}
                                 </div>
                             ))}
                         </div>
@@ -193,7 +199,7 @@ const FormTitle: FC = () => {
 }
 
 interface FieldInputProps {
-    f: Field
+    f: FieldModel
     transitionDelay: string
 }
 
@@ -202,10 +208,10 @@ const RenderFieldInput: FC<FieldInputProps> = ({ f, transitionDelay }) => {
 
     const U = (v: string | Blob) => UpdateData({ [`F_${f.name}`]: v })
 
-    switch (f.type) {
-        case 'unknown':
-            return <>Unknown Field</>
+    if (f.type === 'unknown') return <>Unknown Field</>
+    if (f.type === 'readonly') return <RenderValue v={f.value || null} />
 
+    switch (f.type) {
         case 'char':
             // TODO: defaultValue is wrong!
             return (
@@ -250,16 +256,6 @@ const RenderFieldInput: FC<FieldInputProps> = ({ f, transitionDelay }) => {
                     ))}
                 </select>
             )
-        // return (
-        //     <>
-        //         this should be a select \
-        //         {f.choices.map((c, i) => (
-        //             <span key={i}>
-        //                 ( {c[0]} | {c[1]} )
-        //             </span>
-        //         ))}
-        //     </>
-        // )
 
         case 'date':
             const date = f.value ? f.value[1] : f.initial
@@ -304,9 +300,6 @@ const RenderFieldInput: FC<FieldInputProps> = ({ f, transitionDelay }) => {
                 />
             )
 
-        case 'readonly':
-            return <RenderValue v={f.value || null} />
-
         case 'text':
             return (
                 <textarea
@@ -335,5 +328,5 @@ const RenderFieldInput: FC<FieldInputProps> = ({ f, transitionDelay }) => {
             return <></>
     }
 }
-
+RenderFieldInput
 export default BraceForm

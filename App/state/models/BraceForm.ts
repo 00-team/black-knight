@@ -1,9 +1,9 @@
-import { Field, PK } from 'state'
+import { FieldModel, PK } from 'state'
 
 interface Fieldset {
     name: string | null
     description: string | null
-    fields: Field[]
+    fields: FieldModel[]
 }
 
 interface BraceFormModel {

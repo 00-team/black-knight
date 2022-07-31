@@ -42,4 +42,4 @@ const IsIntersectingForm: FC<IsIntersectingFormProps> = ({ children }) => {
     )
 }
 
-export default IsIntersectingForm
+export { IsIntersectingForm }
