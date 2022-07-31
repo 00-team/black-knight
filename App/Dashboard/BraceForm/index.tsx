@@ -115,11 +115,25 @@ const BraceForm: FC = () => {
                                     <div>{fset.name}</div>
                                 </h2>
                             )}
-                            {fset.description && <p>{fset.description}</p>}
+                            {fset.description && (
+                                <p className='fieldset-description title_small'>
+                                    {fset.description}
+                                </p>
+                            )}
                             {fset.fields.map((f, idx1) => (
                                 <div key={idx1} className='inp-wrappper'>
-                                    <label>{f.name}:</label>
-                                    <RenderFieldInput f={f} />
+                                    <label
+                                        className='label'
+                                        style={{
+                                            transitionDelay: `${idx1 + 1.25}s`,
+                                        }}
+                                    >
+                                        {f.name}:
+                                    </label>
+                                    <RenderFieldInput
+                                        transitionDelay={`${idx1 + 1.5}s`}
+                                        f={f}
+                                    />
                                 </div>
                             ))}
                         </div>
@@ -180,9 +194,10 @@ const FormTitle: FC = () => {
 
 interface FieldInputProps {
     f: Field
+    transitionDelay: string
 }
 
-const RenderFieldInput: FC<FieldInputProps> = ({ f }) => {
+const RenderFieldInput: FC<FieldInputProps> = ({ f, transitionDelay }) => {
     const UpdateData = useSetAtom(BFSData)
 
     const U = (v: string | Blob) => UpdateData({ [`F_${f.name}`]: v })
@@ -199,6 +214,8 @@ const RenderFieldInput: FC<FieldInputProps> = ({ f }) => {
                     defaultValue={f.value || f.initial}
                     maxLength={f.max_length}
                     onChange={e => U(e.target.value)}
+                    className='result-input'
+                    style={{ transitionDelay: transitionDelay }}
                 />
             )
 
@@ -208,6 +225,8 @@ const RenderFieldInput: FC<FieldInputProps> = ({ f }) => {
                     type={'checkbox'}
                     defaultChecked={f.initial}
                     onChange={e => U(e.target.checked ? '1' : '0')}
+                    className='result-input'
+                    style={{ transitionDelay: transitionDelay }}
                 />
             )
 
@@ -221,6 +240,8 @@ const RenderFieldInput: FC<FieldInputProps> = ({ f }) => {
                 <select
                     onChange={e => U(e.target.value)}
                     defaultValue={foreign_default}
+                    className='result-input'
+                    style={{ transitionDelay: transitionDelay }}
                 >
                     {f.choices.map((c, i) => (
                         <option key={i} value={c[0]}>
@@ -247,6 +268,8 @@ const RenderFieldInput: FC<FieldInputProps> = ({ f }) => {
                     type={'date'}
                     defaultValue={date}
                     onChange={e => U(e.target.value)}
+                    className='result-input'
+                    style={{ transitionDelay: transitionDelay }}
                 />
             )
 
@@ -259,6 +282,8 @@ const RenderFieldInput: FC<FieldInputProps> = ({ f }) => {
                     type={'datetime-local'}
                     defaultValue={datetime}
                     onChange={e => U(e.target.value)}
+                    className='result-input'
+                    style={{ transitionDelay: transitionDelay }}
                 />
             )
 
@@ -274,6 +299,8 @@ const RenderFieldInput: FC<FieldInputProps> = ({ f }) => {
 
                         U(file)
                     }}
+                    className='result-input'
+                    style={{ transitionDelay: transitionDelay }}
                 />
             )
 
@@ -287,6 +314,8 @@ const RenderFieldInput: FC<FieldInputProps> = ({ f }) => {
                     onChange={e => U(e.target.value)}
                     rows={10}
                     cols={50}
+                    className='result-input'
+                    style={{ transitionDelay: transitionDelay }}
                 />
             )
 
@@ -297,6 +326,8 @@ const RenderFieldInput: FC<FieldInputProps> = ({ f }) => {
                     min={f.min}
                     defaultValue={f.value || f.initial}
                     onChange={e => U(e.target.value)}
+                    className='result-input'
+                    style={{ transitionDelay: transitionDelay }}
                 />
             )
 
