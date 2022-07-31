@@ -61,3 +61,18 @@ def display_value(field, value):
     # print(type(field))
 
     return str(value)
+
+
+def update_field(name, instance, data, change):
+    meta = instance._meta
+    f_name = 'F_' + name
+
+    if change and not f_name in data:
+        return
+
+    field = meta.get_field(name)
+    initial = field.get_default()
+    value = data.get(f_name, initial)
+    # value = initial if field.disabled else value
+    value = field.clean(value, instance)
+    field.save_form_data(instance, value)

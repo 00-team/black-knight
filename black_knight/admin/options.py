@@ -1,6 +1,5 @@
-from black_knight.admin.utils import get_data
-from black_knight.admin.utils.brace import display_value, get_remote_url
-from black_knight.admin.utils.exception import INVALID_INPUT, ErrorResponse
+from black_knight.admin.utils import INVALID_INPUT, ErrorResponse
+from black_knight.admin.utils import display_value, get_data, update_field
 from django.contrib import admin
 from django.contrib.admin.utils import flatten_fieldsets, label_for_field
 from django.contrib.admin.utils import lookup_field
@@ -8,7 +7,7 @@ from django.core.exceptions import FieldDoesNotExist, ValidationError
 from django.core.paginator import InvalidPage
 from django.db.models.fields.related import ForeignObjectRel, ManyToManyRel
 from django.db.models.fields.related import OneToOneField
-from django.http import HttpRequest, JsonResponse
+from django.http import HttpRequest, JsonResponse, QueryDict
 from django.middleware.csrf import get_token
 from django.utils.decorators import method_decorator
 from django.views.decorators.http import require_GET, require_POST
@@ -200,35 +199,26 @@ class ModelAdmin(admin.ModelAdmin):
 
     @require_POST_m
     def brace_form_submit(self, request: HttpRequest, form_type: str):
-        data = get_data(request)
-        data_fields = data.get('fields')
-        meta = self.model._meta
+        data = request.POST.copy()
+        data.update(request.FILES)
         errors = {}
+        change = form_type == 'change'
 
-        if form_type == 'change':
+        if change:
             instance = self.get_object(request, data.get('pk'))
             if instance is None:
                 return INVALID_INPUT
         else:
             instance = self.model()
 
-        if not data_fields or not isinstance(data_fields, dict):
-            return INVALID_INPUT
-
         fields = flatten_fieldsets(self.get_fieldsets(request, instance))
 
         for name in fields:
             try:
-                field = meta.get_field(name)
-                initial = field.get_default()
-                value = data_fields.get(field.name, initial)
-                # value = initial if field.disabled else value
-                value = field.clean(value, instance)
-                field.save_form_data(instance, value)
-
+                update_field(name, instance, data, change)
             except ValidationError as e:
                 # TODO: make a better error system
-                errors[field.name] = getattr(
+                errors[name] = getattr(
                     e, 'message',
                     getattr(e, 'messages', ['Error'])[0]
                 )
