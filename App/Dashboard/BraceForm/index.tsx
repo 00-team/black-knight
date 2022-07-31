@@ -92,7 +92,12 @@ const BraceForm: FC = () => {
             model_name,
             end_url: pk === undefined ? 'add/' : `change/?pk=${pk}`,
         })
-        UpdateSubmitData({ app_label, model_name, pk })
+        UpdateSubmitData({
+            app_label,
+            model_name,
+            pk,
+            type: pk === undefined ? 'add' : 'change',
+        })
     }, [app_label, model_name, pk])
 
     if (Form === 'loading') return <Loading />
