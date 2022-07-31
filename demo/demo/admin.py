@@ -3,7 +3,7 @@ from django.contrib.admin.apps import AdminConfig
 
 
 class DemoAdmin(AdminSite):
-    pass
+    user_avatar = 'account', 'photo', 'url'
 
 
 class DemoAdminApp(AdminConfig):

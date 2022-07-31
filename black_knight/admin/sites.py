@@ -1,3 +1,4 @@
+import logging
 import re
 from collections.abc import Iterable
 from functools import update_wrapper
@@ -22,6 +23,9 @@ from django.urls import reverse
 from django.utils.text import capfirst
 from django.views.decorators.cache import never_cache
 from django.views.decorators.csrf import csrf_protect
+
+
+logger = logging.getLogger('black_knight.AdminSite')
 
 
 INVALID_LOGIN_DATA = E('Invalid Login Data!')
@@ -234,26 +238,29 @@ class AdminSite(admin.AdminSite):
 
     def get_user_avatar(self, user: Any) -> str:
         try:
-            if self.user_avatar is None:
-                return self.default_avatar
+            img = None
 
             if isinstance(self.user_avatar, str):
                 return self.user_avatar
 
             if isinstance(self.user_avatar, Iterable):
-                obj = user
+                img = user
 
                 for attr in self.user_avatar:
-                    obj = getattr(obj, attr)
+                    img = getattr(img, attr)
 
-                return obj
+            elif callable(self.user_avatar):
+                img = self.user_avatar(self, user)
 
-            if callable(self.user_avatar):
-                return self.user_avatar(user)
+            # not None and not str
+            if img is not None and not isinstance(img, str):
+                raise TypeError(f'unsupported image type {type(img)}')
+
+            return img or self.default_avatar
 
         except Exception as e:
-            # TODO: warn the exception or logit properly!
-            print(e)
+            logger.exception(e)
+            logger.warning('an error happened while getting user_avatar')
 
         return self.default_avatar
 
