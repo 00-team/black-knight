@@ -24,7 +24,7 @@ interface IntField extends BaseField<number> {
     min: number
 }
 
-interface ImageField extends BaseField<VImage> {
+interface ImageField extends BaseField<VImage, string, string> {
     type: 'image'
 }
 
