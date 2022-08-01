@@ -40,7 +40,7 @@ interface DateTimeField extends BaseField<VDatetime, string> {
     type: 'datetime'
 }
 
-interface ForeignKeyField extends Omit<BaseField<VForeignKey>, 'choices'> {
+interface ForeignKeyField extends Omit<BaseField<VForeignKey, PK>, 'choices'> {
     type: 'foreign_key'
     choices: [PK, string][]
 }
