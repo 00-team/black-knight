@@ -3,6 +3,7 @@ import React, { FC, HTMLAttributes, ReactNode } from 'react'
 import { useSetAtom } from 'jotai'
 import { BFSData, FieldModel } from 'state'
 
+import { DateField, DateTimeField } from './datetime'
 import { ImageField } from './files'
 import { BooleanField } from './number'
 import { ForeignKeyField } from './related'
@@ -23,20 +24,35 @@ const RenderField: TRenderField = ({ field, ...attr }) => {
     const props = { ...attr, change: (v: string | Blob) => U(v) }
 
     switch (field.type) {
+        // ================ TEXT ================
         case 'char':
             return <CharField field={field} {...props} />
 
         case 'text':
             return <TextField field={field} {...props} />
 
+        // ================ NUMB ================
+
         case 'boolean':
             return <BooleanField field={field} {...props} />
+
+        // ================ RELA ================
 
         case 'foreign_key':
             return <ForeignKeyField field={field} {...props} />
 
+        // ================ FILE ================
+
         case 'image':
             return <ImageField field={field} {...props} />
+
+        // ================ DATE ================
+
+        case 'date':
+            return <DateField field={field} {...props} />
+
+        case 'datetime':
+            return <DateTimeField field={field} {...props} />
 
         default:
             return <></>
