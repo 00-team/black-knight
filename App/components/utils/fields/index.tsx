@@ -4,6 +4,7 @@ import { useSetAtom } from 'jotai'
 import { BFSData, FieldModel } from 'state'
 
 import { BooleanField } from './number'
+import { ForeignKeyField } from './related'
 import { CharField, TextField } from './text'
 
 // TF as Field Type or Type Field
@@ -29,6 +30,9 @@ const RenderField: TRenderField = ({ field, ...attr }) => {
 
         case 'boolean':
             return <BooleanField field={field} {...props} />
+
+        case 'foreign_key':
+            return <ForeignKeyField field={field} {...props} />
 
         default:
             return <></>
