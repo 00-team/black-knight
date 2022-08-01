@@ -23,7 +23,9 @@ def display_value(field, value):
 
     if field:
         if getattr(field, 'flatchoices', None):
-            return dict(field.flatchoices).get(value)
+            # value will be the choices key
+            return value
+            # return dict(field.flatchoices).get(value)
 
         if isinstance(field, models.ImageField):
             return 'image', value.url if value else None
