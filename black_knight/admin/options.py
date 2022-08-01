@@ -157,8 +157,6 @@ class ModelAdmin(admin.ModelAdmin):
                 }
 
             field = meta.get_field(field_name)
-            # field.clean(...)
-            # field.save_form_data(obj, data)
             info = getattr(field, 'info', {
                 'type': 'unknown',
                 'name': field.name
