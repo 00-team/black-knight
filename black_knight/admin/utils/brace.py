@@ -24,7 +24,10 @@ def display_value(field, value):
     if field:
         if getattr(field, 'flatchoices', None):
             # value will be the choices key
-            return value
+            if value in dict(field.flatchoices):
+                return value
+
+            # return None
             # return dict(field.flatchoices).get(value)
 
         if isinstance(field, models.ImageField):
