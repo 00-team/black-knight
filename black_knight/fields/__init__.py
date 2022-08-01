@@ -64,6 +64,10 @@ class DateField(BaseField, fields.DateField):
 
 class DateTimeField(BaseField, fields.DateTimeField):
 
+    def get_default(self):
+        value = super().get_default()
+        return value.replace(microsecond=0)
+
     @property
     def info(self):
         return super().base_info(**{

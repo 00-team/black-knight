@@ -42,7 +42,7 @@ def display_value(field, value):
         return value
 
     if isinstance(value, datetime.datetime):
-        return 'datetime', value.isoformat()
+        return 'datetime', value.replace(microsecond=0).isoformat()
 
     if isinstance(value, datetime.date):
         return 'date', value.isoformat()
