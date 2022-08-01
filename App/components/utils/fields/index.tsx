@@ -1,9 +1,10 @@
-import React, { FC, HTMLAttributes } from 'react'
+import React, { FC, HTMLAttributes, ReactNode } from 'react'
 
 import { useSetAtom } from 'jotai'
 import { BFSData, FieldModel } from 'state'
 
-import { CharField } from './text'
+import { BooleanField } from './number'
+import { CharField, TextField } from './text'
 
 // TF as Field Type or Type Field
 interface FieldProps<TF> extends HTMLAttributes<HTMLElement> {
@@ -23,10 +24,36 @@ const RenderField: TRenderField = ({ field, ...attr }) => {
         case 'char':
             return <CharField field={field} {...props} />
 
+        case 'text':
+            return <TextField field={field} {...props} />
+
+        case 'boolean':
+            return <BooleanField field={field} {...props} />
+
         default:
             return <></>
     }
 }
 
+interface SelectProps<choice> extends HTMLAttributes<HTMLSelectElement> {
+    choices: choice[]
+    get_label: (c: choice, i: number) => ReactNode
+    get_value: (c: choice, i: number) => string | number
+}
+
+function ChoicesField<choice>(props: SelectProps<choice>) {
+    const { choices, get_label, get_value, ...attr } = props
+
+    return (
+        <select {...attr}>
+            {choices.map((c, i) => (
+                <option key={i} value={get_value(c, i)}>
+                    {get_label(c, i)}
+                </option>
+            ))}
+        </select>
+    )
+}
+
 export * from './text'
-export { FieldProps, RenderField }
+export { FieldProps, RenderField, ChoicesField }
