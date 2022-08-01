@@ -116,6 +116,17 @@
                     display: inline-block;
                     width: 200px;
                 }
+
+                .image-field {
+                    background-color: red;
+                    display: flex;
+
+                    img {
+                        width: 100px;
+                        height: 100px;
+                        object-fit: contain;
+                    }
+                }
             }
         }
     }

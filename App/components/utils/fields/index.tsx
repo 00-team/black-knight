@@ -3,6 +3,7 @@ import React, { FC, HTMLAttributes, ReactNode } from 'react'
 import { useSetAtom } from 'jotai'
 import { BFSData, FieldModel } from 'state'
 
+import { ImageField } from './files'
 import { BooleanField } from './number'
 import { ForeignKeyField } from './related'
 import { CharField, TextField } from './text'
@@ -33,6 +34,9 @@ const RenderField: TRenderField = ({ field, ...attr }) => {
 
         case 'foreign_key':
             return <ForeignKeyField field={field} {...props} />
+
+        case 'image':
+            return <ImageField field={field} {...props} />
 
         default:
             return <></>
