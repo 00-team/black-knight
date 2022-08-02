@@ -1,8 +1,8 @@
 import React, { FC } from 'react'
 
-import { FieldProps } from '.'
-
 import { DateFieldModel, DateTimeFieldModel } from 'state'
+
+import { FieldProps } from './shared'
 
 type TDate = FC<FieldProps<DateFieldModel>>
 const DateField: TDate = ({ field, change, ...attr }) => {

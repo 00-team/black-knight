@@ -1,4 +1,4 @@
-import React, { FC, HTMLAttributes, ReactNode } from 'react'
+import React, { FC } from 'react'
 
 import { useSetAtom } from 'jotai'
 import { BFSData, FieldModel } from 'state'
@@ -6,14 +6,10 @@ import { BFSData, FieldModel } from 'state'
 import { DateField, DateTimeField } from './datetime'
 import { ImageField } from './files'
 import { BooleanField } from './number'
+import { ReadOnlyField, UnknonwField } from './others'
 import { ForeignKeyField } from './related'
+import { FieldProps } from './shared'
 import { CharField, TextField } from './text'
-
-// TF as Field Type or Type Field
-interface FieldProps<TF> extends HTMLAttributes<HTMLElement> {
-    change: (v: string | Blob) => void
-    field: TF
-}
 
 type TRenderField = FC<Omit<FieldProps<FieldModel>, 'change'>>
 const RenderField: TRenderField = ({ field, ...attr }) => {
@@ -54,30 +50,17 @@ const RenderField: TRenderField = ({ field, ...attr }) => {
         case 'datetime':
             return <DateTimeField field={field} {...props} />
 
+        // ================ OTHE ================
+
+        case 'readonly':
+            return <ReadOnlyField field={field} />
+
+        case 'unknown':
+            return <UnknonwField field={field} />
+
         default:
             return <></>
     }
 }
 
-interface SelectProps<choice> extends HTMLAttributes<HTMLSelectElement> {
-    choices: choice[]
-    get_label: (c: choice, i: number) => ReactNode
-    get_value: (c: choice, i: number) => string | number
-}
-
-function ChoicesField<choice>(props: SelectProps<choice>) {
-    const { choices, get_label, get_value, ...attr } = props
-
-    return (
-        <select {...attr}>
-            {choices.map((c, i) => (
-                <option key={i} value={get_value(c, i)}>
-                    {get_label(c, i)}
-                </option>
-            ))}
-        </select>
-    )
-}
-
-export * from './text'
-export { FieldProps, RenderField, ChoicesField }
+export { RenderField }

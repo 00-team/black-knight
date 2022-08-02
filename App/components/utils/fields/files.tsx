@@ -1,8 +1,8 @@
 import React, { FC, useState } from 'react'
 
-import { FieldProps } from '.'
-
 import { ImageFieldModel } from 'state'
+
+import { FieldProps } from './shared'
 
 type TImage = FC<FieldProps<ImageFieldModel>>
 const ImageField: TImage = ({ field, change, ...attr }) => {

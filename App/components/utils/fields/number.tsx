@@ -1,8 +1,8 @@
 import React, { FC } from 'react'
 
-import { ChoicesField, FieldProps } from '.'
-
 import { BooleanFieldModel } from 'state'
+
+import { ChoicesField, FieldProps } from './shared'
 
 type TBoolean = FC<FieldProps<BooleanFieldModel>>
 const BooleanField: TBoolean = ({ field, change, ...attr }) => {

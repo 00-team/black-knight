@@ -1,8 +1,8 @@
 import React, { FC } from 'react'
 
-import { ChoicesField, FieldProps } from '.'
-
 import { CharFieldModel, TextFieldModel } from 'state'
+
+import { ChoicesField, FieldProps } from './shared'
 
 type TChar = FC<FieldProps<CharFieldModel>>
 const CharField: TChar = ({ field, change, ...attr }) => {

@@ -50,7 +50,7 @@ interface UnknownField {
     type: 'unknown'
 }
 
-interface ReadonlyField {
+interface ReadOnlyField {
     name: string
     type: 'readonly'
     value?: TValue
@@ -66,7 +66,7 @@ type Field =
     | DateTimeField
     | ForeignKeyField
     | UnknownField
-    | ReadonlyField
+    | ReadOnlyField
 
 export { Field as FieldModel }
 export {
@@ -79,5 +79,5 @@ export {
     DateTimeField as DateTimeFieldModel,
     ForeignKeyField as ForeignKeyFieldModel,
     UnknownField as UnknownFieldModel,
-    ReadonlyField as ReadonlyFieldModel,
+    ReadOnlyField as ReadOnlyFieldModel,
 }
