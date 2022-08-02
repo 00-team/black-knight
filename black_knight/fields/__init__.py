@@ -1,6 +1,6 @@
 from black_knight.fields.base import BaseField
 from black_knight.fields.datetime import DateField, DateTimeField
-from black_knight.fields.files import ImageField
+from black_knight.fields.files import FileField, ImageField
 from black_knight.fields.number import BigIntegerField, BooleanField
 from black_knight.fields.number import DecimalField, FloatField, IntegerField
 from black_knight.fields.number import PositiveBigIntegerField
@@ -20,6 +20,7 @@ __all__ = [
     'DateTimeField',
 
     'ImageField',
+    'FileField',
 
     'BooleanField',
     'BigIntegerField',

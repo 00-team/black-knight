@@ -1,4 +1,4 @@
-import { VImage, TValue, VDate, PK, VForeignKey, VDatetime } from 'state'
+import { VImage, TValue, VDate, VFile, PK, VForeignKey, VDatetime } from 'state'
 
 interface BaseField<T, I = '' | T, C = T> {
     name: string
@@ -15,6 +15,7 @@ interface CharField extends BaseField<string> {
     type: 'char'
     max_length: number
 }
+
 interface UrlField extends BaseField<string> {
     type: 'url'
     max_length: number
@@ -69,6 +70,10 @@ interface ImageField extends BaseField<VImage, string, string> {
     type: 'image'
 }
 
+interface FileField extends BaseField<VFile, string, string> {
+    type: 'file'
+}
+
 // ================ DATE ================
 interface DateField extends BaseField<VDate, string> {
     type: 'date'
@@ -113,6 +118,7 @@ type Field =
     | FloatField
     // FILE
     | ImageField
+    | FileField
     // DATE
     | DateField
     | DateTimeField
@@ -139,6 +145,7 @@ export {
     FloatField as FloatFieldModel,
     // FILE
     ImageField as ImageFieldModel,
+    FileField as FileFieldModel,
     // DATE
     DateField as DateFieldModel,
     DateTimeField as DateTimeFieldModel,

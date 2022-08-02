@@ -31,6 +31,9 @@ def display_value(field, value):
         elif isinstance(field, models.ImageField):
             return 'image', value.url if value else None
 
+        elif isinstance(field, models.FileField):
+            return 'file', value.url if value else None
+
         elif isinstance(field, models.ForeignKey):
             return 'foreign_key', value.pk, str(value)
 

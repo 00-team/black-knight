@@ -53,17 +53,17 @@ class AllFields(models.Model):
     char = fields.CharField(max_length=101)
     email = fields.EmailField()
     generic_ip_address = fields.GenericIPAddressField()
-    json = models.JSONField()
-    slug = models.SlugField()
+    json = fields.JSONField()
+    slug = fields.SlugField()
     text = fields.TextField()
-    url = models.URLField()
+    url = fields.URLField()
     uuid = models.UUIDField()
 
     date = fields.DateField()
     datetime = fields.DateTimeField()
     time = models.TimeField()
 
-    xfile = models.FileField(upload_to='ALL/xfile/')
+    xfile = fields.FileField(upload_to='ALL/xfile/')
     file_path = models.FilePathField(path=settings.BASE_DIR)
     image = fields.ImageField(upload_to='ALL/image/')
 

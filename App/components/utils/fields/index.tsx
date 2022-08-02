@@ -4,7 +4,7 @@ import { useSetAtom } from 'jotai'
 import { BFSData, FieldModel } from 'state'
 
 import { DateField, DateTimeField } from './datetime'
-import { ImageField } from './files'
+import { FileField, ImageField } from './files'
 import { BooleanField, DecimalField, FloatField, IntegerField } from './number'
 import { ReadOnlyField, UnknonwField } from './others'
 import { ForeignKeyField } from './related'
@@ -73,6 +73,9 @@ const RenderField: TRenderField = ({ field, ...attr }) => {
 
         case 'image':
             return <ImageField field={field} {...props} />
+
+        case 'file':
+            return <FileField field={field} {...props} />
 
         // ================ DATE ================
 

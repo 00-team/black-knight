@@ -1,6 +1,6 @@
 import React, { FC, useState } from 'react'
 
-import { ImageFieldModel } from 'state'
+import { FileFieldModel, ImageFieldModel } from 'state'
 
 import { FieldProps } from './shared'
 
@@ -29,4 +29,21 @@ const ImageField: TImage = ({ field, change, ...attr }) => {
     )
 }
 
-export { ImageField }
+type TFile = FC<FieldProps<FileFieldModel>>
+const FileField: TFile = ({ field, change, ...attr }) => {
+    return (
+        <input
+            {...attr}
+            type='file'
+            onChange={e => {
+                if (!e.target.files) return
+                const file = e.target.files[0]
+                if (!file) return
+
+                change(file)
+            }}
+        />
+    )
+}
+
+export { ImageField, FileField }
