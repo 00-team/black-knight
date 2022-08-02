@@ -124,7 +124,7 @@ const BraceForm: FC = () => {
                                     <label
                                         className='label'
                                         style={{
-                                            transitionDelay: `${idx1 * 0.15}s`,
+                                            transitionDelay: `${idx1 + 1.25}s`,
                                         }}
                                     >
                                         {f.name}:
@@ -133,13 +133,9 @@ const BraceForm: FC = () => {
                                         field={f}
                                         className='result-input'
                                         style={{
-                                            transitionDelay: `${idx1 * 0.2}s`,
+                                            transitionDelay: `${idx1 + 1.5}s`,
                                         }}
                                     />
-                                    {/* <RenderFieldInput
-                                        transitionDelay={`${idx1 * 0.2}s`}
-                                        f={f}
-                                    /> */}
                                 </div>
                             ))}
                         </div>
