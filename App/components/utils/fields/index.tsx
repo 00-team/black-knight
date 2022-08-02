@@ -5,7 +5,7 @@ import { BFSData, FieldModel } from 'state'
 
 import { DateField, DateTimeField } from './datetime'
 import { ImageField } from './files'
-import { BooleanField } from './number'
+import { BooleanField, IntegerField } from './number'
 import { ReadOnlyField, UnknonwField } from './others'
 import { ForeignKeyField } from './related'
 import { FieldProps } from './shared'
@@ -32,6 +32,9 @@ const RenderField: TRenderField = ({ field, ...attr }) => {
         case 'boolean':
             return <BooleanField field={field} {...props} />
 
+        case 'integer':
+            return <IntegerField field={field} {...props} />
+
         // ================ RELA ================
 
         case 'foreign_key':
@@ -53,10 +56,10 @@ const RenderField: TRenderField = ({ field, ...attr }) => {
         // ================ OTHE ================
 
         case 'readonly':
-            return <ReadOnlyField field={field} />
+            return <ReadOnlyField field={field} {...attr} />
 
         case 'unknown':
-            return <UnknonwField field={field} />
+            return <UnknonwField field={field} {...attr} />
 
         default:
             return <></>

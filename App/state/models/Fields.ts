@@ -19,9 +19,10 @@ interface BooleanField extends BaseField<boolean, boolean> {
     type: 'boolean'
 }
 
-interface IntField extends BaseField<number> {
-    type: 'int'
+interface IntegerField extends BaseField<number> {
+    type: 'integer'
     min: number
+    max: number
 }
 
 interface ImageField extends BaseField<VImage, string, string> {
@@ -60,7 +61,7 @@ type Field =
     | CharField
     | BooleanField
     | TextField
-    | IntField
+    | IntegerField
     | ImageField
     | DateField
     | DateTimeField
@@ -73,7 +74,7 @@ export {
     CharField as CharFieldModel,
     BooleanField as BooleanFieldModel,
     TextField as TextFieldModel,
-    IntField as IntFieldModel,
+    IntegerField as IntegerFieldModel,
     ImageField as ImageFieldModel,
     DateField as DateFieldModel,
     DateTimeField as DateTimeFieldModel,
