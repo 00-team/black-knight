@@ -5,7 +5,7 @@ import { BFSData, FieldModel } from 'state'
 
 import { DateField, DateTimeField } from './datetime'
 import { ImageField } from './files'
-import { BooleanField, IntegerField } from './number'
+import { BooleanField, DecimalField, FloatField, IntegerField } from './number'
 import { ReadOnlyField, UnknonwField } from './others'
 import { ForeignKeyField } from './related'
 import { FieldProps } from './shared'
@@ -34,6 +34,12 @@ const RenderField: TRenderField = ({ field, ...attr }) => {
 
         case 'integer':
             return <IntegerField field={field} {...props} />
+
+        case 'decimal':
+            return <DecimalField field={field} {...props} />
+
+        case 'float':
+            return <FloatField field={field} {...props} />
 
         // ================ RELA ================
 

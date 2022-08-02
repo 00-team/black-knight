@@ -76,3 +76,23 @@ class PositiveSmallIntegerField(BaseField, fields.PositiveSmallIntegerField):
             'min': 0,
             'max': 32767,
         })
+
+
+class DecimalField(BaseField, fields.DecimalField):
+
+    @property
+    def info(self):
+        return super().base_info(**{
+            'type': 'decimal',
+            'max_digits': self.max_digits,
+            'decimal_places': self.decimal_places,
+        })
+
+
+class FloatField(BaseField, fields.FloatField):
+
+    @property
+    def info(self):
+        return super().base_info(**{
+            'type': 'float'
+        })
