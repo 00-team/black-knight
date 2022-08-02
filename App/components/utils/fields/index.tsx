@@ -13,6 +13,7 @@ import {
     CharField,
     DurationField,
     GenericIPAddressField,
+    JsonField,
     TextField,
 } from './text'
 
@@ -31,6 +32,9 @@ const RenderField: TRenderField = ({ field, ...attr }) => {
 
         case 'text':
             return <TextField field={field} {...props} />
+
+        case 'json':
+            return <JsonField field={field} {...props} />
 
         case 'duration':
             return <DurationField field={field} {...props} />

@@ -20,6 +20,10 @@ interface TextField extends BaseField<string> {
     type: 'text'
 }
 
+interface JsonField extends BaseField<string> {
+    type: 'json'
+}
+
 interface DurationField extends BaseField<string> {
     type: 'duration'
 }
@@ -87,6 +91,7 @@ type Field =
     // TEXT
     | CharField
     | TextField
+    | JsonField
     | DurationField
     | GenericIPAddressField
     // NUMB
@@ -110,6 +115,7 @@ export {
     // TEXT
     CharField as CharFieldModel,
     TextField as TextFieldModel,
+    JsonField as JsonFieldModel,
     DurationField as DurationFieldModel,
     GenericIPAddressField as GenericIPAddressFieldModel,
     // NUMB

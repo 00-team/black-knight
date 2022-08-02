@@ -1,5 +1,6 @@
 from black_knight.fields import BaseField
 from django.db.models import fields
+from django.db.models.fields import json
 
 
 class CharField(BaseField, fields.CharField):
@@ -47,4 +48,13 @@ class GenericIPAddressField(BaseField, fields.GenericIPAddressField):
         return super().base_info(**{
             'type': 'ip_address',
             'protocol': self.protocol
+        })
+
+
+class JSONField(BaseField, json.JSONField):
+
+    @property
+    def info(self):
+        return super().base_info(**{
+            'type': 'json',
         })
