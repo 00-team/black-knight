@@ -6,7 +6,11 @@ class DateField(BaseField, fields.DateField):
 
     def get_default(self):
         value = super().get_default()
-        return value.date().isoformat()
+
+        if value:
+            value = value.date().isoformat()
+
+        return value
 
     @property
     def info(self):
@@ -19,7 +23,11 @@ class DateTimeField(BaseField, fields.DateTimeField):
 
     def get_default(self):
         value = super().get_default()
-        return value.replace(microsecond=0)
+
+        if value:
+            value = value.replace(microsecond=0)
+
+        return value
 
     @property
     def info(self):
