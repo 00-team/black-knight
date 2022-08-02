@@ -9,7 +9,12 @@ import { BooleanField, DecimalField, FloatField, IntegerField } from './number'
 import { ReadOnlyField, UnknonwField } from './others'
 import { ForeignKeyField } from './related'
 import { FieldProps } from './shared'
-import { CharField, DurationField, TextField } from './text'
+import {
+    CharField,
+    DurationField,
+    GenericIPAddressField,
+    TextField,
+} from './text'
 
 type TRenderField = FC<Omit<FieldProps<FieldModel>, 'change'>>
 const RenderField: TRenderField = ({ field, ...attr }) => {
@@ -29,6 +34,9 @@ const RenderField: TRenderField = ({ field, ...attr }) => {
 
         case 'duration':
             return <DurationField field={field} {...props} />
+
+        case 'ip_address':
+            return <GenericIPAddressField field={field} {...props} />
 
         // ================ NUMB ================
 

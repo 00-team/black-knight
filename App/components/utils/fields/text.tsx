@@ -1,6 +1,11 @@
 import React, { FC } from 'react'
 
-import { CharFieldModel, DurationFieldModel, TextFieldModel } from 'state'
+import {
+    CharFieldModel,
+    DurationFieldModel,
+    GenericIPAddressFieldModel,
+    TextFieldModel,
+} from 'state'
 
 import { ChoicesField, FieldProps } from './shared'
 
@@ -81,4 +86,30 @@ const DurationField: TDuration = ({ field, change, ...attr }) => {
     )
 }
 
-export { CharField, TextField, DurationField }
+// Type Generic IP Address
+type TGIA = FC<FieldProps<GenericIPAddressFieldModel>>
+const GenericIPAddressField: TGIA = ({ field, change, ...attr }) => {
+    if (field.choices) {
+        return (
+            <ChoicesField<typeof field.choices[0]>
+                {...attr}
+                onChange={e => change(e.currentTarget.value)}
+                defaultValue={field.value || field.initial}
+                choices={field.choices}
+                get_label={c => c[1]}
+                get_value={c => c[0]}
+            />
+        )
+    }
+
+    return (
+        <input
+            {...attr}
+            type='text'
+            defaultValue={field.value || field.initial}
+            onChange={e => change(e.target.value)}
+        />
+    )
+}
+
+export { CharField, TextField, DurationField, GenericIPAddressField }

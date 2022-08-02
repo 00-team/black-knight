@@ -38,3 +38,13 @@ class DurationField(BaseField, fields.DurationField):
         return super().base_info(**{
             'type': 'duration',
         })
+
+
+class GenericIPAddressField(BaseField, fields.GenericIPAddressField):
+
+    @property
+    def info(self):
+        return super().base_info(**{
+            'type': 'ip_address',
+            'protocol': self.protocol
+        })

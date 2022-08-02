@@ -44,28 +44,28 @@ class AllFields(models.Model):
     positive_big_integer = fields.PositiveBigIntegerField()
     positive_small_integer = fields.PositiveSmallIntegerField()
 
-    decimal = models.DecimalField(max_digits=5, decimal_places=2)
-    xfloat = models.FloatField()
-    duration = models.DurationField()
+    decimal = fields.DecimalField(max_digits=5, decimal_places=2)
+    xfloat = fields.FloatField()
+    duration = fields.DurationField()
 
     boolean = fields.BooleanField()
 
-    char = models.CharField(max_length=101)
-    email = models.EmailField()
-    generic_ip_address = models.GenericIPAddressField()
+    char = fields.CharField(max_length=101)
+    email = fields.EmailField()
+    generic_ip_address = fields.GenericIPAddressField()
     json = models.JSONField()
     slug = models.SlugField()
-    text = models.TextField()
+    text = fields.TextField()
     url = models.URLField()
     uuid = models.UUIDField()
 
-    date = models.DateField()
-    datetime = models.DateTimeField()
+    date = fields.DateField()
+    datetime = fields.DateTimeField()
     time = models.TimeField()
 
     xfile = models.FileField(upload_to='ALL/xfile/')
     file_path = models.FilePathField(path=settings.BASE_DIR)
-    image = models.ImageField(upload_to='ALL/image/')
+    image = fields.ImageField(upload_to='ALL/image/')
 
     many_2_many = models.ManyToManyField(Book)
     one_2_one = models.OneToOneField(

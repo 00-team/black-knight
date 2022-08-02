@@ -19,8 +19,14 @@ interface CharField extends BaseField<string> {
 interface TextField extends BaseField<string> {
     type: 'text'
 }
+
 interface DurationField extends BaseField<string> {
     type: 'duration'
+}
+
+interface GenericIPAddressField extends BaseField<string> {
+    type: 'ip_address'
+    protocol: 'both' | 'ipv4' | 'ipv6'
 }
 
 // ================ NUMB ================
@@ -82,6 +88,7 @@ type Field =
     | CharField
     | TextField
     | DurationField
+    | GenericIPAddressField
     // NUMB
     | BooleanField
     | IntegerField
@@ -104,6 +111,7 @@ export {
     CharField as CharFieldModel,
     TextField as TextFieldModel,
     DurationField as DurationFieldModel,
+    GenericIPAddressField as GenericIPAddressFieldModel,
     // NUMB
     BooleanField as BooleanFieldModel,
     IntegerField as IntegerFieldModel,
