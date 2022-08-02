@@ -9,7 +9,7 @@ import { BooleanField, DecimalField, FloatField, IntegerField } from './number'
 import { ReadOnlyField, UnknonwField } from './others'
 import { ForeignKeyField } from './related'
 import { FieldProps } from './shared'
-import { CharField, TextField } from './text'
+import { CharField, DurationField, TextField } from './text'
 
 type TRenderField = FC<Omit<FieldProps<FieldModel>, 'change'>>
 const RenderField: TRenderField = ({ field, ...attr }) => {
@@ -26,6 +26,9 @@ const RenderField: TRenderField = ({ field, ...attr }) => {
 
         case 'text':
             return <TextField field={field} {...props} />
+
+        case 'duration':
+            return <DurationField field={field} {...props} />
 
         // ================ NUMB ================
 

@@ -19,6 +19,9 @@ interface CharField extends BaseField<string> {
 interface TextField extends BaseField<string> {
     type: 'text'
 }
+interface DurationField extends BaseField<string> {
+    type: 'duration'
+}
 
 // ================ NUMB ================
 interface BooleanField extends BaseField<boolean, boolean> {
@@ -78,6 +81,7 @@ type Field =
     // TEXT
     | CharField
     | TextField
+    | DurationField
     // NUMB
     | BooleanField
     | IntegerField
@@ -99,6 +103,7 @@ export {
     // TEXT
     CharField as CharFieldModel,
     TextField as TextFieldModel,
+    DurationField as DurationFieldModel,
     // NUMB
     BooleanField as BooleanFieldModel,
     IntegerField as IntegerFieldModel,

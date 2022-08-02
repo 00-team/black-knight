@@ -19,3 +19,12 @@ class TextField(BaseField, fields.TextField):
         return super().base_info(**{
             'type': 'text',
         })
+
+
+class DurationField(BaseField, fields.DurationField):
+
+    @property
+    def info(self):
+        return super().base_info(**{
+            'type': 'duration',
+        })
