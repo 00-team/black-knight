@@ -4,8 +4,8 @@ from django.db.models.fields import related
 
 class ForeignKey(BaseField, related.ForeignKey):
 
-    def clean(self, value, model_instance):
-        value = super().clean(value, model_instance)
+    def get_instance(self, value, model_instance):
+        value = self.clean(value, model_instance)
 
         manager = self.remote_field.model._default_manager
         qs = manager.complex_filter(self.get_limit_choices_to())

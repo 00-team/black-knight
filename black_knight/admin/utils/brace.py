@@ -1,6 +1,7 @@
 import datetime
 import decimal
 
+from black_knight.fields.related import ForeignKey
 from django.db import models
 from django.urls import NoReverseMatch, reverse
 from django.utils import formats, timezone
@@ -74,6 +75,9 @@ def update_field(name, instance, data, change):
     field = meta.get_field(name)
     initial = field.get_default()
     value = data.get(f_name, initial)
-    # value = initial if field.disabled else value
-    value = field.clean(value, instance)
+
+    if isinstance(field, ForeignKey):
+        value = field.get_instance(value, instance)
+    else:
+        value = field.clean(value, instance)
     field.save_form_data(instance, value)
