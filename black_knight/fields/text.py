@@ -12,6 +12,16 @@ class CharField(BaseField, fields.CharField):
         })
 
 
+class EmailField(BaseField, fields.EmailField):
+
+    @property
+    def info(self):
+        return super().base_info(**{
+            'type': 'char',
+            'max_length': self.max_length
+        })
+
+
 class TextField(BaseField, fields.TextField):
 
     @property

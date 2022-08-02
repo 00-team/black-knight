@@ -8,7 +8,8 @@ from black_knight.fields.number import PositiveIntegerField
 from black_knight.fields.number import PositiveSmallIntegerField
 from black_knight.fields.number import SmallIntegerField
 from black_knight.fields.related import ForeignKey
-from black_knight.fields.text import CharField, DurationField, TextField
+from black_knight.fields.text import CharField, DurationField, EmailField
+from black_knight.fields.text import TextField
 
 
 __all__ = [
@@ -32,6 +33,7 @@ __all__ = [
     'ForeignKey',
 
     'CharField',
+    'EmailField',
     'TextField',
     'DurationField',
 ]
