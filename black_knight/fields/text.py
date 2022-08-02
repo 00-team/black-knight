@@ -24,6 +24,16 @@ class SlugField(BaseField, fields.SlugField):
         })
 
 
+class URLField(BaseField, fields.URLField):
+
+    @property
+    def info(self):
+        return super().base_info(**{
+            'type': 'url',
+            'max_length': self.max_length,
+        })
+
+
 class EmailField(BaseField, fields.EmailField):
 
     @property

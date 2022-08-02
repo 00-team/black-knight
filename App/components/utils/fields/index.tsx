@@ -16,6 +16,7 @@ import {
     JsonField,
     SlugField,
     TextField,
+    UrlField,
 } from './text'
 
 type TRenderField = FC<Omit<FieldProps<FieldModel>, 'change'>>
@@ -33,6 +34,9 @@ const RenderField: TRenderField = ({ field, ...attr }) => {
 
         case 'slug':
             return <SlugField field={field} {...props} />
+
+        case 'url':
+            return <UrlField field={field} {...props} />
 
         case 'text':
             return <TextField field={field} {...props} />
