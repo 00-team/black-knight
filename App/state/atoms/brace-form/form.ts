@@ -37,6 +37,7 @@ const BraceFormAtom = atom(
             if (Array.isArray(fieldsets) && fieldsets[1] !== app_model) return
 
             set(Form, response.data)
+            // console.log(response.data.fieldsets[0].fields)
         } else {
             if (response.code === 20) {
                 // ignore signal abort exceptions
