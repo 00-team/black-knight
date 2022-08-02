@@ -13,6 +13,17 @@ class CharField(BaseField, fields.CharField):
         })
 
 
+class SlugField(BaseField, fields.SlugField):
+
+    @property
+    def info(self):
+        return super().base_info(**{
+            'type': 'slug',
+            'allow_unicode': self.allow_unicode,
+            'max_length': self.max_length,
+        })
+
+
 class EmailField(BaseField, fields.EmailField):
 
     @property

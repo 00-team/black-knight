@@ -5,6 +5,7 @@ import {
     DurationFieldModel,
     GenericIPAddressFieldModel,
     JsonFieldModel,
+    SlugFieldModel,
     TextFieldModel,
 } from 'state'
 
@@ -12,6 +13,32 @@ import { ChoicesField, FieldProps } from './shared'
 
 type TChar = FC<FieldProps<CharFieldModel>>
 const CharField: TChar = ({ field, change, ...attr }) => {
+    if (field.choices) {
+        return (
+            <ChoicesField<typeof field.choices[0]>
+                {...attr}
+                onChange={e => change(e.currentTarget.value)}
+                defaultValue={field.value || field.initial}
+                choices={field.choices}
+                get_label={c => c[1]}
+                get_value={c => c[0]}
+            />
+        )
+    }
+
+    return (
+        <input
+            {...attr}
+            type='text'
+            defaultValue={field.value || field.initial}
+            maxLength={field.max_length}
+            onChange={e => change(e.target.value)}
+        />
+    )
+}
+
+type TSlug = FC<FieldProps<SlugFieldModel>>
+const SlugField: TSlug = ({ field, change, ...attr }) => {
     if (field.choices) {
         return (
             <ChoicesField<typeof field.choices[0]>
@@ -139,4 +166,11 @@ const GenericIPAddressField: TGIA = ({ field, change, ...attr }) => {
     )
 }
 
-export { CharField, TextField, JsonField, DurationField, GenericIPAddressField }
+export {
+    CharField,
+    TextField,
+    JsonField,
+    DurationField,
+    GenericIPAddressField,
+    SlugField,
+}

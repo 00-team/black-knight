@@ -10,7 +10,7 @@ from black_knight.fields.number import SmallIntegerField
 from black_knight.fields.related import ForeignKey
 from black_knight.fields.text import CharField, DurationField, EmailField
 from black_knight.fields.text import GenericIPAddressField, JSONField
-from black_knight.fields.text import TextField
+from black_knight.fields.text import SlugField, TextField
 
 
 __all__ = [
@@ -37,6 +37,7 @@ __all__ = [
     'EmailField',
     'TextField',
     'JSONField',
+    'SlugField',
     'DurationField',
     'GenericIPAddressField',
 ]

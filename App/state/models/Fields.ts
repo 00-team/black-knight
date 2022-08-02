@@ -16,6 +16,12 @@ interface CharField extends BaseField<string> {
     max_length: number
 }
 
+interface SlugField extends BaseField<string> {
+    type: 'slug'
+    max_length: number
+    allow_unicode: boolean
+}
+
 interface TextField extends BaseField<string> {
     type: 'text'
 }
@@ -90,6 +96,7 @@ interface ReadOnlyField {
 type Field =
     // TEXT
     | CharField
+    | SlugField
     | TextField
     | JsonField
     | DurationField
@@ -114,6 +121,7 @@ export { Field as FieldModel }
 export {
     // TEXT
     CharField as CharFieldModel,
+    SlugField as SlugFieldModel,
     TextField as TextFieldModel,
     JsonField as JsonFieldModel,
     DurationField as DurationFieldModel,
