@@ -92,6 +92,11 @@ interface FileField extends BaseField<VFile, string, string> {
     type: 'file'
 }
 
+interface FilePathField extends Omit<BaseField<string>, 'choices'> {
+    type: 'file_path'
+    choices: [string, string][]
+}
+
 // ================ DATE ================
 interface DateField extends BaseField<VDate, string> {
     type: 'date'
@@ -139,6 +144,7 @@ type Field =
     // FILE
     | ImageField
     | FileField
+    | FilePathField
     // DATE
     | DateField
     | DateTimeField
@@ -152,15 +158,8 @@ type Field =
 export { Field as FieldModel, CharBasedFields as CharBasedFieldsModel }
 export {
     // TEXT
-    // CharField as CharFieldModel,
-    // SlugField as SlugFieldModel,
-    // EmailField as EmailFieldModel,
-    // UrlField as UrlFieldModel,
     TextField as TextFieldModel,
     JsonField as JsonFieldModel,
-    // DurationField as DurationFieldModel,
-    // UUIDField as UUIDFieldModel,
-    // GenericIPAddressField as GenericIPAddressFieldModel,
     // NUMB
     BooleanField as BooleanFieldModel,
     IntegerField as IntegerFieldModel,
@@ -169,6 +168,7 @@ export {
     // FILE
     ImageField as ImageFieldModel,
     FileField as FileFieldModel,
+    FilePathField as FilePathFieldModel,
     // DATE
     DateField as DateFieldModel,
     DateTimeField as DateTimeFieldModel,

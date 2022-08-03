@@ -64,7 +64,7 @@ class AllFields(models.Model):
     time = fields.TimeField()
 
     xfile = fields.FileField(upload_to='ALL/xfile/')
-    file_path = models.FilePathField(path=settings.BASE_DIR)
+    file_path = fields.FilePathField(path=settings.BASE_DIR)
     image = fields.ImageField(upload_to='ALL/image/')
 
     many_2_many = models.ManyToManyField(Book)

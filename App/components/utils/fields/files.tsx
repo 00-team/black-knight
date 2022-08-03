@@ -1,8 +1,8 @@
 import React, { FC, useState } from 'react'
 
-import { FileFieldModel, ImageFieldModel } from 'state'
+import { FileFieldModel, FilePathFieldModel, ImageFieldModel } from 'state'
 
-import { FieldProps } from './shared'
+import { ChoicesField, FieldProps } from './shared'
 
 type TImage = FC<FieldProps<ImageFieldModel>>
 const ImageField: TImage = ({ field, change, ...attr }) => {
@@ -59,4 +59,20 @@ const FileField: TFile = ({ field, change, ...attr }) => {
     )
 }
 
-export { ImageField, FileField }
+type TFilePath = FC<FieldProps<FilePathFieldModel>>
+const FilePathField: TFilePath = ({ field, change, ...attr }) => {
+    const default_value = field.value || field.initial || undefined
+
+    return (
+        <ChoicesField<typeof field.choices[0]>
+            {...attr}
+            onChange={e => change(e.currentTarget.value)}
+            defaultValue={default_value}
+            choices={field.choices}
+            get_value={c => c[0]}
+            get_label={c => c[1]}
+        />
+    )
+}
+
+export { ImageField, FileField, FilePathField }
