@@ -57,11 +57,11 @@ class AllFields(models.Model):
     slug = fields.SlugField()
     text = fields.TextField()
     url = fields.URLField()
-    uuid = models.UUIDField()
+    uuid = fields.UUIDField()
 
     date = fields.DateField()
     datetime = fields.DateTimeField()
-    time = models.TimeField()
+    time = fields.TimeField()
 
     xfile = fields.FileField(upload_to='ALL/xfile/')
     file_path = models.FilePathField(path=settings.BASE_DIR)

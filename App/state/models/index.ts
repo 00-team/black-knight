@@ -12,13 +12,21 @@ type TLoading = ['loading', string]
 type VImage = ['image', string | null]
 type VFile = ['file', string | null]
 type VDate = ['date', string]
-type VDatetime = ['datetime', string]
+type VDateTime = ['datetime', string]
+type VTime = ['time', string]
 type VLink = ['link', string]
 type VForeignKey = ['foreign_key', PK, string]
 
 type TBaseValue = string | number | boolean | null
-type TypedValues = VImage | VDate | VDatetime | VLink | VForeignKey | VFile
+type TypedValues =
+    | VImage
+    | VDate
+    | VTime
+    | VDateTime
+    | VLink
+    | VForeignKey
+    | VFile
 type TValue = TBaseValue | TypedValues
 
 export { PK, TLoading, TValue, TBaseValue, TypedValues }
-export { VImage, VDate, VDatetime, VLink, VForeignKey, VFile }
+export { VImage, VDate, VDateTime, VTime, VLink, VForeignKey, VFile }

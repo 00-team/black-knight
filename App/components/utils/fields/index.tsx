@@ -3,21 +3,13 @@ import React, { FC } from 'react'
 import { useSetAtom } from 'jotai'
 import { BFSData, FieldModel } from 'state'
 
-import { DateField, DateTimeField } from './datetime'
+import { DateField, DateTimeField, TimeField } from './datetime'
 import { FileField, ImageField } from './files'
 import { BooleanField, DecimalField, FloatField, IntegerField } from './number'
 import { ReadOnlyField, UnknonwField } from './others'
 import { ForeignKeyField } from './related'
 import { FieldProps } from './shared'
-import {
-    CharField,
-    DurationField,
-    GenericIPAddressField,
-    JsonField,
-    SlugField,
-    TextField,
-    UrlField,
-} from './text'
+import { CharField, JsonField, TextField } from './text'
 
 type TRenderField = FC<Omit<FieldProps<FieldModel>, 'change'>>
 const RenderField: TRenderField = ({ field, ...attr }) => {
@@ -32,23 +24,11 @@ const RenderField: TRenderField = ({ field, ...attr }) => {
         case 'char':
             return <CharField field={field} {...props} />
 
-        case 'slug':
-            return <SlugField field={field} {...props} />
-
-        case 'url':
-            return <UrlField field={field} {...props} />
-
         case 'text':
             return <TextField field={field} {...props} />
 
         case 'json':
             return <JsonField field={field} {...props} />
-
-        case 'duration':
-            return <DurationField field={field} {...props} />
-
-        case 'ip_address':
-            return <GenericIPAddressField field={field} {...props} />
 
         // ================ NUMB ================
 
@@ -84,6 +64,9 @@ const RenderField: TRenderField = ({ field, ...attr }) => {
 
         case 'datetime':
             return <DateTimeField field={field} {...props} />
+
+        case 'time':
+            return <TimeField field={field} {...props} />
 
         // ================ OTHE ================
 

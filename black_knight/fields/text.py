@@ -18,7 +18,8 @@ class SlugField(BaseField, fields.SlugField):
     @property
     def info(self):
         return super().base_info(**{
-            'type': 'slug',
+            'type': 'char',
+            'validation': 'slug',
             'allow_unicode': self.allow_unicode,
             'max_length': self.max_length,
         })
@@ -29,7 +30,8 @@ class URLField(BaseField, fields.URLField):
     @property
     def info(self):
         return super().base_info(**{
-            'type': 'url',
+            'type': 'char',
+            'validation': 'url',
             'max_length': self.max_length,
         })
 
@@ -40,7 +42,39 @@ class EmailField(BaseField, fields.EmailField):
     def info(self):
         return super().base_info(**{
             'type': 'char',
+            'validation': 'email',
             'max_length': self.max_length
+        })
+
+
+class UUIDField(BaseField, fields.UUIDField):
+
+    @property
+    def info(self):
+        return super().base_info(**{
+            'type': 'char',
+            'validation': 'uuid'
+        })
+
+
+class DurationField(BaseField, fields.DurationField):
+
+    @property
+    def info(self):
+        return super().base_info(**{
+            'type': 'char',
+            'validation': 'duration',
+        })
+
+
+class GenericIPAddressField(BaseField, fields.GenericIPAddressField):
+
+    @property
+    def info(self):
+        return super().base_info(**{
+            'type': 'char',
+            'validation': 'ip_address',
+            'protocol': self.protocol
         })
 
 
@@ -50,25 +84,6 @@ class TextField(BaseField, fields.TextField):
     def info(self):
         return super().base_info(**{
             'type': 'text',
-        })
-
-
-class DurationField(BaseField, fields.DurationField):
-
-    @property
-    def info(self):
-        return super().base_info(**{
-            'type': 'duration',
-        })
-
-
-class GenericIPAddressField(BaseField, fields.GenericIPAddressField):
-
-    @property
-    def info(self):
-        return super().base_info(**{
-            'type': 'ip_address',
-            'protocol': self.protocol
         })
 
 

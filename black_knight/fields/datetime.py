@@ -34,3 +34,20 @@ class DateTimeField(BaseField, fields.DateTimeField):
         return super().base_info(**{
             'type': 'datetime',
         })
+
+
+class TimeField(BaseField, fields.TimeField):
+
+    def get_default(self):
+        value = super().get_default()
+
+        if value:
+            value = value.time().isoformat()
+
+        return value
+
+    @property
+    def info(self):
+        return super().base_info(**{
+            'type': 'time',
+        })

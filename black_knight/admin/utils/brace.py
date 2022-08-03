@@ -62,7 +62,7 @@ def display_value(field, value):
 
     if isinstance(value, datetime.time):
         # TODO: return an iso format version of it
-        return formats.localize(value)
+        return 'time', value.isoformat()
 
     if isinstance(value, (int, decimal.Decimal, float)):
         return value

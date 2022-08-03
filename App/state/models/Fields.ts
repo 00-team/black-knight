@@ -1,4 +1,13 @@
-import { VImage, TValue, VDate, VFile, PK, VForeignKey, VDatetime } from 'state'
+import {
+    VImage,
+    TValue,
+    VDate,
+    VFile,
+    PK,
+    VForeignKey,
+    VDateTime,
+    VTime,
+} from 'state'
 
 interface BaseField<T, I = '' | T, C = T> {
     name: string
@@ -13,19 +22,37 @@ interface BaseField<T, I = '' | T, C = T> {
 // ================ TEXT ================
 interface CharField extends BaseField<string> {
     type: 'char'
-    max_length: number
+    max_length?: number
 }
-
-interface UrlField extends BaseField<string> {
-    type: 'url'
-    max_length: number
+interface UrlField extends CharField {
+    validation: 'url'
 }
-
-interface SlugField extends BaseField<string> {
-    type: 'slug'
-    max_length: number
+interface SlugField extends CharField {
+    validation: 'slug'
     allow_unicode: boolean
 }
+interface EmailField extends CharField {
+    validation: 'email'
+}
+interface DurationField extends CharField {
+    validation: 'duration'
+}
+interface UUIDField extends CharField {
+    validation: 'uuid'
+}
+interface GenericIPAddressField extends CharField {
+    validation: 'ip_address'
+    protocol: 'both' | 'ipv4' | 'ipv6'
+}
+
+type CharBasedFields =
+    | CharField
+    | UrlField
+    | SlugField
+    | EmailField
+    | DurationField
+    | UUIDField
+    | GenericIPAddressField
 
 interface TextField extends BaseField<string> {
     type: 'text'
@@ -33,15 +60,6 @@ interface TextField extends BaseField<string> {
 
 interface JsonField extends BaseField<string> {
     type: 'json'
-}
-
-interface DurationField extends BaseField<string> {
-    type: 'duration'
-}
-
-interface GenericIPAddressField extends BaseField<string> {
-    type: 'ip_address'
-    protocol: 'both' | 'ipv4' | 'ipv6'
 }
 
 // ================ NUMB ================
@@ -79,8 +97,12 @@ interface DateField extends BaseField<VDate, string> {
     type: 'date'
 }
 
-interface DateTimeField extends BaseField<VDatetime, string> {
+interface DateTimeField extends BaseField<VDateTime, string> {
     type: 'datetime'
+}
+
+interface TimeField extends BaseField<VTime, string> {
+    type: 'time'
 }
 
 // ================ RELA ================
@@ -106,13 +128,9 @@ interface ReadOnlyField {
 // ================ FIELD ================
 type Field =
     // TEXT
-    | CharField
-    | UrlField
-    | SlugField
+    | CharBasedFields
     | TextField
     | JsonField
-    | DurationField
-    | GenericIPAddressField
     // NUMB
     | BooleanField
     | IntegerField
@@ -124,22 +142,25 @@ type Field =
     // DATE
     | DateField
     | DateTimeField
+    | TimeField
     // RELA
     | ForeignKeyField
     // OTHE
     | UnknownField
     | ReadOnlyField
 
-export { Field as FieldModel }
+export { Field as FieldModel, CharBasedFields as CharBasedFieldsModel }
 export {
     // TEXT
-    CharField as CharFieldModel,
-    SlugField as SlugFieldModel,
-    UrlField as UrlFieldModel,
+    // CharField as CharFieldModel,
+    // SlugField as SlugFieldModel,
+    // EmailField as EmailFieldModel,
+    // UrlField as UrlFieldModel,
     TextField as TextFieldModel,
     JsonField as JsonFieldModel,
-    DurationField as DurationFieldModel,
-    GenericIPAddressField as GenericIPAddressFieldModel,
+    // DurationField as DurationFieldModel,
+    // UUIDField as UUIDFieldModel,
+    // GenericIPAddressField as GenericIPAddressFieldModel,
     // NUMB
     BooleanField as BooleanFieldModel,
     IntegerField as IntegerFieldModel,
@@ -151,6 +172,7 @@ export {
     // DATE
     DateField as DateFieldModel,
     DateTimeField as DateTimeFieldModel,
+    TimeField as TimeFieldModel,
     // RELA
     ForeignKeyField as ForeignKeyFieldModel,
     // OTHE
