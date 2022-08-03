@@ -1,7 +1,10 @@
 from black_knight.admin import ModelAdmin
 from django.contrib import admin
 
-from Library.models import Author, Book
+from Library.models import AllFields, Author, Book
+
+
+admin.site.register(AllFields)
 
 
 @admin.register(Book)

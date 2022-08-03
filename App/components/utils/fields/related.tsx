@@ -1,8 +1,8 @@
 import React, { FC } from 'react'
 
-import { ChoicesField, FieldProps } from '.'
-
 import { ForeignKeyFieldModel } from 'state'
+
+import { ChoicesField, FieldProps } from './shared'
 
 type TForeignKey = FC<FieldProps<ForeignKeyFieldModel>>
 const ForeignKeyField: TForeignKey = ({ field, change, ...attr }) => {

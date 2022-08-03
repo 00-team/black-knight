@@ -1,19 +1,23 @@
-import React, { FC, HTMLAttributes, ReactNode } from 'react'
+import React, { FC } from 'react'
 
 import { useSetAtom } from 'jotai'
 import { BFSData, FieldModel } from 'state'
 
 import { DateField, DateTimeField } from './datetime'
-import { ImageField } from './files'
-import { BooleanField } from './number'
+import { FileField, ImageField } from './files'
+import { BooleanField, DecimalField, FloatField, IntegerField } from './number'
+import { ReadOnlyField, UnknonwField } from './others'
 import { ForeignKeyField } from './related'
-import { CharField, TextField } from './text'
-
-// TF as Field Type or Type Field
-interface FieldProps<TF> extends HTMLAttributes<HTMLElement> {
-    change: (v: string | Blob) => void
-    field: TF
-}
+import { FieldProps } from './shared'
+import {
+    CharField,
+    DurationField,
+    GenericIPAddressField,
+    JsonField,
+    SlugField,
+    TextField,
+    UrlField,
+} from './text'
 
 type TRenderField = FC<Omit<FieldProps<FieldModel>, 'change'>>
 const RenderField: TRenderField = ({ field, ...attr }) => {
@@ -28,13 +32,37 @@ const RenderField: TRenderField = ({ field, ...attr }) => {
         case 'char':
             return <CharField field={field} {...props} />
 
+        case 'slug':
+            return <SlugField field={field} {...props} />
+
+        case 'url':
+            return <UrlField field={field} {...props} />
+
         case 'text':
             return <TextField field={field} {...props} />
+
+        case 'json':
+            return <JsonField field={field} {...props} />
+
+        case 'duration':
+            return <DurationField field={field} {...props} />
+
+        case 'ip_address':
+            return <GenericIPAddressField field={field} {...props} />
 
         // ================ NUMB ================
 
         case 'boolean':
             return <BooleanField field={field} {...props} />
+
+        case 'integer':
+            return <IntegerField field={field} {...props} />
+
+        case 'decimal':
+            return <DecimalField field={field} {...props} />
+
+        case 'float':
+            return <FloatField field={field} {...props} />
 
         // ================ RELA ================
 
@@ -46,6 +74,9 @@ const RenderField: TRenderField = ({ field, ...attr }) => {
         case 'image':
             return <ImageField field={field} {...props} />
 
+        case 'file':
+            return <FileField field={field} {...props} />
+
         // ================ DATE ================
 
         case 'date':
@@ -54,30 +85,17 @@ const RenderField: TRenderField = ({ field, ...attr }) => {
         case 'datetime':
             return <DateTimeField field={field} {...props} />
 
+        // ================ OTHE ================
+
+        case 'readonly':
+            return <ReadOnlyField field={field} {...attr} />
+
+        case 'unknown':
+            return <UnknonwField field={field} {...attr} />
+
         default:
             return <></>
     }
 }
 
-interface SelectProps<choice> extends HTMLAttributes<HTMLSelectElement> {
-    choices: choice[]
-    get_label: (c: choice, i: number) => ReactNode
-    get_value: (c: choice, i: number) => string | number
-}
-
-function ChoicesField<choice>(props: SelectProps<choice>) {
-    const { choices, get_label, get_value, ...attr } = props
-
-    return (
-        <select {...attr}>
-            {choices.map((c, i) => (
-                <option key={i} value={get_value(c, i)}>
-                    {get_label(c, i)}
-                </option>
-            ))}
-        </select>
-    )
-}
-
-export * from './text'
-export { FieldProps, RenderField, ChoicesField }
+export { RenderField }

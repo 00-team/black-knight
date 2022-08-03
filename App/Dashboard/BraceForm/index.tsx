@@ -7,10 +7,10 @@ import { FaNewspaper } from '@react-icons/all-files/fa/FaNewspaper'
 import confetti from 'canvas-confetti'
 import { useParams } from 'react-router-dom'
 
-import { useAtom, useSetAtom } from 'jotai'
-import { BFSData, BraceFormAtom, FieldModel, SubmitBraceForm } from 'state'
+import { useAtom } from 'jotai'
+import { BFSData, BraceFormAtom, SubmitBraceForm } from 'state'
 
-import { IsIntersectingForm, Loading, RenderField, RenderValue } from 'comps'
+import { IsIntersectingForm, Loading, RenderField } from 'comps'
 
 import './style/braceform.scss'
 
@@ -194,35 +194,4 @@ const FormTitle: FC = () => {
     )
 }
 
-interface FieldInputProps {
-    f: FieldModel
-    transitionDelay: string
-}
-
-const RenderFieldInput: FC<FieldInputProps> = ({ f, transitionDelay }) => {
-    const UpdateData = useSetAtom(BFSData)
-
-    const U = (v: string | Blob) => UpdateData({ [`F_${f.name}`]: v })
-
-    if (f.type === 'unknown') return <>Unknown Field</>
-    if (f.type === 'readonly') return <RenderValue v={f.value || null} />
-
-    switch (f.type) {
-        case 'int':
-            return (
-                <input
-                    type='number'
-                    min={f.min}
-                    defaultValue={f.value || f.initial}
-                    onChange={e => U(e.target.value)}
-                    className='result-input'
-                    style={{ transitionDelay: transitionDelay }}
-                />
-            )
-
-        default:
-            return <></>
-    }
-}
-RenderFieldInput
 export default BraceForm
