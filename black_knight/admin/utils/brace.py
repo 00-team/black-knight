@@ -3,6 +3,7 @@ import decimal
 import json
 
 from black_knight.fields.related import ForeignKey
+from django.core.exceptions import FieldDoesNotExist
 from django.db import models
 from django.urls import NoReverseMatch, reverse
 from django.utils import formats, timezone
@@ -76,21 +77,25 @@ def display_value(field, value):
 
 
 def update_field(name, instance, data, change):
-    meta = instance._meta
-    f_name = 'F_' + name
+    try:
+        meta = instance._meta
+        f_name = 'F_' + name
 
-    if change and not f_name in data:
-        return
+        if change and not f_name in data:
+            return
 
-    field = meta.get_field(name)
-    initial = field.get_default()
-    value = data.get(f_name, initial)
+        field = meta.get_field(name)
+        initial = field.get_default()
+        value = data.get(f_name, initial)
 
-    if isinstance(field, ForeignKey):
-        value = field.get_instance(value, instance)
-    else:
-        value = field.clean(value, instance)
-    field.save_form_data(instance, value)
+        if isinstance(field, ForeignKey):
+            value = field.get_instance(value, instance)
+        else:
+            value = field.clean(value, instance)
+        field.save_form_data(instance, value)
+
+    except FieldDoesNotExist:
+        pass
 
 
 '''
