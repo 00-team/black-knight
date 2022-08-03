@@ -23,17 +23,17 @@ const BraceForm: FC = () => {
 
     // const [SubmitData, setSubmitData] = useState<SubmitState>({})
 
-    var duration = 7 * 1000
-    var animationEnd = Date.now() + duration
-    var defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 }
-
     function randomInRange(min: number, max: number) {
         return Math.random() * (max - min) + min
     }
 
     const HandleClick = () => {
-        var interval: any = setInterval(function () {
-            var timeLeft = animationEnd - Date.now()
+        let duration = 7 * 1000
+        let animationEnd = Date.now() + duration
+        let defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 }
+
+        let interval: any = setInterval(function () {
+            let timeLeft = animationEnd - Date.now()
 
             if (timeLeft <= 0) {
                 return clearInterval(interval)
@@ -129,13 +129,20 @@ const BraceForm: FC = () => {
                                     >
                                         {f.name}:
                                     </label>
-                                    <RenderField
-                                        field={f}
-                                        className='result-input'
-                                        style={{
-                                            transitionDelay: `${idx1 + 1.5}s`,
-                                        }}
-                                    />
+                                    <div
+                                        tabIndex={1}
+                                        className='result-input-wrapper'
+                                    >
+                                        <RenderField
+                                            field={f}
+                                            className='result-input description'
+                                            style={{
+                                                transitionDelay: `${
+                                                    idx1 + 1.5
+                                                }s`,
+                                            }}
+                                        />
+                                    </div>
                                 </div>
                             ))}
                         </div>
