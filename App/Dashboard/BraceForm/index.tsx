@@ -1,66 +1,27 @@
 import React, { FC, useEffect, useRef, useState } from 'react'
 
-import { C } from '@00-team/utils'
-
 import { FaNewspaper } from '@react-icons/all-files/fa/FaNewspaper'
 
-import confetti from 'canvas-confetti'
 import { useParams } from 'react-router-dom'
 
 import { useAtom } from 'jotai'
-import { BFSData, BraceFormAtom, SubmitBraceForm } from 'state'
+import { BFSData, BraceFormAtom } from 'state'
 
 import { IsIntersectingForm, Loading, RenderField } from 'comps'
+
+import { Footer } from './Footer'
 
 import './style/braceform.scss'
 
 const BraceForm: FC = () => {
     const { app_label, model_name, pk } = useParams()
     const [Form, UpdateForm] = useAtom(BraceFormAtom)
-    const [SubmitData, UpdateSubmitData] = useAtom(BFSData)
+
+    const [, UpdateSubmitData] = useAtom(BFSData)
 
     const BtnsContainer = useRef<HTMLDivElement>(null)
 
     // const [SubmitData, setSubmitData] = useState<SubmitState>({})
-
-    function randomInRange(min: number, max: number) {
-        return Math.random() * (max - min) + min
-    }
-
-    const HandleClick = () => {
-        let duration = 7 * 1000
-        let animationEnd = Date.now() + duration
-        let defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 }
-
-        let interval: any = setInterval(function () {
-            let timeLeft = animationEnd - Date.now()
-
-            if (timeLeft <= 0) {
-                return clearInterval(interval)
-            }
-
-            var particleCount = 50 * (timeLeft / duration)
-            // since particles fall down, start a bit higher than random
-            confetti(
-                Object.assign({}, defaults, {
-                    particleCount,
-                    origin: {
-                        x: randomInRange(0.1, 0.3),
-                        y: Math.random() - 0.2,
-                    },
-                })
-            )
-            confetti(
-                Object.assign({}, defaults, {
-                    particleCount,
-                    origin: {
-                        x: randomInRange(0.7, 0.9),
-                        y: Math.random() - 0.2,
-                    },
-                })
-            )
-        }, 250)
-    }
 
     // is intersecting btns container
     const [iibc, setiibc] = useState(false)
@@ -150,28 +111,7 @@ const BraceForm: FC = () => {
                 ))}
             </div>
 
-            <div
-                className={'form-footer title_small' + C(iibc)}
-                ref={BtnsContainer}
-            >
-                <button style={{ animationDelay: '0.5s' }}>
-                    Save and add another
-                </button>
-                <button
-                    style={{ animationDelay: '1.5s' }}
-                    onClick={() => SubmitBraceForm(SubmitData)}
-                >
-                    Save and continue editing
-                </button>
-                <button
-                    style={{ animationDelay: '1s' }}
-                    className='main'
-                    id='save-btn'
-                    onClick={() => HandleClick()}
-                >
-                    Save
-                </button>
-            </div>
+            <Footer />
         </div>
     )
 }
