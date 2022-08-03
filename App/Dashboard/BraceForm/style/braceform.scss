@@ -142,7 +142,7 @@
                     }
                     input.result-input {
                         border: none;
-                        background-color: transparent;
+                        background-color: #262626;
 
                         border-bottom: 2px solid grey;
 
@@ -167,12 +167,17 @@
                 }
 
                 .image-field {
-                    background-color: red;
+                    background-color: var(--thirty-percent);
                     display: flex;
 
+                    label {
+                    }
+
+                    input {
+                        display: none;
+                    }
                     img {
-                        width: 100px;
-                        height: 100px;
+                        aspect-ratio: 1/1;
                         object-fit: contain;
                     }
                 }
