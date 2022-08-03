@@ -5,7 +5,7 @@ import { FaNewspaper } from '@react-icons/all-files/fa/FaNewspaper'
 import { useParams } from 'react-router-dom'
 
 import { useAtom } from 'jotai'
-import { BFSData, BraceFormAtom } from 'state'
+import { BFSData, BraceFormAtom, FieldModel } from 'state'
 
 import { Intersect, Loading, RenderField } from 'comps'
 
@@ -57,7 +57,7 @@ const BraceForm: FC = () => {
 
                         {fset.fields.map((f, idx1) => (
                             <Intersect className='fieldset-field' key={idx1}>
-                                <label className='label'>{f.name}:</label>
+                                <label className='label'>{GetLabel(f)}</label>
                                 <div
                                     tabIndex={1}
                                     className='result-input-wrapper'
@@ -104,6 +104,11 @@ const FormTitle: FC = () => {
             </span>
         </div>
     )
+}
+
+const GetLabel = (field: FieldModel): string => {
+    if ('label' in field) return field.label
+    return field.name
 }
 
 export default BraceForm
