@@ -5,6 +5,8 @@ import { BFSData, SubmitBraceForm } from 'state'
 
 import { ShowParticles } from 'comps'
 
+import './style/footer.scss'
+
 const Footer: FC = () => {
     const SubmitData = useAtomValue(BFSData)
     const Submit = () => {
@@ -14,7 +16,7 @@ const Footer: FC = () => {
     }
 
     return (
-        <div className={'form-footer title_small'}>
+        <div className={'footer title_small'}>
             <button style={{ animationDelay: '0.5s' }} onClick={() => Submit()}>
                 Save and add another
             </button>

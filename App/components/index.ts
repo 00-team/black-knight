@@ -8,8 +8,6 @@ export * from './common/Boolean'
 export * from './buttons/Logout'
 
 export * from './utils/RenderValue'
-export * from './utils/IsIntersectingHead'
-export * from './utils/IsIntersectingColumn'
 export * from './utils/fields'
 export * from './utils/Particles'
 export * from './utils/Intersect'

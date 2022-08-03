@@ -1,0 +1,54 @@
+.brace-form-container .footer {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+
+    gap: 1vw;
+
+    border-radius: 10px;
+
+    overflow: hidden;
+
+    padding: 1vh 0;
+
+    button {
+        padding: 1.5vh 1.6vw;
+
+        cursor: pointer;
+        border: none;
+        border-radius: 5px;
+
+        text-transform: capitalize;
+        font-family: 'Oleo Script', cursive;
+        font-weight: bold;
+
+        background-color: var(--ten-percent);
+
+        box-shadow: 0 2px 10px -2px #161616;
+
+        transition: transform 0.25s ease-in-out;
+
+        &:hover {
+            transform: translateY(-12%);
+        }
+
+        animation: btn-fadein 1s ease-in-out backwards;
+    }
+
+    .main {
+        background-color: #408cb3;
+    }
+
+    @keyframes btn-fadein {
+        0% {
+            transform: translateY(200%);
+        }
+        50% {
+            transform: translateY(-10%);
+        }
+        100% {
+            transform: translateY(0);
+        }
+    }
+}

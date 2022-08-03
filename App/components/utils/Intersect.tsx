@@ -9,9 +9,9 @@ import React, {
 
 import { C } from '@00-team/utils'
 
-type attrs = Omit<HTMLAttributes<HTMLDivElement>, 'children'>
-interface IntersectProps extends attrs {
-    children: (intersected: boolean) => ReactNode
+// type attrs = Omit<HTMLAttributes<HTMLDivElement>, 'children'>
+interface IntersectProps extends HTMLAttributes<HTMLDivElement> {
+    children: ReactNode
     options?: IntersectionObserverInit
 }
 
@@ -41,7 +41,7 @@ const Intersect: FC<IntersectProps> = ({ children, options, ...attrs }) => {
             {...attrs}
             className={'intersect ' + C(Intersected) + attrs.className || ''}
         >
-            {children(Intersected)}
+            {children}
         </div>
     )
 }
