@@ -109,6 +109,7 @@
             }
             .inp-wrappper {
                 display: flex;
+                width: 100%;
 
                 padding: 10px 0;
 
@@ -137,9 +138,9 @@
                             cubic-bezier(0.52, 1.64, 0.37, 0.66);
                     }
 
-                    &:focus-within::before {
-                        width: 100%;
-                    }
+                    // &:focus-within::before {
+                    //     width: 100%;
+                    // }
                     input.result-input {
                         border: none;
                         background-color: #262626;
@@ -170,7 +171,47 @@
                     background-color: var(--thirty-percent);
                     display: flex;
 
+                    border-radius: 1rem;
+
                     label {
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        gap: 1vw;
+
+                        width: 100%;
+
+                        padding: 10px 15px;
+
+                        font-family: 'Oleo Script', cursive;
+                        font-weight: bold;
+
+                        .browse {
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            gap: 0.5vw;
+
+                            cursor: pointer;
+
+                            text-decoration: underline;
+
+                            .icon {
+                                display: flex;
+                                align-items: center;
+                                justify-content: center;
+                                flex-direction: column;
+
+                                .line {
+                                    width: 100%;
+                                    height: 2px;
+                                    background-color: white;
+                                }
+                            }
+                        }
+                        * {
+                            white-space: nowrap;
+                        }
                     }
 
                     input {
