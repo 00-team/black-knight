@@ -10,10 +10,23 @@ const ImageField: TImage = ({ field, change, ...attr }) => {
         (field.value ? field.value[1] : field.initial) || ''
     )
 
+    const [Uploading, setIsUploading] = useState({
+        isUploading: false,
+        hasUploaded: false,
+        progress: 0,
+    })
+    setIsUploading
     return (
         <div {...attr} className={'image-field ' + (attr.className || '')}>
-            <img src={Url} />
+            {Uploading.hasUploaded && <img src={Url} />}
+            <label htmlFor='image-upload'>
+                Drag & Drop your files Or{' '}
+                <span className='browse'>
+                    <div className='holder'> Click Here</div>
+                </span>
+            </label>
             <input
+                id='image-upload'
                 type='file'
                 accept='image/*'
                 onChange={e => {
