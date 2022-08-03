@@ -92,11 +92,13 @@ interface ForeignKeyField extends Omit<BaseField<VForeignKey, PK>, 'choices'> {
 // ================ OTHE ================
 interface UnknownField {
     name: string
+    label: string
     type: 'unknown'
 }
 
 interface ReadOnlyField {
     name: string
+    label: string
     type: 'readonly'
     value?: TValue
 }

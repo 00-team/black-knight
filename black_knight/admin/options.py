@@ -154,12 +154,14 @@ class ModelAdmin(admin.ModelAdmin):
                 return {
                     'type': 'readonly',
                     'name': field_name,
+                    'label': field_name.replace('_', ' ')
                 }
 
             field = meta.get_field(field_name)
             info = getattr(field, 'info', {
                 'type': 'unknown',
-                'name': field.name
+                'name': field.name,
+                'label': field.verbose_name,
             })
 
             return info
