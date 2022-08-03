@@ -10,7 +10,12 @@ import { useParams } from 'react-router-dom'
 import { useAtom } from 'jotai'
 import { BFSData, BraceFormAtom, SubmitBraceForm } from 'state'
 
-import { IsIntersectingForm, Loading, RenderField } from 'comps'
+import {
+    IsIntersectingColumn,
+    IsIntersectingHead,
+    Loading,
+    RenderField,
+} from 'comps'
 
 import './style/braceform.scss'
 
@@ -107,8 +112,8 @@ const BraceForm: FC = () => {
             <FormTitle />
             <div className='form-data'>
                 {Form.fieldsets.map((fset, idx0) => (
-                    <IsIntersectingForm key={idx0}>
-                        <div className='fieldset'>
+                    <div className='fieldset' key={idx0}>
+                        <IsIntersectingHead>
                             {fset.name && (
                                 <h2 className='fieldset-title title'>
                                     <div>{fset.name}</div>
@@ -119,16 +124,12 @@ const BraceForm: FC = () => {
                                     {fset.description}
                                 </p>
                             )}
-                            {fset.fields.map((f, idx1) => (
-                                <div key={idx1} className='inp-wrappper'>
-                                    <label
-                                        className='label'
-                                        style={{
-                                            transitionDelay: `${idx1 + 1.25}s`,
-                                        }}
-                                    >
-                                        {f.name}:
-                                    </label>
+                        </IsIntersectingHead>
+
+                        {fset.fields.map((f, idx1) => (
+                            <IsIntersectingColumn key={idx1}>
+                                <div className='inp-wrappper'>
+                                    <label className='label'>{f.name}:</label>
                                     <div
                                         tabIndex={1}
                                         className='result-input-wrapper'
@@ -137,16 +138,14 @@ const BraceForm: FC = () => {
                                             field={f}
                                             className='result-input description'
                                             style={{
-                                                transitionDelay: `${
-                                                    idx1 + 1.5
-                                                }s`,
+                                                transitionDelay: '0.5s',
                                             }}
                                         />
                                     </div>
                                 </div>
-                            ))}
-                        </div>
-                    </IsIntersectingForm>
+                            </IsIntersectingColumn>
+                        ))}
+                    </div>
                 ))}
             </div>
 
