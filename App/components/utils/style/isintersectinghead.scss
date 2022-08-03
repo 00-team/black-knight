@@ -35,13 +35,6 @@
 
         transition-delay: 1.75s;
     }
-    .inp-wrappper {
-        overflow: hidden;
-        label,
-        .result-input {
-            transform: translateY(200%);
-        }
-    }
 
     &.active {
         h2 div {
@@ -52,10 +45,6 @@
             }
         }
         .fieldset-description {
-            transform: translateY(0);
-        }
-        label,
-        .result-input {
             transform: translateY(0);
         }
     }

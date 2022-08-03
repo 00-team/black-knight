@@ -2,13 +2,13 @@ import React, { FC, useEffect, useRef, useState } from 'react'
 
 import { C } from '@00-team/utils'
 
-import './style/isintersectingform.scss'
+import './style/isintersectinghead.scss'
 
-interface IsIntersectingFormProps {
+interface IsIntersectingHeadProps {
     children: any
 }
 
-const IsIntersectingForm: FC<IsIntersectingFormProps> = ({ children }) => {
+const IsIntersectingHead: FC<IsIntersectingHeadProps> = ({ children }) => {
     const ContentContainer = useRef<HTMLDivElement>(null)
     // content container
     const [CC, setCC] = useState(false)
@@ -42,4 +42,4 @@ const IsIntersectingForm: FC<IsIntersectingFormProps> = ({ children }) => {
     )
 }
 
-export { IsIntersectingForm }
+export { IsIntersectingHead }
