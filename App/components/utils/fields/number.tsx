@@ -57,6 +57,7 @@ const IntegerField: TInteger = ({ field, change, ...attr }) => {
             type='number'
             min={field.min}
             max={field.max}
+            defaultValue={field.value || field.initial}
             onChange={e => change(e.target.value)}
         />
     )
