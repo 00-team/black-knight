@@ -115,6 +115,9 @@
                 label {
                     display: inline-block;
                     width: 200px;
+
+                    font-family: 'Anton', sans-serif;
+                    text-transform: capitalize;
                 }
 
                 .result-input-wrapper {
@@ -151,6 +154,15 @@
                         &:focus {
                             outline: none;
                         }
+                    }
+                    textarea {
+                        font-family: 'Oleo Script', cursive;
+                        font-weight: bold;
+
+                        padding: 1vh 1vw;
+
+                        border: none;
+                        border-radius: 10px;
                     }
                 }
 
