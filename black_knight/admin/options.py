@@ -1,12 +1,14 @@
 from black_knight.admin.utils import INVALID_INPUT, ErrorResponse
-from black_knight.admin.utils import display_value, get_data, update_field
+from black_knight.admin.utils import construct_instance, display_value
+from black_knight.admin.utils import get_data
 from django.contrib import admin
 from django.contrib.admin.utils import flatten_fieldsets, label_for_field
 from django.contrib.admin.utils import lookup_field
 from django.core.exceptions import FieldDoesNotExist, ValidationError
 from django.core.paginator import InvalidPage
-from django.db.models.fields.related import ForeignObjectRel, ManyToManyRel
-from django.db.models.fields.related import OneToOneField
+from django.db import models
+# from django.db.models.fields.related import ForeignObjectRel, ManyToManyRel
+# from django.db.models.fields.related import OneToOneField
 from django.http import HttpRequest, JsonResponse, QueryDict
 from django.middleware.csrf import get_token
 from django.utils.decorators import method_decorator
@@ -201,7 +203,6 @@ class ModelAdmin(admin.ModelAdmin):
     def brace_form_submit(self, request: HttpRequest, form_type: str):
         data = request.POST.copy()
         data.update(request.FILES)
-        errors = {}
         change = form_type == 'change'
 
         if change:
@@ -211,17 +212,7 @@ class ModelAdmin(admin.ModelAdmin):
         else:
             instance = self.model()
 
-        fields = flatten_fieldsets(self.get_fieldsets(request, instance))
-
-        for name in fields:
-            try:
-                update_field(name, instance, data, change)
-            except ValidationError as e:
-                # TODO: make a better error system
-                errors[name] = getattr(
-                    e, 'message',
-                    getattr(e, 'messages', ['Error'])[0]
-                )
+        instance, errors = construct_instance(instance, data, change)
 
         if errors:
             return JsonResponse({

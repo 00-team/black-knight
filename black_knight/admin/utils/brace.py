@@ -3,7 +3,7 @@ import decimal
 import json
 
 from black_knight.fields.related import ForeignKey
-from django.core.exceptions import FieldDoesNotExist
+from django.core.exceptions import ValidationError
 from django.db import models
 from django.urls import NoReverseMatch, reverse
 from django.utils import formats, timezone
@@ -76,26 +76,83 @@ def display_value(field, value):
     return str(value)
 
 
-def update_field(name, instance, data, change):
-    try:
-        meta = instance._meta
-        f_name = 'F_' + name
+def construct_instance(instance, data, change, fields=None, exclude=None):
+    # from django.db import models
 
+    opts = instance._meta
+    file_field_list = []
+    errors = {}
+
+    for field in opts.fields:
+        f_name = 'F_' + field.name
+        if (
+            not field.editable
+            or isinstance(field, models.AutoField)
+            # or f_name not in data
+        ):
+            continue
+        if fields is not None and field.name not in fields:
+            continue
+        if exclude and field.name in exclude:
+            continue
         if change and not f_name in data:
-            return
+            continue
 
-        field = meta.get_field(name)
         initial = field.get_default()
         value = data.get(f_name, initial)
 
-        if isinstance(field, ForeignKey):
-            value = field.get_instance(value, instance)
-        else:
-            value = field.clean(value, instance)
-        field.save_form_data(instance, value)
+        try:
+            if isinstance(field, ForeignKey):
+                value = field.get_instance(value, instance)
+            else:
+                value = field.clean(value, instance)
+        except ValidationError as e:
+            # TODO: make a better error system
+            errors[field.name] = getattr(
+                e, 'message',
+                getattr(e, 'messages', ['Error'])[0]
+            )
+            continue
 
-    except FieldDoesNotExist:
-        pass
+        # Leave defaults for fields that aren't in POST data, except for
+        # checkbox inputs because they don't appear in POST data if not checked.
+        # if (
+        #     f.has_default()
+        #     and form[f.name].field.widget.value_omitted_from_data(
+        #         form.data, form.files, form.add_prefix(f.name)
+        #     )
+        #     and cleaned_data.get(f.name) in form[f.name].field.empty_values
+        # ):
+        #     continue
+
+        # Defer saving file-type fields until after the other fields, so a
+        # callable upload_to can use the values from other fields.
+        if isinstance(field, models.FileField):
+            file_field_list.append((field, value))
+        else:
+            field.save_form_data(instance, value)
+
+    for file_field, value in file_field_list:
+        file_field.save_form_data(instance, value)
+
+    return instance, errors
+
+
+# def update_field(field, instance, data, change):
+#     f_name = 'F_' + field.name
+
+#     if change and not f_name in data:
+#         return
+
+#     initial = field.get_default()
+#     value = data.get(f_name, initial)
+
+#     if isinstance(field, ForeignKey):
+#         value = field.get_instance(value, instance)
+#     else:
+#         value = field.clean(value, instance)
+
+#     field.save_form_data(instance, value)
 
 
 '''
