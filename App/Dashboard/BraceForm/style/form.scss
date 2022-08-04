@@ -163,7 +163,17 @@
                 height: auto;
                 overflow: hidden;
                 display: flex;
+                flex-direction: column;
                 padding: 10px 0;
+
+                .data {
+                    display: flex;
+                }
+
+                .error {
+                    color: red;
+                    font-family: system-ui;
+                }
 
                 * {
                     transition: transform 0.75s ease-in-out;

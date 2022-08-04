@@ -1,14 +1,14 @@
 import { atom } from 'jotai'
-import { REQUEST } from 'state'
+import { REQUEST, PK } from 'state'
 
-import { Form } from './store'
+import { Form, FormErrors } from './store'
 
 var BraceFormController: AbortController | null = null
 
 interface BraceFormArgs {
     app_label?: string
     model_name?: string
-    end_url: 'add/' | string
+    pk?: PK
 }
 
 const BraceFormAtom = atom(
@@ -22,13 +22,17 @@ const BraceFormAtom = atom(
         if (!args.app_label || !args.model_name) return
         const app_model = `${args.app_label}/${args.model_name}`
 
+        let url = `api/${app_model}/brace-form/`
+        if (args.pk === undefined) url += 'add/'
+        else url += `change/?pk=${args.pk}`
+
         if (BraceFormController) BraceFormController.abort()
         BraceFormController = new AbortController()
 
         set(Form, ['loading', app_model])
 
         const response = await REQUEST({
-            url: `api/${app_model}/brace-form/${args.end_url}`,
+            url,
             signal: BraceFormController.signal,
         })
 
@@ -52,4 +56,6 @@ const BraceFormAtom = atom(
     }
 )
 
-export { BraceFormAtom }
+// const BFErrorsAtom = atom(FormErrors)
+
+export { BraceFormAtom, FormErrors as BFErrorsAtom }

@@ -1,14 +1,20 @@
 import { FieldModel, PK } from 'state'
 
-interface Fieldset {
+interface FieldsetModel {
     name: string | null
     description: string | null
     fields: FieldModel[]
 }
 
 interface BraceFormModel {
-    fieldsets: Fieldset[]
+    fieldsets: FieldsetModel[]
     label: string | null
+}
+
+interface BraceFormErrorsModel {
+    fields: { [k: string]: string }
+    message: string
+    code: number
 }
 
 interface SubmitOptions {
@@ -19,4 +25,4 @@ interface SubmitOptions {
     type?: 'add' | 'change'
 }
 
-export { BraceFormModel, SubmitOptions }
+export { FieldsetModel, BraceFormModel, SubmitOptions, BraceFormErrorsModel }
