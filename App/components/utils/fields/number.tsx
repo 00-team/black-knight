@@ -82,6 +82,7 @@ const DecimalField: TDecimal = ({ field, change, ...attr }) => {
         <input
             {...attr}
             type='number'
+            defaultValue={field.value || field.initial}
             // max length doesn't work with number inputs
             maxLength={field.max_digits}
             onChange={e => change(e.target.value)}
@@ -104,7 +105,12 @@ const FloatField: TFloat = ({ field, change, ...attr }) => {
     }
 
     return (
-        <input {...attr} type='number' onChange={e => change(e.target.value)} />
+        <input
+            {...attr}
+            type='number'
+            defaultValue={field.value || field.initial}
+            onChange={e => change(e.target.value)}
+        />
     )
 }
 
