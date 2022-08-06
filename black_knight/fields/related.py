@@ -27,3 +27,13 @@ class ForeignKey(BaseField, related.ForeignKey):
 
 class OneToOneField(ForeignKey, related.OneToOneField):
     pass
+
+
+class ManyToManyField(BaseField, related.ManyToManyField):
+
+    @property
+    def info(self):
+        return super().base_info(**{
+            'type': 'many_to_many',
+            'choices': self.get_choices(include_blank=False)
+        })

@@ -4,9 +4,9 @@ import { SubmitOptions } from 'state'
 import { SubmitData } from './store'
 
 // type DataArgs = [string, string | Blob]
-
+type V = (string | Blob) | (string | Blob)[]
 interface TArgs extends Omit<SubmitOptions, 'data'> {
-    [k: `F_${string}`]: string | Blob
+    [k: `F_${string}`]: V
 }
 
 // Brace Form Submit Data
@@ -31,9 +31,17 @@ const BFSData = atom(
         if (pk) data.set('pk', pk.toString())
         if (type === 'add') data.delete('pk')
 
-        Object.entries(fields).forEach(
-            ([key, value]) => data && data.set(key, value)
-        )
+        Object.entries(fields).forEach(([key, value]) => {
+            if (!data) return
+            if (Array.isArray(value)) {
+                if (value.length < 1) return // empty list
+
+                data.set(key, value[0])
+                value.slice(1).forEach(v => data && data.append(key, v))
+            } else {
+                data.set(key, value)
+            }
+        })
 
         set(SubmitData, {
             data,

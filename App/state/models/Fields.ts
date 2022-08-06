@@ -5,6 +5,7 @@ import {
     VFile,
     PK,
     VForeignKey,
+    VManyToMany,
     VDateTime,
     VTime,
 } from 'state'
@@ -116,6 +117,12 @@ interface ForeignKeyField extends Omit<BaseField<VForeignKey, PK>, 'choices'> {
     choices: [PK, string][]
 }
 
+interface ManyToManyField
+    extends Omit<BaseField<VManyToMany, PK[]>, 'choices'> {
+    type: 'many_to_many'
+    choices: [PK, string][]
+}
+
 // ================ OTHE ================
 interface UnknownField {
     name: string
@@ -151,6 +158,7 @@ type Field =
     | TimeField
     // RELA
     | ForeignKeyField
+    | ManyToManyField
     // OTHE
     | UnknownField
     | ReadOnlyField
@@ -175,6 +183,7 @@ export {
     TimeField as TimeFieldModel,
     // RELA
     ForeignKeyField as ForeignKeyFieldModel,
+    ManyToManyField as ManyToManyFieldModel,
     // OTHE
     UnknownField as UnknownFieldModel,
     ReadOnlyField as ReadOnlyFieldModel,

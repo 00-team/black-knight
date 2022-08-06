@@ -1,10 +1,12 @@
+from itertools import chain
 import datetime
 import decimal
 import json
 
-from black_knight.fields.related import ForeignKey
+from black_knight.fields import ForeignKey, ManyToManyField
 from django.core.exceptions import ValidationError
 from django.db import models
+from django.db.models import Field as ModelField
 from django.urls import NoReverseMatch, reverse
 from django.utils import formats, timezone
 
@@ -37,6 +39,9 @@ def display_value(field, value):
 
         elif isinstance(field, models.ForeignKey):
             return 'foreign_key', value.pk, str(value)
+
+        elif isinstance(field, models.ManyToManyField):
+            return 'many_to_many', [i.pk for i in value.get_queryset()]
 
         elif isinstance(field, models.JSONField) and value:
             try:
@@ -76,14 +81,18 @@ def display_value(field, value):
     return str(value)
 
 
-def construct_instance(instance, data, change, fields=None, exclude=None):
-    # from django.db import models
+def construct_instance(instance, data, change, include=None, exclude=None):
 
     opts = instance._meta
     file_field_list = []
     errors = {}
 
-    for field in opts.fields:
+    private_fields = [
+        f for f in opts.private_fields if isinstance(f, ModelField)
+    ]
+    fields = chain(opts.concrete_fields, private_fields, opts.many_to_many)
+
+    for field in fields:
         f_name = 'F_' + field.name
         if (
             not field.editable
@@ -91,7 +100,7 @@ def construct_instance(instance, data, change, fields=None, exclude=None):
             # or f_name not in data
         ):
             continue
-        if fields is not None and field.name not in fields:
+        if include is not None and field.name not in include:
             continue
         if exclude and field.name in exclude:
             continue
@@ -104,6 +113,8 @@ def construct_instance(instance, data, change, fields=None, exclude=None):
         try:
             if isinstance(field, ForeignKey):
                 value = field.get_instance(value, instance)
+            elif isinstance(field, ManyToManyField):
+                value = data.getlist(f_name)
             else:
                 value = field.clean(value, instance)
         except ValidationError as e:

@@ -67,7 +67,7 @@ class AllFields(models.Model):
     file_path = fields.FilePathField(path=settings.BASE_DIR)
     image = fields.ImageField(upload_to='ALL/image/')
 
-    many_2_many = models.ManyToManyField(Book)
+    many_2_many = fields.ManyToManyField(Book)
     one_2_one = fields.OneToOneField(
         Author, null=True,
         on_delete=models.SET_NULL,

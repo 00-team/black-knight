@@ -16,6 +16,7 @@ type VDateTime = ['datetime', string]
 type VTime = ['time', string]
 type VLink = ['link', string]
 type VForeignKey = ['foreign_key', PK, string]
+type VManyToMany = ['many_to_many', PK[]]
 
 type TBaseValue = string | number | boolean | null
 type TypedValues =
@@ -25,8 +26,18 @@ type TypedValues =
     | VDateTime
     | VLink
     | VForeignKey
+    | VManyToMany
     | VFile
 type TValue = TBaseValue | TypedValues
 
 export { PK, TLoading, TValue, TBaseValue, TypedValues }
-export { VImage, VDate, VDateTime, VTime, VLink, VForeignKey, VFile }
+export {
+    VImage,
+    VDate,
+    VDateTime,
+    VTime,
+    VLink,
+    VForeignKey,
+    VFile,
+    VManyToMany,
+}

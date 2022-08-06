@@ -7,17 +7,20 @@ import { DateField, DateTimeField, TimeField } from './datetime'
 import { FileField, FilePathField, ImageField } from './files'
 import { BooleanField, DecimalField, FloatField, IntegerField } from './number'
 import { ReadOnlyField, UnknonwField } from './others'
-import { ForeignKeyField } from './related'
+import { ForeignKeyField, ManyToManyField } from './related'
 import { FieldProps } from './shared'
 import { CharField, JsonField, TextField } from './text'
+
+type ChaneValue = (string | Blob) | (string | Blob)[]
 
 type TRenderField = FC<Omit<FieldProps<FieldModel>, 'change'>>
 const RenderField: TRenderField = ({ field, ...attr }) => {
     const UpdateData = useSetAtom(BFSData)
 
-    const U = (v: string | Blob) => UpdateData({ [`F_${field.name}`]: v })
-
-    const props = { ...attr, change: (v: string | Blob) => U(v) }
+    const props = {
+        ...attr,
+        change: (v: ChaneValue) => UpdateData({ [`F_${field.name}`]: v }),
+    }
 
     switch (field.type) {
         // ================ TEXT ================
@@ -48,6 +51,9 @@ const RenderField: TRenderField = ({ field, ...attr }) => {
 
         case 'foreign_key':
             return <ForeignKeyField field={field} {...props} />
+
+        case 'many_to_many':
+            return <ManyToManyField field={field} {...props} />
 
         // ================ FILE ================
 
