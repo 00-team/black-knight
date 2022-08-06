@@ -33,12 +33,10 @@ const ManyToManyField: TManyToMany = ({ field, change, ...attr }) => {
             {...attr}
             multiple
             onChange={e => {
-                // console.log(new Map(e.currentTarget.selectedOptions))
-
                 const selected = Array.from(
                     e.currentTarget.selectedOptions
                 ).map(option => option.value)
-                console.log(selected)
+
                 change(selected)
             }}
             // defaultValue={default_value}

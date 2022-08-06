@@ -1,7 +1,7 @@
-from itertools import chain
 import datetime
 import decimal
 import json
+from itertools import chain
 
 from black_knight.fields import ForeignKey, ManyToManyField
 from django.core.exceptions import ValidationError
@@ -75,8 +75,6 @@ def display_value(field, value):
 
     if isinstance(value, (list, tuple)):
         return ', '.join(str(v) for v in value)
-
-    # print(type(field))
 
     return str(value)
 
