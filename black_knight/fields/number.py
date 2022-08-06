@@ -1,5 +1,7 @@
 from black_knight.fields import BaseField
+from django.core import validators
 from django.db.models import fields
+from django.utils.functional import cached_property
 
 
 class BooleanField(BaseField, fields.BooleanField):
@@ -13,69 +15,50 @@ class BooleanField(BaseField, fields.BooleanField):
 
 class IntegerField(BaseField, fields.IntegerField):
 
-    @property
-    def info(self):
-        return super().base_info(**{
-            'type': 'integer',
-            'min': -2147483648,
-            'max': 2147483647,
-        })
+    MAX_INT = 2147483647
+    MIN_INT = -MAX_INT - 1
 
-
-class BigIntegerField(BaseField, fields.BigIntegerField):
-
-    @property
-    def info(self):
-        return super().base_info(**{
-            'type': 'integer',
-            'min': -9223372036854775808,
-            'max': 9223372036854775807,
-        })
-
-
-class SmallIntegerField(BaseField, fields.SmallIntegerField):
+    @cached_property
+    def validators(self):
+        _validators = super().validators
+        _validators.append(validators.MaxValueValidator(self.MAX_INT))
+        _validators.append(validators.MinValueValidator(self.MIN_INT))
+        return _validators
 
     @property
     def info(self):
         return super().base_info(**{
             'type': 'integer',
-            'min': -32768,
-            'max': 32767,
+            'min': self.MIN_INT,
+            'max': self.MAX_INT,
         })
 
 
-class PositiveIntegerField(BaseField, fields.PositiveIntegerField):
+class BigIntegerField(IntegerField, fields.BigIntegerField):
 
-    @property
-    def info(self):
-        return super().base_info(**{
-            'type': 'integer',
-            'min': 0,
-            'max': 2147483647,
-
-        })
+    MAX_INT = 9223372036854775807
+    MIN_INT = -MAX_INT - 1
 
 
-class PositiveBigIntegerField(BaseField, fields.PositiveBigIntegerField):
+class SmallIntegerField(IntegerField, fields.SmallIntegerField):
 
-    @property
-    def info(self):
-        return super().base_info(**{
-            'type': 'integer',
-            'min': 0,
-            'max': 9223372036854775807,
-        })
+    MAX_INT = 32767
+    MIN_INT = -MAX_INT - 1
 
 
-class PositiveSmallIntegerField(BaseField, fields.PositiveSmallIntegerField):
+class PositiveIntegerField(IntegerField, fields.PositiveIntegerField):
 
-    @property
-    def info(self):
-        return super().base_info(**{
-            'type': 'integer',
-            'min': 0,
-            'max': 32767,
-        })
+    MIN_INT = 0
+
+
+class PositiveBigIntegerField(BigIntegerField, fields.PositiveBigIntegerField):
+
+    MIN_INT = 0
+
+
+class PositiveSmallIntegerField(SmallIntegerField, fields.PositiveSmallIntegerField):
+
+    MIN_INT = 0
 
 
 class DecimalField(BaseField, fields.DecimalField):
