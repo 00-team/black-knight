@@ -23,3 +23,7 @@ class ForeignKey(BaseField, related.ForeignKey):
             'type': 'foreign_key',
             'choices': self.get_choices(include_blank=False)
         })
+
+
+class OneToOneField(ForeignKey, related.OneToOneField):
+    pass
