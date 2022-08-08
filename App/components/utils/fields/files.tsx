@@ -26,7 +26,7 @@ const ImageField: TImage = ({ field, change, ...attr }) => {
                 <span className='browse'>
                     <div className='holder'> Click Here</div>
                 </span>
-                {!Uploading.isUploading && (
+                {Uploading.isUploading && (
                     <div className='loading-bar'>
                         <ProgressBar progress={Uploading.progress} />
                     </div>
