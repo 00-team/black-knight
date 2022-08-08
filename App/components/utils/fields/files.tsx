@@ -15,7 +15,7 @@ const ImageField: TImage = ({ field, change, ...attr }) => {
         hasUploaded: false,
         progress: 0,
     })
-    setIsUploading
+
     return (
         <div {...attr} className={'image-field ' + (attr.className || '')}>
             {Uploading.hasUploaded && <img src={Url} />}
@@ -24,6 +24,7 @@ const ImageField: TImage = ({ field, change, ...attr }) => {
                 <span className='browse'>
                     <div className='holder'> Click Here</div>
                 </span>
+                {Uploading.isUploading && <div className='loading-bar'></div>}
             </label>
             <input
                 id='image-upload'
@@ -31,11 +32,27 @@ const ImageField: TImage = ({ field, change, ...attr }) => {
                 accept='image/*'
                 onChange={e => {
                     if (!e.target.files) return
-                    const file = e.target.files[0]
-                    if (!file) return
+                    setIsUploading({
+                        ...Uploading,
+                        isUploading: true,
+                    })
 
-                    setUrl(URL.createObjectURL(file))
-                    change(file)
+                    // send file to back end and use state to change progress bar
+
+                    if (Uploading.progress === 100) {
+                        setIsUploading({
+                            ...Uploading,
+                            progress: 0,
+                            hasUploaded: true,
+                        })
+                    }
+
+                    if (Uploading.hasUploaded) {
+                        const file = e.target.files![0]
+                        if (!file) return
+                        setUrl(URL.createObjectURL(file))
+                        change(file)
+                    }
                 }}
             />
         </div>
