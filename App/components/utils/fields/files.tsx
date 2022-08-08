@@ -2,6 +2,8 @@ import React, { FC, useState } from 'react'
 
 import { FileFieldModel, FilePathFieldModel, ImageFieldModel } from 'state'
 
+import ProgressBar from 'comps/common/ProgressBar'
+
 import { ChoicesField, FieldProps } from './shared'
 
 type TImage = FC<FieldProps<ImageFieldModel>>
@@ -24,7 +26,11 @@ const ImageField: TImage = ({ field, change, ...attr }) => {
                 <span className='browse'>
                     <div className='holder'> Click Here</div>
                 </span>
-                {Uploading.isUploading && <div className='loading-bar'></div>}
+                {!Uploading.isUploading && (
+                    <div className='loading-bar'>
+                        <ProgressBar progress={Uploading.progress} />
+                    </div>
+                )}
             </label>
             <input
                 id='image-upload'
@@ -35,6 +41,10 @@ const ImageField: TImage = ({ field, change, ...attr }) => {
                     setIsUploading({
                         ...Uploading,
                         isUploading: true,
+
+                        // DEBUG
+                        progress: 50,
+                        // DEBUG-END
                     })
 
                     // send file to back end and use state to change progress bar
