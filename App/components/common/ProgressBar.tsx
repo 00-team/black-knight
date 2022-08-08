@@ -9,10 +9,7 @@ interface ProgressBarProps {
 const ProgressBar: FC<ProgressBarProps> = ({ progress }) => {
     return (
         <div className='progress_bar-container'>
-            <div
-                className='progress_bar'
-                style={{ width: progress + '%' }}
-            ></div>
+            <div id='progress_bar' style={{ width: progress + '%' }}></div>
             <span>%{progress}</span>
         </div>
     )
