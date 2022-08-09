@@ -1,6 +1,5 @@
-from black_knight.admin.utils import INVALID_INPUT, ErrorResponse
-from black_knight.admin.utils import construct_instance, display_value
-from black_knight.admin.utils import get_data
+from black_knight.admin.utils import ErrorResponse, construct_instance
+from black_knight.admin.utils import display_value, get_data
 from django.contrib import admin
 from django.contrib.admin.utils import flatten_fieldsets, label_for_field
 from django.contrib.admin.utils import lookup_field
@@ -57,7 +56,7 @@ class ModelAdmin(admin.ModelAdmin):
 
             return JsonResponse(brace_result.response)
         except InvalidPage:
-            return ErrorResponse('Invalid Page', 400)
+            return ErrorResponse('Invalid Page', status=400)
 
     def get_orders(self):
         meta = self.model._meta
@@ -118,10 +117,12 @@ class ModelAdmin(admin.ModelAdmin):
         items = data.get('items', [])
         action = self.get_actions(request).get(data.get('action'))
 
-        if not action or not items:
-            return INVALID_INPUT
+        if not action:
+            return ErrorResponse('No Action was Selected')
+        if not items:
+            return ErrorResponse('No Item was Selected')
         if items != 'all' and not isinstance(items, list):
-            return INVALID_INPUT
+            return ErrorResponse('Items are invalid')
 
         queryset = self.model._default_manager.get_queryset()
         if isinstance(items, list):
@@ -148,7 +149,7 @@ class ModelAdmin(admin.ModelAdmin):
             pk = get_data(request).get('pk')
             instance = self.get_object(request, pk)
             if instance is None:
-                return INVALID_INPUT
+                return ErrorResponse('instance not found')
 
         def get_field(field_name):
 
@@ -208,7 +209,7 @@ class ModelAdmin(admin.ModelAdmin):
         if change:
             instance = self.get_object(request, data.get('pk'))
             if instance is None:
-                return INVALID_INPUT
+                return ErrorResponse('instance not found')
         else:
             instance = self.model()
 

@@ -6,7 +6,7 @@ from typing import Any, Callable
 
 from black_knight.admin import ModelAdmin, actions
 from black_knight.admin.models import GroupAdmin, UserAdmin
-from black_knight.admin.utils import E, get_data
+from black_knight.admin.utils import ErrorResponse, get_data
 from django.apps import apps
 from django.conf import settings
 from django.contrib import admin
@@ -26,9 +26,6 @@ from django.views.decorators.csrf import csrf_protect
 
 
 logger = logging.getLogger('black_knight.AdminSite')
-
-
-INVALID_LOGIN_DATA = E('Invalid Login Data!')
 
 
 class AdminSite(admin.AdminSite):
@@ -291,60 +288,53 @@ class AdminSite(admin.AdminSite):
         return JsonResponse(response)
 
     def api_log(self, request: HttpRequest):
-        try:
-            from django.contrib.admin.models import LogEntry
 
-            def get_date(datetime):
-                return datetime.strftime('%Y-%m-%d %H:%M:%S')
+        from django.contrib.admin.models import LogEntry
 
-            def GL(log: LogEntry):
-                return {
-                    'user': str(log.user),
-                    'flag': log.action_flag,
-                    'time': get_date(log.action_time),
-                    'message': log.get_change_message(),
-                    'repr': log.object_repr,
-                    'url': None,
-                    'content_type': log.content_type.name
-                }
+        def get_date(datetime):
+            return datetime.strftime('%Y-%m-%d %H:%M:%S')
 
-            logs = list(map(GL, LogEntry.objects.all()[:3]))
+        def GL(log: LogEntry):
+            return {
+                'user': str(log.user),
+                'flag': log.action_flag,
+                'time': get_date(log.action_time),
+                'message': log.get_change_message(),
+                'repr': log.object_repr,
+                'url': None,
+                'content_type': log.content_type.name
+            }
 
-            return JsonResponse({'logs': logs})
-        except E as e:
-            return e.response
+        logs = list(map(GL, LogEntry.objects.all()[:3]))
+
+        return JsonResponse({'logs': logs})
 
     def api_logout(self, request: HttpRequest):
         auth_logout(request)
         return JsonResponse({'message': 'Your Logout was Successful'})
 
     def api_login(self, request: HttpRequest):
-        try:
-            data = get_data(request)
-            username = data.get('username')
-            password = data.get('password')
 
-            if username is None or password is None:
-                raise INVALID_LOGIN_DATA
+        data = get_data(request)
+        username = str(data.get('username'))
+        password = str(data.get('password'))
 
-            user = authenticate(
-                request=request,
-                username=username,
-                password=password
-            )
+        user = authenticate(
+            request=request,
+            username=username,
+            password=password
+        )
 
-            if user is None:
-                raise INVALID_LOGIN_DATA
+        if user is None:
+            return ErrorResponse('Invalid Username Or Password')
 
-            if not user.is_active:
-                raise E('This User is Inactive')
+        if not user.is_active:
+            return ErrorResponse('This User is Inactive')
 
-            if not user.is_staff:
-                raise E('This User is not a Staff')
+        if not user.is_staff:
+            return ErrorResponse('This User is not a Staff')
 
-            auth_login(request, user)
-            get_token(request)
+        auth_login(request, user)
+        get_token(request)
 
-            return JsonResponse({'message': 'Your Login was Successful!'})
-        except E as e:
-            return e.response
+        return JsonResponse({'message': 'Your Login was Successful!'})
