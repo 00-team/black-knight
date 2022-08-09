@@ -39,11 +39,10 @@ const ManyToManyField: TManyToMany = ({ field, change, ...attr }) => {
 
                 change(selected)
             }}
-            // defaultValue={default_value}
+            defaultValue={default_value.map(i => i.toString())}
             choices={field.choices}
             get_value={c => c[0]}
             get_label={c => c[1]}
-            get_selected={c => default_value.includes(c[0])}
         />
     )
 }
