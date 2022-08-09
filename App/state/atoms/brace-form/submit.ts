@@ -1,7 +1,7 @@
 import { atom } from 'jotai'
 import { SubmitOptions } from 'state'
 
-import { SubmitData } from './store'
+import { SubmitData, SubmitProgress } from './store'
 
 // type DataArgs = [string, string | Blob]
 type V = (string | Blob) | (string | Blob)[]
@@ -53,4 +53,4 @@ const BFSData = atom(
     }
 )
 
-export { BFSData }
+export { BFSData, SubmitProgress as SubmitProgressAtom }

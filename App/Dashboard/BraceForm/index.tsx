@@ -16,6 +16,7 @@ import {
 import { Intersect, Loading, RenderField } from 'comps'
 
 import { Footer } from './Footer'
+import Progress from './Progress'
 
 import './style/form.scss'
 
@@ -41,7 +42,7 @@ const BraceForm: FC = () => {
     return (
         <div className='brace-form-container'>
             <FormTitle />
-
+            <Progress />
             <div className='form-data'>
                 {Form.fieldsets.map((fieldset, index) => (
                     <Fieldset fieldset={fieldset} key={index} />

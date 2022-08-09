@@ -1,9 +1,28 @@
-export * from './User'
 export * from './Admin'
-export * from './Log'
-export * from './BraceList'
 export * from './BraceForm'
+export * from './BraceList'
 export * from './Fields'
+export * from './Log'
+export * from './User'
+export type { ProgressModel }
+export type { PK, TLoading, TValue, TBaseValue, TypedValues }
+export type {
+    VImage,
+    VDate,
+    VDateTime,
+    VTime,
+    VLink,
+    VForeignKey,
+    VFile,
+    VManyToMany,
+}
+
+interface ProgressModel {
+    done: boolean
+    percentage: number
+    total: number
+    loaded: number
+}
 
 type PK = string | number
 
@@ -29,15 +48,3 @@ type TypedValues =
     | VManyToMany
     | VFile
 type TValue = TBaseValue | TypedValues
-
-export { PK, TLoading, TValue, TBaseValue, TypedValues }
-export {
-    VImage,
-    VDate,
-    VDateTime,
-    VTime,
-    VLink,
-    VForeignKey,
-    VFile,
-    VManyToMany,
-}

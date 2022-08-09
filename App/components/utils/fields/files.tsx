@@ -17,6 +17,7 @@ const ImageField: TImage = ({ field, change, ...attr }) => {
         hasUploaded: false,
         progress: 0,
     })
+    setIsUploading
 
     return (
         <div {...attr} className={'image-field ' + (attr.className || '')}>
@@ -38,31 +39,31 @@ const ImageField: TImage = ({ field, change, ...attr }) => {
                 accept='image/*'
                 onChange={e => {
                     if (!e.target.files) return
-                    setIsUploading({
-                        ...Uploading,
-                        isUploading: true,
+                    // setIsUploading({
+                    //     ...Uploading,
+                    //     isUploading: true,
 
-                        // DEBUG
-                        progress: 50,
-                        // DEBUG-END
-                    })
+                    //     // DEBUG
+                    //     progress: 50,
+                    //     // DEBUG-END
+                    // })
 
-                    // send file to back end and use state to change progress bar
+                    // // send file to back end and use state to change progress bar
 
-                    if (Uploading.progress === 100) {
-                        setIsUploading({
-                            ...Uploading,
-                            progress: 0,
-                            hasUploaded: true,
-                        })
-                    }
+                    // if (Uploading.progress === 100) {
+                    //     setIsUploading({
+                    //         ...Uploading,
+                    //         progress: 0,
+                    //         hasUploaded: true,
+                    //     })
+                    // }
 
-                    if (Uploading.hasUploaded) {
-                        const file = e.target.files![0]
-                        if (!file) return
-                        setUrl(URL.createObjectURL(file))
-                        change(file)
-                    }
+                    // if (Uploading.hasUploaded) {
+                    const file = e.target.files![0]
+                    if (!file) return
+                    setUrl(URL.createObjectURL(file))
+                    change(file)
+                    // }
                 }}
             />
         </div>

@@ -3,7 +3,13 @@ import React, { FC } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 
 import { useAtom, useAtomValue, useSetAtom } from 'jotai'
-import { BFErrorsAtom, BFSData, BraceFormAtom, SubmitBraceForm } from 'state'
+import {
+    BFErrorsAtom,
+    BFSData,
+    BraceFormAtom,
+    SubmitBraceForm,
+    SubmitProgressAtom,
+} from 'state'
 
 import { ShowParticles } from 'comps'
 
@@ -15,9 +21,10 @@ const Footer: FC = () => {
     const { app_label, model_name, pk } = useParams()
     const [BFErrors, UpdateBFErrors] = useAtom(BFErrorsAtom)
     const UpdateForm = useSetAtom(BraceFormAtom)
+    const UpdateProgress = useSetAtom(SubmitProgressAtom)
 
     const Submit = async () => {
-        const response = await SubmitBraceForm(SubmitData)
+        const response = await SubmitBraceForm(SubmitData, UpdateProgress)
         if (response.ok) {
             ShowParticles()
             if (BFErrors) UpdateBFErrors(null)
