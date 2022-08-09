@@ -1,3 +1,4 @@
+export * from './Alert'
 export * from './buttons/Logout'
 export * from './common/Boolean'
 export * from './common/BouncyText'

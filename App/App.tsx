@@ -1,5 +1,6 @@
 import React, { FC } from 'react'
 
+import { useAlert } from '@00-team/react-alert'
 import loadable from '@loadable/component'
 import { Route, Routes } from 'react-router-dom'
 
@@ -13,6 +14,8 @@ const BraceList = loadable(() => import('Dashboard/BraceList'))
 const Login = loadable(() => import('Login'))
 
 const App: FC = () => {
+    global.ReactAlert = useAlert()
+
     return (
         <Routes>
             <Route path='login' element={<Login />} />

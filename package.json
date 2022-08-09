@@ -8,7 +8,7 @@
         "dev": "webpack --config webpack/django.ts"
     },
     "dependencies": {
-        "@00-team/react-alert": "^1.0.0",
+        "@00-team/react-alert": "^1.0.4",
         "@00-team/utils": "^0.1.8",
         "@loadable/component": "^5.15.2",
         "@react-icons/all-files": "^4.1.0",
@@ -41,7 +41,7 @@
         "ts-loader": "^9.2.8",
         "ts-node": "^10.7.0",
         "tsconfig-paths-webpack-plugin": "^3.5.2",
-        "typescript": "^4.6.3",
+        "typescript": "^4.7.4",
         "webpack": "^5.72.0",
         "webpack-bundle-analyzer": "^4.5.0",
         "webpack-cli": "^4.9.2",
