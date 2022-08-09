@@ -1,5 +1,7 @@
 import React, { FC, useState } from 'react'
 
+import { C } from '@00-team/utils'
+
 import { FileFieldModel, FilePathFieldModel, ImageFieldModel } from 'state'
 
 import ProgressBar from 'comps/common/ProgressBar'
@@ -12,16 +14,56 @@ const ImageField: TImage = ({ field, change, ...attr }) => {
         (field.value ? field.value[1] : field.initial) || ''
     )
 
+    const [DragNDrop, setDragNDrop] = useState({
+        isDragging: false,
+        isDropped: false,
+    })
+    DragNDrop
     const [Uploading, setIsUploading] = useState({
         isUploading: false,
         hasUploaded: false,
         progress: 0,
     })
 
+    const DropHandler = (e: React.DragEvent<HTMLLabelElement>): void => {
+        setDragNDrop({ isDropped: true, isDragging: false })
+        e.preventDefault()
+
+        if (!e.dataTransfer.files[0]) return
+        // start uploading file to back-end
+        setIsUploading({ ...Uploading, isUploading: true, hasUploaded: false })
+
+        const file = e.dataTransfer.files[0]
+        console.log(file)
+    }
+
+    document.body.ondragenter = () => {
+        setDragNDrop({ isDragging: true, isDropped: false })
+    }
+
     return (
-        <div {...attr} className={'image-field ' + (attr.className || '')}>
+        <div
+            {...attr}
+            className={
+                'image-field ' +
+                (attr.className || '') +
+                C(DragNDrop.isDragging, 'animate')
+            }
+        >
             {Uploading.hasUploaded && <img src={Url} />}
-            <label htmlFor='image-upload'>
+            <label
+                htmlFor='image-upload'
+                onDragEnter={e => {
+                    console.log('enterd')
+                    e.preventDefault()
+                }}
+                onDrop={e => DropHandler(e)}
+                tabIndex={1}
+                onDragOver={e => {
+                    e.stopPropagation()
+                    e.preventDefault()
+                }}
+            >
                 Drag & Drop your files Or{' '}
                 <span className='browse'>
                     <div className='holder'> Click Here</div>
