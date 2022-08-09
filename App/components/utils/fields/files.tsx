@@ -2,6 +2,8 @@ import React, { FC, useState } from 'react'
 
 import { C } from '@00-team/utils'
 
+import { ImCross } from '@react-icons/all-files/im/ImCross'
+
 import { FileFieldModel, FilePathFieldModel, ImageFieldModel } from 'state'
 
 import ProgressBar from 'comps/common/ProgressBar'
@@ -116,7 +118,31 @@ const ImageField: TImage = ({ field, change, ...attr }) => {
                     }
                 }}
             />
-            {Uploading.hasUploaded && <img src={Url} />}
+            {Uploading.hasUploaded && (
+                <div className='img-container'>
+                    <img src={Url} />
+                    <div
+                        className='cross icon'
+                        onClick={() => {
+                            // reset to default
+                            change('')
+                            setUrl('')
+                            setIsUploading({
+                                hasUploaded: false,
+                                isUploading: false,
+                                progress: 0,
+                            })
+                            setDragNDrop({
+                                isDragging: false,
+                                isDropped: false,
+                            })
+                            //
+                        }}
+                    >
+                        <ImCross className='icon' size={40} fill={'#e20338'} />
+                    </div>
+                </div>
+            )}
         </div>
     )
 }
