@@ -241,6 +241,10 @@
                 .image-field {
                     background-color: var(--thirty-percent);
                     display: flex;
+                    flex-direction: column;
+                    gap: 1vh;
+
+                    max-width: 400px;
 
                     border-radius: 1rem;
 
