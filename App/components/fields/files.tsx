@@ -1,149 +1,81 @@
-import React, { FC, useState } from 'react'
-
-import { C } from '@00-team/utils'
+import React, { FC, useRef, useState } from 'react'
 
 import { ImCross } from '@react-icons/all-files/im/ImCross'
 
 import { FileFieldModel, FilePathFieldModel, ImageFieldModel } from 'state'
 
-import ProgressBar from 'comps/common/ProgressBar'
-
 import { ChoicesField, FieldProps } from './shared'
 
 type TImage = FC<FieldProps<ImageFieldModel>>
 const ImageField: TImage = ({ field, change, ...attr }) => {
+    const input = useRef<HTMLInputElement>(null)
+    const HTML_ID = `IMAGE_${field.name}`
     const [Url, setUrl] = useState(
         (field.value ? field.value[1] : field.initial) || ''
     )
 
-    const [DragNDrop, setDragNDrop] = useState({
-        isDragging: false,
-        isDropped: false,
-    })
-    DragNDrop
-    const [Uploading, setIsUploading] = useState({
-        isUploading: false,
-        hasUploaded: false,
-        progress: 0,
-    })
-    setIsUploading
-
-    const DropHandler = (e: React.DragEvent<HTMLLabelElement>): void => {
-        setDragNDrop({ isDropped: true, isDragging: false })
-        e.preventDefault()
-
-        if (!e.dataTransfer.files[0]) return
-        // start uploading file to back-end
-        setIsUploading({ ...Uploading, isUploading: true, hasUploaded: false })
-
-        const file = e.dataTransfer.files[0]
-
-        console.log(file)
-
-        // debug
-        setTimeout(() => {
-            setIsUploading({ ...Uploading, hasUploaded: true })
-            change(file)
-            setUrl(URL.createObjectURL(file))
-        }, 2000)
+    const clear = () => {
+        setUrl('')
+        change('')
+        if (input.current) input.current.value = ''
     }
 
-    document.body.ondragenter = () => {
-        setDragNDrop({ isDragging: true, isDropped: false })
-        change('')
-        setUrl('')
-        setIsUploading({ ...Uploading, hasUploaded: false })
+    const update = (files: FileList | null) => {
+        if (!files || !files[0]) return
+        const file = files[0]
+        setUrl(URL.createObjectURL(file))
+        change(file)
     }
 
     return (
         <div
             {...attr}
-            className={
-                'image-field ' +
-                (attr.className || '') +
-                C(DragNDrop.isDragging, 'animate')
-            }
+            className={'image-field ' + (attr.className || '')}
+            onDrop={e => {
+                e.preventDefault()
+                clear()
+                update(e.dataTransfer.files)
+            }}
+            onDragOver={e => {
+                e.preventDefault()
+                e.dataTransfer.dropEffect = 'move'
+            }}
         >
-            <label
-                htmlFor='image-upload'
-                onDragEnter={e => {
-                    e.preventDefault()
-                }}
-                onDrop={e => DropHandler(e)}
-                tabIndex={1}
-                onDragOver={e => {
-                    e.stopPropagation()
-                    e.preventDefault()
-                }}
-            >
-                Drag & Drop your files Or{' '}
-                <span className='browse'>
-                    <div className='holder'> Click Here</div>
+            <label htmlFor={HTML_ID}>
+                <span>
+                    Drag & Drop your files Or{' '}
+                    <span className='browse'>Click Here</span>
                 </span>
-                {Uploading.isUploading && (
-                    <div className='loading-bar'>
-                        <ProgressBar progress={Uploading.progress} />
+                {Url && (
+                    <div className='img-container'>
+                        <img src={Url} />
+                        {!field.required && (
+                            <div
+                                className='cross icon'
+                                onClick={e => {
+                                    e.preventDefault()
+                                    e.stopPropagation()
+
+                                    clear()
+                                }}
+                            >
+                                <ImCross
+                                    className='icon'
+                                    size={40}
+                                    fill={'#e20338'}
+                                />
+                            </div>
+                        )}
                     </div>
                 )}
             </label>
             <input
-                id='image-upload'
+                id={HTML_ID}
                 type='file'
                 accept='image/*'
-                onChange={e => {
-                    if (!e.target.files) return
-                    // setIsUploading({
-                    //     ...Uploading,
-                    //     isUploading: true,
-
-                    //     // DEBUG
-                    //     progress: 50,
-                    //     // DEBUG-END
-                    // })
-
-                    // // send file to back end and use state to change progress bar
-
-                    // if (Uploading.progress === 100) {
-                    //     setIsUploading({
-                    //         ...Uploading,
-                    //         progress: 0,
-                    //         hasUploaded: true,
-                    //     })
-                    // }
-
-                    // if (Uploading.hasUploaded) {
-                    const file = e.target.files![0]
-                    if (!file) return
-                    setUrl(URL.createObjectURL(file))
-                    change(file)
-                    // }
-                }}
+                ref={input}
+                onChange={e => update(e.target.files)}
             />
-            {Uploading.hasUploaded && (
-                <div className='img-container'>
-                    <img src={Url} />
-                    <div
-                        className='cross icon'
-                        onClick={() => {
-                            // reset to default
-                            change('')
-                            setUrl('')
-                            setIsUploading({
-                                hasUploaded: false,
-                                isUploading: false,
-                                progress: 0,
-                            })
-                            setDragNDrop({
-                                isDragging: false,
-                                isDropped: false,
-                            })
-                            //
-                        }}
-                    >
-                        <ImCross className='icon' size={40} fill={'#e20338'} />
-                    </div>
-                </div>
-            )}
         </div>
     )
 }

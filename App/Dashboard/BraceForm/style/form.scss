@@ -248,21 +248,10 @@
 
                     border-radius: 1rem;
 
-                    &.animate {
-                        animation: bounce 0.5s alternate infinite;
-
-                        @keyframes bounce {
-                            from {
-                                transform: scaleX(1.05);
-                            }
-                            to {
-                                transform: translateY(-10%) scaleX(1);
-                            }
-                        }
-                    }
-
                     label {
+                        cursor: pointer;
                         display: flex;
+                        flex-direction: column;
                         align-items: center;
                         justify-content: center;
                         gap: 1vw;
@@ -278,27 +267,7 @@
                         overflow: hidden;
 
                         .browse {
-                            display: flex;
-                            align-items: center;
-                            justify-content: center;
-                            gap: 0.5vw;
-
-                            cursor: pointer;
-
                             text-decoration: underline;
-
-                            .icon {
-                                display: flex;
-                                align-items: center;
-                                justify-content: center;
-                                flex-direction: column;
-
-                                .line {
-                                    width: 100%;
-                                    height: 2px;
-                                    background-color: white;
-                                }
-                            }
                         }
                         * {
                             white-space: nowrap;
