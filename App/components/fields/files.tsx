@@ -1,5 +1,7 @@
 import React, { FC, useRef, useState } from 'react'
 
+import { C } from '@00-team/utils'
+
 import { ImCross } from '@react-icons/all-files/im/ImCross'
 
 import { FileFieldModel, FilePathFieldModel, ImageFieldModel } from 'state'
@@ -9,7 +11,9 @@ import { ChoicesField, FieldProps } from './shared'
 type TImage = FC<FieldProps<ImageFieldModel>>
 const ImageField: TImage = ({ field, change, ...attr }) => {
     const input = useRef<HTMLInputElement>(null)
+    const DragTimer = useRef<NodeJS.Timeout>()
     const HTML_ID = `IMAGE_${field.name}`
+    const [DragHover, setDragHover] = useState(false)
     const [Url, setUrl] = useState(
         (field.value ? field.value[1] : field.initial) || ''
     )
@@ -27,16 +31,35 @@ const ImageField: TImage = ({ field, change, ...attr }) => {
         change(file)
     }
 
+    const RestartTimer = () => {
+        if (DragTimer.current) clearTimeout(DragTimer.current)
+        DragTimer.current = setTimeout(() => {
+            setDragHover(false)
+            DragTimer.current = undefined
+        }, 150)
+    }
+
     return (
         <div
             {...attr}
-            className={'image-field ' + (attr.className || '')}
+            className={
+                'image-field ' +
+                (attr.className || '') +
+                C(DragHover, 'drag-hover')
+            }
             onDrop={e => {
                 e.preventDefault()
                 clear()
                 update(e.dataTransfer.files)
             }}
             onDragOver={e => {
+                if (!DragHover) {
+                    setDragHover(true)
+                    RestartTimer()
+                } else {
+                    RestartTimer()
+                }
+
                 e.preventDefault()
                 e.dataTransfer.dropEffect = 'move'
             }}

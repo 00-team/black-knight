@@ -248,6 +248,10 @@
 
                     border-radius: 1rem;
 
+                    &.drag-hover {
+                        background-color: red;
+                    }
+
                     label {
                         cursor: pointer;
                         display: flex;
