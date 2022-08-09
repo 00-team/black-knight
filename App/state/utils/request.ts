@@ -1,3 +1,4 @@
+import axios, { AxiosRequestConfig } from 'axios'
 import { get as GetCookies } from 'js-cookie'
 
 interface ResponseOk {
@@ -13,9 +14,7 @@ interface ResponseError {
 
 type Response = ResponseOk | ResponseError
 
-const U = (url: string) => (BASE_URL + url).replaceAll('//', '/')
-
-const GetCSRFToken = (): HeadersInit => {
+const GetCSRFToken = () => {
     const csrftoken = GetCookies('csrftoken')
     if (!csrftoken) {
         location.reload()
@@ -24,58 +23,33 @@ const GetCSRFToken = (): HeadersInit => {
     return { 'X-CSRFToken': csrftoken }
 }
 
-interface RequestBase {
-    url: string
-    method?: 'POST' | 'GET'
-    signal?: AbortSignal
-}
-
-interface RequestJson extends RequestBase {
-    method: 'POST'
-    body: Object
-}
-
-interface RequestFormData extends RequestBase {
-    method: 'POST'
-    body: FormData
-}
-
-type RequestProps = RequestJson | RequestFormData | RequestBase
-
-type TRequest = (props: RequestProps) => Promise<Response>
-const REQUEST: TRequest = async props => {
+type TRequest = (
+    config: AxiosRequestConfig<FormData | Object>
+) => Promise<Response>
+const REQUEST: TRequest = async config => {
     try {
-        const { url, method, signal } = props
-        let init: RequestInit = { method, signal }
+        config.baseURL = BASE_URL
 
-        if (props.method === 'POST') {
-            init.headers = GetCSRFToken()
+        if (config.method === 'POST') {
+            config.headers = { ...GetCSRFToken(), ...config.headers }
+        }
 
-            if ('body' in props) {
-                if (props.body instanceof FormData) {
-                    init.body = props.body
-                } else {
-                    init.body = JSON.stringify(props.body)
-                    init.headers = {
-                        ...init.headers,
-                        'Content-Type': 'application/json',
-                    }
+        const response = await axios.request(config)
+        return { ok: true, data: response.data }
+    } catch (error) {
+        console.log(error)
+
+        if (axios.isAxiosError(error)) {
+            if (error.response) {
+                return {
+                    ok: false,
+                    // @ts-ignore
+                    ...error.response.data,
                 }
+            } else {
+                return { ok: false, code: 400, message: error.message }
             }
         }
-
-        const response = await fetch(U(url), init)
-        const data = await response.json()
-
-        if (response.ok) return { ok: true, data }
-
-        return { ok: false, ...data }
-    } catch (error) {
-        if (error instanceof DOMException) {
-            return { ok: false, code: error.code, message: error.message }
-        }
-
-        console.log(error)
 
         return { ok: false, code: 400, message: 'Test Error' }
     }

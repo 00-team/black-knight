@@ -1,8 +1,7 @@
 import { atom } from 'jotai'
-import { ResultModel, PK_MAP } from 'state'
-import { REQUEST } from 'state'
+import { PK_MAP, REQUEST, ResultModel } from 'state'
 
-import { Result, Select, PKMap } from './store'
+import { PKMap, Result, Select } from './store'
 
 var BraceResultController: AbortController | null = null
 
@@ -47,7 +46,7 @@ const BraceResultAtom = atom(
             url: `api/${app_model}/brace-result/`,
             method: 'POST',
             signal: BraceResultController.signal,
-            body: opt,
+            data: opt,
         })
 
         if (response.ok) {

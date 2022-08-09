@@ -11,8 +11,8 @@ interface LoginData {
     password: string
 }
 
-const Login = async (body: LoginData) => {
-    const response = await REQUEST({ url: '/api/login/', method: 'POST', body })
+const Login = async (data: LoginData) => {
+    const response = await REQUEST({ url: '/api/login/', method: 'POST', data })
     return response.ok
 }
 
