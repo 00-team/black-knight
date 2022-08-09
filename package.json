@@ -8,6 +8,7 @@
         "dev": "webpack --config webpack/django.ts"
     },
     "dependencies": {
+        "@00-team/react-alert": "^1.0.0",
         "@00-team/utils": "^0.1.8",
         "@loadable/component": "^5.15.2",
         "@react-icons/all-files": "^4.1.0",
