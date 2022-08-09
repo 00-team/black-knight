@@ -1,5 +1,9 @@
 import React, { FC, useState } from 'react'
 
+import { C } from '@00-team/utils'
+
+import { ImCross } from '@react-icons/all-files/im/ImCross'
+
 import { FileFieldModel, FilePathFieldModel, ImageFieldModel } from 'state'
 
 import ProgressBar from 'comps/common/ProgressBar'
@@ -12,6 +16,11 @@ const ImageField: TImage = ({ field, change, ...attr }) => {
         (field.value ? field.value[1] : field.initial) || ''
     )
 
+    const [DragNDrop, setDragNDrop] = useState({
+        isDragging: false,
+        isDropped: false,
+    })
+    DragNDrop
     const [Uploading, setIsUploading] = useState({
         isUploading: false,
         hasUploaded: false,
@@ -19,10 +28,54 @@ const ImageField: TImage = ({ field, change, ...attr }) => {
     })
     setIsUploading
 
+    const DropHandler = (e: React.DragEvent<HTMLLabelElement>): void => {
+        setDragNDrop({ isDropped: true, isDragging: false })
+        e.preventDefault()
+
+        if (!e.dataTransfer.files[0]) return
+        // start uploading file to back-end
+        setIsUploading({ ...Uploading, isUploading: true, hasUploaded: false })
+
+        const file = e.dataTransfer.files[0]
+
+        console.log(file)
+
+        // debug
+        setTimeout(() => {
+            setIsUploading({ ...Uploading, hasUploaded: true })
+            change(file)
+            setUrl(URL.createObjectURL(file))
+        }, 2000)
+    }
+
+    document.body.ondragenter = () => {
+        setDragNDrop({ isDragging: true, isDropped: false })
+        change('')
+        setUrl('')
+        setIsUploading({ ...Uploading, hasUploaded: false })
+    }
+
     return (
-        <div {...attr} className={'image-field ' + (attr.className || '')}>
-            {Uploading.hasUploaded && <img src={Url} />}
-            <label htmlFor='image-upload'>
+        <div
+            {...attr}
+            className={
+                'image-field ' +
+                (attr.className || '') +
+                C(DragNDrop.isDragging, 'animate')
+            }
+        >
+            <label
+                htmlFor='image-upload'
+                onDragEnter={e => {
+                    e.preventDefault()
+                }}
+                onDrop={e => DropHandler(e)}
+                tabIndex={1}
+                onDragOver={e => {
+                    e.stopPropagation()
+                    e.preventDefault()
+                }}
+            >
                 Drag & Drop your files Or{' '}
                 <span className='browse'>
                     <div className='holder'> Click Here</div>
@@ -66,6 +119,31 @@ const ImageField: TImage = ({ field, change, ...attr }) => {
                     // }
                 }}
             />
+            {Uploading.hasUploaded && (
+                <div className='img-container'>
+                    <img src={Url} />
+                    <div
+                        className='cross icon'
+                        onClick={() => {
+                            // reset to default
+                            change('')
+                            setUrl('')
+                            setIsUploading({
+                                hasUploaded: false,
+                                isUploading: false,
+                                progress: 0,
+                            })
+                            setDragNDrop({
+                                isDragging: false,
+                                isDropped: false,
+                            })
+                            //
+                        }}
+                    >
+                        <ImCross className='icon' size={40} fill={'#e20338'} />
+                    </div>
+                </div>
+            )}
         </div>
     )
 }
