@@ -34,11 +34,22 @@ const ImageField: TImage = ({ field, change, ...attr }) => {
         setIsUploading({ ...Uploading, isUploading: true, hasUploaded: false })
 
         const file = e.dataTransfer.files[0]
+
         console.log(file)
+
+        // debug
+        setTimeout(() => {
+            setIsUploading({ ...Uploading, hasUploaded: true })
+            change(file)
+            setUrl(URL.createObjectURL(file))
+        }, 2000)
     }
 
     document.body.ondragenter = () => {
         setDragNDrop({ isDragging: true, isDropped: false })
+        change('')
+        setUrl('')
+        setIsUploading({ ...Uploading, hasUploaded: false })
     }
 
     return (
@@ -50,11 +61,9 @@ const ImageField: TImage = ({ field, change, ...attr }) => {
                 C(DragNDrop.isDragging, 'animate')
             }
         >
-            {Uploading.hasUploaded && <img src={Url} />}
             <label
                 htmlFor='image-upload'
                 onDragEnter={e => {
-                    console.log('enterd')
                     e.preventDefault()
                 }}
                 onDrop={e => DropHandler(e)}
@@ -107,6 +116,7 @@ const ImageField: TImage = ({ field, change, ...attr }) => {
                     }
                 }}
             />
+            {Uploading.hasUploaded && <img src={Url} />}
         </div>
     )
 }
