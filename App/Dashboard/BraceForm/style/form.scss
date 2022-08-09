@@ -244,6 +244,19 @@
 
                     border-radius: 1rem;
 
+                    &.animate {
+                        animation: bounce 0.5s alternate infinite;
+
+                        @keyframes bounce {
+                            from {
+                                transform: scaleX(1.05);
+                            }
+                            to {
+                                transform: translateY(-10%) scaleX(1);
+                            }
+                        }
+                    }
+
                     label {
                         display: flex;
                         align-items: center;
