@@ -2,12 +2,13 @@ from django.http import JsonResponse
 
 
 class ErrorResponse(JsonResponse):
-    def __init__(self, message='Error', status=400, extra={}, **kwargs):
-        data = {
+    def __init__(self, message='Error', status=400, data={}, error={}, **kwargs):
+        content = {
             'error': {
                 'message': message,
                 'code': status,
-                **extra
-            }
+                **error,
+            },
+            **data,
         }
-        super().__init__(data=data, **kwargs)
+        super().__init__(data=content, status=status, **kwargs)

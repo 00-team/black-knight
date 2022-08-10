@@ -216,13 +216,9 @@ class ModelAdmin(admin.ModelAdmin):
         instance, errors = construct_instance(instance, data, change)
 
         if errors:
-            return JsonResponse({
-                'message': 'Value Errors',
-                'fields': errors,
-                'code': 400
-            }, status=400)
+            return ErrorResponse('check the fields', data={'fields': errors})
         else:
             instance.save()
 
         # TODO: better messages
-        return JsonResponse({'message': 'success', 'pk': instance.pk})
+        return JsonResponse({'pk': instance.pk})
