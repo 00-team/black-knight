@@ -20,7 +20,6 @@ const Root: FC = () => {
 
 const AlertOptions: Options = {
     position: 'top right',
-    timeout: 7e3,
 }
 
 createRoot(document.getElementById('root')!).render(<Root />)
