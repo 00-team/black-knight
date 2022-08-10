@@ -1,17 +1,26 @@
 import { AxiosRequestConfig } from 'axios'
 
-import { PK, ProgressModel, REQUEST, SubmitOptions } from 'state'
+import {
+    ErrorResponse,
+    PK,
+    ProgressModel,
+    REQUEST,
+    SubmitOptions,
+    SuccessResponse,
+} from 'state'
 
-interface ErrorResponse {
-    ok: false
-    fields: { [k: string]: string }
-    message: string
-    code: number
+interface SRes extends SuccessResponse {
+    pk: PK
 }
 
-type Response = { ok: true; pk: PK } | ErrorResponse
+interface ERes extends ErrorResponse {
+    fields?: { [k: string]: string }
+}
+
+type Res = SRes | ERes
+
 type Progress = (p: ProgressModel | null) => void
-type TSubmit = (props: SubmitOptions, progress?: Progress) => Promise<Response>
+type TSubmit = (props: SubmitOptions, progress?: Progress) => Promise<Res>
 
 const Submit: TSubmit = async (props, progress) => {
     let url = `/api/${props.app_label}/${props.model_name}/brace-form-submit/`
@@ -39,21 +48,13 @@ const Submit: TSubmit = async (props, progress) => {
         }
     }
 
-    // onUploadProgress: (e: ProgressEvent) => {
-    //     if (!e.lengthComputable) return progress
-
-    //     console.log(e.total)
-    //     console.log(e.loaded)
-
-    //     console.log(useSetAtom(SubmitProgress))
-    // },
-
     const response = await REQUEST(config)
 
-    if (response.ok) return { ok: true, pk: response.data.pk }
-    else return { fields: {}, ...response }
-
-    // else alert(response.message)
+    if (response.ok) {
+        return { ok: true, pk: response.data.pk }
+    } else {
+        return response
+    }
 }
 
 export { Submit as SubmitBraceForm }

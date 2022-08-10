@@ -12,9 +12,8 @@ interface BraceFormModel {
 }
 
 interface BraceFormErrorsModel {
-    fields: { [k: string]: string }
-    message: string
-    code: number
+    fields?: { [k: string]: string }
+    error: { message: string; code: number }
 }
 
 interface SubmitOptions {

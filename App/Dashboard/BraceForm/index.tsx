@@ -105,7 +105,7 @@ const Fieldset: FC<{ fieldset: FieldsetModel }> = ({ fieldset }) => {
 const Field: FC<{ field: FieldModel }> = ({ field }) => {
     const Errors = useAtomValue(BFErrorsAtom)
     let error: string | undefined
-    if (Errors) error = Errors.fields[field.name]
+    if (Errors && Errors.fields) error = Errors.fields[field.name]
 
     return (
         <Intersect className='fieldset-field'>

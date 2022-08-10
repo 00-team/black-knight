@@ -1,18 +1,8 @@
-import axios, { AxiosRequestConfig } from 'axios'
+import axios from 'axios'
 import { get as GetCookies } from 'js-cookie'
 
-interface ResponseOk {
-    ok: true
-    data: any
-}
-
-interface ResponseError {
-    ok: false
-    message: string
-    code: number
-}
-
-type Response = ResponseOk | ResponseError
+import { HandleError } from './errors'
+import type { Request } from './types'
 
 const GetCSRFToken = () => {
     const csrftoken = GetCookies('csrftoken')
@@ -23,10 +13,7 @@ const GetCSRFToken = () => {
     return { 'X-CSRFToken': csrftoken }
 }
 
-type TRequest = (
-    config: AxiosRequestConfig<FormData | Object>
-) => Promise<Response>
-const REQUEST: TRequest = async config => {
+const REQUEST: Request = async config => {
     try {
         config.baseURL = BASE_URL
 
@@ -35,23 +22,13 @@ const REQUEST: TRequest = async config => {
         }
 
         const response = await axios.request(config)
-        return { ok: true, data: response.data }
+        const data = response.data
+
+        if (data.message) ReactAlert.success(data.message)
+
+        return { ok: true, data }
     } catch (error) {
-        console.log(error)
-
-        if (axios.isAxiosError(error)) {
-            if (error.response) {
-                return {
-                    ok: false,
-                    // @ts-ignore
-                    ...error.response.data,
-                }
-            } else {
-                return { ok: false, code: 400, message: error.message }
-            }
-        }
-
-        return { ok: false, code: 400, message: 'Test Error' }
+        return HandleError(error)
     }
 }
 
