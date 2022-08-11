@@ -32,8 +32,10 @@ class ModelAdmin(admin.ModelAdmin):
             path('brace-actions/', wrap(self.brace_actions)),
 
             re_path('brace-form/(add|change)/', wrap(self.brace_form)),
-            re_path('brace-form-submit/(add|change)/',
-                    wrap(self.brace_form_submit))
+            re_path(
+                'brace-form-submit/(add|change|delete)/',
+                wrap(self.brace_form_submit)
+            )
         ]
 
     @property
@@ -202,16 +204,22 @@ class ModelAdmin(admin.ModelAdmin):
 
     @require_POST_m
     def brace_form_submit(self, request: HttpRequest, form_type: str):
-        data = request.POST.copy()
+        data = request.GET.copy()
+        data.update(request.POST)
         data.update(request.FILES)
         change = form_type == 'change'
+        delete = form_type == 'delete'
 
-        if change:
+        if change or delete:
             instance = self.get_object(request, data.get('pk'))
             if instance is None:
                 return ErrorResponse('instance not found')
         else:
             instance = self.model()
+
+        if delete:
+            instance.delete()
+            return JsonResponse({'message': 'instance successfully deleted'})
 
         instance, errors = construct_instance(instance, data, change)
 

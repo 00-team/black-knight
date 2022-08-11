@@ -25,12 +25,16 @@ type TSubmit = (props: SubmitOptions, progress?: Progress) => Promise<Res>
 const Submit: TSubmit = async (props, progress) => {
     let url = `/api/${props.app_label}/${props.model_name}/brace-form-submit/`
     if (props.type === 'add') url += 'add/'
-    else url += `change/`
+    else if (props.type === 'delete') url += 'delete/'
+    else if (props.type === 'change') url += 'change/'
 
     const config: AxiosRequestConfig = {
         url,
         method: 'POST',
         data: props.data,
+        params: {
+            pk: props.pk,
+        },
     }
 
     if (progress) {

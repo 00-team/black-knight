@@ -21,7 +21,7 @@ interface SubmitOptions {
     app_label?: string
     model_name?: string
     pk?: PK
-    type?: 'add' | 'change'
+    type?: 'add' | 'change' | 'delete'
 }
 
 export { FieldsetModel, BraceFormModel, SubmitOptions, BraceFormErrorsModel }

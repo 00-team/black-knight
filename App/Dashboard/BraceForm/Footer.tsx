@@ -48,14 +48,26 @@ const Footer: FC = () => {
     const SaveContinue = async () => {
         const res = await Submit()
         if (res.ok) {
-            // TODO: update the form
-            if (pk) UpdateForm({ app_label, model_name, pk })
+            if (pk) UpdateForm({ app_label, model_name, pk: res.pk })
             else navigate(`../change/${res.pk}`)
         }
     }
 
+    const DeleteInstance = async () => {
+        if (!pk || !app_label || !model_name) return
+
+        const response = await SubmitBraceForm({
+            app_label,
+            model_name,
+            pk,
+            type: 'delete',
+        })
+        if (response.ok) navigate('..')
+    }
+
     return (
         <div className={'footer title_small'}>
+            {pk && <button onClick={DeleteInstance}>DELETE</button>}
             <button style={{ animationDelay: '0.5s' }} onClick={SaveAdd}>
                 Save and add another
             </button>
