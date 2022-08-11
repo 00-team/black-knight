@@ -19,7 +19,9 @@ const Root: FC = () => {
 }
 
 const AlertOptions: Options = {
-    position: 'top right',
+    position: 'top-right',
+    wrapper: () => ({ className: 'wrapper' }),
+    inner: () => ({ className: 'inner' }),
 }
 
 createRoot(document.getElementById('root')!).render(<Root />)
