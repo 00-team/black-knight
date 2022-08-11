@@ -1,5 +1,5 @@
 import { atom } from 'jotai'
-import { REQUEST, PK } from 'state'
+import { PK, REQUEST } from 'state'
 
 import { Form, FormErrors } from './store'
 
@@ -43,12 +43,15 @@ const BraceFormAtom = atom(
             set(Form, response.data)
             // console.log(response.data.fieldsets[0].fields)
         } else {
-            if (response.code === 20) {
-                // ignore signal abort exceptions
-                return
+            if (response.error.code === 404) {
+                set(Form, ['not-found', app_model])
             }
-            console.log('Error brace form')
-            console.log(response)
+            // if (response.code === 20) {
+            //     // ignore signal abort exceptions
+            //     return
+            // }
+            // console.log('Error brace form')
+            // console.log(response)
         }
         // else set(User, response.error)
 

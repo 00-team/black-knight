@@ -2,7 +2,7 @@ import React, { FC, useEffect } from 'react'
 
 import { FaNewspaper } from '@react-icons/all-files/fa/FaNewspaper'
 
-import { useParams } from 'react-router-dom'
+import { Navigate, useParams } from 'react-router-dom'
 
 import { useAtom, useAtomValue } from 'jotai'
 import {
@@ -38,11 +38,15 @@ const BraceForm: FC = () => {
     }, [app_label, model_name, pk])
 
     if (Form === 'loading') return <Loading />
+    if (Form === 'not-found') {
+        return <Navigate to='not-found/' />
+    }
 
     return (
         <div className='brace-form-container'>
             <FormTitle />
             <Progress />
+
             <div className='form-data'>
                 {Form.fieldsets.map((fieldset, index) => (
                     <Fieldset fieldset={fieldset} key={index} />
@@ -60,7 +64,7 @@ const FormTitle: FC = () => {
 
     const title = () => {
         if (pk === undefined) return `Add ${model_name}`
-        if (Form === 'loading') return `Change ${pk}`
+        if (Form === 'loading' || Form === 'not-found') return `Change ${pk}`
         return `Change ${Form.label}`
     }
 
