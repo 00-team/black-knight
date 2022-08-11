@@ -93,7 +93,7 @@
             align-items: flex-start;
             justify-content: flex-start;
             flex-direction: column;
-            gap: 1vh;
+            gap: 3vh;
 
             width: 100%;
 
@@ -161,18 +161,37 @@
             .fieldset-field {
                 width: 100%;
                 height: auto;
-                overflow: hidden;
+
                 display: flex;
                 flex-direction: column;
+                gap: 2vh;
+
                 padding: 10px 0;
 
+                overflow: hidden;
                 .data {
                     display: flex;
                 }
 
-                .error {
-                    color: red;
-                    font-family: system-ui;
+                .error-container {
+                    overflow: hidden;
+
+                    .error {
+                        display: flex;
+                        align-self: center;
+                        justify-content: center;
+                        gap: 0.75vw;
+
+                        width: fit-content;
+
+                        padding: 10px;
+                        font-family: system-ui;
+
+                        background-color: var(--alert-error);
+                        border-radius: 10px;
+
+                        transition: transform 1s 1s ease-in-out;
+                    }
                 }
 
                 * {
