@@ -1,5 +1,6 @@
 import React, { FC, useEffect } from 'react'
 
+import { AiOutlineExclamation } from '@react-icons/all-files/ai/AiOutlineExclamation'
 import { FaNewspaper } from '@react-icons/all-files/fa/FaNewspaper'
 
 import { Navigate, useParams } from 'react-router-dom'
@@ -113,7 +114,16 @@ const Field: FC<{ field: FieldModel }> = ({ field }) => {
 
     return (
         <Intersect className='fieldset-field'>
-            {error && <span className='error'>{error}</span>}
+            <div className='error-container'>
+                {error && (
+                    <div className='error'>
+                        <div className='icon'>
+                            <AiOutlineExclamation />
+                        </div>
+                        <div className='holder'> {error}</div>
+                    </div>
+                )}
+            </div>
             <div className='data'>
                 <label className='label'>{field.label}</label>
                 <div tabIndex={1} className='result-input-wrapper'>
