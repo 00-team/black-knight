@@ -14,9 +14,7 @@ const ImageField: TImage = ({ field, change, ...attr }) => {
     const DragTimer = useRef<NodeJS.Timeout>()
     const HTML_ID = `IMAGE_${field.name}`
     const [DragHover, setDragHover] = useState(false)
-    const [Url, setUrl] = useState(
-        (field.value ? field.value[1] : field.initial) || ''
-    )
+    const [Url, setUrl] = useState(field.value || field.initial)
 
     const clear = () => {
         setUrl('')
@@ -38,6 +36,18 @@ const ImageField: TImage = ({ field, change, ...attr }) => {
             DragTimer.current = undefined
         }, 150)
     }
+
+    if (field.choices)
+        return (
+            <ChoicesField<typeof field.choices[0]>
+                {...attr}
+                onChange={e => change(e.currentTarget.value)}
+                defaultValue={field.value || field.initial}
+                choices={field.choices}
+                get_value={c => c[0]}
+                get_label={c => c[1]}
+            />
+        )
 
     return (
         <div
@@ -105,6 +115,18 @@ const ImageField: TImage = ({ field, change, ...attr }) => {
 
 type TFile = FC<FieldProps<FileFieldModel>>
 const FileField: TFile = ({ field, change, ...attr }) => {
+    if (field.choices)
+        return (
+            <ChoicesField<typeof field.choices[0]>
+                {...attr}
+                onChange={e => change(e.currentTarget.value)}
+                defaultValue={field.value || field.initial}
+                choices={field.choices}
+                get_value={c => c[0]}
+                get_label={c => c[1]}
+            />
+        )
+
     return (
         <input
             {...attr}

@@ -1,4 +1,4 @@
-import { PK, TValue } from 'state'
+import { PK, VWT_ALL } from 'state'
 
 // using BL_ prefix for Brace List Stuff
 
@@ -17,6 +17,7 @@ interface BL_ResultModel {
     results: ResultModel[]
     ordered_by: string[]
     page: PageModel | null
+    result_count: number
 }
 
 interface PageModel {
@@ -29,7 +30,7 @@ interface ActionModel {
     description: string
 }
 
-type ResultModel = [PK, ...TValue[]]
+type ResultModel = [PK, ...VWT_ALL[]]
 
 type PK_MAP = { [k: number]: PK }
 

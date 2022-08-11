@@ -1,10 +1,11 @@
 import React, { FC } from 'react'
 
-import { TValue } from 'state'
+import { VWT_ALL } from 'state'
 
 import { Boolean } from 'components'
 
-const RenderValue: FC<{ v: TValue }> = ({ v }) => {
+// TODO: update this renders
+const RenderValue: FC<{ v: VWT_ALL }> = ({ v }) => {
     if (v === null) return <> -empty- </>
 
     if (Array.isArray(v))
@@ -25,8 +26,8 @@ const RenderValue: FC<{ v: TValue }> = ({ v }) => {
                     />
                 )
 
-            case 'link':
-                return <a href={v[1]}>{v[1]}</a>
+            // case 'link':
+            //     return <a href={v[1]}>{v[1]}</a>
 
             case 'datetime':
                 const datetime = new Date(v[1])
@@ -66,8 +67,8 @@ const RenderValue: FC<{ v: TValue }> = ({ v }) => {
         case 'boolean':
             return <Boolean v={v} />
 
-        case 'number':
-            return <>{v.toLocaleString()}</>
+        // case '':
+        //     return <>{v.toLocaleString()}</>
 
         default:
             return <>{v}</>

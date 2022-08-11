@@ -1,23 +1,25 @@
-import {
-    VImage,
-    TValue,
-    VDate,
-    VFile,
+import type {
     PK,
-    VForeignKey,
-    VManyToMany,
-    VDateTime,
-    VTime,
+    VWT_ALL,
+    V_Bool,
+    V_Date,
+    V_DateTime,
+    V_Decimal,
+    V_File,
+    V_ForeignKey,
+    V_Image,
+    V_ManyToMany,
+    V_Time,
 } from 'state'
 
-interface BaseField<T, I = '' | T, C = T> {
+interface BaseField<Value, Init = '' | Value, Choice = Value> {
     name: string
     label: string
     required: boolean
     help_text: string
-    initial: I
-    value?: T
-    choices?: [C, string][]
+    initial: Init
+    value?: Value
+    choices?: [Choice, string][]
 }
 
 // ================ TEXT ================
@@ -64,7 +66,7 @@ interface JsonField extends BaseField<string> {
 }
 
 // ================ NUMB ================
-interface BooleanField extends BaseField<boolean, boolean> {
+interface BooleanField extends BaseField<V_Bool, V_Bool> {
     type: 'boolean'
 }
 
@@ -74,7 +76,7 @@ interface IntegerField extends BaseField<number> {
     max: number
 }
 
-interface DecimalField extends BaseField<string> {
+interface DecimalField extends BaseField<V_Decimal> {
     type: 'decimal'
     max_digits: number
     decimal_places: number
@@ -85,11 +87,11 @@ interface FloatField extends BaseField<number> {
 }
 
 // ================ FILE ================
-interface ImageField extends BaseField<VImage, string, string> {
+interface ImageField extends BaseField<V_Image, string, string> {
     type: 'image'
 }
 
-interface FileField extends BaseField<VFile, string, string> {
+interface FileField extends BaseField<V_File, string, string> {
     type: 'file'
 }
 
@@ -99,28 +101,28 @@ interface FilePathField extends Omit<BaseField<string>, 'choices'> {
 }
 
 // ================ DATE ================
-interface DateField extends BaseField<VDate, string> {
+interface DateField extends BaseField<V_Date, string> {
     type: 'date'
 }
 
-interface DateTimeField extends BaseField<VDateTime, string> {
+interface DateTimeField extends BaseField<V_DateTime, string> {
     type: 'datetime'
 }
 
-interface TimeField extends BaseField<VTime, string> {
+interface TimeField extends BaseField<V_Time, string> {
     type: 'time'
 }
 
 // ================ RELA ================
-interface ForeignKeyField extends Omit<BaseField<VForeignKey, PK>, 'choices'> {
+interface ForeignKeyField extends Omit<BaseField<V_ForeignKey, PK>, 'choices'> {
     type: 'foreign_key'
-    choices: [PK, string][]
+    choices: V_ForeignKey[]
 }
 
 interface ManyToManyField
-    extends Omit<BaseField<VManyToMany, PK[]>, 'choices'> {
+    extends Omit<BaseField<V_ManyToMany, PK[]>, 'choices'> {
     type: 'many_to_many'
-    choices: [PK, string][]
+    choices: V_ManyToMany
 }
 
 // ================ OTHE ================
@@ -134,7 +136,7 @@ interface ReadOnlyField {
     name: string
     label: string
     type: 'readonly'
-    value?: TValue
+    value?: VWT_ALL
 }
 
 // ================ FIELD ================

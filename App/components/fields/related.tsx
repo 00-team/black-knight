@@ -25,8 +25,8 @@ const ForeignKeyField: TForeignKey = ({ field, change, ...attr }) => {
 type TManyToMany = FC<FieldProps<ManyToManyFieldModel>>
 const ManyToManyField: TManyToMany = ({ field, change, ...attr }) => {
     const default_value = field.value
-        ? field.value[1]
-        : field.initial || undefined
+        ? field.value.map(([pk]) => pk.toString())
+        : field.initial.map(pk => pk.toString())
 
     return (
         <ChoicesField<typeof field.choices[0]>
@@ -39,7 +39,7 @@ const ManyToManyField: TManyToMany = ({ field, change, ...attr }) => {
 
                 change(selected)
             }}
-            defaultValue={default_value.map(i => i.toString())}
+            defaultValue={default_value}
             choices={field.choices}
             get_value={c => c[0]}
             get_label={c => c[1]}

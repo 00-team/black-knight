@@ -35,7 +35,7 @@ interface ResultProps {
 }
 
 const Result: FC<ResultProps> = ({ result, index }) => {
-    const pk = result[0]
+    const [pk, ...results] = result
     const [Selecteds, UpdateSelecteds] = useAtom(BraceSelectAtom)
     const [LastIndex, UpdateLastIndex] = useAtom(LastIndexAtom)
     const PKMap = useAtomValue(PKMapAtom)
@@ -84,7 +84,7 @@ const Result: FC<ResultProps> = ({ result, index }) => {
                     />
                 </span>
             </td>
-            {result.slice(1).map((field, index) => (
+            {results.map((field, index) => (
                 <td key={index}>
                     {index === 0 ? (
                         <Link to={`change/${pk}/`}>
