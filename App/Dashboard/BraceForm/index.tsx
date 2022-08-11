@@ -1,6 +1,6 @@
 import React, { FC, useEffect } from 'react'
 
-import { AiOutlineExclamation } from '@react-icons/all-files/ai/AiOutlineExclamation'
+import { BsFillExclamationCircleFill } from '@react-icons/all-files/bs/BsFillExclamationCircleFill'
 import { FaNewspaper } from '@react-icons/all-files/fa/FaNewspaper'
 
 import { Navigate, useParams } from 'react-router-dom'
@@ -118,7 +118,7 @@ const Field: FC<{ field: FieldModel }> = ({ field }) => {
                 {error && (
                     <div className='error'>
                         <div className='icon'>
-                            <AiOutlineExclamation />
+                            <BsFillExclamationCircleFill />
                         </div>
                         <div className='holder'> {error}</div>
                     </div>
