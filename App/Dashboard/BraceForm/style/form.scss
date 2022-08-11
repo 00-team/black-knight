@@ -166,7 +166,7 @@
                 flex-direction: column;
                 gap: 2vh;
 
-                padding: 10px 0;
+                padding: 10px 5px;
 
                 overflow: hidden;
                 .data {
@@ -174,8 +174,6 @@
                 }
 
                 .error-container {
-                    overflow: hidden;
-
                     .error {
                         display: flex;
                         align-self: center;
@@ -189,6 +187,8 @@
 
                         background-color: var(--alert-error);
                         border-radius: 10px;
+
+                        box-shadow: 0px 7px 5px 0px var(--primary-color);
 
                         transition: transform 1s 1s ease-in-out;
                     }
