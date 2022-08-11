@@ -1,4 +1,4 @@
-import { AxiosError } from 'axios'
+import { AxiosError, CanceledError } from 'axios'
 
 import type { ErrorResponse } from './types'
 
@@ -13,7 +13,7 @@ const isAxiosError = (error: unknown): error is AxiosError<any> => {
 
 const HandleError = (error: unknown): ErrorResponse => {
     console.log(error)
-
+    let canceled = false
     let response: ErrorResponse = {
         ok: false,
         error: {
@@ -28,9 +28,14 @@ const HandleError = (error: unknown): ErrorResponse => {
         } else {
             response.error.message = error.message
         }
+
+        if (error.code === 'ERR_CANCELED' || error instanceof CanceledError) {
+            canceled = true
+            response.error.code = 20
+        }
     }
 
-    ReactAlert.error(response.error.message)
+    if (!canceled) ReactAlert.error(response.error.message)
 
     return response
 }
