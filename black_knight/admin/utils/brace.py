@@ -101,7 +101,7 @@ def render_value(value):
         # return value.total_seconds()
 
     elif isinstance(value, int):
-        return Value('int', value)
+        return Value('integer', value)
 
     elif isinstance(value, decimal.Decimal):
         return Value('decimal', value)
