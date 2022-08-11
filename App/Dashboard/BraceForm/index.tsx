@@ -4,7 +4,7 @@ import { FaNewspaper } from '@react-icons/all-files/fa/FaNewspaper'
 
 import { Navigate, useParams } from 'react-router-dom'
 
-import { useAtom, useAtomValue } from 'jotai'
+import { useAtom, useAtomValue, useSetAtom } from 'jotai'
 import {
     BFErrorsAtom,
     BFSData,
@@ -24,7 +24,7 @@ const BraceForm: FC = () => {
     const { app_label, model_name, pk } = useParams()
     const [Form, UpdateForm] = useAtom(BraceFormAtom)
 
-    const [, UpdateSubmitData] = useAtom(BFSData)
+    const UpdateSubmitData = useSetAtom(BFSData)
 
     useEffect(() => {
         if (!app_label || !model_name) return
