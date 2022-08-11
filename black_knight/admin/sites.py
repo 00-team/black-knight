@@ -112,10 +112,10 @@ class AdminSite(admin.AdminSite):
                         reverse('black_knight:login', current_app=self.name),
                     )
 
-                return JsonResponse({
-                    'error': 'Admin Login Required!',
-                    'login_required': True
-                }, status=401)
+                return ErrorResponse(
+                    'Admin Login Required!', 401,
+                    {'login_required': True}
+                )
 
             return view(request, *args, **kwargs)
 
