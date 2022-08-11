@@ -4,6 +4,7 @@ import { ReadOnlyFieldModel, UnknownFieldModel } from 'state'
 
 type TReadOnly = FC<{ field: ReadOnlyFieldModel }>
 const ReadOnlyField: TReadOnly = ({ field, ...attr }) => {
+    console.log(field)
     return <div {...attr}>ReadOnly</div>
 }
 

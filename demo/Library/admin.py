@@ -4,7 +4,9 @@ from django.contrib import admin
 from Library.models import AllFields, Author, Book
 
 
-admin.site.register(AllFields)
+@admin.register(AllFields)
+class AllFieldsAdmin(ModelAdmin):
+    readonly_fields = 'many_2_many',
 
 
 @admin.register(Book)

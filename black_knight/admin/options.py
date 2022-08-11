@@ -1,5 +1,5 @@
 from black_knight.admin.utils import ErrorResponse, construct_instance
-from black_knight.admin.utils import display_value, get_data
+from black_knight.admin.utils import field_value, get_data
 from django.contrib import admin
 from django.contrib.admin.utils import flatten_fieldsets, label_for_field
 from django.contrib.admin.utils import lookup_field
@@ -172,17 +172,17 @@ class ModelAdmin(admin.ModelAdmin):
             return info
 
         def get_field_value(field_dict: dict):
+            if 'value' in field_dict:
+                return field_dict
+
             field, _, value = lookup_field(field_dict['name'], instance, self)
+            value = field_value(field, value)
 
-            # if field.remote_field and value:
-            #     if isinstance(field.remote_field, ManyToManyRel):
-            #         field_dict['value'] = ', '.join(map(str, value.all()))
-            #         return field_dict
-            #     elif isinstance(field.remote_field, (ForeignObjectRel, OneToOneField)):
-            #         field_dict['value'] = get_remote_url(field, value)
-            #         return field_dict
+            if field_dict['type'] == 'readonly':
+                field_dict['value'] = value.with_type
+            else:
+                field_dict['value'] = value.value
 
-            field_dict['value'] = display_value(field, value)
             return field_dict
 
         for fieldset in base_fieldsets:

@@ -1,5 +1,6 @@
 from black_knight.admin import ModelAdmin
 from django.contrib import admin
+from django.utils.html import format_html
 
 from .models import Blog
 
@@ -20,11 +21,11 @@ class BlogAdmin(ModelAdmin):
     readonly_fields = '_thumbnail', '_study_time'
     list_per_page = 10
     list_filter = 'publish_date', 'study_time'
-    list_display = 'title', '_study_time', 'thumbnail'
+    list_display = 'title', '_thumbnail', '_study_time', 'thumbnail'
     ordering = '-publish_date',
     date_hierarchy = 'publish_date'
 
     @admin.display
     def _thumbnail(self, obj):
-        return 'value from _thumbnail'
+        return format_html('<span>value from _thumbnail</span>')
         # return obj.thumbnail.url

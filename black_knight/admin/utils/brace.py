@@ -3,12 +3,29 @@ import decimal
 import json
 from itertools import chain
 
+from black_knight import fields
 from black_knight.fields import ForeignKey, ManyToManyField
 from django.core.exceptions import ValidationError
-from django.db import models
+from django.db.models import AutoField
 from django.db.models import Field as ModelField
+from django.db.models import FileField
 from django.urls import NoReverseMatch, reverse
-from django.utils import formats, timezone
+
+
+class Value:
+    def __init__(self, value_type='char', value=None):
+        self.value_type = value_type
+        self.value = value
+
+    def get_value(self):
+        if (isinstance(self.value, (list, tuple))):
+            return self.value
+        else:
+            return [self.value]
+
+    @property
+    def with_type(self):
+        return self.value_type, *self.get_value()
 
 
 def get_remote_url(field, value):
@@ -24,59 +41,81 @@ def get_remote_url(field, value):
         str(value)
 
 
-def display_value(field, value):
-
-    if field:
-        if getattr(field, 'flatchoices', None):
-            return value
-            # return dict(field.flatchoices).get(value)
-
-        elif isinstance(field, models.ImageField):
-            return 'image', value.url if value else None
-
-        elif isinstance(field, models.FileField):
-            return 'file', value.url if value else None
-
-        elif isinstance(field, models.ForeignKey):
-            return 'foreign_key', value.pk, str(value)
-
-        elif isinstance(field, models.ManyToManyField):
-            return 'many_to_many', [i.pk for i in value.get_queryset()]
-
-        elif isinstance(field, models.JSONField) and value:
-            try:
-                return json.dumps(value, ensure_ascii=False, cls=field.encoder)
-            except TypeError:
-                return str(value)
-
+def field_value(field, value) -> Value:
     if value is None:
-        return None
+        return Value('null', None)
 
-    if value == '':
-        return None
+    if not field:
+        return render_value(value)
 
-    if isinstance(value, bool):
-        return value
+    if isinstance(field, (fields.ImageField, fields.FileField)):
+        vtype = 'image' if (isinstance(field, fields.ImageField)) else 'file'
 
-    if isinstance(value, datetime.datetime):
-        return 'datetime', value.replace(microsecond=0).isoformat()
+        if not value:
+            return Value(vtype, None)
 
-    if isinstance(value, datetime.date):
-        return 'date', value.isoformat()
-        # return formats.localize(timezone.template_localtime(value))
+        if getattr(field, 'flatchoices', None):
+            return Value(vtype, value.name)
 
-    if isinstance(value, datetime.time):
-        # TODO: return an iso format version of it
-        return 'time', value.isoformat()
+        return Value(vtype, value.url)
 
-    if isinstance(value, (int, decimal.Decimal, float)):
-        return value
-        # return formats.number_format(value)
+    elif isinstance(field, fields.ForeignKey):
+        return Value('foreign_key', (value.pk, str(value)))
 
-    if isinstance(value, (list, tuple)):
-        return ', '.join(str(v) for v in value)
+    elif isinstance(field, fields.ManyToManyField):
+        items = map(lambda obj: (obj.pk, str(obj)), value.get_queryset())
+        return Value('many_to_many', [list(items)])
 
-    return str(value)
+    elif isinstance(field, fields.JSONField):
+        try:
+            return Value('json', json.dumps(
+                value, ensure_ascii=False, cls=field.encoder
+            ))
+        except TypeError:
+            return render_value(value)
+
+    elif getattr(field, 'flatchoices', None):
+        return Value('choice', value)
+
+    return render_value(value)
+
+
+def render_value(value):
+    if value is None or value == '':
+        return Value('null', None)
+
+    elif isinstance(value, bool):
+        return Value('bool', value)
+
+    elif isinstance(value, datetime.datetime):
+        return Value('datetime', value.replace(microsecond=0).isoformat())
+
+    elif isinstance(value, datetime.date):
+        return Value('date', value.isoformat())
+
+    elif isinstance(value, datetime.time):
+        return Value('time', value.isoformat())
+
+    elif isinstance(value, datetime.timedelta):
+        return Value('timedelta', str(value))
+        # return value.total_seconds()
+
+    elif isinstance(value, int):
+        return Value('int', value)
+
+    elif isinstance(value, decimal.Decimal):
+        return Value('decimal', value)
+
+    elif isinstance(value, float):
+        return Value('float', value)
+
+    elif hasattr(value, '__html__'):
+        return Value('html', str(value))
+
+    # if isinstance(value, (list, tuple)):
+    #     return ', '.join(str(v) for v in value)
+
+    return Value('char', str(value))
 
 
 def construct_instance(instance, data, change, include=None, exclude=None):
@@ -94,7 +133,7 @@ def construct_instance(instance, data, change, include=None, exclude=None):
         f_name = 'F_' + field.name
         if (
             not field.editable
-            or isinstance(field, models.AutoField)
+            or isinstance(field, AutoField)
             # or f_name not in data
         ):
             continue
@@ -136,7 +175,7 @@ def construct_instance(instance, data, change, include=None, exclude=None):
 
         # Defer saving file-type fields until after the other fields, so a
         # callable upload_to can use the values from other fields.
-        if isinstance(field, models.FileField):
+        if isinstance(field, FileField):
             file_field_list.append((field, value))
         else:
             field.save_form_data(instance, value)
@@ -145,75 +184,3 @@ def construct_instance(instance, data, change, include=None, exclude=None):
         file_field.save_form_data(instance, value)
 
     return instance, errors
-
-
-# def update_field(field, instance, data, change):
-#     f_name = 'F_' + field.name
-
-#     if change and not f_name in data:
-#         return
-
-#     initial = field.get_default()
-#     value = data.get(f_name, initial)
-
-#     if isinstance(field, ForeignKey):
-#         value = field.get_instance(value, instance)
-#     else:
-#         value = field.clean(value, instance)
-
-#     field.save_form_data(instance, value)
-
-
-'''
-
-def display_for_field(value, field, empty_value_display):
-    from django.contrib.admin.templatetags.admin_list import _boolean_icon
-
-    if getattr(field, "flatchoices", None):
-        return dict(field.flatchoices).get(value, empty_value_display)
-    # BooleanField needs special-case null-handling, so it comes before the
-    # general null test.
-    elif isinstance(field, models.BooleanField):
-        return _boolean_icon(value)
-    elif value is None:
-        return empty_value_display
-    elif isinstance(field, models.DateTimeField):
-        return formats.localize(timezone.template_localtime(value))
-    elif isinstance(field, (models.DateField, models.TimeField)):
-        return formats.localize(value)
-    elif isinstance(field, models.DecimalField):
-        return formats.number_format(value, field.decimal_places)
-    elif isinstance(field, (models.IntegerField, models.FloatField)):
-        return formats.number_format(value)
-    elif isinstance(field, models.FileField) and value:
-        return format_html('<a href="{}">{}</a>', value.url, value)
-    elif isinstance(field, models.JSONField) and value:
-        try:
-            return json.dumps(value, ensure_ascii=False, cls=field.encoder)
-        except TypeError:
-            return display_for_value(value, empty_value_display)
-    else:
-        return display_for_value(value, empty_value_display)
-
-
-def display_for_value(value, empty_value_display, boolean=False):
-    from django.contrib.admin.templatetags.admin_list import _boolean_icon
-
-    if boolean:
-        return _boolean_icon(value)
-    elif value is None:
-        return empty_value_display
-    elif isinstance(value, bool):
-        return str(value)
-    elif isinstance(value, datetime.datetime):
-        return formats.localize(timezone.template_localtime(value))
-    elif isinstance(value, (datetime.date, datetime.time)):
-        return formats.localize(value)
-    elif isinstance(value, (int, decimal.Decimal, float)):
-        return formats.number_format(value)
-    elif isinstance(value, (list, tuple)):
-        return ", ".join(str(v) for v in value)
-    else:
-        return str(value)
-
-'''

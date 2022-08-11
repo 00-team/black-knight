@@ -65,7 +65,14 @@ class AllFields(models.Model):
 
     xfile = fields.FileField(upload_to='ALL/xfile/')
     file_path = fields.FilePathField(path=settings.BASE_DIR)
-    image = fields.ImageField(upload_to='ALL/image/')
+    image = fields.ImageField(
+        upload_to='ALL/image/',
+        choices=(
+            ('image 1', 'path-to-image-1'),
+            ('image 2', 'path-to-image-2'),
+            ('image 3', 'path-to-image-3'),
+        )
+    )
 
     many_2_many = fields.ManyToManyField(Book)
     one_2_one = fields.OneToOneField(
