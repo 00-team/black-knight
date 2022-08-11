@@ -151,7 +151,7 @@ class ModelAdmin(admin.ModelAdmin):
             pk = get_data(request).get('pk')
             instance = self.get_object(request, pk)
             if instance is None:
-                return ErrorResponse('instance not found')
+                return ErrorResponse('instance not found', 404)
 
         def get_field(field_name):
 
@@ -213,7 +213,7 @@ class ModelAdmin(admin.ModelAdmin):
         if change or delete:
             instance = self.get_object(request, data.get('pk'))
             if instance is None:
-                return ErrorResponse('instance not found')
+                return ErrorResponse('instance not found', 404)
         else:
             instance = self.model()
 
