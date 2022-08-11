@@ -1,0 +1,20 @@
+#__00_react_alert__ .wrapper .inner {
+    margin: 20px;
+
+    .alert-container {
+        pointer-events: all;
+        padding: 20px;
+
+        &.info {
+            background-color: darkblue;
+        }
+
+        &.success {
+            background-color: darkgreen;
+        }
+
+        &.error {
+            background-color: darkred;
+        }
+    }
+}
