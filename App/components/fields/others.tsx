@@ -2,10 +2,16 @@ import React, { FC } from 'react'
 
 import { ReadOnlyFieldModel, UnknownFieldModel } from 'state'
 
+import { RenderValue } from 'components'
+
 type TReadOnly = FC<{ field: ReadOnlyFieldModel }>
 const ReadOnlyField: TReadOnly = ({ field, ...attr }) => {
     console.log(field)
-    return <div {...attr}>ReadOnly</div>
+    return (
+        <div {...attr}>
+            {field.value ? <RenderValue value={field.value} /> : '-EMPTY-'}
+        </div>
+    )
 }
 
 type TUnknonw = FC<{ field: UnknownFieldModel }>
