@@ -55,17 +55,14 @@ const Paginator: FC<PageModel> = props => {
                         )
 
                     return (
-                        <li key={index} className='paginator-item description'>
+                        <li
+                            key={index}
+                            className={
+                                'paginator-item description' +
+                                C(props.current === item, 'selected')
+                            }
+                        >
                             <button
-                                style={
-                                    props.current === item
-                                        ? {
-                                              background: 'red',
-                                              opacity: 0.5,
-                                              cursor: 'not-allowed',
-                                          }
-                                        : {}
-                                }
                                 onClick={() =>
                                     props.current !== item &&
                                     UpdateResultOptions({
