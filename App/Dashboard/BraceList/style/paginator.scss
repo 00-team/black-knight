@@ -189,6 +189,20 @@
         }
     }
 
+    .result-counter {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5vw;
+
+        font-family: 'Oleo Script', cursive;
+
+        .result {
+            display: grid;
+            place-items: center;
+        }
+    }
+
     button {
         border: none;
         outline: none;
