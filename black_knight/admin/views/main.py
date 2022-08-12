@@ -131,7 +131,7 @@ class BraceResult:
             for field_name in list_display:
                 field, _, value = lookup_field(field_name, obj, model_admin)
                 value = field_value(field, value)
-                row.append(value.with_type)
+                row.append(value.display)
 
             return row
 

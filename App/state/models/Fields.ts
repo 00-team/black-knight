@@ -1,6 +1,6 @@
 import type {
+    D_ALL,
     PK,
-    VWT_ALL,
     V_Bool,
     V_Date,
     V_DateTime,
@@ -135,7 +135,7 @@ interface ReadOnlyField {
     name: string
     label: string
     type: 'readonly'
-    value?: VWT_ALL
+    value?: D_ALL
 }
 
 // ================ FIELD ================

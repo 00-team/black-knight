@@ -13,19 +13,38 @@ from django.urls import NoReverseMatch, reverse
 
 
 class Value:
-    def __init__(self, value_type='char', value=None):
+    def __init__(self, value_type, value, *args, **kwargs):
         self.value_type = value_type
         self.value = value
 
-    def get_value(self):
-        if (isinstance(self.value, (list, tuple))):
-            return self.value
+        if len(args) > 0:
+            self._display = args[0]
         else:
-            return [self.value]
+            self._display = kwargs.get('display', value)
+
+    def get_display(self):
+        if (isinstance(self._display, (list, tuple))):
+            return self._display
+        else:
+            return [self._display]
 
     @property
-    def with_type(self):
-        return self.value_type, *self.get_value()
+    def display(self):
+        return self.value_type, *self.get_display()
+
+
+def m2m_url(field):
+    meta = field.remote_field.model._meta
+    app_label = meta.app_label
+    model_name = meta.model_name
+
+    base_url = reverse('black_knight:index', current_app='black_knight')
+    base_url += f'{app_label}/{model_name}/change/'
+
+    def inner(value):
+        return base_url + f'{value.pk}/'
+
+    return inner
 
 
 def get_remote_url(field, value):
@@ -36,9 +55,9 @@ def get_remote_url(field, value):
     try:
         url = reverse('black_knight:index', current_app='black_knight')
         url += f'{app_label}/{model_name}/change/{value.pk}/'
-        return 'link', url
+        return url
     except NoReverseMatch:
-        str(value)
+        return str(value)
 
 
 def field_value(field, value) -> Value:
@@ -55,16 +74,25 @@ def field_value(field, value) -> Value:
             return Value(vtype, None)
 
         if getattr(field, 'flatchoices', None):
-            return Value(vtype, value.name)
+            return Value(vtype, value.name, value.url)
 
         return Value(vtype, value.url)
 
     elif isinstance(field, fields.ForeignKey):
-        return Value('foreign_key', (value.pk, str(value)))
+        return Value(
+            'foreign_key', value.pk,
+            (str(value), get_remote_url(field, value))
+            # pk, label, url
+        )
 
     elif isinstance(field, fields.ManyToManyField):
-        items = map(lambda obj: (obj.pk, str(obj)), value.get_queryset())
-        return Value('many_to_many', [list(items)])
+        remote_url = m2m_url(field)
+        items = value.get_queryset()
+
+        values = map(lambda obj: obj.pk, items)
+        displays = map(lambda obj: (str(obj), remote_url(obj)), items)
+
+        return Value('many_to_many', [list(values)], [list(displays)])
 
     elif isinstance(field, fields.JSONField):
         try:
@@ -75,7 +103,9 @@ def field_value(field, value) -> Value:
             return render_value(value)
 
     elif getattr(field, 'flatchoices', None):
-        return Value('choice', value)
+        value = str(value)
+        display = dict(field.flatchoices).get(value)
+        return Value('char', value, display)
 
     return render_value(value)
 

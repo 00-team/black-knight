@@ -179,7 +179,7 @@ class ModelAdmin(admin.ModelAdmin):
             value = field_value(field, value)
 
             if field_dict['type'] == 'readonly':
-                field_dict['value'] = value.with_type
+                field_dict['value'] = value.display
             else:
                 field_dict['value'] = value.value
 
