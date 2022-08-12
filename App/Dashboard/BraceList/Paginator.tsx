@@ -1,24 +1,31 @@
 import React, { FC, useState } from 'react'
 
-import { C } from '@00-team/utils'
+import { C, CountAnim } from '@00-team/utils'
 
 import { BsQuestion } from '@react-icons/all-files/bs/BsQuestion'
 import { ImCross } from '@react-icons/all-files/im/ImCross'
 import { IoMdSend } from '@react-icons/all-files/io/IoMdSend'
 
-import { useSetAtom } from 'jotai'
-import { PageModel, ResultOptionsAtom } from 'state'
+import { useAtomValue, useSetAtom } from 'jotai'
+import { BraceResultAtom, PageModel, ResultOptionsAtom } from 'state'
 
 import './style/paginator.scss'
 
 const Paginator: FC<PageModel> = props => {
     const UpdateResultOptions = useSetAtom(ResultOptionsAtom)
+    const BraceResult = useAtomValue(BraceResultAtom)
 
     const [SendPage, setSendPage] = useState({
         page: 0,
         status: false,
     })
     const [IsActive, setIsActive] = useState(false)
+
+    const getResult = () => {
+        if (BraceResult === 'loading') return 0
+
+        return BraceResult.result_count
+    }
 
     const PageNumber = (value: string) => {
         if (!value) return
@@ -55,17 +62,14 @@ const Paginator: FC<PageModel> = props => {
                         )
 
                     return (
-                        <li key={index} className='paginator-item description'>
+                        <li
+                            key={index}
+                            className={
+                                'paginator-item description' +
+                                C(props.current === item, 'selected')
+                            }
+                        >
                             <button
-                                style={
-                                    props.current === item
-                                        ? {
-                                              background: 'red',
-                                              opacity: 0.5,
-                                              cursor: 'not-allowed',
-                                          }
-                                        : {}
-                                }
                                 onClick={() =>
                                     props.current !== item &&
                                     UpdateResultOptions({
@@ -113,6 +117,16 @@ const Paginator: FC<PageModel> = props => {
                     </button>
                 </div>
             )}
+            <div className='result-counter title_small'>
+                <div className='counter-result'>
+                    <CountAnim
+                        start={0}
+                        speed={getResult() > 1000 ? 200 : 50}
+                        end={getResult()}
+                    />
+                </div>
+                <div className='holder'> Results Found</div>
+            </div>
         </div>
     )
 }
