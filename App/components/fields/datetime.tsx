@@ -1,6 +1,11 @@
 import React, { FC } from 'react'
 
-import { DateFieldModel, DateTimeFieldModel, TimeFieldModel } from 'state'
+import {
+    DateFieldModel,
+    DateTimeFieldModel,
+    DurationFieldModel,
+    TimeFieldModel,
+} from 'state'
 
 import { FieldProps } from './shared'
 
@@ -47,4 +52,18 @@ const TimeField: TTime = ({ field, change, ...attr }) => {
     )
 }
 
-export { DateField, DateTimeField, TimeField }
+type TDuration = FC<FieldProps<DurationFieldModel>>
+const DurationField: TDuration = ({ field, change, ...attr }) => {
+    const default_value = field.value || field.initial
+
+    return (
+        <input
+            {...attr}
+            type='text'
+            defaultValue={default_value}
+            onChange={e => change(e.target.value)}
+        />
+    )
+}
+
+export { DateField, DateTimeField, TimeField, DurationField }

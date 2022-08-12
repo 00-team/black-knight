@@ -3,7 +3,7 @@ import React, { FC } from 'react'
 import { useSetAtom } from 'jotai'
 import { BFSData, FieldModel } from 'state'
 
-import { DateField, DateTimeField, TimeField } from './datetime'
+import { DateField, DateTimeField, DurationField, TimeField } from './datetime'
 import { FileField, FilePathField, ImageField } from './files'
 import { BooleanField, DecimalField, FloatField, IntegerField } from './number'
 import { ReadOnlyField, UnknonwField } from './others'
@@ -76,6 +76,9 @@ const RenderField: TRenderField = ({ field, ...attr }) => {
 
         case 'time':
             return <TimeField field={field} {...props} />
+
+        case 'duration':
+            return <DurationField field={field} {...props} />
 
         // ================ OTHE ================
 

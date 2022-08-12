@@ -10,6 +10,7 @@ import type {
     V_Image,
     V_ManyToMany,
     V_Time,
+    V_TimeDelta,
 } from 'state'
 
 interface BaseField<Value, Init = '' | Value, Choice = Value> {
@@ -37,9 +38,7 @@ interface SlugField extends CharField {
 interface EmailField extends CharField {
     validation: 'email'
 }
-interface DurationField extends CharField {
-    validation: 'duration'
-}
+
 interface UUIDField extends CharField {
     validation: 'uuid'
 }
@@ -53,7 +52,6 @@ type CharBasedFields =
     | UrlField
     | SlugField
     | EmailField
-    | DurationField
     | UUIDField
     | GenericIPAddressField
 
@@ -104,13 +102,14 @@ interface FilePathField extends Omit<BaseField<string>, 'choices'> {
 interface DateField extends BaseField<V_Date, string> {
     type: 'date'
 }
-
 interface DateTimeField extends BaseField<V_DateTime, string> {
     type: 'datetime'
 }
-
 interface TimeField extends BaseField<V_Time, string> {
     type: 'time'
+}
+interface DurationField extends BaseField<V_TimeDelta> {
+    type: 'duration'
 }
 
 // ================ RELA ================
@@ -158,6 +157,7 @@ type Field =
     | DateField
     | DateTimeField
     | TimeField
+    | DurationField
     // RELA
     | ForeignKeyField
     | ManyToManyField
@@ -183,6 +183,7 @@ export {
     DateField as DateFieldModel,
     DateTimeField as DateTimeFieldModel,
     TimeField as TimeFieldModel,
+    DurationField as DurationFieldModel,
     // RELA
     ForeignKeyField as ForeignKeyFieldModel,
     ManyToManyField as ManyToManyFieldModel,

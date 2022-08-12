@@ -57,16 +57,6 @@ class UUIDField(BaseField, fields.UUIDField):
         })
 
 
-class DurationField(BaseField, fields.DurationField):
-
-    @property
-    def info(self):
-        return super().base_info(**{
-            'type': 'char',
-            'validation': 'duration',
-        })
-
-
 class GenericIPAddressField(BaseField, fields.GenericIPAddressField):
 
     @property
