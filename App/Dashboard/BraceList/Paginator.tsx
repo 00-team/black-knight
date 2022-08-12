@@ -120,7 +120,7 @@ const Paginator: FC<PageModel> = props => {
             <div className='result-counter title_small'>
                 <div className='counter-result'>
                     <CountAnim
-                        start={0}
+                        start={getResult() / 10}
                         speed={getResult() > 1000 ? 200 : 50}
                         end={getResult()}
                     />
