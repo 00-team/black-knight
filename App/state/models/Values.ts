@@ -3,10 +3,9 @@ type PK = string | number
 type V_Image = string | null
 type V_File = string | null
 type V_Null = null
-type V_ForeignKey = [PK, string]
-type V_ManyToMany = [PK, string][]
+type V_ForeignKey = [PK, string, string]
+type V_ManyToMany = [PK, string, string][]
 type V_Json = string
-type V_Choice = unknown
 type V_Bool = boolean
 type V_DateTime = string
 type V_Date = string
@@ -18,42 +17,40 @@ type V_Float = number
 type V_Html = string
 type V_Char = string
 
-type VWT_Image = ['image', V_Image]
-type VWT_File = ['file', V_File]
-type VWT_Null = ['null', V_Null]
-type VWT_ForeignKey = ['foreign_key', ...V_ForeignKey]
-type VWT_ManyToMany = ['many_to_many', V_ManyToMany]
-type VWT_Json = ['json', V_Json]
-type VWT_Choice = ['choice', V_Choice]
-type VWT_Bool = ['bool', V_Bool]
-type VWT_DateTime = ['datetime', V_DateTime]
-type VWT_Date = ['date', V_Date]
-type VWT_Time = ['time', V_Time]
-type VWT_TimeDelta = ['timedelta', V_TimeDelta]
-type VWT_Integer = ['integer', V_Integer]
-type VWT_Decimal = ['decimal', V_Decimal]
-type VWT_Float = ['float', V_Float]
-type VWT_Html = ['html', V_Html]
-type VWT_Char = ['char', V_Char]
+type D_Image = ['image', V_Image]
+type D_File = ['file', V_File]
+type D_Null = ['null', null]
+type D_ForeignKey = ['foreign_key', ...[string, string]]
+type D_ManyToMany = ['many_to_many', [string, string][]]
+type D_Json = ['json', string]
+type D_Bool = ['bool', boolean]
+type D_DateTime = ['datetime', string]
+type D_Date = ['date', string]
+type D_Time = ['time', string]
+type D_TimeDelta = ['timedelta', string]
+type D_Integer = ['integer', number]
+type D_Decimal = ['decimal', string]
+type D_Float = ['float', number]
+type D_Html = ['html', string]
+type D_Char = ['char', string]
 
-type VWT_ALL =
-    | VWT_Image
-    | VWT_File
-    | VWT_Null
-    | VWT_ForeignKey
-    | VWT_ManyToMany
-    | VWT_Json
-    | VWT_Choice
-    | VWT_Bool
-    | VWT_DateTime
-    | VWT_Date
-    | VWT_Time
-    | VWT_TimeDelta
-    | VWT_Integer
-    | VWT_Decimal
-    | VWT_Float
-    | VWT_Html
-    | VWT_Char
+type D_ALL =
+    | D_Image
+    | D_File
+    | D_Null
+    | D_ForeignKey
+    | D_ManyToMany
+    | D_Json
+    | D_Bool
+    | D_DateTime
+    | D_Date
+    | D_Time
+    | D_TimeDelta
+    | D_Integer
+    | D_Decimal
+    | D_Float
+    | D_Html
+    | D_Char
 
 export type { PK }
 export type {
@@ -63,7 +60,6 @@ export type {
     V_ForeignKey,
     V_ManyToMany,
     V_Json,
-    V_Choice,
     V_Bool,
     V_DateTime,
     V_Date,
@@ -76,22 +72,21 @@ export type {
     V_Char,
 }
 export type {
-    VWT_ALL,
-    VWT_Image,
-    VWT_File,
-    VWT_Null,
-    VWT_ForeignKey,
-    VWT_ManyToMany,
-    VWT_Json,
-    VWT_Choice,
-    VWT_Bool,
-    VWT_DateTime,
-    VWT_Date,
-    VWT_Time,
-    VWT_TimeDelta,
-    VWT_Integer,
-    VWT_Decimal,
-    VWT_Float,
-    VWT_Html,
-    VWT_Char,
+    D_ALL,
+    D_Image,
+    D_File,
+    D_Null,
+    D_ForeignKey,
+    D_ManyToMany,
+    D_Json,
+    D_Bool,
+    D_DateTime,
+    D_Date,
+    D_Time,
+    D_TimeDelta,
+    D_Integer,
+    D_Decimal,
+    D_Float,
+    D_Html,
+    D_Char,
 }

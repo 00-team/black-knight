@@ -1,78 +1,92 @@
 import React, { FC } from 'react'
 
-import { VWT_ALL } from 'state'
+import { D_ALL } from 'state'
 
-import { Boolean } from 'components'
+import { Boolean, RawHtml } from 'components'
+
+interface RenderValueProps {
+    value: D_ALL
+    empty?: string
+}
 
 // TODO: update this renders
-const RenderValue: FC<{ v: VWT_ALL }> = ({ v }) => {
-    if (v === null) return <> -empty- </>
+const RenderValue: FC<RenderValueProps> = ({ value, empty = '-empty-' }) => {
+    switch (value[0]) {
+        case 'null':
+            return <>{empty}</>
 
-    if (Array.isArray(v))
-        switch (v[0]) {
-            case 'image':
-                return (
-                    <img
-                        src={v[1] || ''}
-                        loading='lazy'
-                        // alt={'GG'}
-                        width={100}
-                        height={100}
-                        style={{
-                            objectFit: 'contain',
-                            border: '1px solid #fff',
-                            borderRadius: 7,
-                        }}
-                    />
-                )
+        case 'bool':
+            return <Boolean value={value[1]} />
 
-            // case 'link':
-            //     return <a href={v[1]}>{v[1]}</a>
+        case 'decimal':
+        case 'float':
+        case 'integer':
+            return <>{value[1].toLocaleString()}</>
 
-            case 'datetime':
-                const datetime = new Date(v[1])
-                return (
-                    <>
-                        {datetime.toLocaleString(undefined, {
-                            month: '2-digit',
-                            year: 'numeric',
-                            day: '2-digit',
+        case 'datetime':
+            return <DateTime dt={new Date(value[1])} />
 
-                            hour: '2-digit',
-                            minute: '2-digit',
-                            second: '2-digit',
+        case 'date':
+        case 'time':
+        case 'timedelta':
+            return <>{value[1]}</>
 
-                            hour12: false,
-                        })}
-                    </>
-                )
+        case 'char':
+            return <>{value[1]}</>
 
-            case 'date':
-                const date = new Date(v[1])
-                return (
-                    <>
-                        {date.toLocaleString(undefined, {
-                            month: '2-digit',
-                            year: 'numeric',
-                            day: '2-digit',
-                        })}
-                    </>
-                )
+        // TODO: text highlighting for json
+        case 'json':
+            return <>{value[1]}</>
 
-            case 'foreign_key':
-                return <>{v[2]}</>
-        }
+        case 'image':
+            return (
+                <img
+                    src={value[1] || ''}
+                    loading='lazy'
+                    // alt={'GG'}
+                    width={100}
+                    height={100}
+                    style={{
+                        objectFit: 'contain',
+                        border: '1px solid #fff',
+                        borderRadius: 7,
+                    }}
+                />
+            )
+        case 'file':
+            return <a href={value[1] || ''}>{value[1]}</a>
 
-    switch (typeof v) {
-        case 'boolean':
-            return <Boolean v={v} />
+        case 'foreign_key':
+            return <a href={value[2]}>{value[1]}</a>
 
-        // case '':
-        //     return <>{v.toLocaleString()}</>
+        case 'html':
+            return <RawHtml html={value[1]} />
+
+        case 'many_to_many':
+            return (
+                <ul>
+                    {value[1].map((item, idx) => (
+                        <li key={idx}>
+                            <a href={item[1]}>{item[0]}</a>
+                        </li>
+                    ))}
+                </ul>
+            )
 
         default:
-            return <>{v}</>
+            return <>Unknown Value</>
     }
 }
 
 export { RenderValue }
+
+const DateTime: FC<{ dt: Date }> = ({ dt }) => {
+    const _ = (n: number) => (n < 10 ? `0${n}` : `${n}`)
+
+    return (
+        <>
+            {dt.getFullYear()}-{_(dt.getMonth())}-{_(dt.getDate())}{' '}
+            {_(dt.getHours())}:{_(dt.getMinutes())}:{_(dt.getSeconds())}
+        </>
+    )
+}

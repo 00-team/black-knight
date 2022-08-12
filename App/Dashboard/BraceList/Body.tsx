@@ -88,10 +88,10 @@ const Result: FC<ResultProps> = ({ result, index }) => {
                 <td key={index}>
                     {index === 0 ? (
                         <Link to={`change/${pk}/`}>
-                            <RenderValue v={field} />
+                            <RenderValue value={field} />
                         </Link>
                     ) : (
-                        <RenderValue v={field} />
+                        <RenderValue value={field} />
                     )}
                 </td>
             ))}

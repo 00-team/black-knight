@@ -51,3 +51,12 @@ class TimeField(BaseField, fields.TimeField):
         return super().base_info(**{
             'type': 'time',
         })
+
+
+class DurationField(BaseField, fields.DurationField):
+
+    @property
+    def info(self):
+        return super().base_info(**{
+            'type': 'duration',
+        })

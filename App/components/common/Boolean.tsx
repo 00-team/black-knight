@@ -1,9 +1,13 @@
 import React, { FC } from 'react'
 
-const Boolean: FC<{ v: unknown }> = ({ v }) => {
+interface BooleanProps {
+    value: unknown | boolean
+}
+
+const Boolean: FC<BooleanProps> = ({ value }) => {
     // TODO: use a svg or an image for rendering the booleans
-    const bool = !!v
-    if (bool) return <>True 💚</>
+
+    if (!!value) return <>True 💚</>
     return <>False ❤</>
 }
 

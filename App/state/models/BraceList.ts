@@ -1,4 +1,4 @@
-import { PK, VWT_ALL } from 'state'
+import { D_ALL, PK } from 'state'
 
 // using BL_ prefix for Brace List Stuff
 
@@ -30,7 +30,7 @@ interface ActionModel {
     description: string
 }
 
-type ResultModel = [PK, ...VWT_ALL[]]
+type ResultModel = [PK, ...D_ALL[]]
 
 type PK_MAP = { [k: number]: PK }
 
