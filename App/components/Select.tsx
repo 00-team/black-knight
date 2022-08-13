@@ -7,7 +7,7 @@ import { MdKeyboardArrowDown } from '@react-icons/all-files/md/MdKeyboardArrowDo
 import './style/select.scss'
 
 interface Option {
-    lable: string
+    label: string
     value: unknown
 }
 
@@ -26,7 +26,7 @@ const Select: FC<SelectProps> = ({
 }) => {
     const [isOpen, setIsOpen] = useState(false)
     const [selectedOpt, setSelectedOpt] = useState<Option>(
-        defaultOpt || { lable: 'Select a Option', value: undefined }
+        defaultOpt || { label: 'Select a Option', value: undefined }
     )
 
     return (
@@ -36,7 +36,7 @@ const Select: FC<SelectProps> = ({
                 onClick={() => setIsOpen(!isOpen)}
                 style={{ zIndex: zIndex + options.length + 7 }}
             >
-                <div className='display-option-text'>{selectedOpt.lable}</div>
+                <div className='display-option-text'>{selectedOpt.label}</div>
                 <div className='display-option-icon'>
                     <MdKeyboardArrowDown
                         className={`icon ${isOpen ? 'rotate' : ''}`}
@@ -62,7 +62,7 @@ const Select: FC<SelectProps> = ({
                             zIndex
                         )}
                     >
-                        {opt.lable}
+                        {opt.label}
                     </span>
                 ))}
         </div>
@@ -92,4 +92,6 @@ const SelectStyle: SS = (isOpen, index, length, zIndex) => {
             zIndex: zIndex + length - index,
         }
 }
+
+export { Option as SelectOption }
 export { Select }

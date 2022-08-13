@@ -1,4 +1,4 @@
-import React, { FC, Suspense, useEffect } from 'react'
+import React, { FC, Suspense, useEffect, useMemo, useState } from 'react'
 
 import { AiFillFolderAdd } from '@react-icons/all-files/ai/AiFillFolderAdd'
 import { RiSettings5Fill } from '@react-icons/all-files/ri/RiSettings5Fill'
@@ -6,9 +6,15 @@ import { RiSettings5Fill } from '@react-icons/all-files/ri/RiSettings5Fill'
 import { Link, useParams } from 'react-router-dom'
 
 import { useAtom, useAtomValue, useSetAtom } from 'jotai'
-import { BraceInfoAtom, BraceResultAtom, ResultOptionsAtom } from 'state'
+import {
+    BraceInfoAtom,
+    BraceResultAtom,
+    BraceSelectAtom,
+    ResultOptionsAtom,
+} from 'state'
+import { SubmitAction } from 'state'
 
-import { Loading, SearchInput, Select } from 'comps'
+import { Loading, SearchInput, Select, SelectOption } from 'comps'
 
 import { BraceBody } from './Body'
 import { BraceHead } from './Head'
@@ -18,15 +24,15 @@ import './style/brace-list.scss'
 
 const Model_opts = [
     {
-        lable: 'All',
+        label: 'All',
         value: null,
     },
     {
-        lable: 'Date (New-Old)',
+        label: 'Date (New-Old)',
         value: 'date',
     },
     {
-        lable: 'Date (Old-New)',
+        label: 'Date (Old-New)',
         value: 'date_reverse',
     },
 ]
@@ -102,40 +108,11 @@ const Result: FC = () => {
         UpdateBraceResult()
     }, [ResultOptions])
 
-    useEffect(() => {
-        if (BraceInfo === 'loading' || BraceInfo.actions === null) return
-    }, [BraceInfo])
-
     if (BraceInfo === 'loading') return <Loading />
 
     return (
         <>
-            <div className='actions-container title_small'>
-                <div className='actions'>
-                    <div className='icon'>
-                        <RiSettings5Fill size={24} />
-                    </div>
-                    <div className='holder'>Actions :</div>
-                </div>
-                <div className='dropdown'>
-                    {BraceInfo.actions && (
-                        <Select
-                            onChange={action => console.log(action)}
-                            options={BraceInfo.actions
-                                .map(({ name, description }) => ({
-                                    lable: description,
-                                    value: name,
-                                }))
-                                .concat([
-                                    {
-                                        lable: '---Default---',
-                                        value: 'idgaf',
-                                    },
-                                ])}
-                        />
-                    )}
-                </div>
-            </div>
+            <Actions />
 
             <div className='result'>
                 <table>
@@ -159,6 +136,55 @@ const Result: FC = () => {
                 <Paginator {...BraceResult.page} />
             )}
         </>
+    )
+}
+
+const DefaultAction: SelectOption = {
+    label: '---Default---',
+    value: null,
+}
+
+const Actions: FC = () => {
+    const BraceInfo = useAtomValue(BraceInfoAtom)
+    const { app_label, model_name } = useParams()
+    const items = useAtomValue(BraceSelectAtom)
+    const [action, setAction] = useState<unknown>(null)
+
+    const Options = useMemo(() => {
+        if (BraceInfo === 'loading' || !BraceInfo.actions)
+            return [DefaultAction]
+
+        return [
+            DefaultAction,
+            ...BraceInfo.actions.map(({ name, description }) => ({
+                label: description,
+                value: name,
+            })),
+        ]
+    }, [BraceInfo])
+
+    const submit = () => {
+        if (typeof action === 'string')
+            SubmitAction({ app_label, model_name, action, items })
+    }
+    submit
+
+    return (
+        <div className='actions-container title_small'>
+            <div className='actions'>
+                <div className='icon'>
+                    <RiSettings5Fill size={24} />
+                </div>
+                <div className='holder'>Actions :</div>
+            </div>
+            <div className='dropdown'>
+                <Select
+                    onChange={action => setAction(action.value)}
+                    options={Options}
+                    defaultOpt={DefaultAction}
+                />
+            </div>
+        </div>
     )
 }
 
