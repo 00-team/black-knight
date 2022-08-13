@@ -136,7 +136,7 @@ class ModelAdmin(admin.ModelAdmin):
         # action = (func, name, desc)
         action[0](self, request, queryset)
 
-        return JsonResponse({'ok': 'action executed successfully'})
+        return JsonResponse({'message': 'action executed successfully'})
 
     def brace_form(self, request: HttpRequest, form_type: str):
         fieldsets = []
