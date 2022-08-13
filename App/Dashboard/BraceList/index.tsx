@@ -1,6 +1,7 @@
 import React, { FC, Suspense, useEffect } from 'react'
 
 import { AiFillFolderAdd } from '@react-icons/all-files/ai/AiFillFolderAdd'
+import { RiSettings5Fill } from '@react-icons/all-files/ri/RiSettings5Fill'
 
 import { Link, useParams } from 'react-router-dom'
 
@@ -101,10 +102,40 @@ const Result: FC = () => {
         UpdateBraceResult()
     }, [ResultOptions])
 
+    useEffect(() => {
+        if (BraceInfo === 'loading' || BraceInfo.actions === null) return
+    }, [BraceInfo])
+
     if (BraceInfo === 'loading') return <Loading />
 
     return (
         <>
+            <div className='actions-container title_small'>
+                <div className='actions'>
+                    <div className='icon'>
+                        <RiSettings5Fill size={24} />
+                    </div>
+                    <div className='holder'>Actions :</div>
+                </div>
+                <div className='dropdown'>
+                    {BraceInfo.actions && (
+                        <Select
+                            options={BraceInfo.actions
+                                .map(({ name, description }) => ({
+                                    lable: description,
+                                    value: name,
+                                }))
+                                .concat([
+                                    {
+                                        lable: '---Default---',
+                                        value: 'idgaf',
+                                    },
+                                ])}
+                        />
+                    )}
+                </div>
+            </div>
+
             <div className='result'>
                 <table>
                     <BraceHead
