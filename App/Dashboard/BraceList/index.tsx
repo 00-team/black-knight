@@ -1,6 +1,7 @@
 import React, { FC, Suspense, useEffect, useMemo, useState } from 'react'
 
 import { AiFillFolderAdd } from '@react-icons/all-files/ai/AiFillFolderAdd'
+import { IoSend } from '@react-icons/all-files/io5/IoSend'
 import { RiSettings5Fill } from '@react-icons/all-files/ri/RiSettings5Fill'
 
 import { Link, useParams } from 'react-router-dom'
@@ -11,8 +12,8 @@ import {
     BraceResultAtom,
     BraceSelectAtom,
     ResultOptionsAtom,
+    SubmitAction,
 } from 'state'
-import { SubmitAction } from 'state'
 
 import { Loading, SearchInput, Select, SelectOption } from 'comps'
 
@@ -149,6 +150,7 @@ const Actions: FC = () => {
     const { app_label, model_name } = useParams()
     const items = useAtomValue(BraceSelectAtom)
     const [action, setAction] = useState<unknown>(null)
+    const UpdateBraceResult = useSetAtom(BraceResultAtom)
 
     const Options = useMemo(() => {
         if (BraceInfo === 'loading' || !BraceInfo.actions)
@@ -163,11 +165,14 @@ const Actions: FC = () => {
         ]
     }, [BraceInfo])
 
-    const submit = () => {
-        if (typeof action === 'string')
-            SubmitAction({ app_label, model_name, action, items })
+    const Submit = async () => {
+        if (typeof action !== 'string' || items.length < 1) return
+        // TODO: confirm the action
+        if (confirm('Confirm the Action')) {
+            await SubmitAction({ app_label, model_name, action, items })
+            UpdateBraceResult()
+        }
     }
-    submit
 
     return (
         <div className='actions-container title_small'>
@@ -183,6 +188,9 @@ const Actions: FC = () => {
                     options={Options}
                     defaultOpt={DefaultAction}
                 />
+            </div>
+            <div className='send-btn icon' onClick={Submit}>
+                <IoSend size={24} />
             </div>
         </div>
     )
