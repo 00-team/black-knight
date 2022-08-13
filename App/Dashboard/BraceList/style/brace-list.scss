@@ -8,6 +8,7 @@
     justify-content: flex-start;
     flex-direction: column;
 
+    gap: 3vh;
     .header {
         display: flex;
         align-items: center;
@@ -80,6 +81,36 @@
         }
     }
 
+    .actions-container {
+        display: flex;
+
+        align-items: center;
+        justify-content: flex-start;
+        gap: 1vw;
+
+        width: 100%;
+
+        font-family: 'Oleo Script', cursive;
+        font-weight: bold;
+
+        padding: 0 15px;
+
+        .actions {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75vw;
+        }
+
+        .icon {
+            transition: transform 0.7s ease-in-out;
+        }
+
+        &:hover .icon {
+            transform: rotate(180deg);
+        }
+    }
+
     .result {
         display: flex;
         align-items: center;
@@ -88,8 +119,6 @@
 
         width: 100%;
         flex: 1 0 0;
-
-        margin-top: 3vh;
 
         overflow: auto;
         scroll-behavior: smooth;
