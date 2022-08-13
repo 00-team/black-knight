@@ -8,7 +8,6 @@
     justify-content: flex-start;
     flex-direction: column;
 
-    gap: 3vh;
     .header {
         display: flex;
         align-items: center;
@@ -94,6 +93,8 @@
         font-weight: bold;
 
         padding: 0 15px;
+
+        margin: 3vh 0;
 
         .actions {
             display: flex;
