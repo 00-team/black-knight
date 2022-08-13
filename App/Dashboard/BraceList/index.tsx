@@ -120,6 +120,7 @@ const Result: FC = () => {
                 <div className='dropdown'>
                     {BraceInfo.actions && (
                         <Select
+                            onChange={action => console.log(action)}
                             options={BraceInfo.actions
                                 .map(({ name, description }) => ({
                                     lable: description,
