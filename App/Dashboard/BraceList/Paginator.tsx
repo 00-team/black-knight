@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react'
+import React, { FC, useMemo, useState } from 'react'
 
 import { C, CountAnim } from '@00-team/utils'
 
@@ -21,11 +21,10 @@ const Paginator: FC<PageModel> = props => {
     })
     const [IsActive, setIsActive] = useState(false)
 
-    const getResult = () => {
-        if (BraceResult === 'loading') return 0
-
-        return BraceResult.result_count
-    }
+    const results = useMemo(
+        () => (BraceResult === 'loading' ? 0 : BraceResult.result_count),
+        [BraceResult]
+    )
 
     const PageNumber = (value: string) => {
         if (!value) return
@@ -120,9 +119,8 @@ const Paginator: FC<PageModel> = props => {
             <div className='result-counter title_small'>
                 <div className='counter-result'>
                     <CountAnim
-                        start={getResult() / 10}
-                        speed={getResult() > 1000 ? 200 : 50}
-                        end={getResult()}
+                        end={results}
+                        Operation={c => Math.floor((c + 1) * 1.7)}
                     />
                 </div>
                 <div className='holder'> Results Found</div>
