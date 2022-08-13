@@ -1,6 +1,7 @@
 import React, { FC, Suspense, useEffect } from 'react'
 
 import { AiFillFolderAdd } from '@react-icons/all-files/ai/AiFillFolderAdd'
+import { IoSend } from '@react-icons/all-files/io5/IoSend'
 import { RiSettings5Fill } from '@react-icons/all-files/ri/RiSettings5Fill'
 
 import { Link, useParams } from 'react-router-dom'
@@ -112,7 +113,7 @@ const Result: FC = () => {
         <>
             <div className='actions-container title_small'>
                 <div className='actions'>
-                    <div className='icon'>
+                    <div className='icon setting'>
                         <RiSettings5Fill size={24} />
                     </div>
                     <div className='holder'>Actions :</div>
@@ -134,6 +135,9 @@ const Result: FC = () => {
                                 ])}
                         />
                     )}
+                </div>
+                <div className='send-btn icon'>
+                    <IoSend size={24} />
                 </div>
             </div>
 
