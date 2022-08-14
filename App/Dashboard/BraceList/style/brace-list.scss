@@ -80,11 +80,11 @@
         }
     }
 
-    .actions-container {
+    .actions_order {
         display: flex;
 
         align-items: center;
-        justify-content: flex-start;
+        justify-content: space-between;
         gap: 1vw;
 
         width: 100%;
@@ -92,62 +92,68 @@
         font-family: 'Oleo Script', cursive;
         font-weight: bold;
 
-        padding: 0 15px;
+        padding: 0 20px;
 
         margin: 3vh 0;
 
-        .actions {
+        .column-action-wrapper {
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 0.75vw;
-        }
-
-        .setting {
-            transition: transform 0.7s ease-in-out;
-        }
-
-        &:hover .setting {
-            transform: rotate(180deg);
-        }
-
-        .send-btn {
-            border-radius: 100vmax;
-
-            background-color: var(--ten-percent);
-
-            box-shadow: 0px 5px 6px -1px var(--primary-color);
-
-            cursor: pointer;
-
-            svg {
-                margin: 12px;
-                position: relative;
-                right: -1px;
+            .column-action {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 0.75vw;
             }
 
-            &:hover svg {
-                animation: shake 0.7s ease-in-out;
+            .setting {
+                transition: transform 0.7s ease-in-out;
             }
 
-            @keyframes shake {
-                0% {
-                    transform: rotate(0deg);
+            &:hover .setting {
+                transform: rotate(180deg);
+            }
+
+            .send-btn {
+                border-radius: 100vmax;
+
+                background-color: var(--ten-percent);
+
+                box-shadow: 0px 5px 6px -1px var(--primary-color);
+
+                cursor: pointer;
+
+                svg {
+                    margin: 12px;
+                    position: relative;
+                    right: -1px;
                 }
-                20% {
-                    transform: rotate(15deg);
+
+                &:hover svg {
+                    animation: shake 0.7s ease-in-out;
                 }
-                40% {
-                    transform: rotate(-15deg);
-                }
-                60% {
-                    transform: rotate(15deg);
-                }
-                80% {
-                    transform: rotate(-15deg);
-                }
-                100% {
-                    transform: rotate(0deg);
+
+                @keyframes shake {
+                    0% {
+                        transform: rotate(0deg);
+                    }
+                    20% {
+                        transform: rotate(15deg);
+                    }
+                    40% {
+                        transform: rotate(-15deg);
+                    }
+                    60% {
+                        transform: rotate(15deg);
+                    }
+                    80% {
+                        transform: rotate(-15deg);
+                    }
+                    100% {
+                        transform: rotate(0deg);
+                    }
                 }
             }
         }
