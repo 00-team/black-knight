@@ -113,7 +113,10 @@ const Result: FC = () => {
 
     return (
         <>
-            <Actions />
+            <div className='actions_order'>
+                <Actions />
+                <Orders />
+            </div>
 
             <div className='result'>
                 <table>
@@ -175,8 +178,8 @@ const Actions: FC = () => {
     }
 
     return (
-        <div className='actions-container title_small'>
-            <div className='actions'>
+        <div className='actions-wrapper column-action-wrapper'>
+            <div className='actions column-action'>
                 <div className='icon'>
                     <RiSettings5Fill size={24} />
                 </div>
@@ -192,6 +195,20 @@ const Actions: FC = () => {
             <div className='send-btn icon' onClick={Submit}>
                 <IoSend size={24} />
             </div>
+        </div>
+    )
+}
+
+const Orders: FC = () => {
+    return (
+        <div className='order-wrapper column-action-wrapper'>
+            <div className='orders column-action'>
+                <div className='icon'>
+                    <RiSettings5Fill size={24} />
+                </div>
+                <div className='holder'>Orders :</div>
+            </div>
+            <div className='dropdown'></div>
         </div>
     )
 }
