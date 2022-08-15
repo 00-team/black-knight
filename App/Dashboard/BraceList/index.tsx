@@ -1,6 +1,7 @@
 import React, { FC, Suspense, useEffect, useMemo, useState } from 'react'
 
 import { AiFillFolderAdd } from '@react-icons/all-files/ai/AiFillFolderAdd'
+import { GoListUnordered } from '@react-icons/all-files/go/GoListUnordered'
 import { IoSend } from '@react-icons/all-files/io5/IoSend'
 import { RiSettings5Fill } from '@react-icons/all-files/ri/RiSettings5Fill'
 
@@ -178,10 +179,10 @@ const Actions: FC = () => {
     }
 
     return (
-        <div className='actions-wrapper column-action-wrapper'>
+        <div className='actions-wrapper column-action-wrapper title_small'>
             <div className='actions column-action'>
                 <div className='icon'>
-                    <RiSettings5Fill size={24} />
+                    <RiSettings5Fill className='setting' size={24} />
                 </div>
                 <div className='holder'>Actions :</div>
             </div>
@@ -201,14 +202,16 @@ const Actions: FC = () => {
 
 const Orders: FC = () => {
     return (
-        <div className='order-wrapper column-action-wrapper'>
-            <div className='orders column-action'>
+        <div className='order-wrapper column-action-wrapper title_small'>
+            <button className='orders'>
                 <div className='icon'>
-                    <RiSettings5Fill size={24} />
+                    <GoListUnordered size={24} />
                 </div>
-                <div className='holder'>Orders :</div>
-            </div>
-            <div className='dropdown'></div>
+                <div className='holder'>Orders</div>
+                <div className='icon'>
+                    <GoListUnordered size={24} />
+                </div>
+            </button>
         </div>
     )
 }
