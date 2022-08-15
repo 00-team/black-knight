@@ -17,6 +17,7 @@ import {
 } from 'state'
 
 import { Loading, SearchInput, Select, SelectOption } from 'comps'
+import OrdersList from 'comps/common/OrdersList'
 
 import { BraceBody } from './Body'
 import { BraceHead } from './Head'
@@ -116,7 +117,7 @@ const Result: FC = () => {
         <>
             <div className='actions_order'>
                 <Actions />
-                <Orders />
+                <Orders orders={BraceInfo.orders ? BraceInfo.orders : null} />
             </div>
 
             <div className='result'>
@@ -200,10 +201,15 @@ const Actions: FC = () => {
     )
 }
 
-const Orders: FC = () => {
+interface OrdersProps {
+    orders: any[] | null
+}
+
+const Orders: FC<OrdersProps> = ({ orders }) => {
+    const [SeeOrders, setSeeOrders] = useState(false)
     return (
         <div className='order-wrapper column-action-wrapper title_small'>
-            <button className='orders'>
+            <button className='orders' onClick={() => setSeeOrders(true)}>
                 <div className='icon'>
                     <GoListUnordered size={24} />
                 </div>
@@ -212,6 +218,7 @@ const Orders: FC = () => {
                     <GoListUnordered size={24} />
                 </div>
             </button>
+            {SeeOrders && <OrdersList orders={orders} />}
         </div>
     )
 }
