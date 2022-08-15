@@ -1,8 +1,13 @@
 .orderslist-container {
     position: absolute;
     top: 0;
+    right: 0;
 
-    background-color: var(--sixty-percent);
+    width: 150%;
+
+    padding: 15px;
+
+    background-color: var(--ten-percent);
 
     z-index: 1;
 
@@ -10,6 +15,8 @@
     visibility: hidden;
 
     transform: scale(0.9);
+
+    border-radius: 10px;
 
     transition: all 0.5s ease-in-out;
 
@@ -26,6 +33,40 @@
             list-style-type: decimal; /* or 'decimal-leading-zero', 'upper-alpha', 'lower-alpha'... */
             list-style-position: outside; /* or 'inside' */
             margin-left: 1em; /* gives 'room' for the numbers to appear in */
+        }
+    }
+
+    .list-orders {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 0.5vw;
+
+        .list-order {
+            text-align: center;
+            padding: 10px 15px;
+            background-color: var(--sixty-percent);
+
+            border-radius: 10px;
+        }
+    }
+
+    .close-btn {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+
+        cursor: pointer;
+
+        transform: rotate(0);
+
+        svg {
+            transition: transform 0.7s ease-in-out;
+        }
+
+        &:hover svg {
+            transform: rotate(360deg);
         }
     }
 }
