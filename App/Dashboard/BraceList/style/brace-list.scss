@@ -157,6 +157,24 @@
                 }
             }
         }
+        .orders {
+            padding: 1.5vh 1.6vw;
+            background-color: var(--primary-color);
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75vw;
+
+            font-size: inherit;
+            font-weight: bold;
+            border-radius: 10px;
+
+            cursor: pointer;
+
+            // reset
+            border: none;
+        }
     }
 
     .result {
