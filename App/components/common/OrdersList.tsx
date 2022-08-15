@@ -34,7 +34,11 @@ const OrdersList: FC<OrdersListProps> = ({
                     <div className='list-orders title_smaller'>
                         {orders.map((order, index) => {
                             return (
-                                <div key={index} className='list-order'>
+                                <div
+                                    draggable={true}
+                                    key={index}
+                                    className='list-order'
+                                >
                                     {order}
                                 </div>
                             )
