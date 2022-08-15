@@ -1,16 +1,20 @@
 import React, { FC } from 'react'
 
+import { C } from '@00-team/utils'
+
 import { Loading } from './Loading'
 
 import './style/orderslist.scss'
 
 interface OrdersListProps {
     orders: any[] | null
+    className?: string
 }
 
-const OrdersList: FC<OrdersListProps> = ({ orders }) => {
+const OrdersList: FC<OrdersListProps> = ({ orders, className }) => {
+    className
     return (
-        <div className='orderslist-container'>
+        <div className={`orderslist-container ${C(className)}`}>
             {orders ? (
                 <>
                     <div className='active-orders'>
