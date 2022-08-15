@@ -157,23 +157,26 @@
                 }
             }
         }
-        .orders {
-            padding: 1.5vh 1.6vw;
-            background-color: var(--primary-color);
+        .order-wrapper {
+            position: relative;
+            .orders {
+                padding: 1.5vh 1.6vw;
+                background-color: var(--primary-color);
 
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 1vw;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 1vw;
 
-            font-size: inherit;
-            font-weight: bold;
-            border-radius: 10px;
+                font-size: inherit;
+                font-weight: bold;
+                border-radius: 10px;
 
-            cursor: pointer;
+                cursor: pointer;
 
-            // reset
-            border: none;
+                // reset
+                border: none;
+            }
         }
     }
 
