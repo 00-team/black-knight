@@ -1,5 +1,7 @@
 import React, { FC, Suspense, useEffect, useMemo, useState } from 'react'
 
+import { C } from '@00-team/utils'
+
 import { AiFillFolderAdd } from '@react-icons/all-files/ai/AiFillFolderAdd'
 import { GoListUnordered } from '@react-icons/all-files/go/GoListUnordered'
 import { IoSend } from '@react-icons/all-files/io5/IoSend'
@@ -218,7 +220,7 @@ const Orders: FC<OrdersProps> = ({ orders }) => {
                     <GoListUnordered size={24} />
                 </div>
             </button>
-            {SeeOrders && <OrdersList orders={orders} />}
+            <OrdersList className={C(SeeOrders)} orders={orders} />
         </div>
     )
 }
