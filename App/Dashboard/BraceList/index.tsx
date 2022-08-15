@@ -220,7 +220,11 @@ const Orders: FC<OrdersProps> = ({ orders }) => {
                     <GoListUnordered size={24} />
                 </div>
             </button>
-            <OrdersList className={C(SeeOrders)} orders={orders} />
+            <OrdersList
+                className={C(SeeOrders)}
+                setSeeOrders={setSeeOrders}
+                orders={orders}
+            />
         </div>
     )
 }
