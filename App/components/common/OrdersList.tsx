@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react'
+import React, { FC, useEffect, useState } from 'react'
 
 import { C } from '@00-team/utils'
 
@@ -20,14 +20,29 @@ const OrdersList: FC<OrdersListProps> = ({
     className,
     setSeeOrders,
 }) => {
-    const [ActiveOrders, setActiveOrders] = useState([])
-    setActiveOrders
+    const [ActiveOrders, setActiveOrders] = useState<string[]>([])
+
+    useEffect(() => {
+        console.log(ActiveOrders)
+    }, [ActiveOrders])
+
     return (
         <div className={`orderslist-container ${C(className)} title_small`}>
             {orders ? (
                 <>
                     <div className='active-orders'>
-                        <ol className='list-container'>
+                        <ol
+                            className='list-container'
+                            onDragOver={e => e.preventDefault()}
+                            onDrop={e => {
+                                e.preventDefault()
+                                console.log(e.dataTransfer.getData('text'))
+                                setActiveOrders(orders => [
+                                    ...orders,
+                                    e.dataTransfer.getData('text'),
+                                ])
+                            }}
+                        >
                             {orders.map((_, index) => {
                                 if (ActiveOrders[index]) {
                                     return (
@@ -43,17 +58,30 @@ const OrdersList: FC<OrdersListProps> = ({
                             })}
                         </ol>
                     </div>
-                    <div className='list-orders title_smaller'>
+                    <div
+                        className='list-orders title_smaller'
+                        onDragOver={e => e.preventDefault()}
+                    >
                         {orders.map((order, index) => {
-                            return (
-                                <div
-                                    draggable={true}
-                                    key={index}
-                                    className='list-order'
-                                >
-                                    {order}
-                                </div>
-                            )
+                            if (!ActiveOrders.includes(order)) {
+                                return (
+                                    <div
+                                        draggable={true}
+                                        key={index}
+                                        className='list-order'
+                                        onDragStart={e => {
+                                            e.dataTransfer.setData(
+                                                'text',
+                                                order
+                                            )
+                                        }}
+                                    >
+                                        {order}
+                                    </div>
+                                )
+                            } else {
+                                return <></>
+                            }
                         })}
                     </div>
                     <div
