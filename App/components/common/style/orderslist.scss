@@ -12,7 +12,7 @@
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    gap: 3vh;
+    gap: 1.5vh;
 
     background-color: var(--ten-percent);
 
@@ -50,11 +50,20 @@
                 list-style-position: outside; /* or 'inside' */
                 margin-left: 1em; /* gives 'room' for the numbers to appear in */
 
-                margin-top: 1.5vh;
+                margin-top: 1vh;
 
                 border: 1px dashed var(--sixty-percent);
 
                 border-radius: 10px;
+
+                padding: 5px 0;
+
+                &.order-active {
+                    border: none;
+                    text-align: center;
+
+                    background-color: var(--sixty-percent);
+                }
             }
         }
     }
