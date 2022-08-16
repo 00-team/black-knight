@@ -23,7 +23,7 @@ const OrdersList: FC<OrdersListProps> = ({
     const [ActiveOrders, setActiveOrders] = useState<string[]>([])
 
     useEffect(() => {
-        console.log(ActiveOrders)
+        console.log(ActiveOrders.length === orders?.length)
     }, [ActiveOrders])
 
     return (
@@ -96,28 +96,35 @@ const OrdersList: FC<OrdersListProps> = ({
                             } else return
                         }}
                     >
-                        {orders.map((order, index) => {
-                            if (!ActiveOrders.includes(order)) {
-                                return (
-                                    <div
-                                        draggable={true}
-                                        key={index}
-                                        className='list-order'
-                                        onDragStart={e => {
-                                            e.dataTransfer.setData(
-                                                'text',
-                                                order
-                                            )
-                                            e.dataTransfer.dropEffect = 'move'
-                                        }}
-                                    >
-                                        {order}
-                                    </div>
-                                )
-                            } else {
-                                return null
-                            }
-                        })}
+                        {ActiveOrders.length !== orders.length ? (
+                            <>
+                                {orders.map((order, index) => {
+                                    if (!ActiveOrders.includes(order)) {
+                                        return (
+                                            <div
+                                                draggable={true}
+                                                key={index}
+                                                className='list-order'
+                                                onDragStart={e => {
+                                                    e.dataTransfer.setData(
+                                                        'text',
+                                                        order
+                                                    )
+                                                    e.dataTransfer.dropEffect =
+                                                        'move'
+                                                }}
+                                            >
+                                                {order}
+                                            </div>
+                                        )
+                                    } else {
+                                        return null
+                                    }
+                                })}
+                            </>
+                        ) : (
+                            <>No Orders Here</>
+                        )}
                     </div>
                     <div
                         className='close-btn'
