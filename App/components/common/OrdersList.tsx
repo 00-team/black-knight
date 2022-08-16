@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from 'react'
+import React, { FC, useState } from 'react'
 
 import { C } from '@00-team/utils'
 
@@ -21,10 +21,6 @@ const OrdersList: FC<OrdersListProps> = ({
     setSeeOrders,
 }) => {
     const [ActiveOrders, setActiveOrders] = useState<string[]>([])
-
-    useEffect(() => {
-        console.log(ActiveOrders.length === orders?.length)
-    }, [ActiveOrders])
 
     return (
         <div className={`orderslist-container ${C(className)} title_small`}>
@@ -74,18 +70,14 @@ const OrdersList: FC<OrdersListProps> = ({
                     </div>
                     <div
                         className='list-orders title_smaller'
+                        draggable={'false'}
                         onDragOver={e => e.preventDefault()}
                         onDrop={e => {
-                            console.log(orders)
-                            console.log(ActiveOrders)
-                            console.log(e.dataTransfer.getData('text'))
                             if (
                                 ActiveOrders.includes(
                                     e.dataTransfer.getData('text')
                                 )
                             ) {
-                                console.log('slm')
-
                                 setActiveOrders(orders =>
                                     orders.filter(
                                         order =>
