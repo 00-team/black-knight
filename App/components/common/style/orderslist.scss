@@ -75,6 +75,25 @@
         justify-content: center;
         gap: 0.5vw;
 
+        width: 100%;
+
+        padding-top: 1.5vh;
+
+        position: relative;
+
+        &::before {
+            content: '';
+            position: absolute;
+            top: 0;
+
+            width: 90%;
+            height: 1px;
+
+            background-color: var(--primary-color);
+
+            z-index: 1;
+        }
+
         .list-order {
             text-align: center;
             padding: 10px 15px;
