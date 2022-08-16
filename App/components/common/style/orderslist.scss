@@ -6,6 +6,13 @@
     width: 150%;
 
     padding: 15px;
+    padding-top: 3vh;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 3vh;
 
     background-color: var(--ten-percent);
 
@@ -26,13 +33,29 @@
         transform: scale(1);
     }
 
-    ol {
-        padding-left: 0.5em;
+    .active-orders {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        flex-direction: column;
 
-        li {
-            list-style-type: decimal; /* or 'decimal-leading-zero', 'upper-alpha', 'lower-alpha'... */
-            list-style-position: outside; /* or 'inside' */
-            margin-left: 1em; /* gives 'room' for the numbers to appear in */
+        width: 100%;
+
+        ol {
+            width: 100%;
+            padding-left: 0.5em;
+
+            li {
+                list-style-type: decimal; /* or 'decimal-leading-zero', 'upper-alpha', 'lower-alpha'... */
+                list-style-position: outside; /* or 'inside' */
+                margin-left: 1em; /* gives 'room' for the numbers to appear in */
+
+                margin-top: 1.5vh;
+
+                border: 1px dashed var(--sixty-percent);
+
+                border-radius: 10px;
+            }
         }
     }
 
@@ -40,7 +63,7 @@
         display: flex;
         flex-wrap: wrap;
         align-items: center;
-        justify-content: flex-start;
+        justify-content: center;
         gap: 0.5vw;
 
         .list-order {
@@ -51,13 +74,15 @@
             border-radius: 10px;
 
             cursor: pointer;
+
+            text-transform: capitalize;
         }
     }
 
     .close-btn {
         position: absolute;
-        top: 15px;
-        right: 15px;
+        top: 12px;
+        right: 12px;
 
         cursor: pointer;
 
