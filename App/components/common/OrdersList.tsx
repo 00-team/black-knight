@@ -36,11 +36,19 @@ const OrdersList: FC<OrdersListProps> = ({
                             onDragOver={e => e.preventDefault()}
                             onDrop={e => {
                                 e.preventDefault()
-                                console.log(e.dataTransfer.getData('text'))
-                                setActiveOrders(orders => [
-                                    ...orders,
-                                    e.dataTransfer.getData('text'),
-                                ])
+                                if (
+                                    orders.includes(
+                                        e.dataTransfer.getData('text')
+                                    ) &&
+                                    !ActiveOrders.includes(
+                                        e.dataTransfer.getData('text')
+                                    )
+                                ) {
+                                    setActiveOrders(orders => [
+                                        ...orders,
+                                        e.dataTransfer.getData('text'),
+                                    ])
+                                } else return
                             }}
                         >
                             {orders.map((_, index) => {
@@ -50,6 +58,12 @@ const OrdersList: FC<OrdersListProps> = ({
                                             draggable
                                             key={index}
                                             className='order-active'
+                                            onDragStart={e => {
+                                                e.dataTransfer.setData(
+                                                    'text',
+                                                    e.currentTarget.innerText
+                                                )
+                                            }}
                                         >
                                             {ActiveOrders[index]}
                                         </li>
@@ -61,6 +75,26 @@ const OrdersList: FC<OrdersListProps> = ({
                     <div
                         className='list-orders title_smaller'
                         onDragOver={e => e.preventDefault()}
+                        onDrop={e => {
+                            console.log(orders)
+                            console.log(ActiveOrders)
+                            console.log(e.dataTransfer.getData('text'))
+                            if (
+                                ActiveOrders.includes(
+                                    e.dataTransfer.getData('text')
+                                )
+                            ) {
+                                console.log('slm')
+
+                                setActiveOrders(orders =>
+                                    orders.filter(
+                                        order =>
+                                            order !==
+                                            e.dataTransfer.getData('text')
+                                    )
+                                )
+                            } else return
+                        }}
                     >
                         {orders.map((order, index) => {
                             if (!ActiveOrders.includes(order)) {
@@ -74,13 +108,14 @@ const OrdersList: FC<OrdersListProps> = ({
                                                 'text',
                                                 order
                                             )
+                                            e.dataTransfer.dropEffect = 'move'
                                         }}
                                     >
                                         {order}
                                     </div>
                                 )
                             } else {
-                                return <></>
+                                return null
                             }
                         })}
                     </div>
