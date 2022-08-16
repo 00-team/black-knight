@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import React, { FC, useState } from 'react'
 
 import { C } from '@00-team/utils'
 
@@ -20,6 +20,8 @@ const OrdersList: FC<OrdersListProps> = ({
     className,
     setSeeOrders,
 }) => {
+    const [ActiveOrders, setActiveOrders] = useState([])
+    setActiveOrders
     return (
         <div className={`orderslist-container ${C(className)} title_small`}>
             {orders ? (
@@ -27,7 +29,17 @@ const OrdersList: FC<OrdersListProps> = ({
                     <div className='active-orders'>
                         <ol className='list-container'>
                             {orders.map((_, index) => {
-                                return <li key={index}></li>
+                                if (ActiveOrders[index]) {
+                                    return (
+                                        <li
+                                            draggable
+                                            key={index}
+                                            className='order-active'
+                                        >
+                                            {ActiveOrders[index]}
+                                        </li>
+                                    )
+                                } else return <li key={index}></li>
                             })}
                         </ol>
                     </div>
