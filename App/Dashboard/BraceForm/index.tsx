@@ -125,7 +125,7 @@ const Field: FC<{ field: FieldModel }> = ({ field }) => {
                 )}
             </div>
             <div className='data'>
-                <label className='label'>{field.label}</label>
+                <label className='label title_small'>{field.label}</label>
                 <div tabIndex={1} className='result-input-wrapper'>
                     <RenderField
                         field={field}
