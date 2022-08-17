@@ -5,7 +5,7 @@ import BASE from './base'
 import { APP_DIR } from './config/path'
 import { DevStyle } from './config/style'
 
-const BACKEND = 'http://localhost:7000/'
+const BACKEND = 'http://127.0.0.1:7000/'
 
 const DevConfig = {
     ...BASE,
@@ -33,10 +33,8 @@ const DevConfig = {
             reconnect: 7,
         },
         proxy: {
-            '/admin/api': BACKEND,
-            '/m': BACKEND,
-            '/s': BACKEND,
-            '/favicon.ico': BACKEND,
+            context: ['/admin/api', '/m', '/s', '/favicon.ico'],
+            target: BACKEND,
         },
     },
 }
