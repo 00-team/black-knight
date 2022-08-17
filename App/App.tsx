@@ -7,6 +7,7 @@ import { Route, Routes } from 'react-router-dom'
 import { BouncyText } from './components'
 
 import './style/base.scss'
+import './style/fonts/imports.scss'
 
 const Dashboard = loadable(() => import('Dashboard'))
 const BraceForm = loadable(() => import('Dashboard/BraceForm'))
