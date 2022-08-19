@@ -18,6 +18,30 @@
 
         text-transform: capitalize;
 
+        position: relative;
+
+        overflow: hidden;
+
+        .alert-close {
+            position: absolute;
+            top: 5px;
+            right: 8px;
+
+            cursor: pointer;
+
+            animation: fade-in 0.6s 1.5s cubic-bezier(0, 0.105, 0.035, 1.57)
+                both;
+
+            @keyframes fade-in {
+                from {
+                    transform: translateY(-200%) rotate(-180deg);
+                }
+                to {
+                    transform: translateY(0) rotate(0deg);
+                }
+            }
+        }
+
         .icon {
             border-radius: 10px;
 
