@@ -21,15 +21,6 @@ const Dashboard: FC = () => {
 
     return (
         <div className='dashboard-container'>
-            <button onClick={() => ReactAlert.error('this is error')}>
-                error
-            </button>
-            <button onClick={() => ReactAlert.success('this is success')}>
-                success
-            </button>
-            <button onClick={() => ReactAlert.info('this is info')}>
-                info
-            </button>
             <Header />
             <div className='dashboard-wrapper'>
                 <Sidebar />
