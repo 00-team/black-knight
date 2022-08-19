@@ -1,14 +1,26 @@
 import React, { FC } from 'react'
 
+import { AiFillCheckCircle } from '@react-icons/all-files/ai/AiFillCheckCircle'
+import { IoWarning } from '@react-icons/all-files/io5/IoWarning'
+import { TiInfo } from '@react-icons/all-files/ti/TiInfo'
+
 import { TemplateProps } from '@00-team/react-alert'
 
 import './style/alert.scss'
 
-const Alert: FC<TemplateProps> = ({ message, close, options }) => {
+const Alert: FC<TemplateProps> = ({
+    message,
+    // close
+    options,
+}) => {
     return (
-        <div className={`alert-container ${options.type}`}>
-            <span>{message}</span>
-            <button onClick={close}>XXX</button>
+        <div className={`alert-container title_smaller ${options.type}`}>
+            <div className='icon'>
+                {options.type === 'success' && <AiFillCheckCircle size={24} />}
+                {options.type === 'error' && <IoWarning size={24} />}
+                {options.type === 'info' && <TiInfo size={24} />}
+            </div>
+            <span className={'holder' + options.type}>{message}</span>
         </div>
     )
 }
