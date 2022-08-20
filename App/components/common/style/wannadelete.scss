@@ -1,0 +1,231 @@
+.wana-delete_container {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+
+    backdrop-filter: blur(10px);
+    .wana-delete_wrapper {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .button {
+        cursor: pointer;
+        position: relative;
+        z-index: 2;
+        -webkit-appearance: none;
+        background: none;
+        outline: none;
+        border: none;
+        text-transform: uppercase;
+        letter-spacing: 3px;
+        border-radius: 2px;
+        transition: all 0.5s ease;
+        font-weight: 600;
+        font-size: 14px;
+        height: 60px;
+        width: 110px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid rgba(0, 0, 0, 0.06);
+        border-radius: 0px;
+        box-shadow: 0 0 0 white, 0 0 0 white;
+    }
+
+    .button-text {
+        display: inline-block;
+        position: relative;
+        z-index: 2;
+        background: linear-gradient(to right, #504bff, #4cfa63);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    .button-circle {
+        position: absolute;
+        left: 0;
+        top: 0;
+        height: 6px;
+        width: 6px;
+        border-radius: 50%;
+        box-shadow: 0 0 10px #504bff, 0 0 20px #504bff, 0 0 30px #504bff;
+        transition: all 0.5s ease;
+    }
+
+    .button-circle2 {
+        top: auto;
+        bottom: 0;
+    }
+
+    .button-circle3 {
+        left: auto;
+        right: 0;
+        box-shadow: 0 0 10px #4cfa63, 0 0 20px #4cfa63, 0 0 30px #4cfa63;
+    }
+
+    .button-circle4 {
+        left: auto;
+        top: auto;
+        bottom: 0;
+        right: 0;
+        box-shadow: 0 0 10px #4cfa63, 0 0 20px #4cfa63, 0 0 30px #4cfa63;
+    }
+
+    .button:hover {
+        box-shadow: -15px 0 70px -15px #504bff, 15px 0 70px -15px #4cfa63;
+    }
+
+    .button:hover .button-circle1 {
+        transform: translate(-15px, -15px) scale(0);
+    }
+
+    .button:hover .button-circle2 {
+        transform: translate(-15px, 15px) scale(0);
+    }
+
+    .button:hover .button-circle3 {
+        transform: translate(15px, -15px) scale(0);
+    }
+
+    .button:hover .button-circle4 {
+        transform: translate(15px, 15px) scale(0);
+    }
+
+    .button:hover .button-circle {
+        box-shadow: none;
+    }
+
+    .popup {
+        opacity: 0;
+        visibility: hidden;
+        height: 400px;
+        width: 400px;
+        flex-shrink: 0;
+        border-radius: 3px;
+        position: relative;
+        z-index: 3;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.2s ease;
+    }
+
+    .popup-inside {
+        position: absolute;
+        left: 0;
+        top: 0;
+        height: 100%;
+        width: 100%;
+        overflow: hidden;
+        border-radius: 50%;
+        box-shadow: 0 0 0 black;
+        transition: box-shadow 0.5s ease 0.7s, border-radius 0.35s ease 0.7s;
+    }
+
+    .backgrounds {
+        position: absolute;
+        left: 0;
+        top: 0;
+        height: 100%;
+        width: 100%;
+        overflow: hidden;
+    }
+
+    .background {
+        --offset: 0;
+        position: absolute;
+        left: var(--offset);
+        right: var(--offset);
+        bottom: var(--offset);
+        top: var(--offset);
+        background: linear-gradient(to right, #504bff, #4cfa63);
+        transform: scale(0);
+        transition: all 0.5s ease 0s;
+        border-radius: 50%;
+    }
+
+    .background2 {
+        --offset: 10%;
+        position: absolute;
+        left: var(--offset);
+        right: var(--offset);
+        bottom: var(--offset);
+        top: var(--offset);
+        background: linear-gradient(to right, #6665ff, #69fa7f);
+        transform: scale(0);
+        transition: all 0.5s ease 0.1s;
+    }
+
+    .background3 {
+        --offset: 20%;
+        position: absolute;
+        left: var(--offset);
+        right: var(--offset);
+        bottom: var(--offset);
+        top: var(--offset);
+        background: linear-gradient(to right, #8583ff, #85fa99);
+        z-index: 2;
+        transition: all 0.5s ease 0.2s;
+    }
+
+    .background4 {
+        --offset: 30%;
+        position: absolute;
+        left: var(--offset);
+        right: var(--offset);
+        bottom: var(--offset);
+        top: var(--offset);
+        background: linear-gradient(to right, #aaaaff, #a7fab7);
+        z-index: 3;
+        transition: all 0.5s ease 0.3s;
+    }
+
+    .background5 {
+        --offset: 40%;
+        position: absolute;
+        left: var(--offset);
+        right: var(--offset);
+        bottom: var(--offset);
+        top: var(--offset);
+        background: linear-gradient(to right, #c9c8ff, #c3fad1);
+        z-index: 4;
+        transition: all 0.5s ease 0.4s;
+    }
+
+    .background6 {
+        --offset: 40%;
+        position: absolute;
+        left: var(--offset);
+        right: var(--offset);
+        bottom: var(--offset);
+        top: var(--offset);
+        background: white;
+        z-index: 5;
+        transition: all 0.8s ease 0.4s;
+    }
+
+    body.active .popup {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    body.active .popup-inside {
+        border-radius: 0;
+        box-shadow: -50px 0 200px -50px #504bff, 50px 0 200px -50px #4cfa63;
+    }
+
+    body.active .background {
+        transform: scale(1);
+    }
+
+    body.active .background6 {
+        transform: scale(8);
+    }
+}
