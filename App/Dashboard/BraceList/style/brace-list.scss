@@ -40,7 +40,7 @@
             justify-content: center;
             gap: 2vw;
 
-            font-family: 'Oleo Script', cursive;
+            font-family: 'Poppins';
             font-weight: bold;
 
             .add-container {
@@ -89,7 +89,7 @@
 
         width: 100%;
 
-        font-family: 'Oleo Script', cursive;
+        font-family: 'Merienda One';
         font-weight: bold;
 
         padding: 0 20px;
@@ -168,7 +168,7 @@
                 justify-content: center;
                 gap: 1vw;
 
-                font-size: inherit;
+                font: inherit;
                 font-weight: bold;
                 border-radius: 10px;
 
@@ -220,13 +220,13 @@
                     text-transform: capitalize;
 
                     background-color: $odd_bg;
-                    font-family: 'Poppins', sans-serif;
+                    font-family: 'Merienda One';
                 }
             }
 
             tbody {
                 tr {
-                    font-family: 'Merienda One', cursive;
+                    font-family: 'Poppins';
                     font-weight: bolder;
 
                     td:nth-child(2) {

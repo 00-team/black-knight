@@ -20,8 +20,8 @@
         border-radius: 5px;
 
         text-transform: capitalize;
+        font-size: inherit;
         font-family: 'Oleo Script', cursive;
-        font-weight: bold;
 
         background-color: var(--ten-percent);
 
@@ -34,6 +34,20 @@
         }
 
         animation: btn-fadein 1s ease-in-out backwards;
+    }
+
+    .delete-container {
+        flex-grow: 1;
+
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+
+        .delete {
+            background-color: #e20303;
+
+            animation-delay: 2s;
+        }
     }
 
     .main {

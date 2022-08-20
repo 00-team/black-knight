@@ -62,12 +62,21 @@ const Footer: FC = () => {
             pk,
             type: 'delete',
         })
-        if (response.ok) navigate('..')
+        if (response.ok) {
+            ReactAlert.success('Instance deleted')
+            navigate('..')
+        } else ReactAlert.error("Couldn't delete instance")
     }
 
     return (
-        <div className={'footer title_small'}>
-            {pk && <button onClick={DeleteInstance}>DELETE</button>}
+        <div className='footer title_smaller'>
+            {pk && (
+                <div className='delete-container'>
+                    <button className='delete' onClick={DeleteInstance}>
+                        DELETE
+                    </button>
+                </div>
+            )}
             <button style={{ animationDelay: '0.5s' }} onClick={SaveAdd}>
                 Save and add another
             </button>

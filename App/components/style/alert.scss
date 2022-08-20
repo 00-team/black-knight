@@ -3,18 +3,73 @@
 
     .alert-container {
         pointer-events: all;
-        padding: 20px;
+        padding: 15px;
+
+        border-radius: 10px;
+
+        min-width: 250px;
+
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 1vw;
+
+        font-family: 'Merienda One';
+
+        text-transform: capitalize;
+
+        position: relative;
+
+        overflow: hidden;
+
+        .alert-close {
+            position: absolute;
+            top: 5px;
+            right: 8px;
+
+            cursor: pointer;
+
+            animation: fade-in 0.6s 1.5s cubic-bezier(0, 0.105, 0.035, 1.57)
+                both;
+
+            @keyframes fade-in {
+                from {
+                    transform: translateY(-200%) rotate(-180deg);
+                }
+                to {
+                    transform: translateY(0) rotate(0deg);
+                }
+            }
+        }
+
+        .icon {
+            border-radius: 10px;
+
+            box-shadow: 0 6px 10px -4px var(--primary-color);
+            svg {
+                margin: 5px;
+            }
+        }
 
         &.info {
-            background-color: darkblue;
+            .icon {
+                background-color: var(--alert-info);
+            }
+            background-color: hwb(215deg 40% 10%);
         }
 
         &.success {
-            background-color: darkgreen;
+            .icon {
+                background-color: var(--alert-success);
+            }
+            background-color: hwb(154deg 25% 34%);
         }
 
         &.error {
-            background-color: darkred;
+            .icon {
+                background-color: var(--alert-error);
+            }
+            background-color: hwb(346deg 1% 41%);
         }
     }
 }
