@@ -82,23 +82,21 @@ const ImageField: TImage = ({ field, change, ...attr }) => {
                 {Url && (
                     <div className='img-container'>
                         <img src={Url} />
-                        {!field.required && (
-                            <div
-                                className='cross icon'
-                                onClick={e => {
-                                    e.preventDefault()
-                                    e.stopPropagation()
+                        <div
+                            className='cross icon'
+                            onClick={e => {
+                                e.preventDefault()
+                                e.stopPropagation()
 
-                                    clear()
-                                }}
-                            >
-                                <ImCross
-                                    className='icon'
-                                    size={40}
-                                    fill={'#e20338'}
-                                />
-                            </div>
-                        )}
+                                clear()
+                            }}
+                        >
+                            <ImCross
+                                className='icon'
+                                size={40}
+                                fill={'#e20338'}
+                            />
+                        </div>
                     </div>
                 )}
             </label>

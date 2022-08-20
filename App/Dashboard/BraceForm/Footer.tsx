@@ -15,7 +15,11 @@ import { ShowParticles } from 'comps'
 
 import './style/footer.scss'
 
-const Footer: FC = () => {
+interface FooterProps {
+    setWantTo: (wanaDelete: boolean) => void
+}
+
+const Footer: FC<FooterProps> = ({ setWantTo }) => {
     const SubmitData = useAtomValue(BFSData)
     const navigate = useNavigate()
     const { app_label, model_name, pk } = useParams()
@@ -67,12 +71,13 @@ const Footer: FC = () => {
             navigate('..')
         } else ReactAlert.error("Couldn't delete instance")
     }
+    DeleteInstance
 
     return (
         <div className='footer title_smaller'>
             {pk && (
                 <div className='delete-container'>
-                    <button className='delete' onClick={DeleteInstance}>
+                    <button className='delete' onClick={() => setWantTo(true)}>
                         DELETE
                     </button>
                 </div>

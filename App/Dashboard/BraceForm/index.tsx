@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from 'react'
+import React, { FC, useEffect, useState } from 'react'
 
 import { BsFillExclamationCircleFill } from '@react-icons/all-files/bs/BsFillExclamationCircleFill'
 import { FaNewspaper } from '@react-icons/all-files/fa/FaNewspaper'
@@ -15,6 +15,7 @@ import {
 } from 'state'
 
 import { Intersect, Loading, RenderField } from 'comps'
+import WannaDelete from 'comps/common/WannaDelete'
 
 import { Footer } from './Footer'
 import Progress from './Progress'
@@ -24,6 +25,8 @@ import './style/form.scss'
 const BraceForm: FC = () => {
     const { app_label, model_name, pk } = useParams()
     const [Form, UpdateForm] = useAtom(BraceFormAtom)
+
+    const [wantTo, setWantTo] = useState(false)
 
     const UpdateSubmitData = useSetAtom(BFSData)
 
@@ -48,13 +51,15 @@ const BraceForm: FC = () => {
             <FormTitle />
             <Progress />
 
+            {wantTo && <WannaDelete />}
+
             <div className='form-data'>
                 {Form.fieldsets.map((fieldset, index) => (
                     <Fieldset fieldset={fieldset} key={index} />
                 ))}
             </div>
 
-            <Footer />
+            <Footer setWantTo={setWantTo} />
         </div>
     )
 }
