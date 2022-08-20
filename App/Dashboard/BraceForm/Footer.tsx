@@ -16,10 +16,10 @@ import { ShowParticles } from 'comps'
 import './style/footer.scss'
 
 interface FooterProps {
-    setWannaDelete: (wanaDelete: boolean) => void
+    setWantTo: (wanaDelete: boolean) => void
 }
 
-const Footer: FC<FooterProps> = ({ setWannaDelete }) => {
+const Footer: FC<FooterProps> = ({ setWantTo }) => {
     const SubmitData = useAtomValue(BFSData)
     const navigate = useNavigate()
     const { app_label, model_name, pk } = useParams()
@@ -77,10 +77,7 @@ const Footer: FC<FooterProps> = ({ setWannaDelete }) => {
         <div className='footer title_smaller'>
             {pk && (
                 <div className='delete-container'>
-                    <button
-                        className='delete'
-                        onClick={() => setWannaDelete(true)}
-                    >
+                    <button className='delete' onClick={() => setWantTo(true)}>
                         DELETE
                     </button>
                 </div>
