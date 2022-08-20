@@ -15,6 +15,7 @@ import {
 } from 'state'
 
 import { Intersect, Loading, RenderField } from 'comps'
+import WannaDelete from 'comps/common/WannaDelete'
 
 import { Footer } from './Footer'
 import Progress from './Progress'
@@ -24,7 +25,8 @@ import './style/form.scss'
 const BraceForm: FC = () => {
     const { app_label, model_name, pk } = useParams()
     const [Form, UpdateForm] = useAtom(BraceFormAtom)
-    const [WannaDelete, setWannaDelete] = useState(false)
+
+    const [wantTo, setWantTo] = useState(false)
 
     const UpdateSubmitData = useSetAtom(BFSData)
 
@@ -49,7 +51,7 @@ const BraceForm: FC = () => {
             <FormTitle />
             <Progress />
 
-            {WannaDelete && <></>}
+            {wantTo && <WannaDelete />}
 
             <div className='form-data'>
                 {Form.fieldsets.map((fieldset, index) => (
@@ -57,7 +59,7 @@ const BraceForm: FC = () => {
                 ))}
             </div>
 
-            <Footer setWannaDelete={setWannaDelete} />
+            <Footer setWantTo={setWantTo} />
         </div>
     )
 }
