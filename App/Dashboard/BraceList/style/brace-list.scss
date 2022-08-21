@@ -197,6 +197,38 @@
                 width: 50px;
 
                 span {
+                    .selectall-wrapper {
+                        position: absolute;
+                        top: 0;
+                        left: 4px;
+
+                        transform: translateY(0);
+
+                        display: flex;
+                        gap: 1vw;
+                        background-color: var(--primary-color);
+
+                        padding: 8px 15px;
+                        border-radius: 15px;
+
+                        font-weight: 100;
+
+                        visibility: hidden;
+                        opacity: 0;
+
+                        transition: all 0.5s ease-in-out;
+
+                        input {
+                            width: auto;
+                            margin: unset;
+                        }
+
+                        &.active {
+                            transform: translateY(120%);
+                            visibility: visible;
+                            opacity: 1;
+                        }
+                    }
                     input {
                         width: 100%;
                         margin: auto;

@@ -1,7 +1,9 @@
-import React, { FC } from 'react'
+import React, { FC, useMemo, useState } from 'react'
 
-import { useAtom } from 'jotai'
-import { BraceSelectAtom } from 'state'
+import { C } from '@00-team/utils'
+
+import { useAtom, useAtomValue } from 'jotai'
+import { BraceResultAtom, BraceSelectAtom } from 'state'
 
 interface BraceHeadProps {
     results_length: number
@@ -10,6 +12,13 @@ interface BraceHeadProps {
 
 const BraceHead: FC<BraceHeadProps> = ({ results_length, headers }) => {
     const [Selecteds, UpdateSelecteds] = useAtom(BraceSelectAtom)
+    const BraceResult = useAtomValue(BraceResultAtom)
+    const [SelectAll, setSelectAll] = useState(false)
+
+    const results = useMemo(
+        () => (BraceResult === 'loading' ? 0 : BraceResult.result_count),
+        [BraceResult]
+    )
 
     const checked = () =>
         Selecteds === 'all' ||
@@ -25,12 +34,27 @@ const BraceHead: FC<BraceHeadProps> = ({ results_length, headers }) => {
                             checked={checked()}
                             onChange={e => {
                                 const checked = e.currentTarget.checked
+                                setSelectAll(checked)
                                 UpdateSelecteds({
                                     type: checked ? 'add' : 'remove',
                                     id: 'page',
                                 })
                             }}
                         />
+
+                        <div
+                            className={`selectall-wrapper title_smaller ${C(
+                                SelectAll
+                            )}`}
+                        >
+                            <input
+                                className='selectall-checkbox'
+                                type={'checkbox'}
+                            />
+                            <div className='holder'>
+                                Select All Of {results}?
+                            </div>
+                        </div>
                     </span>
                 </th>
                 {headers.map((head, index) => (
