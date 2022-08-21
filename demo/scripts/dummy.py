@@ -6,7 +6,7 @@ from Blog.models import Blog
 from django.conf import settings
 from django.utils.crypto import get_random_string
 from django.utils.timezone import utc
-from Library.models import AllFields, Author, Book
+from Library.models import Author, Book
 
 
 authors_names = [
@@ -21,6 +21,11 @@ authors_names = [
     'Günter Grass', 'Alasdair Gray', 'Simon Gray', 'John Green',
     'Graham Greene', 'Germaine Greer', 'Philippa Gregory', 'John Grisham',
 ]
+
+
+def random_text(chunks=8, length=8):
+    text = get_random_string(length) + ' '
+    return text * chunks
 
 
 def get_random_date(start=1460995789):
@@ -48,4 +53,16 @@ def create_books(ammout=1000):
             is_nsfw=choice([True, False]),
             publish_date=get_random_date(),
             pages=randrange(0, 280)
+        ).save()
+
+
+def create_blogs(ammout=1000):
+    for i in range(ammout):
+        idx = str(i)
+        Blog(
+            title=f'{idx}. {get_random_string(47)[:49-len(idx)]}',
+            description=random_text(randrange(4, 13), randrange(5, 18)),
+            thumbnail='GGEZ',
+            publish_date=get_random_date(),
+            study_time=randrange(136, 501)
         ).save()
