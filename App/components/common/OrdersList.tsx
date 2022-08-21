@@ -1,8 +1,11 @@
-import React, { FC, useState } from 'react'
+import React, { FC, useEffect, useState } from 'react'
 
 import { C } from '@00-team/utils'
 
 import { ImCross } from '@react-icons/all-files/im/ImCross'
+
+import { useSetAtom } from 'jotai'
+import { ResultOptionsAtom } from 'state'
 
 import { Loading } from './Loading'
 
@@ -21,6 +24,12 @@ const OrdersList: FC<OrdersListProps> = ({
     setSeeOrders,
 }) => {
     const [ActiveOrders, setActiveOrders] = useState<string[]>([])
+
+    const setOptions = useSetAtom(ResultOptionsAtom)
+
+    useEffect(() => {
+        setOptions({ orders: ActiveOrders })
+    }, [ActiveOrders])
 
     return (
         <div className={`orderslist-container ${C(className)} title_small`}>
