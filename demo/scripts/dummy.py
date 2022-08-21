@@ -9,6 +9,20 @@ from django.utils.timezone import utc
 from Library.models import AllFields, Author, Book
 
 
+authors_names = [
+    'Chinua Achebe', 'Peter Ackroyd', 'Douglas Adams', 'Monica Ali',
+    'Chimamanda Ngozi Adichie', 'Aaron Akinyemi', 'Alexandra Harris',
+    'Dante Alighieri', 'Alistair Cooke', 'Benjamin Markovits',
+    'George Bernard Shaw', 'Louis de Bernières', 'John Betjeman',
+    'Maeve Binchy', 'Carol Birch', 'Quentin Blake', 'William Blake',
+    'Enid Blyton', 'Roberto Bolaño', 'Katherine Boo', 'Jorge Luis Borges',
+    'Esi Edugyan', 'Dave Eggers', 'George Eliot', 'James Ellroy',
+    'Anne EnrightWilliam Boyd', 'Nadine Gordimer', 'Gore Vidal',
+    'Günter Grass', 'Alasdair Gray', 'Simon Gray', 'John Green',
+    'Graham Greene', 'Germaine Greer', 'Philippa Gregory', 'John Grisham',
+]
+
+
 def get_random_date(start=1460995789):
     now = int(time())
     date = datetime.fromtimestamp(
@@ -16,6 +30,11 @@ def get_random_date(start=1460995789):
         tz=utc if settings.USE_TZ else None
     )
     return date
+
+
+def create_authors():
+    for name in authors_names:
+        Author(name=name, age=randrange(7, 79)).save()
 
 
 def create_books(ammout=1000):
