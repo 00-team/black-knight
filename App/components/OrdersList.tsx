@@ -17,19 +17,43 @@ interface OrdersListProps {
     close: () => void
 }
 
+type Order = { label: string; reverse: boolean }
+type OU = (order: Order) => void
+
 const OrdersList: FC<OrdersListProps> = ({ active, close }) => {
     const BraceInfo = useAtomValue(BraceInfoAtom)
-
-    const [ActiveOrders, setActiveOrders] = useState<string[]>([])
-    const [ReverseResult, setReverseResult] = useState(false)
-
     const setOptions = useSetAtom(ResultOptionsAtom)
+
+    const [SelectedOrders, setSelectedOrders] = useState<Order[]>([])
+    const [Draged, setDraged] = useState<Order | null>(null)
+
+    const SelectedsLabels = SelectedOrders.map(o => o.label)
+
+    const OrderToOption = (order: Order) =>
+        order.reverse ? '-' + order.label : order.label
+
+    const SelectOrder = (order: Order, select: boolean) => {
+        if (select === SelectedOrders.includes(order)) return
+
+        if (select) {
+            setSelectedOrders(s => [...s, order])
+        } else {
+            setSelectedOrders(s => s.filter(o => o !== order))
+        }
+    }
+    const ReverseOrder: OU = order => {
+        if (!SelectedOrders.includes(order)) return
+
+        setSelectedOrders(s =>
+            s.map(o => (o === order ? { ...o, reverse: !o.reverse } : o))
+        )
+    }
 
     useEffect(() => {
         setOptions({
-            orders: ActiveOrders,
+            orders: SelectedOrders.map(OrderToOption),
         })
-    }, [ActiveOrders])
+    }, [SelectedOrders])
 
     if (BraceInfo === 'loading')
         return (
@@ -38,6 +62,10 @@ const OrdersList: FC<OrdersListProps> = ({ active, close }) => {
             </div>
         )
 
+    const NotSelecteds = BraceInfo.orders.filter(
+        o => SelectedsLabels.indexOf(o) === -1
+    )
+
     return (
         <div className={`orderslist-container ${C(active)} title_small`}>
             <div className='active-orders title_smaller'>
@@ -45,102 +73,73 @@ const OrdersList: FC<OrdersListProps> = ({ active, close }) => {
                     className='list-container'
                     onDragOver={e => e.preventDefault()}
                     onDrop={e => {
+                        if (!Draged) return
                         e.preventDefault()
-                        if (
-                            BraceInfo.orders.includes(
-                                e.dataTransfer.getData('text')
-                            ) &&
-                            !ActiveOrders.includes(
-                                e.dataTransfer.getData('text')
-                            )
-                        ) {
-                            setActiveOrders(orders => [
-                                ...orders,
-                                e.dataTransfer.getData('text'),
-                            ])
-                        } else return
+                        SelectOrder(Draged, true)
                     }}
                 >
-                    {BraceInfo.orders.map((_, index) => {
-                        if (ActiveOrders[index]) {
-                            return (
-                                <li
-                                    draggable
-                                    key={index}
-                                    className='order-active'
-                                    onDragStart={e => {
-                                        e.dataTransfer.setData(
-                                            'text',
-                                            e.currentTarget.innerText
-                                        )
-                                    }}
-                                >
-                                    {ActiveOrders[index]}
-                                    <div
-                                        className='reverse-orders-wrapper '
-                                        onClick={() =>
-                                            setReverseResult(!ReverseResult)
-                                        }
-                                    >
-                                        <div className='icon'>
-                                            <FaRecycle size={19} />
-                                        </div>
-                                        <div
-                                            className={`checkbox ${C(
-                                                ReverseResult
-                                            )}`}
-                                        >
-                                            <div className='custom-checkbox-label'>
-                                                <div className='custom-checkbox-label-aux'></div>
-                                            </div>
-                                        </div>
+                    {SelectedOrders.map((order, index) => (
+                        <li
+                            draggable
+                            key={index}
+                            className='order-active'
+                            onDragStart={() => {
+                                setDraged(order)
+                            }}
+                            onDrop={e => {
+                                e.preventDefault()
+                                e.stopPropagation()
+                                if (Draged === order || Draged === null) return
+
+                                let selecteds = [...SelectedOrders]
+                                let idx = selecteds.indexOf(order)
+                                selecteds = selecteds.filter(i => i !== Draged)
+                                selecteds.splice(idx, 0, Draged)
+                                setSelectedOrders(selecteds)
+                            }}
+                            onDragOver={e => e.preventDefault()}
+                        >
+                            {order.label}
+                            <div
+                                className='reverse-orders-wrapper '
+                                onClick={() => ReverseOrder(order)}
+                            >
+                                <div className='icon'>
+                                    <FaRecycle size={19} />
+                                </div>
+                                <div className={`checkbox ${C(order.reverse)}`}>
+                                    <div className='custom-checkbox-label'>
+                                        <div className='custom-checkbox-label-aux'></div>
                                     </div>
-                                </li>
-                            )
-                        } else return <li key={index}></li>
-                    })}
+                                </div>
+                            </div>
+                        </li>
+                    ))}
                 </ol>
             </div>
             <div
                 className='list-orders title_smaller'
-                draggable={'false'}
+                draggable={false}
                 onDragOver={e => e.preventDefault()}
-                onDrop={e => {
-                    if (ActiveOrders.includes(e.dataTransfer.getData('text'))) {
-                        setActiveOrders(orders =>
-                            orders.filter(
-                                order =>
-                                    order !== e.dataTransfer.getData('text')
-                            )
-                        )
-                    } else return
+                onDrop={() => {
+                    if (!Draged) return
+                    SelectOrder(Draged, false)
                 }}
             >
-                {ActiveOrders.length !== BraceInfo.orders.length ? (
-                    <>
-                        {BraceInfo.orders.map((order, index) => {
-                            if (!ActiveOrders.includes(order)) {
-                                return (
-                                    <div
-                                        draggable={true}
-                                        key={index}
-                                        className='list-order'
-                                        onDragStart={e => {
-                                            e.dataTransfer.setData(
-                                                'text',
-                                                order
-                                            )
-                                            e.dataTransfer.dropEffect = 'move'
-                                        }}
-                                    >
-                                        {order}
-                                    </div>
-                                )
-                            } else {
-                                return null
-                            }
-                        })}
-                    </>
+                {NotSelecteds.length !== 0 ? (
+                    NotSelecteds.map((order, index) => (
+                        <div
+                            draggable
+                            key={index}
+                            className='list-order'
+                            onDragStart={e => {
+                                setDraged({ label: order, reverse: false })
+                                e.dataTransfer.dropEffect = 'move'
+                            }}
+                        >
+                            {order}
+                        </div>
+                    ))
                 ) : (
                     <>No Orders Here</>
                 )}
