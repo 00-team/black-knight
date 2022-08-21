@@ -1,0 +1,40 @@
+#!/bin/bash
+
+demo="python demo/manage.py"
+default_demo_port=7000
+
+if [[ -z $VIRTUAL_ENV ]]; then
+    source .env/bin/activate
+fi
+
+if [[ -z ${1+x} ]]; then
+    $demo runserver $default_demo_port
+
+elif [[ $1 =~ ^(run|runserver)$ ]]; then
+    $demo runserver ${2:-$default_demo_port}
+
+elif [[ $1 =~ ^(shell)$ ]]; then
+    $demo shell
+
+elif [[ $1 =~ ^(makemigrations?|mk)$ ]]; then
+    $demo makemigrations
+
+elif [[ $1 =~ ^(migrate|m)$ ]]; then
+    $demo migrate
+
+elif [[ $1 =~ ^(createsuperuser|user)$ ]]; then
+    $demo createsuperuser
+
+elif [[ $1 =~ ^(pack)$ ]]; then
+    python -m build --no-isolation --sdist --wheel --outdir dist/ .
+
+elif [[ $1 =~ ^(publish)$ ]]; then
+    python -m twine upload dist/*
+
+elif [[ $1 =~ ^(devserver|dev)$ ]]; then
+    npm start
+
+elif [[ $1 =~ ^(build)$ ]]; then
+    npm run build
+
+fi
