@@ -24,11 +24,14 @@ const OrdersList: FC<OrdersListProps> = ({
     setSeeOrders,
 }) => {
     const [ActiveOrders, setActiveOrders] = useState<string[]>([])
+    const [ReverseResult, setReverseResult] = useState(false)
 
     const setOptions = useSetAtom(ResultOptionsAtom)
 
     useEffect(() => {
-        setOptions({ orders: ActiveOrders })
+        setOptions({
+            orders: ReverseResult ? ActiveOrders.reverse() : ActiveOrders,
+        })
     }, [ActiveOrders])
 
     return (
@@ -132,6 +135,17 @@ const OrdersList: FC<OrdersListProps> = ({
                         onClick={() => setSeeOrders(false)}
                     >
                         <ImCross size={24} />
+                    </div>
+                    <div
+                        className='reverse-orders-wrapper title_smaller'
+                        onClick={() => setReverseResult(!ReverseResult)}
+                    >
+                        <div className={`checkbox ${C(ReverseResult)}`}>
+                            <div className='custom-checkbox-label'>
+                                <div className='custom-checkbox-label-aux'></div>
+                            </div>
+                        </div>
+                        <div className='holder'>Reverse Result</div>
                     </div>
                 </>
             ) : (
