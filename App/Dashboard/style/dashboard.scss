@@ -36,6 +36,8 @@
             border-radius: 10px;
             overflow: hidden;
 
+            position: relative;
+
             .brace-text {
                 @include box(100%);
                 @include f-center;
