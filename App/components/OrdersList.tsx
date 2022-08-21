@@ -8,7 +8,7 @@ import { ImCross } from '@react-icons/all-files/im/ImCross'
 import { useSetAtom } from 'jotai'
 import { ResultOptionsAtom } from 'state'
 
-import { Loading } from './Loading'
+import { Loading } from 'comps'
 
 import './style/orderslist.scss'
 
@@ -168,4 +168,4 @@ const OrdersList: FC<OrdersListProps> = ({
     )
 }
 
-export default OrdersList
+export { OrdersList }

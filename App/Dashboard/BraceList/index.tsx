@@ -18,8 +18,7 @@ import {
     SubmitAction,
 } from 'state'
 
-import { Loading, SearchInput, Select, SelectOption } from 'comps'
-import OrdersList from 'comps/common/OrdersList'
+import { Loading, OrdersList, SearchInput, Select, SelectOption } from 'comps'
 
 import { BraceBody } from './Body'
 import { BraceHead } from './Head'
