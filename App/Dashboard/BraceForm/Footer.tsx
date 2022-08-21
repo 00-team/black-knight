@@ -57,22 +57,6 @@ const Footer: FC<FooterProps> = ({ setWantTo }) => {
         }
     }
 
-    const DeleteInstance = async () => {
-        if (!pk || !app_label || !model_name) return
-
-        const response = await SubmitBraceForm({
-            app_label,
-            model_name,
-            pk,
-            type: 'delete',
-        })
-        if (response.ok) {
-            ReactAlert.success('Instance deleted')
-            navigate('..')
-        } else ReactAlert.error("Couldn't delete instance")
-    }
-    DeleteInstance
-
     return (
         <div className='footer title_smaller'>
             {pk && (
