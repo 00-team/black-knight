@@ -1,7 +1,5 @@
 import React, { FC, Suspense, useEffect, useMemo, useState } from 'react'
 
-import { C } from '@00-team/utils'
-
 import { AiFillFolderAdd } from '@react-icons/all-files/ai/AiFillFolderAdd'
 import { GoListUnordered } from '@react-icons/all-files/go/GoListUnordered'
 import { IoSend } from '@react-icons/all-files/io5/IoSend'
@@ -97,7 +95,7 @@ const Result: FC = () => {
         <>
             <div className='actions_order'>
                 <Actions />
-                <Orders orders={BraceInfo.orders ? BraceInfo.orders : null} />
+                <Orders />
             </div>
 
             <div className='result'>
@@ -181,12 +179,9 @@ const Actions: FC = () => {
     )
 }
 
-interface OrdersProps {
-    orders: any[] | null
-}
-
-const Orders: FC<OrdersProps> = ({ orders }) => {
+const Orders: FC = () => {
     const [SeeOrders, setSeeOrders] = useState(false)
+
     return (
         <div className='order-wrapper column-action-wrapper title_small'>
             <button className='orders' onClick={() => setSeeOrders(true)}>
@@ -198,11 +193,7 @@ const Orders: FC<OrdersProps> = ({ orders }) => {
                     <GoListUnordered size={24} />
                 </div>
             </button>
-            <OrdersList
-                className={C(SeeOrders)}
-                setSeeOrders={setSeeOrders}
-                orders={orders}
-            />
+            <OrdersList active={SeeOrders} close={() => setSeeOrders(false)} />
         </div>
     )
 }
