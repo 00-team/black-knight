@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import React, { FC, useEffect } from 'react'
 
 import { ForeignKeyFieldModel, ManyToManyFieldModel } from 'state'
 
@@ -6,9 +6,18 @@ import { ChoicesField, FieldProps } from './shared'
 
 type TForeignKey = FC<FieldProps<ForeignKeyFieldModel>>
 const ForeignKeyField: TForeignKey = ({ field, change, ...attr }) => {
-    const default_value = field.value
-        ? field.value[0]
-        : field.initial || undefined
+    // TODO: clean this mess
+
+    const default_value =
+        field.value !== undefined
+            ? field.value
+            : field.choices[0]
+            ? field.choices[0][0]
+            : field.initial || undefined
+
+    useEffect(() => {
+        if (default_value !== undefined) change(`${default_value}`)
+    }, [default_value])
 
     return (
         <ChoicesField<typeof field.choices[0]>
@@ -24,9 +33,9 @@ const ForeignKeyField: TForeignKey = ({ field, change, ...attr }) => {
 
 type TManyToMany = FC<FieldProps<ManyToManyFieldModel>>
 const ManyToManyField: TManyToMany = ({ field, change, ...attr }) => {
-    const default_value = field.value
-        ? field.value.map(([pk]) => pk.toString())
-        : field.initial.map(pk => pk.toString())
+    const default_value = (
+        field.value !== undefined ? field.value : field.initial
+    ).map(item => item.toString())
 
     return (
         <ChoicesField<typeof field.choices[0]>

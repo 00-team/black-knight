@@ -6,9 +6,7 @@ import type {
     V_DateTime,
     V_Decimal,
     V_File,
-    V_ForeignKey,
     V_Image,
-    V_ManyToMany,
     V_Time,
     V_TimeDelta,
 } from 'state'
@@ -113,15 +111,14 @@ interface DurationField extends BaseField<V_TimeDelta> {
 }
 
 // ================ RELA ================
-interface ForeignKeyField extends Omit<BaseField<V_ForeignKey, PK>, 'choices'> {
+interface ForeignKeyField extends Omit<BaseField<PK, PK | null>, 'choices'> {
     type: 'foreign_key'
-    choices: V_ForeignKey[]
+    choices: [PK, string][]
 }
 
-interface ManyToManyField
-    extends Omit<BaseField<V_ManyToMany, PK[]>, 'choices'> {
+interface ManyToManyField extends Omit<BaseField<PK[], PK[]>, 'choices'> {
     type: 'many_to_many'
-    choices: V_ManyToMany
+    choices: [PK, string][]
 }
 
 // ================ OTHE ================

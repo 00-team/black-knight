@@ -3,8 +3,6 @@ type PK = string | number
 type V_Image = string | null
 type V_File = string | null
 type V_Null = null
-type V_ForeignKey = [PK, string, string]
-type V_ManyToMany = [PK, string, string][]
 type V_Json = string
 type V_Bool = boolean
 type V_DateTime = string
@@ -20,7 +18,7 @@ type V_Char = string
 type D_Image = ['image', V_Image]
 type D_File = ['file', V_File]
 type D_Null = ['null', null]
-type D_ForeignKey = ['foreign_key', ...[string, string]]
+type D_ForeignKey = ['foreign_key', string, string]
 type D_ManyToMany = ['many_to_many', [string, string][]]
 type D_Json = ['json', string]
 type D_Bool = ['bool', boolean]
@@ -57,8 +55,6 @@ export type {
     V_Image,
     V_File,
     V_Null,
-    V_ForeignKey,
-    V_ManyToMany,
     V_Json,
     V_Bool,
     V_DateTime,
