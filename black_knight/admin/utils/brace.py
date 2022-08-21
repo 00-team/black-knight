@@ -92,7 +92,7 @@ def field_value(field, value) -> Value:
         values = map(lambda obj: obj.pk, items)
         displays = map(lambda obj: (str(obj), remote_url(obj)), items)
 
-        return Value('many_to_many', [list(values)], [list(displays)])
+        return Value('many_to_many', list(values), [list(displays)])
 
     elif isinstance(field, fields.JSONField):
         try:
@@ -154,25 +154,28 @@ def construct_instance(instance, data, change, include=None, exclude=None):
     file_field_list = []
     errors = {}
 
-    private_fields = [
-        f for f in opts.private_fields if isinstance(f, ModelField)
-    ]
-    fields = chain(opts.concrete_fields, private_fields, opts.many_to_many)
-
-    for field in fields:
+    def check_field(field) -> bool:
         f_name = 'F_' + field.name
         if (
             not field.editable
             or isinstance(field, AutoField)
             # or f_name not in data
         ):
-            continue
+            return False
         if include is not None and field.name not in include:
-            continue
+            return False
         if exclude and field.name in exclude:
-            continue
+            return False
         if change and not f_name in data:
+            return False
+
+        return True
+
+    for field in opts.concrete_fields:
+        if not check_field(field):
             continue
+
+        f_name = 'F_' + field.name
 
         initial = field.get_default()
         value = data.get(f_name, initial)
@@ -180,8 +183,6 @@ def construct_instance(instance, data, change, include=None, exclude=None):
         try:
             if isinstance(field, ForeignKey):
                 value = field.get_instance(value, instance)
-            elif isinstance(field, ManyToManyField):
-                value = data.getlist(f_name)
             else:
                 value = field.clean(value, instance)
         except ValidationError as e:
@@ -213,4 +214,35 @@ def construct_instance(instance, data, change, include=None, exclude=None):
     for file_field, value in file_field_list:
         file_field.save_form_data(instance, value)
 
-    return instance, errors
+    def save_m2m():
+        m2m_errors = {}
+        private_fields = [
+            f for f in opts.private_fields if isinstance(f, ModelField)
+        ]
+        for field in chain(private_fields, opts.many_to_many):
+            if not check_field(field):
+                continue
+
+            f_name = 'F_' + field.name
+
+            initial = field.get_default()
+            value = data.get(f_name, initial)
+
+            try:
+                if isinstance(field, ManyToManyField):
+                    value = data.getlist(f_name)
+                else:
+                    value = field.clean(value, instance)
+            except ValidationError as e:
+                # TODO: make a better error system
+                m2m_errors[field.name] = getattr(
+                    e, 'message',
+                    getattr(e, 'messages', ['Error'])[0]
+                )
+                continue
+
+            field.save_form_data(instance, value)
+
+        return m2m_errors
+
+    return instance, errors, save_m2m

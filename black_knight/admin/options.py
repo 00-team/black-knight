@@ -221,11 +221,15 @@ class ModelAdmin(admin.ModelAdmin):
             instance.delete()
             return JsonResponse({'message': 'instance successfully deleted'})
 
-        instance, errors = construct_instance(instance, data, change)
+        instance, errors, save_m2m = construct_instance(instance, data, change)
 
         if errors:
             return ErrorResponse('check the fields', data={'fields': errors})
         else:
+            instance.save()
+            m2m_errors = save_m2m()
+            if m2m_errors:
+                return ErrorResponse('check the fields', data={'fields': m2m_errors})
             instance.save()
 
         # TODO: better messages
