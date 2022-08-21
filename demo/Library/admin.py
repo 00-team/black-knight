@@ -6,7 +6,8 @@ from Library.models import AllFields, Author, Book
 
 @admin.register(AllFields)
 class AllFieldsAdmin(ModelAdmin):
-    readonly_fields = 'many_2_many',
+    # readonly_fields = 'many_2_many',
+    pass
 
 
 @admin.register(Book)
