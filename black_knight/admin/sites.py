@@ -16,7 +16,7 @@ from django.contrib.auth import login as auth_login
 from django.contrib.auth import logout as auth_logout
 from django.core.exceptions import ImproperlyConfigured
 from django.db.models.base import ModelBase
-from django.http import HttpRequest, JsonResponse
+from django.http import HttpRequest, HttpResponseRedirect, JsonResponse
 from django.middleware.csrf import get_token
 from django.shortcuts import render
 from django.urls import reverse
@@ -164,7 +164,7 @@ class AdminSite(admin.AdminSite):
         urlpatterns = [
             path('', app_view, name='index'),
             path('api/', include((api_urls, self.name), namespace='api')),
-            path('login/', self.index, name='login'),
+            path('login/', self.login, name='login'),
         ]
 
         def get_model_url(model):
@@ -263,6 +263,14 @@ class AdminSite(admin.AdminSite):
 
     def index(self, request: HttpRequest, *args, **kwargs):
         context = {'base_url': self.base_url}
+        return render(request, self.template, context)
+
+    def login(self, request: HttpRequest, *args, **kwargs):
+        context = {'base_url': self.base_url}
+
+        if self.has_permission(request):
+            return HttpResponseRedirect(context['base_url'])
+
         return render(request, self.template, context)
 
     def api_user(self, request: HttpRequest):
