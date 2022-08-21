@@ -17,10 +17,101 @@
         align-items: center;
         justify-content: center;
         flex-direction: column;
-        gap: 1vh;
+        gap: 2vh;
+
+        padding: 5vh 3vw;
+        padding-bottom: 1.5vh;
+
+        background-color: var(--thirty-percent);
+        border-radius: 10px;
+
+        border-top: 3px solid var(--alert-error);
+        border-top-right-radius: 5px;
+        border-top-left-radius: 5px;
+
+        font-family: 'Merienda One';
+
+        position: relative;
 
         .wana-icon {
-            margin-bottom: 2vh;
+            position: absolute;
+
+            top: 0;
+
+            transform: translateY(-50%);
+
+            background: var(--alert-error);
+            border-radius: 100vmax;
+
+            svg {
+                margin: 10px;
+
+                animation: trash-shake 2s 1s ease-in-out infinite;
+
+                @keyframes trash-shake {
+                    0% {
+                        transform: rotate(0deg);
+                    }
+                    25% {
+                        transform: rotate(-10deg);
+                    }
+                    50% {
+                        transform: rotate(15deg);
+                    }
+                    75% {
+                        transform: rotate(-15deg);
+                    }
+                    100% {
+                        transform: rotate(0);
+                    }
+                }
+            }
+        }
+
+        .actions-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            width: 100%;
+
+            margin-top: 2vh;
+            overflow: hidden;
+
+            padding: 1.5vh 0;
+
+            button {
+                padding: 1.5vh 1.6vw;
+                cursor: pointer;
+                border: none;
+                border-radius: 5px;
+                text-transform: capitalize;
+
+                animation: button-fadein 1s cubic-bezier(0, 0.105, 0.035, 1.57)
+                    both;
+
+                &:not(.delete) {
+                    background-color: var(--ten-percent);
+
+                    font-family: 'Oleo Script';
+                }
+
+                &.delete {
+                    font-family: 'Merienda One';
+                    font-weight: bold;
+
+                    background-color: var(--alert-error);
+                }
+            }
+
+            @keyframes button-fadein {
+                from {
+                    transform: translateY(200%);
+                }
+                to {
+                    transform: translateY(0);
+                }
+            }
         }
     }
 }
