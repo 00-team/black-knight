@@ -1,8 +1,11 @@
-import React, { FC, useState } from 'react'
+import React, { FC, useEffect, useState } from 'react'
 
 import { C } from '@00-team/utils'
 
 import { ImCross } from '@react-icons/all-files/im/ImCross'
+
+import { useSetAtom } from 'jotai'
+import { ResultOptionsAtom } from 'state'
 
 import { Loading } from './Loading'
 
@@ -21,6 +24,15 @@ const OrdersList: FC<OrdersListProps> = ({
     setSeeOrders,
 }) => {
     const [ActiveOrders, setActiveOrders] = useState<string[]>([])
+    const [ReverseResult, setReverseResult] = useState(false)
+
+    const setOptions = useSetAtom(ResultOptionsAtom)
+
+    useEffect(() => {
+        setOptions({
+            orders: ReverseResult ? ActiveOrders.reverse() : ActiveOrders,
+        })
+    }, [ActiveOrders])
 
     return (
         <div className={`orderslist-container ${C(className)} title_small`}>
@@ -123,6 +135,17 @@ const OrdersList: FC<OrdersListProps> = ({
                         onClick={() => setSeeOrders(false)}
                     >
                         <ImCross size={24} />
+                    </div>
+                    <div
+                        className='reverse-orders-wrapper title_smaller'
+                        onClick={() => setReverseResult(!ReverseResult)}
+                    >
+                        <div className={`checkbox ${C(ReverseResult)}`}>
+                            <div className='custom-checkbox-label'>
+                                <div className='custom-checkbox-label-aux'></div>
+                            </div>
+                        </div>
+                        <div className='holder'>Reverse Result</div>
                     </div>
                 </>
             ) : (

@@ -5,7 +5,6 @@
 
     width: 150%;
 
-    padding: 15px;
     padding-top: 3vh;
 
     display: flex;
@@ -24,6 +23,7 @@
     transform: scale(0.9);
 
     border-radius: 10px;
+    overflow: hidden;
 
     transition: all 0.5s ease-in-out;
 
@@ -38,6 +38,8 @@
         align-items: center;
         justify-content: flex-start;
         flex-direction: column;
+
+        padding: 15px 0;
 
         width: 100%;
 
@@ -125,6 +127,66 @@
 
         &:hover svg {
             transform: rotate(360deg);
+        }
+    }
+
+    .reverse-orders-wrapper {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 1vw;
+        padding: 10px;
+        background-color: var(--primary-color);
+
+        cursor: pointer;
+        .checkbox {
+            width: 65px;
+            height: 35px;
+            overflow: hidden;
+            border-radius: 20px;
+
+            .custom-checkbox-label {
+                width: 100%;
+                height: 100%;
+                display: block;
+                position: relative;
+                background-color: #dddddd;
+                transition: background-color 0.3s;
+                -o-transition: background-color 0.3s;
+                -moz-transition: background-color 0.3s;
+                -webkit-transition: background-color 0.3s;
+            }
+
+            .custom-checkbox-label-aux {
+                top: 3px;
+                left: 4px;
+                width: 28px;
+                height: 28px;
+                display: block;
+                position: absolute;
+                border-radius: 100%;
+                transition: left 0.3s;
+                -o-transition: left 0.3s;
+                background-color: white;
+                -moz-transition: left 0.3s;
+                -webkit-transition: left 0.3s;
+                box-shadow: 0px 1px 5px 0px rgba(56, 55, 56, 0.61);
+                -moz-box-shadow: 0px 1px 5px 0px rgba(56, 55, 56, 0.61);
+                -webkit-box-shadow: 0px 1px 5px 0px rgba(56, 55, 56, 0.61);
+            }
+
+            &.active .custom-checkbox-label {
+                background-color: #6edc5f;
+            }
+
+            &.active .custom-checkbox-label-aux {
+                left: 33px;
+            }
+
+            .custom-checkbox-input {
+                display: none;
+            }
         }
     }
 }
