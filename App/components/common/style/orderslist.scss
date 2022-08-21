@@ -6,12 +6,13 @@
     width: 150%;
 
     padding-top: 3vh;
+    padding-bottom: 20px;
 
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    gap: 1.5vh;
+    gap: 1vh;
 
     background-color: var(--ten-percent);
 
@@ -61,7 +62,7 @@
 
                 border-radius: 10px;
 
-                padding: 5px 0;
+                padding: 10px 0;
 
                 position: relative;
 
@@ -70,6 +71,10 @@
                     text-align: center;
 
                     background-color: var(--sixty-percent);
+
+                    padding-right: 30px;
+
+                    text-transform: capitalize;
 
                     .reverse-orders-wrapper {
                         position: absolute;
@@ -100,18 +105,21 @@
                             }
 
                             .custom-checkbox-label-aux {
-                                top: 0;
-                                transform: translateY(10%);
-                                left: 4px;
-                                width: 20px;
-                                height: 20px;
-                                display: block;
                                 position: absolute;
+                                top: 0;
+                                transform: translateY(30%);
+
+                                left: 4px;
+
+                                width: 15px;
+                                height: 15px;
+
                                 border-radius: 100%;
-                                transition: left 0.3s;
                                 background-color: white;
                                 box-shadow: 0px 1px 5px 0px
                                     rgba(56, 55, 56, 0.61);
+
+                                transition: left 0.3s;
                             }
 
                             &.active .custom-checkbox-label {
