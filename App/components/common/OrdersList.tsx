@@ -2,6 +2,7 @@ import React, { FC, useEffect, useState } from 'react'
 
 import { C } from '@00-team/utils'
 
+import { FaRecycle } from '@react-icons/all-files/fa/FaRecycle'
 import { ImCross } from '@react-icons/all-files/im/ImCross'
 
 import { useSetAtom } from 'jotai'
@@ -30,7 +31,7 @@ const OrdersList: FC<OrdersListProps> = ({
 
     useEffect(() => {
         setOptions({
-            orders: ReverseResult ? ActiveOrders.reverse() : ActiveOrders,
+            orders: ActiveOrders,
         })
     }, [ActiveOrders])
 
@@ -74,6 +75,27 @@ const OrdersList: FC<OrdersListProps> = ({
                                             }}
                                         >
                                             {ActiveOrders[index]}
+                                            <div
+                                                className='reverse-orders-wrapper '
+                                                onClick={() =>
+                                                    setReverseResult(
+                                                        !ReverseResult
+                                                    )
+                                                }
+                                            >
+                                                <div className='icon'>
+                                                    <FaRecycle size={19} />
+                                                </div>
+                                                <div
+                                                    className={`checkbox ${C(
+                                                        ReverseResult
+                                                    )}`}
+                                                >
+                                                    <div className='custom-checkbox-label'>
+                                                        <div className='custom-checkbox-label-aux'></div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </li>
                                     )
                                 } else return <li key={index}></li>
@@ -135,17 +157,6 @@ const OrdersList: FC<OrdersListProps> = ({
                         onClick={() => setSeeOrders(false)}
                     >
                         <ImCross size={24} />
-                    </div>
-                    <div
-                        className='reverse-orders-wrapper title_smaller'
-                        onClick={() => setReverseResult(!ReverseResult)}
-                    >
-                        <div className={`checkbox ${C(ReverseResult)}`}>
-                            <div className='custom-checkbox-label'>
-                                <div className='custom-checkbox-label-aux'></div>
-                            </div>
-                        </div>
-                        <div className='holder'>Reverse Result</div>
                     </div>
                 </>
             ) : (
