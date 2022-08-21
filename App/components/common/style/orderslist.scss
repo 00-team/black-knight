@@ -6,12 +6,13 @@
     width: 150%;
 
     padding-top: 3vh;
+    padding-bottom: 20px;
 
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    gap: 1.5vh;
+    gap: 1vh;
 
     background-color: var(--ten-percent);
 
@@ -61,13 +62,79 @@
 
                 border-radius: 10px;
 
-                padding: 5px 0;
+                padding: 10px 0;
+
+                position: relative;
 
                 &.order-active {
                     border: none;
                     text-align: center;
 
                     background-color: var(--sixty-percent);
+
+                    padding-right: 30px;
+
+                    text-transform: capitalize;
+
+                    .reverse-orders-wrapper {
+                        position: absolute;
+                        top: 0;
+                        right: 5px;
+
+                        transform: translateY(30%);
+
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        gap: 0.5vw;
+
+                        cursor: pointer;
+                        .checkbox {
+                            width: 45px;
+                            height: 25px;
+                            overflow: hidden;
+                            border-radius: 20px;
+
+                            .custom-checkbox-label {
+                                width: 100%;
+                                height: 100%;
+                                display: block;
+                                position: relative;
+                                background-color: #dddddd;
+                                transition: background-color 0.3s;
+                            }
+
+                            .custom-checkbox-label-aux {
+                                position: absolute;
+                                top: 0;
+                                transform: translateY(30%);
+
+                                left: 4px;
+
+                                width: 15px;
+                                height: 15px;
+
+                                border-radius: 100%;
+                                background-color: white;
+                                box-shadow: 0px 1px 5px 0px
+                                    rgba(56, 55, 56, 0.61);
+
+                                transition: left 0.3s;
+                            }
+
+                            &.active .custom-checkbox-label {
+                                background-color: #6edc5f;
+                            }
+
+                            &.active .custom-checkbox-label-aux {
+                                left: 23px;
+                            }
+
+                            .custom-checkbox-input {
+                                display: none;
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -127,66 +194,6 @@
 
         &:hover svg {
             transform: rotate(360deg);
-        }
-    }
-
-    .reverse-orders-wrapper {
-        width: 100%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        gap: 1vw;
-        padding: 10px;
-        background-color: var(--primary-color);
-
-        cursor: pointer;
-        .checkbox {
-            width: 65px;
-            height: 35px;
-            overflow: hidden;
-            border-radius: 20px;
-
-            .custom-checkbox-label {
-                width: 100%;
-                height: 100%;
-                display: block;
-                position: relative;
-                background-color: #dddddd;
-                transition: background-color 0.3s;
-                -o-transition: background-color 0.3s;
-                -moz-transition: background-color 0.3s;
-                -webkit-transition: background-color 0.3s;
-            }
-
-            .custom-checkbox-label-aux {
-                top: 3px;
-                left: 4px;
-                width: 28px;
-                height: 28px;
-                display: block;
-                position: absolute;
-                border-radius: 100%;
-                transition: left 0.3s;
-                -o-transition: left 0.3s;
-                background-color: white;
-                -moz-transition: left 0.3s;
-                -webkit-transition: left 0.3s;
-                box-shadow: 0px 1px 5px 0px rgba(56, 55, 56, 0.61);
-                -moz-box-shadow: 0px 1px 5px 0px rgba(56, 55, 56, 0.61);
-                -webkit-box-shadow: 0px 1px 5px 0px rgba(56, 55, 56, 0.61);
-            }
-
-            &.active .custom-checkbox-label {
-                background-color: #6edc5f;
-            }
-
-            &.active .custom-checkbox-label-aux {
-                left: 33px;
-            }
-
-            .custom-checkbox-input {
-                display: none;
-            }
         }
     }
 }
