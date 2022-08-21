@@ -51,7 +51,7 @@ const BraceForm: FC = () => {
             <FormTitle />
             <Progress />
 
-            {wantTo && <WannaDelete />}
+            {wantTo && <WannaDelete setWantTo={setWantTo} />}
 
             <div className='form-data'>
                 {Form.fieldsets.map((fieldset, index) => (

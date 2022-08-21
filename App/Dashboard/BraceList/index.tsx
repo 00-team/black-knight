@@ -27,21 +27,6 @@ import Paginator from './Paginator'
 
 import './style/brace-list.scss'
 
-const Model_opts = [
-    {
-        label: 'All',
-        value: null,
-    },
-    {
-        label: 'Date (New-Old)',
-        value: 'date',
-    },
-    {
-        label: 'Date (Old-New)',
-        value: 'date_reverse',
-    },
-]
-
 const BraceList: FC = () => {
     const { app_label, model_name } = useParams()
 
@@ -86,12 +71,6 @@ const BraceList: FC = () => {
                             <AiFillFolderAdd size={24} />
                         </div>
                     </Link>
-                    <div className='filter-container'>
-                        <Select
-                            options={Model_opts}
-                            defaultOpt={Model_opts[0]}
-                        />
-                    </div>
                 </div>
             </div>
             <Suspense>
