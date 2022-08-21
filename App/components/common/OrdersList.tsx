@@ -39,7 +39,7 @@ const OrdersList: FC<OrdersListProps> = ({
         <div className={`orderslist-container ${C(className)} title_small`}>
             {orders ? (
                 <>
-                    <div className='active-orders'>
+                    <div className='active-orders title_smaller'>
                         <ol
                             className='list-container'
                             onDragOver={e => e.preventDefault()}
