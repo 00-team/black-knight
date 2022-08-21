@@ -12,7 +12,6 @@ const isAxiosError = (error: unknown): error is AxiosError<any> => {
 }
 
 const HandleError = (error: unknown): ErrorResponse => {
-    console.log(error)
     let canceled = false
     let response: ErrorResponse = {
         ok: false,
@@ -35,7 +34,10 @@ const HandleError = (error: unknown): ErrorResponse => {
         }
     }
 
-    if (!canceled) ReactAlert.error(response.error.message)
+    if (!canceled) {
+        console.log(error)
+        ReactAlert.error(response.error.message)
+    }
 
     return response
 }
