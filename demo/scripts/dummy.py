@@ -2,6 +2,7 @@ from datetime import datetime
 from random import choice, randrange
 from time import time
 
+from Account.models import AccountTemp
 from Blog.models import Blog
 from django.conf import settings
 from django.utils.crypto import get_random_string
@@ -66,3 +67,8 @@ def create_blogs(ammout=1000):
             publish_date=get_random_date(),
             study_time=randrange(136, 501)
         ).save()
+
+
+def create_account_temps(ammout=7507):
+    for _ in range(ammout):
+        AccountTemp(name=get_random_string(50)).save()
