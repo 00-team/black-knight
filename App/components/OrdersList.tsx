@@ -115,6 +115,7 @@ const OrdersList: FC<OrdersListProps> = ({ active, close }) => {
                             </div>
                         </li>
                     ))}
+                    {NotSelecteds.length !== 0 && <li />}
                 </ol>
             </div>
             <div
