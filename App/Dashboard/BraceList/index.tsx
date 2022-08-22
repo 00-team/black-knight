@@ -52,10 +52,12 @@ const BraceList: FC = () => {
                     <div className='search-container'>
                         <SearchInput
                             submit={search => UpdateResultOptions({ search })}
+                            placeHolder={
+                                BraceInfo.search_help_text
+                                    ? BraceInfo.search_help_text
+                                    : null
+                            }
                         />
-                        {BraceInfo.search_help_text && (
-                            <span>{BraceInfo.search_help_text}</span>
-                        )}
                     </div>
                 )}
 
