@@ -7,9 +7,10 @@ import './style/searchinput.scss'
 
 interface SearchInputProps {
     submit: (search_text: string) => void
+    placeHolder: string | null
 }
 
-const SearchInput: FC<SearchInputProps> = ({ submit }) => {
+const SearchInput: FC<SearchInputProps> = ({ submit, placeHolder }) => {
     const [active, setActive] = useState(false)
     const input = useRef<HTMLInputElement>(null)
 
@@ -20,7 +21,7 @@ const SearchInput: FC<SearchInputProps> = ({ submit }) => {
                     ref={input}
                     type='text'
                     className='search-input'
-                    placeholder='Search...'
+                    placeholder={placeHolder ? placeHolder : 'Search...'}
                 />
                 <button
                     className='search-icon'

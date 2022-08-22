@@ -32,6 +32,8 @@ const Footer: FC<FooterProps> = ({ setWantTo }) => {
         if (response.ok) {
             ShowParticles()
             if (BFErrors) UpdateBFErrors(null)
+            ReactAlert.success('Your instance had been saved')
+            navigate('..')
             return { ok: true, pk: response.pk }
         } else {
             UpdateBFErrors(response)
