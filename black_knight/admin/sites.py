@@ -290,7 +290,8 @@ class AdminSite(admin.AdminSite):
         app_list = self.get_app_list(request)
 
         response = {
-            'apps': app_list
+            'apps': app_list,
+            'apps_permission': bool(app_list),
         }
 
         return JsonResponse(response)

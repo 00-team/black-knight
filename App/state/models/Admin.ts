@@ -1,5 +1,6 @@
 interface AdminModel {
     apps: AppModel[]
+    apps_permission: boolean
 }
 
 interface AppModel {
@@ -24,9 +25,9 @@ interface PermsModel {
 }
 
 export { AdminModel, AppModel, AppModelModel, PermsModel }
+export { DefaultAdmin }
 
 const DefaultAdmin: AdminModel = {
     apps: [],
+    apps_permission: true,
 }
-
-export { DefaultAdmin }

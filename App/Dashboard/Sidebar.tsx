@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import React, { FC, useEffect } from 'react'
 
 import { Link } from 'react-router-dom'
 
@@ -10,7 +10,15 @@ import './style/sidebar.scss'
 import default_icon from 'static/icons/hexagon.svg'
 
 const Sidebar: FC = () => {
-    const [{ apps }] = useAtom(AdminAtom)
+    const [{ apps, apps_permission }] = useAtom(AdminAtom)
+
+    useEffect(() => {
+        if (apps_permission === false) {
+            ReactAlert.error(
+                'You don’t have permission to view or edit anything.'
+            )
+        }
+    }, [apps_permission])
 
     return (
         <div className='sidebar-container'>
