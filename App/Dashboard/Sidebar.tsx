@@ -31,21 +31,38 @@ const Sidebar: FC = () => {
 
                         {app.models.map((model, index) => (
                             <div className='column title_smaller' key={index}>
-                                <Link
-                                    to={`${app.app_label}/${model.name}/`}
-                                    className='right-side'
-                                >
-                                    <div className='icon'>
-                                        <img src={model.icon || default_icon} />
+                                {model.perms.view || model.perms.change ? (
+                                    <Link
+                                        to={`${app.app_label}/${model.name}/`}
+                                        className='right-side'
+                                    >
+                                        <div className='icon'>
+                                            <img
+                                                src={model.icon || default_icon}
+                                            />
+                                        </div>
+                                        <div className='holder'>
+                                            {model.plural_name}
+                                        </div>
+                                    </Link>
+                                ) : (
+                                    <div className='right-side'>
+                                        <div className='icon'>
+                                            <img
+                                                src={model.icon || default_icon}
+                                            />
+                                        </div>
+                                        <div className='holder'>
+                                            {model.plural_name}
+                                        </div>
                                     </div>
-                                    <div className='holder'>
-                                        {model.plural_name}
-                                    </div>
-                                </Link>
+                                )}
                                 <div className='left-side'>
-                                    <AddSvg
-                                        link={`${app.app_label}/${model.name}/add`}
-                                    />
+                                    {model.perms.add && (
+                                        <AddSvg
+                                            link={`${app.app_label}/${model.name}/add`}
+                                        />
+                                    )}
                                 </div>
                             </div>
                         ))}
