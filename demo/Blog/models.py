@@ -7,6 +7,7 @@ from django.utils.timezone import now
 
 class Blog(models.Model):
     title = fields.CharField(max_length=50)
+    content = fields.MarkDownField(default='# title')
     description = fields.TextField()
     thumbnail = fields.ImageField(upload_to='Blog/thumbnail/')
     publish_date = fields.DateField(default=now)
