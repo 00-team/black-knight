@@ -1,4 +1,4 @@
-import React, { FC, useMemo, useState } from 'react'
+import React, { FC, useMemo } from 'react'
 
 import { C } from '@00-team/utils'
 
@@ -13,7 +13,6 @@ interface BraceHeadProps {
 const BraceHead: FC<BraceHeadProps> = ({ results_length, headers }) => {
     const [Selecteds, UpdateSelecteds] = useAtom(BraceSelectAtom)
     const BraceResult = useAtomValue(BraceResultAtom)
-    const [SelectAll, setSelectAll] = useState(false)
 
     const results = useMemo(
         () => (BraceResult === 'loading' ? 0 : BraceResult.result_count),
@@ -34,7 +33,6 @@ const BraceHead: FC<BraceHeadProps> = ({ results_length, headers }) => {
                             checked={checked()}
                             onChange={e => {
                                 const checked = e.currentTarget.checked
-                                setSelectAll(checked)
                                 UpdateSelecteds({
                                     type: checked ? 'add' : 'remove',
                                     id: 'page',
@@ -44,10 +42,18 @@ const BraceHead: FC<BraceHeadProps> = ({ results_length, headers }) => {
 
                         <div
                             className={`selectall-wrapper title_smaller ${C(
-                                SelectAll
+                                checked()
                             )}`}
                         >
                             <input
+                                checked={Selecteds === 'all'}
+                                onChange={e => {
+                                    const checked = e.currentTarget.checked
+                                    UpdateSelecteds({
+                                        type: checked ? 'add' : 'remove',
+                                        id: 'all',
+                                    })
+                                }}
                                 className='selectall-checkbox'
                                 type={'checkbox'}
                             />
