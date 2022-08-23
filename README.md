@@ -7,7 +7,7 @@ Django custom admin site
 there are some major issue that are not easily fixable.\
 if you want to use this library the best practice is to have both **djagno's default admin** and **black knight's admin** running side by side.
 
-you can find the demo project in [demo](demo) directory
+> you can find the demo project in [demo](demo) directory
 
 <!-- have this in mind that this library is a very hacky way of making an admin page with react for django,
 because django designed in a way that every module and component of it is connected together,
