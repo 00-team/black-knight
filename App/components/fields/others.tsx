@@ -6,7 +6,6 @@ import { RenderValue } from 'components'
 
 type TReadOnly = FC<{ field: ReadOnlyFieldModel }>
 const ReadOnlyField: TReadOnly = ({ field, ...attr }) => {
-    console.log(field)
     return (
         <div {...attr}>
             {field.value ? <RenderValue value={field.value} /> : '-EMPTY-'}

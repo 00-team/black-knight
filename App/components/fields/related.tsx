@@ -35,7 +35,7 @@ type TManyToMany = FC<FieldProps<ManyToManyFieldModel>>
 const ManyToManyField: TManyToMany = ({ field, change, ...attr }) => {
     const default_value = (
         field.value !== undefined ? field.value : field.initial
-    ).map(item => item.toString())
+    ).map(item => `${item}`)
 
     return (
         <ChoicesField<typeof field.choices[0]>

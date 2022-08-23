@@ -156,19 +156,17 @@ class ModelAdmin(admin.ModelAdmin):
         instance = None
         response = {}
 
-        if (
-            not self.has_view_permission(request) and
-            not self.has_change_permission(request) and
-            not self.has_add_permission(request)
-        ):
-            return PERMISSION_DENIED
-
         # default type is add
         if form_type == 'change':
+            if not self.has_view_or_change_permission(request):
+                return PERMISSION_DENIED
             pk = get_data(request).get('pk')
             instance = self.get_object(request, pk)
             if instance is None:
                 return ErrorResponse('instance not found', 404)
+        else:
+            if not self.has_add_permission(request):
+                return PERMISSION_DENIED
 
         def get_field(field_name):
 
@@ -194,6 +192,12 @@ class ModelAdmin(admin.ModelAdmin):
 
             field, _, value = lookup_field(field_dict['name'], instance, self)
             value = field_value(field, value)
+
+            if not self.has_change_permission(request):
+                # view only
+                field_dict['type'] = 'readonly'
+                field_dict['value'] = value.display
+                return field_dict
 
             if field_dict['type'] == 'readonly':
                 field_dict['value'] = value.display
