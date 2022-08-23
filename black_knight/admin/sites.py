@@ -5,7 +5,6 @@ from functools import update_wrapper
 from typing import Any, Callable
 
 from black_knight.admin import ModelAdmin, actions
-from black_knight.admin.models import GroupAdmin, UserAdmin
 from black_knight.admin.utils import ErrorResponse, get_data
 from django.apps import apps
 from django.conf import settings
@@ -46,18 +45,6 @@ class AdminSite(admin.AdminSite):
 
         if admin_class is None:
             admin_class = ModelAdmin
-
-        if not issubclass(admin_class, ModelAdmin):
-            from django.contrib.auth.models import Group, User
-
-            for model in models:
-                # register a custom model admin for
-                # default group and user model
-                if model == Group:
-                    admin_class = GroupAdmin
-
-                if model == User:
-                    admin_class = UserAdmin
 
         if not issubclass(admin_class, ModelAdmin):
             raise ValueError((
