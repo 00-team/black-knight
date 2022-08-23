@@ -70,6 +70,10 @@ const RenderValue: FC<RenderValueProps> = props => {
         case 'many_to_many':
             return <ManyToMany value={value} link={link} />
 
+        case 'url':
+            if (link) return <a href={value[1]}>{value[1]}</a>
+            else return <>{value[1]}</>
+
         default:
             return <>Unknown Value</>
     }

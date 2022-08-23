@@ -31,6 +31,7 @@ type D_Decimal = ['decimal', string]
 type D_Float = ['float', number]
 type D_Html = ['html', string]
 type D_Char = ['char', string]
+type D_Url = ['url', string]
 
 type D_ALL =
     | D_Image
@@ -49,6 +50,7 @@ type D_ALL =
     | D_Float
     | D_Html
     | D_Char
+    | D_Url
 
 export type { PK }
 export type {
@@ -85,4 +87,5 @@ export type {
     D_Float,
     D_Html,
     D_Char,
+    D_Url,
 }

@@ -102,6 +102,9 @@ def field_value(field, value) -> Value:
         except TypeError:
             return render_value(value)
 
+    elif isinstance(field, fields.URLField):
+        return Value('url', value)
+
     elif getattr(field, 'flatchoices', None):
         value = str(value)
         display = dict(field.flatchoices).get(value)
