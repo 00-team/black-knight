@@ -11,7 +11,7 @@ import { FieldProps } from './shared'
 
 type TDate = FC<FieldProps<DateFieldModel>>
 const DateField: TDate = ({ field, change, ...attr }) => {
-    const default_value = field.value || field.initial
+    const default_value = field.value || field.initial || undefined
 
     return (
         <input
@@ -25,8 +25,10 @@ const DateField: TDate = ({ field, change, ...attr }) => {
 
 type TDateTime = FC<FieldProps<DateTimeFieldModel>>
 const DateTimeField: TDateTime = ({ field, change, ...attr }) => {
-    let default_value = field.value || field.initial
-    default_value = new Date(default_value).toISOString().slice(0, -1)
+    let default_value = field.value || field.initial || undefined
+
+    if (default_value)
+        default_value = new Date(default_value).toISOString().slice(0, -1)
 
     return (
         <input
@@ -40,7 +42,7 @@ const DateTimeField: TDateTime = ({ field, change, ...attr }) => {
 
 type TTime = FC<FieldProps<TimeFieldModel>>
 const TimeField: TTime = ({ field, change, ...attr }) => {
-    const default_value = field.value || field.initial
+    const default_value = field.value || field.initial || undefined
 
     return (
         <input
