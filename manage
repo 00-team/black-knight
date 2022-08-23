@@ -35,6 +35,10 @@ elif [[ $1 =~ ^(devserver|dev)$ ]]; then
     npm start
 
 elif [[ $1 =~ ^(build)$ ]]; then
-    npm run build
+    if [[ $2 =~ ^(watch|w)$ ]]; then
+        npm run build:watch
+    else
+        npm run build
+    fi
 
 fi
