@@ -3,7 +3,8 @@ from black_knight.admin.utils import field_value, get_data
 from django.contrib import admin
 from django.contrib.admin.utils import flatten_fieldsets, label_for_field
 from django.contrib.admin.utils import lookup_field
-from django.core.exceptions import FieldDoesNotExist, ValidationError
+from django.core.exceptions import FieldDoesNotExist, PermissionDenied
+from django.core.exceptions import ValidationError
 from django.core.paginator import InvalidPage
 from django.db import models
 # from django.db.models.fields.related import ForeignObjectRel, ManyToManyRel
@@ -16,6 +17,8 @@ from django.views.decorators.http import require_GET, require_POST
 
 require_GET_m = method_decorator(require_GET)
 require_POST_m = method_decorator(require_POST)
+
+PERMISSION_DENIED = ErrorResponse('Permission Denied', 403)
 
 
 class ModelAdmin(admin.ModelAdmin):
@@ -53,6 +56,10 @@ class ModelAdmin(admin.ModelAdmin):
 
     def brace_result(self, request: HttpRequest):
         '''display list of instances in the brace'''
+
+        if not self.has_view_or_change_permission(request):
+            return PERMISSION_DENIED
+
         try:
             brace_result = self.get_braceresult_instance(request)
 
@@ -77,6 +84,10 @@ class ModelAdmin(admin.ModelAdmin):
     @require_GET_m
     def brace_info(self, request: HttpRequest):
         '''Brace Info'''
+
+        if not self.has_view_or_change_permission(request):
+            return PERMISSION_DENIED
+
         get_token(request)
         list_display = self.get_list_display(request)
         root_queryset = self.get_queryset(request)
@@ -145,6 +156,13 @@ class ModelAdmin(admin.ModelAdmin):
         meta = self.model._meta
         instance = None
         response = {}
+
+        if (
+            not self.has_view_permission(request) and
+            not self.has_change_permission(request) and
+            not self.has_add_permission(request)
+        ):
+            return PERMISSION_DENIED
 
         # default type is add
         if form_type == 'change':
