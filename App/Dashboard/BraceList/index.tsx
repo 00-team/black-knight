@@ -1,5 +1,7 @@
 import React, { FC, Suspense, useEffect, useMemo, useState } from 'react'
 
+import { C } from '@00-team/utils'
+
 import { AiFillFolderAdd } from '@react-icons/all-files/ai/AiFillFolderAdd'
 import { GoListUnordered } from '@react-icons/all-files/go/GoListUnordered'
 import { IoSend } from '@react-icons/all-files/io5/IoSend'
@@ -39,39 +41,46 @@ const BraceList: FC = () => {
         UpdateResultOptions({ app_model })
     }, [app_label, model_name])
 
+    const condition =
+        BraceInfo !== 'loading' &&
+        (BraceInfo.show_search || BraceInfo.perms.add)
+
     return (
         <div className='brace-list'>
-            <div
-                className={`header ${
-                    BraceInfo !== 'loading' && BraceInfo.show_search
-                        ? ''
-                        : 'left'
-                }`}
-            >
-                {BraceInfo !== 'loading' && BraceInfo.show_search && (
-                    <div className='search-container'>
-                        <SearchInput
-                            submit={search => UpdateResultOptions({ search })}
-                            placeHolder={
-                                BraceInfo.search_help_text
-                                    ? BraceInfo.search_help_text
-                                    : null
-                            }
-                        />
-                    </div>
-                )}
+            {condition && (
+                <div className={`header ${C(!BraceInfo.show_search, 'left')}`}>
+                    {BraceInfo.show_search && (
+                        <div className='search-container'>
+                            <SearchInput
+                                submit={search =>
+                                    UpdateResultOptions({ search })
+                                }
+                                placeHolder={
+                                    BraceInfo.search_help_text
+                                        ? BraceInfo.search_help_text
+                                        : null
+                                }
+                            />
+                        </div>
+                    )}
 
-                <div className='options-wrapper title_smaller'>
-                    <Link to='add' className='add-container'>
-                        <div className='holder'>
-                            Add <span className='model_name'>{model_name}</span>
-                        </div>
-                        <div className='icon'>
-                            <AiFillFolderAdd size={24} />
-                        </div>
-                    </Link>
+                    <div className='options-wrapper title_smaller'>
+                        {BraceInfo.perms.add && (
+                            <Link to='add' className='add-container'>
+                                <div className='holder'>
+                                    Add{' '}
+                                    <span className='model_name'>
+                                        {model_name}
+                                    </span>
+                                </div>
+                                <div className='icon'>
+                                    <AiFillFolderAdd size={24} />
+                                </div>
+                            </Link>
+                        )}
+                    </div>
                 </div>
-            </div>
+            )}
             <Suspense>
                 <Result />
             </Suspense>

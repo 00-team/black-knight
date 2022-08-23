@@ -93,14 +93,13 @@ class ModelAdmin(admin.ModelAdmin):
         root_queryset = self.get_queryset(request)
         actions = self.get_action_choices(request, [])
 
-        # func = self.get_actions(request)['delete_selected'][0]
-
         response = {
             'preserve_filters': self.preserve_filters,
             'show_search': bool(self.get_search_fields(request)),
             'search_help_text': self.search_help_text,
             'full_result_count': None,
             'empty_value_display': self.get_empty_value_display(),
+            'perms': self.get_model_perms(request),
         }
 
         # actions

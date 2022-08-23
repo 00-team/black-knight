@@ -1,4 +1,4 @@
-import { D_ALL, PK } from 'state'
+import { D_ALL, PermsModel, PK } from 'state'
 
 // using BL_ prefix for Brace List Stuff
 
@@ -11,6 +11,7 @@ interface BL_InfoModel {
     actions: ActionModel[] | null
     headers: string[]
     orders: string[]
+    perms: PermsModel
 }
 
 interface BL_ResultModel {
