@@ -230,6 +230,14 @@ class ModelAdmin(admin.ModelAdmin):
         data.update(request.FILES)
         change = form_type == 'change'
         delete = form_type == 'delete'
+        add = form_type == 'add'
+
+        if (
+            (delete and not self.has_delete_permission(request)) or
+            (change and not self.has_change_permission(request)) or
+            (add and not self.has_add_permission(request))
+        ):
+            return PERMISSION_DENIED
 
         if change or delete:
             instance = self.get_object(request, data.get('pk'))
