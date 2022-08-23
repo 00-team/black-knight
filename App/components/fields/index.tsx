@@ -9,7 +9,7 @@ import { BooleanField, DecimalField, FloatField, IntegerField } from './number'
 import { ReadOnlyField, UnknonwField } from './others'
 import { ForeignKeyField, ManyToManyField } from './related'
 import { FieldProps } from './shared'
-import { CharField, JsonField, TextField } from './text'
+import { CharField, JsonField, MarkDownField, TextField } from './text'
 
 type ChaneValue = (string | Blob) | (string | Blob)[]
 
@@ -32,6 +32,9 @@ const RenderField: TRenderField = ({ field, ...attr }) => {
 
         case 'json':
             return <JsonField field={field} {...props} />
+
+        case 'markdown':
+            return <MarkDownField field={field} {...props} />
 
         // ================ NUMB ================
 

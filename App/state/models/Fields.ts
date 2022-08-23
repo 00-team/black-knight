@@ -21,7 +21,7 @@ interface BaseField<Value, Init = '' | Value, Choice = Value> {
     choices?: [Choice, string][]
 }
 
-// ================ TEXT ================
+// ================ CHAR ================
 interface CharField extends BaseField<string> {
     type: 'char'
     max_length?: number
@@ -53,12 +53,17 @@ type CharBasedFields =
     | UUIDField
     | GenericIPAddressField
 
+// ================ TEXT ================
 interface TextField extends BaseField<string> {
     type: 'text'
 }
 
 interface JsonField extends BaseField<string> {
     type: 'json'
+}
+
+interface MarkDownField extends BaseField<string> {
+    type: 'markdown'
 }
 
 // ================ NUMB ================
@@ -137,10 +142,12 @@ interface ReadOnlyField {
 
 // ================ FIELD ================
 type Field =
-    // TEXT
+    // CHAR
     | CharBasedFields
+    // TEXT
     | TextField
     | JsonField
+    | MarkDownField
     // NUMB
     | BooleanField
     | IntegerField
@@ -167,6 +174,7 @@ export {
     // TEXT
     TextField as TextFieldModel,
     JsonField as JsonFieldModel,
+    MarkDownField as MarkDownFieldModel,
     // NUMB
     BooleanField as BooleanFieldModel,
     IntegerField as IntegerFieldModel,

@@ -13,7 +13,7 @@ def blog_title(modeladmin, request, queryset):
 
 class BlogAdmin(ModelAdmin):
     fieldsets = (
-        ('Content', {'fields': ('title', 'description')}),
+        ('Content', {'fields': ('title', 'content', 'description')}),
         ('Image', {'fields': ('thumbnail', '_thumbnail')}),
         ('Times', {'fields': ('publish_date', 'study_time')})
     )

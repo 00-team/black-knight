@@ -1,8 +1,19 @@
 import React, { FC } from 'react'
 
-import { CharBasedFieldsModel, JsonFieldModel, TextFieldModel } from 'state'
+import { Editor } from 'react-draft-wysiwyg'
+// import '../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
+import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
+
+import {
+    CharBasedFieldsModel,
+    JsonFieldModel,
+    MarkDownFieldModel,
+    TextFieldModel,
+} from 'state'
 
 import { ChoicesField, FieldProps } from './shared'
+
+import './style/markdown.scss'
 
 type TChar = FC<FieldProps<CharBasedFieldsModel>>
 const CharField: TChar = ({ field, change, ...attr }) => {
@@ -86,4 +97,19 @@ const JsonField: TJson = ({ field, change, ...attr }) => {
     )
 }
 
-export { CharField, TextField, JsonField }
+type TMarkDown = FC<FieldProps<MarkDownFieldModel>>
+const MarkDownField: TMarkDown = ({ field, change, ...attr }) => {
+    return (
+        <div {...attr}>
+            <Editor
+                editorClassName='mk-editor'
+                onEditorStateChange={s => {
+                    console.log(s.getCurrentContent())
+                }}
+                // onContentStateChange={s => console.log(s)}
+            />
+        </div>
+    )
+}
+
+export { CharField, TextField, JsonField, MarkDownField }
