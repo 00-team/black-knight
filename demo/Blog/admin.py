@@ -1,4 +1,5 @@
 from black_knight.admin import ModelAdmin
+from demo.admin import knight
 from django.contrib import admin
 from django.utils.html import format_html
 
@@ -10,7 +11,6 @@ def blog_title(modeladmin, request, queryset):
     queryset.update(title='Maniac')
 
 
-@admin.register(Blog)
 class BlogAdmin(ModelAdmin):
     fieldsets = (
         ('Content', {'fields': ('title', 'description')}),
@@ -29,3 +29,7 @@ class BlogAdmin(ModelAdmin):
     def _thumbnail(self, obj):
         return format_html('<span>value from _thumbnail</span>')
         # return obj.thumbnail.url
+
+
+admin.site.register(Blog, BlogAdmin)
+knight.register(Blog, BlogAdmin)

@@ -16,9 +16,8 @@ ALLOWED_HOSTS = []
 
 
 INSTALLED_APPS = [
-    # 'django.contrib.admin',
+    'django.contrib.admin',
 
-    'demo.admin.DemoAdminApp',
     'black_knight',
 
     'django.contrib.auth',

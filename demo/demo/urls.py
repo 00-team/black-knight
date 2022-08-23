@@ -5,6 +5,8 @@ from django.contrib import admin
 from django.urls import path
 from django.views.generic.base import RedirectView
 
+from demo.admin import knight
+
 
 favicon = RedirectView.as_view(
     url=settings.STATIC_URL + 'favicon.ico',
@@ -13,7 +15,8 @@ favicon = RedirectView.as_view(
 
 urlpatterns = [
     path('', blogs, name='blogs'),
-    path('admin/', admin.site.urls),
+    path('admin/', knight.urls),
+    path('old-admin/', admin.site.urls),
     path('favicon.ico', favicon),
 ]
 

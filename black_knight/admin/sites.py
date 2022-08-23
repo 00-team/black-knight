@@ -34,8 +34,8 @@ class AdminSite(admin.AdminSite):
     user_avatar: str | Iterable[str] | Callable[['AdminSite', Any], str] = None
     registered_apps = {}
 
-    def __init__(self, name='black_knight'):
-        super().__init__(name)
+    def __init__(self):
+        super().__init__(name='black_knight')
         self._actions = {'delete_selected': actions.delete_selected}
         self._global_actions = self._actions.copy()
 
