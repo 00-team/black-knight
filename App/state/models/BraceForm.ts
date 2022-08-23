@@ -1,4 +1,4 @@
-import { FieldModel, PK } from 'state'
+import { FieldModel, PermsModel, PK } from 'state'
 
 interface FieldsetModel {
     name: string | null
@@ -9,6 +9,7 @@ interface FieldsetModel {
 interface BraceFormModel {
     fieldsets: FieldsetModel[]
     label: string | null
+    perms: PermsModel
 }
 
 interface BraceFormErrorsModel {

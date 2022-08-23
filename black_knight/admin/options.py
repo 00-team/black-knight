@@ -154,7 +154,9 @@ class ModelAdmin(admin.ModelAdmin):
         readonly_fields = self.get_readonly_fields(request)
         meta = self.model._meta
         instance = None
-        response = {}
+        response = {
+            'perms': self.get_model_perms(request)
+        }
 
         # default type is add
         if form_type == 'change':

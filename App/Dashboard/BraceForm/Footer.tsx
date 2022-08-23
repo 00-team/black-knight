@@ -24,7 +24,7 @@ const Footer: FC<FooterProps> = ({ setWantTo }) => {
     const navigate = useNavigate()
     const { app_label, model_name, pk } = useParams()
     const [BFErrors, UpdateBFErrors] = useAtom(BFErrorsAtom)
-    const UpdateForm = useSetAtom(BraceFormAtom)
+    const [BraceForm, UpdateForm] = useAtom(BraceFormAtom)
     const UpdateProgress = useSetAtom(SubmitProgressAtom)
 
     const Submit = async () => {
@@ -33,7 +33,6 @@ const Footer: FC<FooterProps> = ({ setWantTo }) => {
             ShowParticles()
             if (BFErrors) UpdateBFErrors(null)
             ReactAlert.success('Your instance had been saved')
-            navigate('..')
             return { ok: true, pk: response.pk }
         } else {
             UpdateBFErrors(response)
@@ -59,29 +58,52 @@ const Footer: FC<FooterProps> = ({ setWantTo }) => {
         }
     }
 
+    const Save = async (nav: boolean = true) => {
+        const res = await Submit()
+        if (res.ok) {
+            if (nav) navigate('..')
+            else location.reload()
+        }
+    }
+
+    if (BraceForm === 'loading' || BraceForm === 'not-found') return <></>
+
+    const { add, change, delete: DeletePerm, view } = BraceForm.perms
+
+    if (!add && !change && !DeletePerm) return <></>
+
     return (
         <div className='footer title_smaller'>
-            {pk && (
+            {pk && DeletePerm && (
                 <div className='delete-container'>
                     <button className='delete' onClick={() => setWantTo(true)}>
                         DELETE
                     </button>
                 </div>
             )}
-            <button style={{ animationDelay: '0.5s' }} onClick={SaveAdd}>
-                Save and add another
-            </button>
-            <button style={{ animationDelay: '1.5s' }} onClick={SaveContinue}>
-                Save and continue editing
-            </button>
-            <button
-                style={{ animationDelay: '1s' }}
-                className='main'
-                id='save-btn'
-                onClick={() => Submit()}
-            >
-                Save
-            </button>
+            {!pk && add && (
+                <button style={{ animationDelay: '0.5s' }} onClick={SaveAdd}>
+                    Save and add another
+                </button>
+            )}
+            {change && (
+                <button
+                    style={{ animationDelay: '1.5s' }}
+                    onClick={SaveContinue}
+                >
+                    Save and continue editing
+                </button>
+            )}
+            {((!pk && add) || change) && (
+                <button
+                    style={{ animationDelay: '1s' }}
+                    className='main'
+                    id='save-btn'
+                    onClick={() => Save(change || view)}
+                >
+                    Save
+                </button>
+            )}
         </div>
     )
 }
