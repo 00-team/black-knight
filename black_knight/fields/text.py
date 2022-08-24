@@ -21,7 +21,7 @@ class JSONField(BaseField, json.JSONField):
         })
 
 
-class MarkDownField(TextField):
+class MarkDownField(JSONField):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs, choices=None)

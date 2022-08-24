@@ -1,3 +1,32 @@
 .mk-editor {
     background-color: #3b3b3b;
+    border: 1px solid #f2f2f2;
+    padding: 8px;
+}
+
+.mk-toolbar {
+    color: #f2f2f2;
+    background: #3b3b3b;
+
+    .rdw-option-wrapper {
+        background-color: #f2f2f2;
+        border: 0;
+    }
+
+    .rdw-dropdown-wrapper {
+        background-color: #3b3b3b;
+
+        .rdw-dropdown-optionwrapper {
+            background-color: #3b3b3b;
+            max-height: 110px;
+
+            .rdw-dropdownoption-active {
+                background-color: #121212;
+            }
+
+            .rdw-dropdownoption-highlighted {
+                background-color: #121212;
+            }
+        }
+    }
 }

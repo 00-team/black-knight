@@ -1,7 +1,6 @@
 import React, { FC } from 'react'
 
 import { Editor } from 'react-draft-wysiwyg'
-// import '../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
 
 import {
@@ -99,14 +98,19 @@ const JsonField: TJson = ({ field, change, ...attr }) => {
 
 type TMarkDown = FC<FieldProps<MarkDownFieldModel>>
 const MarkDownField: TMarkDown = ({ field, change, ...attr }) => {
+    let default_content = undefined
+
+    try {
+        default_content = JSON.parse(JSON.parse(field.value || ''))
+    } catch {}
+
     return (
         <div {...attr}>
             <Editor
                 editorClassName='mk-editor'
-                onEditorStateChange={s => {
-                    console.log(s.getCurrentContent())
-                }}
-                // onContentStateChange={s => console.log(s)}
+                toolbarClassName='mk-toolbar'
+                onContentStateChange={s => change(JSON.stringify(s))}
+                contentState={default_content}
             />
         </div>
     )
