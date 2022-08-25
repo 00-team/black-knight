@@ -109,6 +109,7 @@ const MarkDownField: TMarkDown = ({ field, change, ...attr }) => {
             <Editor
                 editorClassName='mk-editor'
                 toolbarClassName='mk-toolbar'
+                wrapperClassName='mk-wrapper'
                 onContentStateChange={s => change(JSON.stringify(s))}
                 contentState={default_content}
             />
