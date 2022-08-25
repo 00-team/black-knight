@@ -10,27 +10,6 @@
     background: var(--primary-color);
     border-radius: 2px;
 
-    .mk-editor {
-        background-color: var(--sixty-percent);
-        padding: 8px;
-
-        height: 100%;
-        width: 100%;
-
-        border: none;
-        border-radius: 5px;
-
-        &::-webkit-scrollbar {
-            width: 13px;
-            background: transparent;
-        }
-        &::-webkit-scrollbar-thumb {
-            background-color: var(--accent-color);
-            border: 5px solid var(--sixty-percent);
-            border-radius: 20px;
-        }
-    }
-
     .mk-toolbar {
         justify-content: center;
 
@@ -80,6 +59,27 @@
                     background-color: #121212;
                 }
             }
+        }
+    }
+
+    .mk-editor {
+        background-color: var(--sixty-percent);
+        padding: 8px;
+
+        height: 100%;
+        width: 100%;
+
+        border: none;
+        border-radius: 5px;
+
+        &::-webkit-scrollbar {
+            width: 13px;
+            background: transparent;
+        }
+        &::-webkit-scrollbar-thumb {
+            background-color: var(--accent-color);
+            border: 5px solid var(--sixty-percent);
+            border-radius: 20px;
         }
     }
 }
