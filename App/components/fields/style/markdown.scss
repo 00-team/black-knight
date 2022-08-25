@@ -1,31 +1,84 @@
-.mk-editor {
-    background-color: #3b3b3b;
-    border: 1px solid #f2f2f2;
-    padding: 8px;
-}
+.mk-wrapper {
+    height: 500px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-direction: column;
+    gap: 1vh;
 
-.mk-toolbar {
-    color: #f2f2f2;
-    background: #3b3b3b;
+    padding: 10px;
+    background: var(--primary-color);
+    border-radius: 2px;
 
-    .rdw-option-wrapper {
-        background-color: #f2f2f2;
-        border: 0;
+    .mk-editor {
+        background-color: var(--sixty-percent);
+        padding: 8px;
+
+        height: 100%;
+        width: 100%;
+
+        border: none;
+        border-radius: 5px;
+
+        &::-webkit-scrollbar {
+            width: 13px;
+            background: transparent;
+        }
+        &::-webkit-scrollbar-thumb {
+            background-color: var(--accent-color);
+            border: 5px solid var(--sixty-percent);
+            border-radius: 20px;
+        }
     }
 
-    .rdw-dropdown-wrapper {
-        background-color: #3b3b3b;
+    .mk-toolbar {
+        justify-content: center;
 
-        .rdw-dropdown-optionwrapper {
+        color: #f2f2f2;
+        background-color: transparent;
+
+        padding: unset;
+        margin: unset;
+        border: none;
+        border-radius: unset;
+
+        position: relative;
+
+        &::after {
+            position: absolute;
+            bottom: -5px;
+
+            content: '';
+            width: 80%;
+            height: 1px;
+            background-color: var(--accent-color);
+        }
+        .rdw-option-wrapper {
+            background-color: #f2f2f2;
+            border: 0;
+        }
+
+        .rdw-inline-wrapper {
+            margin: unset;
+        }
+        .rdw-option-wrapper {
+            margin: unset;
+        }
+
+        .rdw-dropdown-wrapper {
             background-color: #3b3b3b;
-            max-height: 110px;
 
-            .rdw-dropdownoption-active {
-                background-color: #121212;
-            }
+            .rdw-dropdown-optionwrapper {
+                background-color: #3b3b3b;
+                max-height: 110px;
 
-            .rdw-dropdownoption-highlighted {
-                background-color: #121212;
+                .rdw-dropdownoption-active {
+                    background-color: #121212;
+                }
+
+                .rdw-dropdownoption-highlighted {
+                    background-color: #121212;
+                }
             }
         }
     }
