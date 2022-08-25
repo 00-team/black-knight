@@ -80,12 +80,23 @@
                 background-color: #3b3b3b;
                 max-height: 200px;
 
+                margin-top: 1vh;
+                border: unset;
+                padding: 10px;
+
+                &:hover {
+                    box-shadow: none;
+                }
+
                 .rdw-dropdownoption-default {
                     position: relative;
 
                     overflow-x: hidden;
 
+                    border-radius: 3px;
+
                     padding: 0;
+                    width: 100%;
 
                     &:before {
                         content: '';
