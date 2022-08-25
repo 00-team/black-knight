@@ -213,24 +213,6 @@
 
                 .result-input-wrapper {
                     position: relative;
-
-                    &:before {
-                        content: '';
-                        height: 2px;
-                        background-color: var(--accent-color);
-                        position: absolute;
-                        bottom: 0;
-                        width: 0%;
-
-                        z-index: 1;
-
-                        transition: width 0.5s
-                            cubic-bezier(0.52, 1.64, 0.37, 0.66);
-                    }
-
-                    // &:focus-within::before {
-                    //     width: 100%;
-                    // }
                     input.result-input {
                         border: none;
                         background-color: #262626;
