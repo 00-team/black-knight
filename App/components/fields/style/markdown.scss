@@ -46,10 +46,10 @@
             }
 
             &:nth-child(odd):not(.rdw-option-disabled):hover img {
-                transform: translateY(-20%) rotateZ(-5deg);
+                transform: translateY(-20%) rotateZ(5deg);
             }
             &:nth-child(even):not(.rdw-option-disabled):hover img {
-                transform: translateY(-20%) rotateZ(5deg);
+                transform: translateY(-20%) rotateZ(-5deg);
             }
         }
 
