@@ -40,6 +40,17 @@
         .rdw-option-wrapper {
             background-color: #f2f2f2;
             border: 0;
+
+            img {
+                transition: transform 0.3s ease-in-out;
+            }
+
+            &:nth-child(odd):not(.rdw-option-disabled):hover img {
+                transform: translateY(-20%) rotateZ(-5deg);
+            }
+            &:nth-child(even):not(.rdw-option-disabled):hover img {
+                transform: translateY(-20%) rotateZ(5deg);
+            }
         }
 
         .rdw-inline-wrapper,
@@ -97,6 +108,8 @@
 
                     padding: 0;
                     width: 100%;
+
+                    z-index: 2;
 
                     &:before {
                         content: '';
